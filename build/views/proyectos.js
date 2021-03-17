@@ -16,14 +16,14 @@ function getView(){
         listado : ()=>{
             return `
             <div class="row">
-                <table class="table table-responsive table-hover table-striped table-bordered" id="tablaProyectos">
-                    <thead class="bg-warning">
+                <table class="table table-responsive table-hover" id="tablaProyectos">
+                    <thead class="bg-trans-gradient text-white">
                         <tr>
                             <td>Proyecto</td>
                             <td>Presupuesto</td>
                         </tr>
                     </thead>
-                    <tbody id="tblProyectos">
+                    <tbody id="tblProyectos" class="bg-white">
                     
                     </tbody>
                 </table>
@@ -32,13 +32,11 @@ function getView(){
         },
         modalNuevoProyecto : ()=>{
             return `
-            <div class="modal fade" id="modalNuevo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
+            <div class="modal fade js-modal-settings modal-backdrop-transparent" tabindex="-1" role="dialog" aria-hidden="true" id="modalNuevo">
+                <div class="modal-dialog modal-dialog-right modal-lg" role="document">
                     <div class="modal-content">
-                    <div class="modal-header bg-warning">
+                    <div class="modal-header bg-trans-gradient text-white">
                         <h5 class="modal-title" id="exampleModalLabel">Datos del Proyecto</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body" style="font-size :small">
@@ -69,24 +67,24 @@ function getView(){
                         
                         <div class="form-group">
                             <label>Presupuesto</label>
-                            <input type="number" class="form-control" id="txtPresupuesto">
+                            Q<input type="number" class="form-control col-8" id="txtPresupuesto">
                         </div>
 
                         <div class="form-group">
                             <label>Contratante:</label>
-                            <select class="form-control input-sm" id="cmbPrioridad">
+                            <select class="form-control input-sm" id="cmbContratante">
                                
                             </select>
                         </div>
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary btn-lg" data-dismiss="modal">
-                            <i class="lni lni-close"></i>
+                        <button type="button" class="btn btn-outline-secondary btn-lg" data-dismiss="modal">
+                            <i class="fal fa-times"></i>
                             Cerrar
                         </button>
                         <button type="button" class="btn btn-primary btn-lg" id="btnGuardarProyecto">
-                            <i class="lni lni-save"></i>
+                            <i class="fal fa-save"></i>
                             Guardar
                         </button>
                     </div>
@@ -98,15 +96,15 @@ function getView(){
         },
         btnNuevo: () => {
             return `<div id="btnFlotanteDerecha">
-                        <button class="btn btn-success btn-circle btn-xl" id="btnNuevo">
+                        <button class="btn btn-success btn-circle btn-xl shadow" id="btnNuevo">
                             +
                          </button>
                     </div>`   
         },
         modalMenuProyecto : ()=>{
             return `
-            <div class="modal fade" id="modalMenuProyecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
+            <div class="modal fade js-modal-settings modal-backdrop-transparent" tabindex="-1" role="dialog" aria-hidden="true"  id="modalMenuProyecto" >
+                <div class="modal-dialog modal-dialog-right modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header bg-warning">
                             <h5 class="modal-title" id="exampleModalLabel">Opciones del Proyecto</h5>
@@ -173,23 +171,8 @@ function getView(){
     
 };
 
-function addListeners() {
-
-    let cmbPrioridad = document.getElementById('cmbPrioridad');
-    cmbPrioridad.addEventListener('change',()=>{
-        switch (cmbPrioridad.value) {
-            case 'A':
-                cmbPrioridad.className = 'form-control bg-danger text-white';
-                break;
-            case 'M':
-                cmbPrioridad.className = 'form-control bg-info text-white';
-                break;
-            case 'B':
-                cmbPrioridad.className = 'form-control';
-                break;
-        }
-    });
-
+function addListeners() { 
+    
     let btnNuevo = document.getElementById('btnNuevo');
     btnNuevo.addEventListener('click', () => {
         $('#modalNuevo').modal('show');
@@ -211,7 +194,7 @@ function addListeners() {
         let txtDescripcion = document.getElementById('txtDescripcion');
         let txtDireccion = document.getElementById('txtDireccion');
         let txtPresupuesto = document.getElementById('txtPresupuesto');
-        let cmbPrioridad = document.getElementById('cmbPrioridad');
+        let cmbContratante = document.getElementById('cmbContratante');
 
         
 
@@ -221,16 +204,16 @@ function addListeners() {
 
                     btnGuardarProyecto.innerHTML = GlobalLoader;
 
-                    api.proyectos_insertar(txtDescripcion.value, txtDireccion.value, funciones.devuelveFecha('txtFInicio'), funciones.devuelveFecha('txtFFinal'), 'SN', '0', cmbPrioridad.value, Number(txtPresupuesto.value))
+                    api.proyectos_insertar(txtDescripcion.value, txtDireccion.value, funciones.devuelveFecha('txtFInicio'), funciones.devuelveFecha('txtFFinal'), 'SN', '0', cmbContratante.value, Number(txtPresupuesto.value))
                         .then(async() => {
-                            btnGuardarProyecto.innerHTML = `<i class="lni lni-save"></i>Guardar`;
+                            btnGuardarProyecto.innerHTML = `<i class="fal fa-save"></i>Guardar`;
                             funciones.Aviso('Proyecto guardado exitosamente!!')
                             await api.proyectos_listado('NO', 'tblProyectos');
                             $('#modalNuevo').modal('hide');
                         })
                         .catch(() => {
                             funciones.AvisoError('No se pudo guardar');
-                            btnGuardarProyecto.innerHTML = `<i class="lni lni-save"></i>Guardar`;
+                            btnGuardarProyecto.innerHTML = `<i class="fal fa-save"></i>Guardar`;
                         })
 
                 }
@@ -261,6 +244,7 @@ function addListeners() {
 async function getCargasIniciales() {
 
     await api.proyectos_listado('NO', 'tblProyectos');
+    await api.contratantes_combo('cmbContratante');
 
 };
 

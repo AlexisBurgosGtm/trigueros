@@ -5,12 +5,14 @@ var bodyParser = require('body-parser');
 
 const execute = require('./router/connection');
 var routerProyectos = require('./router/router_proyectos');
+var routerSubcontratistas = require('./router/router_subcontratistas');
+var routerContratantes = require('./router/router_contratantes');
 var routerUsuarios = require('./router/router_usuarios');
 
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-const PORT = process.env.PORT || 333;
+const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
@@ -43,6 +45,12 @@ app.get("/",function(req,res){
 
 //Router para PROYECTOS
 app.use('/proyectos', routerProyectos);
+
+//Router para SUBCONTRATISTAS
+app.use('/subcontratistas', routerSubcontratistas);
+
+//Router para CONTRATANTES
+app.use('/contratantes', routerContratantes);
 
 //Router para USUARIOS
 app.use('/usuarios', routerUsuarios);

@@ -3,10 +3,10 @@ let classNavegar = {
         funciones.loadScript('../views/login.js','root')
         .then(async()=>{
             GlobalSelectedForm = 'login';
-            GlobalUsuario = '';
+            GlobalUsuario = 'USUARIO';
             GlobalNivelUsuario = 0;
             GlobalCodUsuario = 0;
-            document.getElementById('lbUsuario').innerText = GlobalUsuario;
+            document.getElementById('lbUsuario').innerHTML = GlobalUsuario;
             document.getElementById('lbUsuarioNivel').innerText = GlobalNivelUsuario;
             menuPrincipal.style = "visibility : hidden";
             initView();

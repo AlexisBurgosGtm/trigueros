@@ -82,31 +82,26 @@ let api = {
                     try {
                         const data = response.data.recordset;
                         data.map((rows) => {
-                            let strClass = '';
-                            switch (rows.PRIORIDAD) {
-                                case 'B':
-                                    
-                                    break;
-                                case 'M':
-                                    strClass = 'text-success';
-                                    break;
-                                case 'A':
-                                    strClass = 'text-danger';
-                                    break;
-                            }
-                            str = str + `<tr class="hand border-top" onClick="getMenuProyecto(${rows.IDPROYECTO},'${rows.PROYECTO}');">
-                                        <td class="${strClass}">${rows.PROYECTO}
+                            let diferencia = (Number(rows.RECIBIDO) - Number(rows.EJECUTADO))
+                            let stClasDif = '';
+                            if(Number(diferencia)>=0){
+                                stClasDif = 'text-success';
+                            }else{
+                                stClasDif = 'text-danger';
+                            };
+                            str = str + `<tr class="hand border-bottom" onClick="getMenuProyecto(${rows.IDPROYECTO},'${rows.PROYECTO}');">
+                                        <td>${rows.PROYECTO}
                                             <br><small>${rows.DIRECCION}</small>
                                                <br>
                                             <div class="row">
                                                 <div class="col-6">
-                                                    <small class="text-info">Ini: ${rows.FECHAINICIO.replace('T00:00:00.000Z', '')}</small>
+                                                    <small class="text-info">Inicio: ${funciones.cleanDataFecha(rows.FECHAINICIO)}</small>
                                                 </div>
                                                 <div class="col-6">
-                                                    <small class="text-info">Fin: ${rows.FECHAFIN.replace('T00:00:00.000Z','')}</small>
+                                                    <small class="text-info">Fin: ${funciones.cleanDataFecha(rows.FECHAFIN)}</small>
                                                 </div>
                                             </div>
-                                            
+                                            <br><small>Contratante: ${rows.DESCONTRATANTE}</small>
                                         </td>
                                         <td><b>${funciones.setMoneda(rows.PRESUPUESTO, 'Q')}</b>
                                             <br>
@@ -115,6 +110,8 @@ let api = {
                                             <small class="text-danger">E:${funciones.setMoneda(rows.EJECUTADO, 'Q')}</small>
                                             <br>
                                             <small>${funciones.setMargen((Number(rows.EJECUTADO) / Number(rows.PRESUPUESTO) * 100),'%')}</small>
+                                            <br>
+                                            <h5 class='${stClasDif}'>Dif:${funciones.setMoneda(diferencia, 'Q')}</h5>
                                         </td>
                                         
                                     </tr>`
@@ -129,7 +126,7 @@ let api = {
                 });
 
     },
-    proyectos_insertar: (proyecto, direccion, inicio, final, contacto, telefono, prioridad, presupuesto) => {
+    proyectos_insertar: (proyecto, direccion, inicio, final, contacto, telefono, contratante, presupuesto) => {
         return new Promise((resolve, reject) => {
 
             let data = {
@@ -139,7 +136,7 @@ let api = {
                 final: final,
                 contacto: contacto,
                 telefono: telefono,
-                prioridad: prioridad,
+                contratante: contratante,
                 presupuesto: presupuesto
             };
 
@@ -188,4 +185,52 @@ let api = {
 
         });
     },
+    subcontratistas_combo: (idContainer) => {
+        let container = document.getElementById(idContainer);
+        
+        let str = '';
+
+            let url = GlobalUrlBackend + '/subcontratistas/listado'
+
+            axios.post(url)
+                .then((response) => {
+                    try {
+                        const data = response.data.recordset;
+                        data.map((rows) => {
+                            str = str + `<option value="${rows.CODIGO}">${rows.DESCRIPCION}</option>`
+                        })
+                        container.innerHTML = str;
+                    } catch (err) {
+                        container.innerHTML = '<option value="SN">No hay datos..</option>';
+                    }
+                }, (error) => {
+                        console.log(error);
+                        container.innerHTML = '<option value="SN">Error..</option>';
+                });
+
+    },
+    contratantes_combo: (idContainer) => {
+        let container = document.getElementById(idContainer);
+        
+        let str = '';
+
+            let url = GlobalUrlBackend + '/contratantes/listado'
+
+            axios.post(url)
+                .then((response) => {
+                    try {
+                        const data = response.data.recordset;
+                        data.map((rows) => {
+                            str = str + `<option value="${rows.CODIGO}">${rows.DESCRIPCION}</option>`
+                        })
+                        container.innerHTML = str;
+                    } catch (err) {
+                        container.innerHTML = '<option value="SN">No hay datos..</option>';
+                    }
+                }, (error) => {
+                        console.log(error);
+                        container.innerHTML = '<option value="SN">Error..</option>';
+                });
+
+    }
 }

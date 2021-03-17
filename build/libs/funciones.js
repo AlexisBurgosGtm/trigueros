@@ -1167,6 +1167,10 @@ let funciones = {
             break;
       };
       return str;
+    },
+    cleanDataFecha : (fecha)=>{
+      let f = fecha.replace('T00:00:00.000Z', '');
+      return f;
     }
 
 };

@@ -129,6 +129,20 @@
   bottom: 50px;
 }
 
+#btnFlotanteDerecha { 
+  position: fixed;
+  z-index: 888;
+  right: 21px;
+  bottom: 50px;
+}
+
+#btnFlotanteIzquierda { 
+  position: fixed;
+  z-index: 888;
+  left: 21px;
+  bottom: 50px;
+}
+
 .btn-circle.btn-xl {
     width: 70px;
     height: 70px;

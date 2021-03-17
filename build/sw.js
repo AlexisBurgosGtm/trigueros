@@ -1,5 +1,5 @@
 
-var CACHE = 'mercadosefectivos2v1';
+var CACHE = 'trigueros';
 const staticAssets = [  
   './css/vendors.bundle.css',
   './css/app.bundle.css',

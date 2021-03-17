@@ -2,10 +2,9 @@ function getView(){
     let view = {
         login : ()=>{
             return `
-            <div class="row justify-content-md-center align-items-center">
-                <div class="card">
-                    <div class="card-header text-center">
-                        <img src="../img/user.png" widht="200" height="200">
+                <div class="card col-sm-12 col-md-4 col-lg-4 col-xl-4 shadow">
+                    <div class="card-header text-center bg-white border-bottom ">
+                        <img src="../img/favicon.png" widht="50" height="50">
                     </div>
                     <div class="card-body">
                         <div class="form-group">
@@ -18,19 +17,15 @@ function getView(){
                             <input type="password" class="form-control border-info" id="txtPass" value='123'>
                         </div>
                         <br>
-                        <br>
-                        <br>
-                        <div class="row">
+                        <div class="form-group text-right">
                             <button class="btn btn-info btn-lg btn-rounded" id="btnIniciar">
-                                <i class="lni lni-cloud-check"></i>
+                                <i class="fal fa-lock"></i>
                                 Ingresar
                             </button>
                         </div>
                         <br>
-                        <br>
                     </div>
-                </div>
-            </div>
+                </div>           
             `
         }
 

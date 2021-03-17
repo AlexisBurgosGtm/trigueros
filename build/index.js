@@ -3,6 +3,8 @@ let rootModal= document.getElementById('rootModal');
 let menuPrincipal = document.getElementById('footerNav');
 let btnSalir = document.getElementById('btnSalir');
 
+const socket = io();
+
 //menuPrincipal.style = "visibility : hidden";
 
 let btnMenuProyectos = document.getElementById('btnMenuProyectos');
@@ -31,7 +33,6 @@ btnMenuReportes.addEventListener('click',()=>{
 
 btnSalir.addEventListener('click',()=>{
     classNavegar.login();    
-    document.getElementById('goHomeBtn').click();
 });
 
 classNavegar.login();
