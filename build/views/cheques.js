@@ -17,7 +17,7 @@ function getView(){
             return `
             <div class="card">
                 <table class="table table-responsive table-striped table-hover table-bordered" id="tablaCheques">
-                    <thead class="bg-warning">
+                    <thead class="bg-trans-gradient text-white">
                         <tr>
                             <td>FECHA</td>
                             <td>CUENTA</td>
@@ -34,60 +34,72 @@ function getView(){
         },
         modalNuevo : ()=>{
             return `
-            <div class="modal fade" id="modalNuevo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
+            <div class="modal fade js-modal-settings modal-backdrop-transparent" tabindex="-1" role="dialog" aria-hidden="true"  id="modalNuevo">
+            <div class="modal-dialog modal-dialog-right modal-lg" role="document">
                     <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Datos del Cheque</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Datos del Cheque</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
                     <div class="modal-body">
 
                         <div class="form group"
                             <label>Proyecto</label>
-                            <select class="form-control">
+                            <select class="form-control" id="cmbProyecto">
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label>Fecha:</label>
-                            <input type="date" class="form-control" id="txtChequeFecha">
+                            <input type="date" class="form-control" id="txtFecha">
                         </div>   
                         
                         <div class="form group">
                             <label>Cuenta</label>
-                            <select class="form-control">
+                            <select class="form-control" id="cmbCuenta">
                             </select>
                         </div>
 
                         
                         <div class="form-group">
                             <label>No. Cheque</label>
-                            <input type="number" class="form-control">
+                            <input type="number" class="form-control" id="NumeroCheque">
                         </div>
                         
                         <div class="form-group">
                             <label>Acreedor (Proveedor o Subcontratista)</label>
-                            <select class="form-control">
+                            <select class="form-control" id="cmbAcreedor">
                             </select> 
                         </div>
         
                         <div class="form-group">
                             <label>Cantidad</label>
-                            <input type="number" class="form-control">
+                            <input type="number" class="form-control" id="txtImporte">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Rubro</label>
+                            <select class="form-control" id="cmbRubro">
+                            </select> 
                         </div>
         
                         <div class="form-group">
                             <label>Observaciones</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" id="cmbObs">
                         </div>
                         
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary">Aceptar</button>
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+                            <i class="fal fa-times"></i>
+                            Cerrar
+                        </button>
+                        <button type="button" class="btn btn-primary">
+                            <i class="fal fa-save"></i>
+                            Guardar
+                        </button>
                     </div>
                     </div>
                 </div>
@@ -113,6 +125,7 @@ function getView(){
 
 function addListeners(){
     
+    document.getElementById('cmbRubro').innerHTML = funciones.getComboRubros();
 
     let btnNuevo = document.getElementById('btnNuevo');
     btnNuevo.addEventListener('click',()=>{
@@ -125,8 +138,8 @@ function addListeners(){
     })
 
 
-    let txtChequeFecha = document.getElementById('txtChequeFecha');
-    txtChequeFecha.value = funciones.getFecha(); 
+    let txtFecha = document.getElementById('txtFecha');
+    txtFecha.value = funciones.getFecha(); 
 
 };
 

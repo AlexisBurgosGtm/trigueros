@@ -1171,6 +1171,21 @@ let funciones = {
     cleanDataFecha : (fecha)=>{
       let f = fecha.replace('T00:00:00.000Z', '');
       return f;
+    },
+    getComboRubros : ()=>{
+      let str = `
+      <option value="MANO DE OBRA">MANO DE OBRA</option>
+      <option value="MATERIALES">MATERIALES</option>
+      <option value="VENTANERIA">VENTANERIA</option>
+      <option value="HERRERIA">HERRERIA</option>
+      <option value="CARPINTERIA">CARPINTERIA</option>
+      <option value="PINTURA">PINTURA</option>
+      <option value="ADMINISTRACION">ADMINISTRACION</option>
+      <option value="SUPERVISION">SUPERVISION</option>
+      <option value="ELECTRICIDAD">ELECTRICIDAD</option>
+      <option value="VARIOS">VARIOS</option>
+      `;
+      return str;
     }
 
 };
