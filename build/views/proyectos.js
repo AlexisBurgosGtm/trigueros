@@ -116,46 +116,45 @@ function getView(){
                             <h4 id="lbDetProyecto">Proyecto</h4>
                             <br>
                             <div class="row">
-                                <div class="col-6">
-                                    <button class="btn btn-info">
-                                        Cheques Recibidos
+                                <div class="col-4">
+                                    <button class="btn btn-outline-info">
+                                        <i class="fal fa-clone"></i>
+                                        Subcontratistas
                                     </button>
                                 </div>
-                                <div class="col-6">
-                                    <button class="btn btn-info">
+                                <div class="col-4">
+                                    <button class="btn btn-outline-danger">
+                                        <i class="fal fa-check"></i>
                                         Cheques Emitidos
+                                    </button>
+                                </div>
+                                <div class="col-4">
+                                    <button class="btn btn-outline-success">
+                                        <i class="fal fa-archive"></i>
+                                        Cheques Recibidos
                                     </button>
                                 </div>
                             </div>
                             <br>
+                            <br>
+                            <br>
+                            <br>
                             <div class="row">
                                 <div class="col-6">
-                                    <button class="btn btn-info">
-                                        Listado Contratistas
-                                    </button>
-                                </div>
-                                <div class="col-6">
-                                    <button class="btn btn-info">
-                                        Opción Disponible
-                                    </button>
-                                </div>
-                            </div>
-                            <br><br><br><br>
-                            <div class="row">
-                                <div class="col-6">
-                                    <button class="btn btn-warning col-12">
-                                        <i class="lni lni-edit"></i>
+                                    <button class="btn btn-warning col-10">
+                                        <i class="fal fa-edit"></i>
                                         EDITAR
                                     </button>
                                 </div>
                                 <div class="col-6">
-                                    <button class="btn btn-danger col-12" id="btnMenuProyectoEliminar">
-                                        <i class="lni lni-trash"></i>
+                                    <button class="btn btn-danger btn-rounded col-10" id="btnMenuProyectoEliminar">
+                                        <i class="fal fa-trash"></i>
                                         ELIMINAR
                                     </button>
                                 </div>
                             </div>
                             
+                                                        
                         </div>
                         <div class="card-footer">
                         </div>
