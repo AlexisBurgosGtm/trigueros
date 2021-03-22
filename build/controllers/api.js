@@ -204,7 +204,7 @@ let api = {
                         data.map((rows) => {
                             str = str + `<tr>
                                             <td>
-                                                ${rows.DESCONTRATISTA} (Contrato No.:${rows.NOCONTRATO})
+                                                ${rows.DESACREEDOR} (Contrato No.:${rows.NOCONTRATO})
                                                 <br>
                                                 <small class="negrita">${rows.ASIGNACION}</small>
                                                 <br>

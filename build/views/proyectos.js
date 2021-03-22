@@ -143,7 +143,7 @@ function getView(){
                                         <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel3">Cheques Recibidos</a></li>
                                     </ul>
                                     <div class="tab-content py-3">
-                                        <!-- subocontratistas -->
+                                        <!-- sub contratistas -->
                                         <div class="tab-pane fade active show" id="panel1" role="tabpanel">
                                             <div class="table-responsive">
                                                 <table class="table table-responsive">
@@ -167,10 +167,11 @@ function getView(){
                                             <div class="table-responsive">
                                                 <div class="table-responsive">
                                                     <table class="table table-responsive">
-                                                        <thead class="bg-trans-gradient text-white">
+                                                        <thead class="bg-success text-white">
                                                             <tr>
-                                                                <td></td>
-                                                                <td></td>
+                                                                <td>CHEQUE</td>
+                                                                <td>DESCRIPCIOON</td>
+                                                                <td>VALOR</td>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="tblPChequesEmitidos"></tbody>
@@ -179,14 +180,15 @@ function getView(){
                                             </div>
                                         </div>
                                         <!-- cheques recibidos -->
-                                        <div class="tab-pane fade" id="panelHistorial" role="tabpanel">
+                                        <div class="tab-pane fade" id="panel3" role="tabpanel">
                                             <div class="table-responsive">
                                                 <div class="table-responsive">
                                                     <table class="table table-responsive">
-                                                        <thead>
+                                                        <thead class="bg-danger text-white">
                                                             <tr>
-                                                                <td></td>
-                                                                <td></td>
+                                                                <td>CHEQUE</td>
+                                                                <td>DESCRIPCIOON</td>
+                                                                <td>VALOR</td>
                                                             </tr>
                                                         </thead>
                                                         <tbody></tbody>
@@ -333,10 +335,7 @@ function addListeners() {
         })
     });
 
-    let btnNuevoContrato = document.getElementById('btnNuevoContrato');
-    btnNuevoContrato.addEventListener('click',()=>{
-        $('#modalNuevoContrato').modal('show');
-    })
+    
 
 
     //VENTANA NUEVO CONTRATO
@@ -346,6 +345,13 @@ function addListeners() {
     let txtPAsignacion = document.getElementById('txtPAsignacion');
     let txtPPresupuesto = document.getElementById('txtPPresupuesto');
     let cmbPSubContratista = document.getElementById('cmbPSubContratista');
+
+    let btnNuevoContrato = document.getElementById('btnNuevoContrato');
+    btnNuevoContrato.addEventListener('click',()=>{
+        txtPAsignacion.value = '';
+        txtPPresupuesto.value= 0;
+        $('#modalNuevoContrato').modal('show');
+    })
 
     let btnGuardarContrato = document.getElementById('btnGuardarContrato');
     btnGuardarContrato.addEventListener('click',()=>{
@@ -361,6 +367,8 @@ function addListeners() {
                         api.subcontrato_insertar(GlobalSelectedCodProyecto,cmbPSubContratista.value,txtPAsignacion.value,txtPPresupuesto.value,funciones.getFecha('txtPFechaEntrega'))
                         .then(()=>{
                             funciones.Aviso('Nuevo Sub-contrato creado exitosamente !!')
+                            api.proyectos_subcontratistas(GlobalSelectedCodProyecto,'tblPSucontratistas')
+                            $('#modalNuevoContrato').modal('hide');
                         })
                         .catch(()=>{
                             funciones.AvisoError('No se pudo crear el Sub-contrato')

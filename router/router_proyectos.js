@@ -8,7 +8,7 @@ router.post("/nuevocontrato", async (req, res) => {
     const { idproyecto, idsubcontratista, fecha, asignacion, importe } = req.body;
 
     let qry = `INSERT INTO CONST_CONTRATISTAS_PROYECTO (IDPROYECTO,CODACREEDOR,ASIGNACION, FECHAENTREGA,IMPORTE,ENTREGADO,SALDO) 
-    values (${idproyecto},${idsubcontratista},'${asignacion}', '${fecha}',${importe},0,0)`;
+    values (${idproyecto},${idsubcontratista},'${asignacion}', '${fecha}',${importe},0,${importe})`;
 
     execute.Query(res, qry);
 
@@ -19,7 +19,7 @@ router.post("/subcontratistas", async (req, res) => {
 
     const { idproyecto } = req.body;
 
-    let qry = `SELECT CONST_CONTRATISTAS_PROYECTO.NOCONTRATO, CONST_ACREEDORES.DESCONTRATISTA, CONST_CONTRATISTAS_PROYECTO.ASIGNACION, CONST_CONTRATISTAS_PROYECTO.FECHAENTREGA, 
+    let qry = `SELECT CONST_CONTRATISTAS_PROYECTO.NOCONTRATO, CONST_ACREEDORES.DESACREEDOR, CONST_CONTRATISTAS_PROYECTO.ASIGNACION, CONST_CONTRATISTAS_PROYECTO.FECHAENTREGA, 
                 CONST_CONTRATISTAS_PROYECTO.IMPORTE, CONST_CONTRATISTAS_PROYECTO.ENTREGADO, CONST_CONTRATISTAS_PROYECTO.SALDO
         FROM CONST_CONTRATISTAS_PROYECTO INNER JOIN
             CONST_ACREEDORES ON CONST_CONTRATISTAS_PROYECTO.CODACREEDOR = CONST_ACREEDORES.CODACREEDOR
