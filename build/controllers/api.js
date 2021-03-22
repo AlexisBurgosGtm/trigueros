@@ -17,11 +17,13 @@ let api = {
                             if (rows.USUARIO == usuario) {
                                 GlobalCodUsuario = rows.CODIGO;
                                 GlobalUsuario = rows.USUARIO;
+                                GlobalPassUsuario = pass;
                                 GlobalNivelUsuario = Number(rows.NIVEL);
                                 resolve();
                             } else {
                                 GlobalCodUsuario = 0
                                 GlobalUsuario = '';
+                                GlobalPassUsuario = '';
                                 GlobalNivelUsuario = 0;
                                 reject();
                             }
@@ -30,6 +32,7 @@ let api = {
                         GlobalCodUsuario = 0
                         GlobalUsuario = '';
                         GlobalNivelUsuario = 0;
+                        GlobalPassUsuario = '';
                         reject();
                     }
                 }, (error) => {
@@ -185,14 +188,58 @@ let api = {
 
         });
     },
+    proyectos_subcontratistas: (idproyecto,idContainer) => {
+                let container = document.getElementById(idContainer);
+                container.innerHTML = GlobalLoader;
+                let str = '';
+            
+                let url = GlobalUrlBackend + '/proyectos/subcontratistas';
+
+                axios.post(url, {
+                            idproyecto : idproyecto
+                            })
+                .then((response) => {
+                    try {
+                        const data = response.data.recordset;
+                        data.map((rows) => {
+                            str = str + `<tr>
+                                            <td>
+                                                ${rows.DESCONTRATISTA} (Contrato No.:${rows.NOCONTRATO})
+                                                <br>
+                                                <small class="negrita">${rows.ASIGNACION}</small>
+                                                <br>
+                                                <small>Entrega: ${funciones.cleanDataFecha(rows.FECHAENTREGA)}</small>
+                                            </td>
+                                            <td>
+                                                <b class="text-info">${funciones.setMoneda(rows.IMPORTE,'Q')}</b>
+                                                <br>
+                                                <small class="negrita text-success">Ent:${funciones.setMoneda(rows.ENTREGADO,'Q')}</small>
+                                                <br>
+                                                <small class="negrita text-danger">Saldo:${funciones.setMoneda(rows.SALDO,'Q')}</small>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-sm btn-danger btn-circle" onclick="deleteContrato(${Number(rows.NOCONTRATO)})">x</button>
+                                            </td>
+                                        </tr>`
+                        })
+                        container.innerHTML = str;
+                    } catch (err) {
+                        container.innerHTML = 'Agregue un subcontratista al proyecto...';
+                    }
+                }, (error) => {
+                        console.log(error);
+                        container.innerHTML = 'Agregue un subcontratista al proyecto...';
+                });
+
+    },
     subcontratistas_combo: (idContainer) => {
         let container = document.getElementById(idContainer);
         
         let str = '';
 
-            let url = GlobalUrlBackend + '/subcontratistas/listado'
+            let url = GlobalUrlBackend + '/acreedores/listado'
 
-            axios.post(url)
+            axios.post(url, {tipo: "SUBCONTRATISTA"})
                 .then((response) => {
                     try {
                         const data = response.data.recordset;
@@ -208,6 +255,36 @@ let api = {
                         container.innerHTML = '<option value="SN">Error..</option>';
                 });
 
+    },
+    subcontrato_insertar: (idProyecto,idSubcontratista,asignacion,importe,fecha) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                idproyecto:idProyecto,
+                idsubcontratista:idSubcontratista,
+                fecha: fecha,
+                asignacion:asignacion,
+                importe:Number(importe)
+            };
+
+            let url = GlobalUrlBackend + '/proyectos/nuevocontrato'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
     },
     contratantes_combo: (idContainer) => {
         let container = document.getElementById(idContainer);

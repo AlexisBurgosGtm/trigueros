@@ -2,6 +2,7 @@ const GlobalUrlBackend =  '';  //'https://trg-ingenieros.herokuapp.com'; //'http
 
 let GlobalCodUsuario = 0;
 let GlobalUsuario = 'USUARIO';
+let GlobalPassUsuario = '';
 let GlobalNivelUsuario = 0;
 let GlobalSelectedForm = 'login';
 

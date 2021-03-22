@@ -5,10 +5,12 @@ const router = express.Router();
 
 router.post("/listado", async (req, res) => {
     
+    const tipo = req.body.tipo;
+
     let qry = '';
 
-    qry = `SELECT IDCONTRATISTA AS CODIGO, DESCONTRATISTA AS DESCRIPCION, ISNULL(TIPO,'VARIOS') AS TIPO
-             FROM CONST_CONTRATISTAS`
+    qry = `SELECT CODACREEDOR AS CODIGO, DESACREEDOR AS DESCRIPCION
+             FROM CONST_ACREEDORES WHERE TIPO='${tipo}' `
 
     execute.Query(res, qry);
 

@@ -39,3 +39,4 @@ classNavegar.login();
 
 
 funciones.instalationHandlers('btnInstalarApp');
+

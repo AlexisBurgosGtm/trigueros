@@ -27,7 +27,19 @@
   z-index: 2;
 }
 /* EVITA EL PULL TO REFRESH CON LA CLASE BODY Y LUEGO UN DIV WRAPPER */
-/****************************************/
+/*********************************
+*******/
+
+
+/* EVITA QUE UNA MODAL INFERIOR A OTRA PIERDA EL SCROLL */
+.modal-with-scroll{
+  overflow-y: scroll; 
+}
+
+
+.negrita {
+  font-weight: bold;
+}
 
 .toppegado {
   margin-top: 0px;

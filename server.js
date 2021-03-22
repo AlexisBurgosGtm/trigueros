@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 
 const execute = require('./router/connection');
 var routerProyectos = require('./router/router_proyectos');
-var routerSubcontratistas = require('./router/router_subcontratistas');
+var routerAcreedores = require('./router/router_acreedores');
 var routerContratantes = require('./router/router_contratantes');
 var routerUsuarios = require('./router/router_usuarios');
 
@@ -46,8 +46,8 @@ app.get("/",function(req,res){
 //Router para PROYECTOS
 app.use('/proyectos', routerProyectos);
 
-//Router para SUBCONTRATISTAS
-app.use('/subcontratistas', routerSubcontratistas);
+//Router para SUBCONTRATISTAS / proveeores
+app.use('/acreedores', routerAcreedores);
 
 //Router para CONTRATANTES
 app.use('/contratantes', routerContratantes);

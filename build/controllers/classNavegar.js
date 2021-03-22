@@ -4,6 +4,7 @@ let classNavegar = {
         .then(async()=>{
             GlobalSelectedForm = 'login';
             GlobalUsuario = 'USUARIO';
+            GlobalPassUsuario = '';
             GlobalNivelUsuario = 0;
             GlobalCodUsuario = 0;
             document.getElementById('lbUsuario').innerHTML = GlobalUsuario;
