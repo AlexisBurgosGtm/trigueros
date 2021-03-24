@@ -7,6 +7,15 @@
 };
 
 
+const configx = {
+	user: 'iEx',
+	password: 'iEx',
+	server: 'DEVELOPER\\SQLDEV',
+	database: 'DB_A6478C_autoventa',
+	pool: {	max: 100,	min: 0,	idleTimeoutMillis: 30000}
+};
+
+
 const sql = require('mssql');
 
 let execute = {

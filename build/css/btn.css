@@ -30,6 +30,10 @@
 /*********************************
 *******/
 
+.bg-amarillo {
+  background-color: beige;
+  font-weight: bold;
+}
 
 /* EVITA QUE UNA MODAL INFERIOR A OTRA PIERDA EL SCROLL */
 .modal-with-scroll{

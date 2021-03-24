@@ -129,6 +129,92 @@ let api = {
                 });
 
     },
+    proyectos_combo_promise: (idContainer) => {
+
+        let container  = document.getElementById(idContainer);    
+        return new Promise((resolve,reject)=>{
+            
+            let str = '';
+
+            let data = {
+                activo : 'NO'
+            };
+    
+            let url = GlobalUrlBackend + '/proyectos/listaproyectos';
+            axios.post(url,data)
+            .then((response) => {
+                try {
+                    const data = response.data.recordset;
+                    data.map((rows) => {
+                        str = str + `<option value="${rows.IDPROYECTO}">${rows.PROYECTO}</option>`;
+                    })
+                    container.innerHTML=str;
+                    resolve();
+                } catch (err) {
+                    container.innerHTML='<option value="SN">No hay datos..</option>';
+                    resolve();
+                }
+            }, (error) => {
+                    console.log(error);
+                    container.innerHTML='<option value="SN">Error..</option>';
+                    reject();
+            });
+
+        })
+
+    },
+    proyectos_combo: (idContainer) => {
+        let container = document.getElementById(idContainer);
+        
+        let str = '';
+        
+        
+            let data = {
+                activo : 'NO'
+            };
+    
+            let url = GlobalUrlBackend + '/proyectos/listaproyectos';
+            axios.post(url,data)
+            .then((response) => {
+                try {
+                    const data = response.data.recordset;
+                    data.map((rows) => {
+                        str = str + `<option value="${rows.IDPROYECTO}">${rows.PROYECTO}</option>`
+                    })
+                    container.innerHTML = str;
+                } catch (err) {
+                    container.innerHTML = '<option value="SN">No hay datos..</option>';
+                }
+            }, (error) => {
+                    console.log(error);
+                    container.innerHTML = '<option value="SN">Error..</option>';
+            });           
+
+    },
+    proyecto_acreedores_combo: (idContainer) => {
+        let container = document.getElementById(idContainer);
+        
+        let str = '';
+
+            let url = GlobalUrlBackend + '/acreedores/listado'
+
+            axios.post(url,{tipo:'TODOS'})
+                .then((response) => {
+                    try {
+                        const data = response.data.recordset;
+                        data.map((rows) => {
+                            str = str + `<option value="${rows.CODIGO}">${rows.DESCRIPCION} (${rows.TIPO})</option>`
+                        })
+                        container.innerHTML = str;
+                    } catch (err) {
+                        container.innerHTML = '<option value="SN">No hay datos..</option>';
+                    }
+                }, (error) => {
+                        console.log(error);
+                        container.innerHTML = '<option value="SN">Error..</option>';
+                });
+
+    },
     proyectos_insertar: (proyecto, direccion, inicio, final, contacto, telefono, contratante, presupuesto) => {
         return new Promise((resolve, reject) => {
 
@@ -232,6 +318,32 @@ let api = {
                 });
 
     },
+    proyectos_subcontratistas_combo: (idproyecto,idContainer) => {
+        let container = document.getElementById(idContainer);
+        container.innerHTML = GlobalLoader;
+        let str = '';
+    
+        let url = GlobalUrlBackend + '/proyectos/subcontratistas';
+
+        axios.post(url, {
+                    idproyecto : idproyecto
+                    })
+        .then((response) => {
+            try {
+                const data = response.data.recordset;
+                data.map((rows) => {
+                    str = str + `<option value="${rows.NOCONTRATO}">${rows.DESACREEDOR} (Saldo:${funciones.setMoneda(rows.SALDO,'Q')})</option>`
+                })
+                container.innerHTML = str;
+            } catch (err) {
+                container.innerHTML = 'Agregue un subcontratista al proyecto...';
+            }
+        }, (error) => {
+                console.log(error);
+                container.innerHTML = 'Agregue un subcontratista al proyecto...';
+        });
+
+    },
     subcontratistas_combo: (idContainer) => {
         let container = document.getElementById(idContainer);
         
@@ -294,6 +406,56 @@ let api = {
             let url = GlobalUrlBackend + '/contratantes/listado'
 
             axios.post(url)
+                .then((response) => {
+                    try {
+                        const data = response.data.recordset;
+                        data.map((rows) => {
+                            str = str + `<option value="${rows.CODIGO}">${rows.DESCRIPCION}</option>`
+                        })
+                        container.innerHTML = str;
+                    } catch (err) {
+                        container.innerHTML = '<option value="SN">No hay datos..</option>';
+                    }
+                }, (error) => {
+                        console.log(error);
+                        container.innerHTML = '<option value="SN">Error..</option>';
+                });
+
+    },
+    cuentas_combo: (idContainer) => {
+        let container = document.getElementById(idContainer);
+        
+        let str = '';
+
+            let url = GlobalUrlBackend + '/bancos/listado'
+
+            axios.post(url)
+                .then((response) => {
+                    try {
+                        const data = response.data.recordset;
+                        console.log('bancos')
+                        console.log(data);
+                        data.map((rows) => {
+                            str = str + `<option value="${rows.CODCUENTA}">${rows.BANCO} (No. ${rows.NUMERO})</option>`
+                        })
+                        container.innerHTML = str;
+                    } catch (err) {
+                        container.innerHTML = '<option value="SN">No hay datos..</option>';
+                    }
+                }, (error) => {
+                        console.log(error);
+                        container.innerHTML = '<option value="SN">Error..</option>';
+                });
+
+    },
+    proveedores_combo: (idContainer) => {
+        let container = document.getElementById(idContainer);
+        
+        let str = '';
+
+            let url = GlobalUrlBackend + '/acreedores/listado'
+
+            axios.post(url, {tipo: "PROVEEDOR"})
                 .then((response) => {
                     try {
                         const data = response.data.recordset;

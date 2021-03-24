@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 
 const execute = require('./router/connection');
 var routerProyectos = require('./router/router_proyectos');
+var routerBancos = require('./router/router_bancos');
 var routerAcreedores = require('./router/router_acreedores');
 var routerContratantes = require('./router/router_contratantes');
 var routerUsuarios = require('./router/router_usuarios');
@@ -52,6 +53,9 @@ app.use('/acreedores', routerAcreedores);
 //Router para CONTRATANTES
 app.use('/contratantes', routerContratantes);
 
+//Router para BANCOS
+app.use('/bancos', routerBancos);
+
 //Router para USUARIOS
 app.use('/usuarios', routerUsuarios);
 
@@ -67,32 +71,14 @@ app.use("*", function (req, res) {
 
 // SOCKET HANDLER
 io.on('connection', function(socket){
-  
+  socket.on('login', (user)=>{
+    io.emit('login', `Sesión iniciada con usuario ${user}`)
+  })
+
   socket.on('noticias nueva', (msg,usuario)=>{
     io.emit('noticias nueva', msg,usuario);
   });
-
-  socket.on('productos precio', function(msg,usuario){
-	  io.emit('productos precio', msg, usuario);
-  });
-
-  socket.on('productos bloqueado', function(msg,usuario){
-	  io.emit('productos bloqueado', msg, usuario);
-  });
-
-  socket.on('ventas nueva', (msg,usuario)=>{
-    io.emit('ventas nueva', msg,usuario);
-  })
-
-  // sucede cuando el repartidor marca un pedido y notifica a su respectivo vendedor
-  socket.on('reparto pedidomarcado', (msg,status,vendedor)=>{
-    io.emit('reparto pedidomarcado', msg,status,vendedor);
-  })
-
-  socket.on('chat msn', function(msg,status,user){
-	  io.emit('chat msn', msg, status, user);
-  });
-  
+ 
   
 });
 
