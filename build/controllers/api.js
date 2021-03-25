@@ -304,6 +304,18 @@ let api = {
                                                 <small class="negrita text-danger">Saldo:${funciones.setMoneda(rows.SALDO,'Q')}</small>
                                             </td>
                                             <td>
+                                                <button class="btn btn-sm btn-info btn-circle"
+                                                 onclick="editContrato(
+                                                        ${Number(rows.NOCONTRATO)},
+                                                        ${Number(rows.CODACREEDOR)},
+                                                        '${rows.ASIGNACION}',
+                                                        '${funciones.cleanDataFecha(rows.FECHAENTREGA)}',
+                                                        ${Number(rows.IMPORTE)}
+                                                        )">
+                                                    <i class="fal fa-edit"></i>
+                                                </button>
+                                            </td>
+                                            <td>
                                                 <button class="btn btn-sm btn-danger btn-circle" onclick="deleteContrato(${Number(rows.NOCONTRATO)})">x</button>
                                             </td>
                                         </tr>`
@@ -394,6 +406,61 @@ let api = {
                     reject();
                 });
 
+
+
+        });
+    },
+    subcontrato_editar: (nocontrato,idSubcontratista,asignacion,importe,fecha) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                nocontrato:nocontrato,
+                idsubcontratista:idSubcontratista,
+                fecha: fecha,
+                asignacion:asignacion,
+                importe:Number(importe)
+            };
+
+            let url = GlobalUrlBackend + '/proyectos/editarcontrato'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
+    },
+    subcontrato_eliminar: (nocontrato) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                nocontrato:nocontrato
+            };
+
+            let url = GlobalUrlBackend + '/proyectos/eliminarcontrato'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
 
 
         });

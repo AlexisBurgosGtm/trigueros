@@ -108,15 +108,20 @@ function getView(){
                     <div class="modal-content">
                         <div class="modal-header bg-warning">
                             <h5 class="modal-title" id="exampleModalLabel">Opciones del Proyecto</h5>
+                            <button class="btn btn-warning" data-dismiss="modal">
+                                        <i class="fal fa-times"></i>
+                                        Cerrar
+                            </button>
                         </div>
                         <div class="modal-body" style="font-size :small">
                             <h4 id="lbDetProyecto">Proyecto</h4>
                             <br>
+                            
                             <div class="row">
                                 <div class="col-4">
-                                    <button class="btn btn-outline-secondary col-12" data-dismiss="modal">
-                                        <i class="fal fa-times"></i>
-                                        Cerrar
+                                    <button class="btn btn-success col-12" id="btnNuevoContrato">
+                                        <i class="fal fa-list"></i>
+                                        Nuevo
                                     </button>
                                 </div>
                                 <div class="col-4">
@@ -135,6 +140,7 @@ function getView(){
                                 <br>
                                 <hr class="rounded">
                                 <br>
+                                
                             <div class="panel-container show">
                                 <div class="panel-content">
                                     <ul class="nav nav-pills nav-justified" role="tablist">
@@ -145,22 +151,21 @@ function getView(){
                                     <div class="tab-content py-3">
                                         <!-- sub contratistas -->
                                         <div class="tab-pane fade active show" id="panel1" role="tabpanel">
+                                            
                                             <div class="table-responsive">
                                                 <table class="table table-responsive">
                                                     <thead class="bg-trans-gradient text-white">
                                                         <tr>
                                                             <td>CONTRATISTA/ASIGNACION</td>
                                                             <td>IMPORTE</td>
+                                                            <td></td>
+                                                            <td></td>
                                                         </tr>
                                                     </thead>
                                                     <tbody id="tblPSucontratistas"></tbody>
                                                 </table>
                                             </div>
-                                            <div id="btnFlotanteDerecha">
-                                                <button class="btn btn-success btn-circle btn-lg shadow" id="btnNuevoContrato">
-                                                    +
-                                                </button>
-                                            </div>
+                                            
                                         </div>   
                                         <!-- cheques emitidos -->
                                         <div class="tab-pane fade" id="panel2" role="tabpanel">
@@ -216,7 +221,7 @@ function getView(){
             <div class="modal-dialog modal-dialog-right modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-success text-white">
-                        <h5 class="modal-title" id="exampleModalLabel">Nuevo Sub-Contrato</h5>
+                        <h5 class="modal-title" id="lbNuevoContrato">Nuevo Sub-Contrato</h5>
                     </div>
                     <div class="modal-body" style="font-size :small">
 
@@ -348,6 +353,9 @@ function addListeners() {
 
     let btnNuevoContrato = document.getElementById('btnNuevoContrato');
     btnNuevoContrato.addEventListener('click',()=>{
+        document.getElementById('lbNuevoContrato').innerText='Nuevo Sub-Contrato';
+
+        GlobalSelectedNumeroContrato = 0;
         txtPAsignacion.value = '';
         txtPPresupuesto.value= 0;
         $('#modalNuevoContrato').modal('show');
@@ -355,7 +363,7 @@ function addListeners() {
 
     let btnGuardarContrato = document.getElementById('btnGuardarContrato');
     btnGuardarContrato.addEventListener('click',()=>{
-        funciones.Confirmacion('¿Está seguro que desea agregar este sub-contrato al proyecto?')
+        funciones.Confirmacion('¿Está seguro que desea guardar este Sub-Contrato?')
         .then((value)=>{
             if(value==true){
 
@@ -363,16 +371,31 @@ function addListeners() {
                     funciones.AvisoError('Escriba la asignación o tarea del contrato');
                 }else{
                     if(Number(txtPPresupuesto.value)>0){
-                        //inserta los datos
-                        api.subcontrato_insertar(GlobalSelectedCodProyecto,cmbPSubContratista.value,txtPAsignacion.value,txtPPresupuesto.value,funciones.getFecha('txtPFechaEntrega'))
-                        .then(()=>{
-                            funciones.Aviso('Nuevo Sub-contrato creado exitosamente !!')
-                            api.proyectos_subcontratistas(GlobalSelectedCodProyecto,'tblPSucontratistas')
-                            $('#modalNuevoContrato').modal('hide');
-                        })
-                        .catch(()=>{
-                            funciones.AvisoError('No se pudo crear el Sub-contrato')
-                        })
+                        if(GlobalSelectedNumeroContrato==0){
+                            //es un nuevo contrato
+                            api.subcontrato_insertar(GlobalSelectedCodProyecto,cmbPSubContratista.value,txtPAsignacion.value,txtPPresupuesto.value,funciones.getFecha('txtPFechaEntrega'))
+                            .then(()=>{
+                                funciones.Aviso('Nuevo Sub-contrato creado exitosamente !!')
+                                api.proyectos_subcontratistas(GlobalSelectedCodProyecto,'tblPSucontratistas')
+                                $('#modalNuevoContrato').modal('hide');
+                            })
+                            .catch(()=>{
+                                funciones.AvisoError('No se pudo crear el Sub-contrato')
+                            })
+                        }else{
+                            //edita un contrato existente
+                            api.subcontrato_editar(GlobalSelectedNumeroContrato,cmbPSubContratista.value,txtPAsignacion.value,txtPPresupuesto.value,funciones.getFecha('txtPFechaEntrega'))
+                            .then(()=>{
+                                funciones.Aviso('Sub-contrato actualizado exitosamente !!')
+                                api.proyectos_subcontratistas(GlobalSelectedCodProyecto,'tblPSucontratistas')
+                                $('#modalNuevoContrato').modal('hide');
+                            })
+                            .catch(()=>{
+                                funciones.AvisoError('No se pudo editar el Sub-contrato')
+                            })
+                        }
+                        
+                        
 
                     }else{
                         funciones.AvisoError('Escriba el monto o presupuesto asignado a este Subcontrato')
@@ -418,6 +441,33 @@ function getMenuProyecto(codigo,descripcion){
 };
 
 function deleteContrato(nocontrato){
+    funciones.Confirmacion('¿Está seguro que desea Eliminar este Sub-Contrato?, no se podrán recuperar los datos')
+    .then((value)=>{
+        if(value==true){
+            api.subcontrato_eliminar(nocontrato)
+            .then(()=>{
+                funciones.Aviso('Sub-contrato ELIMINADO exitosamente !!')
+                api.proyectos_subcontratistas(GlobalSelectedCodProyecto,'tblPSucontratistas')
+                $('#modalNuevoContrato').modal('hide');
+            })
+            .catch(()=>{
+                funciones.AvisoError('No se pudo ELIMINAR el Sub-contrato')
+            })
+        }
+    })
+    
+};
 
-    funciones.hablar('eliminación de un contrato junto con los cheques asociados')
-}
+function editContrato(nocontrato,codacreedor,asignacion,fecha,presupuesto){
+        document.getElementById('lbNuevoContrato').innerText = 'Edición del Contrato No. ' + nocontrato.toString();
+        GlobalSelectedNumeroContrato = nocontrato;
+
+        document.getElementById('cmbPSubContratista').value = codacreedor;
+        document.getElementById('txtPAsignacion').value = asignacion;
+        document.getElementById('txtPPresupuesto').value = presupuesto;
+        document.getElementById('txtPFechaEntrega').value = fecha;
+        
+        
+        $('#modalNuevoContrato').modal('show');
+
+};

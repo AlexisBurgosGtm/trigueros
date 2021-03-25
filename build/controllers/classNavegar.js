@@ -27,10 +27,10 @@ let classNavegar = {
             initView();
         })
     },
-    subcontratistas: ()=>{
-        funciones.loadScript('../views/contratantes.js','root')
+    mantenimientos: ()=>{
+        funciones.loadScript('../views/mantenimientos.js','root')
         .then(async()=>{
-            GlobalSelectedForm = 'subcontratistas';
+            GlobalSelectedForm = 'mantenimientos';
             initView();
         })
     },

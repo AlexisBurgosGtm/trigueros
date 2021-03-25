@@ -9,8 +9,8 @@ const socket = io();
 
 let btnMenuProyectos = document.getElementById('btnMenuProyectos');
 let btnMenuCheques = document.getElementById('btnMenuCheques');
-let btnMenuSubcontratistas = document.getElementById('btnMenuSubcontratistas');
-let btnMenuReportes = document.getElementById('btnMenuReportes');
+let btnMenuMantenimientos = document.getElementById('btnMenuMantenimientos');
+
 
 btnMenuProyectos.addEventListener('click',()=>{
     classNavegar.proyectos();
@@ -20,13 +20,10 @@ btnMenuCheques.addEventListener('click',()=>{
     classNavegar.cheques();
 });
 
-btnMenuSubcontratistas.addEventListener('click',()=>{
-    classNavegar.subcontratistas();
+btnMenuMantenimientos.addEventListener('click',()=>{
+    classNavegar.mantenimientos();
 });
 
-btnMenuReportes.addEventListener('click',()=>{
-    classNavegar.reportes();
-});
 
 
 
