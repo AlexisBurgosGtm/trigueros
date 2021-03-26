@@ -5,10 +5,11 @@ let btnSalir = document.getElementById('btnSalir');
 
 const socket = io();
 
-//menuPrincipal.style = "visibility : hidden";
 
 let btnMenuProyectos = document.getElementById('btnMenuProyectos');
 let btnMenuCheques = document.getElementById('btnMenuCheques');
+let btnMenuContratos = document.getElementById('btnMenuContratos');
+let btnMenuReportes = document.getElementById('btnMenuReportes');
 let btnMenuMantenimientos = document.getElementById('btnMenuMantenimientos');
 
 
@@ -18,6 +19,14 @@ btnMenuProyectos.addEventListener('click',()=>{
 
 btnMenuCheques.addEventListener('click',()=>{
     classNavegar.cheques();
+});
+
+btnMenuContratos.addEventListener('click',()=>{
+    classNavegar.contratos();
+});
+
+btnMenuReportes.addEventListener('click',()=>{
+    classNavegar.reportes();
 });
 
 btnMenuMantenimientos.addEventListener('click',()=>{

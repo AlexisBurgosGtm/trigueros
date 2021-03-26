@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 const execute = require('./router/connection');
 var routerProyectos = require('./router/router_proyectos');
 var routerBancos = require('./router/router_bancos');
+var routerCheques = require('./router/router_cheques');
 var routerAcreedores = require('./router/router_acreedores');
 var routerContratantes = require('./router/router_contratantes');
 var routerUsuarios = require('./router/router_usuarios');
@@ -55,6 +56,9 @@ app.use('/contratantes', routerContratantes);
 
 //Router para BANCOS
 app.use('/bancos', routerBancos);
+
+//Router para CHEQUES
+app.use('/cheques', routerCheques);
 
 //Router para USUARIOS
 app.use('/usuarios', routerUsuarios);

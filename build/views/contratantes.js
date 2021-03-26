@@ -7,11 +7,9 @@ function getView(){
                 <table class="table table-responsive table-striped table-hover table-bordered" id="tablaCheques">
                     <thead class="bg-warning">
                         <tr>
-                    
                             <td>NOMBRE</td>
                             <td>DIRECCION</td>
                             <td>NO. TELEFONO</td>
-                            
                         </tr>
                     </thead>
                     <tbody id="tblCheques">

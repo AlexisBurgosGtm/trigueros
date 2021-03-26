@@ -174,9 +174,11 @@ function getView(){
                                                     <table class="table table-responsive">
                                                         <thead class="bg-success text-white">
                                                             <tr>
-                                                                <td>CHEQUE</td>
-                                                                <td>DESCRIPCIOON</td>
+                                                                <td>FECHA</td>
+                                                                <td>CUENTA</td>
+                                                                <td>ACREEDOR</td>
                                                                 <td>VALOR</td>
+                                                                <td></td>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="tblPChequesEmitidos"></tbody>
@@ -434,7 +436,8 @@ function getMenuProyecto(codigo,descripcion){
     
     document.getElementById('lbDetProyecto').innerText = descripcion;
 
-    api.proyectos_subcontratistas(codigo,'tblPSucontratistas')
+    api.proyectos_subcontratistas(codigo,'tblPSucontratistas');
+    api.cheques_proyecto(GlobalSelectedCodProyecto, 'tblPChequesEmitidos');
 
     $('#modalMenuProyecto').modal('show');
 
@@ -462,7 +465,9 @@ function editContrato(nocontrato,codacreedor,asignacion,fecha,presupuesto){
         document.getElementById('lbNuevoContrato').innerText = 'Edición del Contrato No. ' + nocontrato.toString();
         GlobalSelectedNumeroContrato = nocontrato;
 
-        document.getElementById('cmbPSubContratista').value = codacreedor;
+        let cmbPSubContratista = document.getElementById('cmbPSubContratista');
+        cmbPSubContratista.value = codacreedor;
+        
         document.getElementById('txtPAsignacion').value = asignacion;
         document.getElementById('txtPPresupuesto').value = presupuesto;
         document.getElementById('txtPFechaEntrega').value = fecha;
@@ -470,4 +475,22 @@ function editContrato(nocontrato,codacreedor,asignacion,fecha,presupuesto){
         
         $('#modalNuevoContrato').modal('show');
 
+};
+
+function deleteCheque(id){
+    funciones.Confirmacion('¿Está seguro que desea ELIMINAR este cheque?')
+    .then((value)=>{
+        if(value==true){
+
+            api.cheques_delete(id)
+            .then(()=>{
+                funciones.Aviso('Cheque ELIMINADO exitosamente!!');
+                api.cheques_proyecto(GlobalSelectedCodProyecto, 'tblPChequesEmitidos');
+            })
+            .catch(()=>{
+                funciones.AvisoError('No se pudo ELIMINAR el cheque')
+            })
+
+        }
+    })
 };

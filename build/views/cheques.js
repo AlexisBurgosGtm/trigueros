@@ -16,6 +16,11 @@ function getView(){
         listado : ()=>{
             return `
             <div class="card">
+                <div class="form-group">
+                    <label>Seleccione un proyecto</label>
+                    <select class="form-control" id="cmbProyectoCheques">
+                    </select>
+                </div>
                 <table class="table table-responsive table-striped table-hover table-bordered" id="tablaCheques">
                     <thead class="bg-trans-gradient text-white">
                         <tr>
@@ -23,7 +28,7 @@ function getView(){
                             <td>CUENTA</td>
                             <td>ACREEDOR</td>
                             <td>VALOR</td>
-                            <td>PROYECTO</td>
+                            <td></td>
                         </tr>
                     </thead>
                     <tbody id="tblCheques">
@@ -62,7 +67,7 @@ function getView(){
                         
                         <div class="form-group">
                             <label>No. Cheque</label>
-                            <input type="number" class="form-control" id="NumeroCheque">
+                            <input type="number" class="form-control" id="txtNumeroCheque">
                         </div>
                         
                         <div class="form-group">
@@ -88,6 +93,11 @@ function getView(){
                             </select> 
                         </div>
         
+                        <div class="form-group">
+                            <label>Recibido por</label>
+                            <input type="text" class="form-control" id="txtRecibe" value='SN'>
+                        </div>
+
                         <div class="form-group">
                             <label>Observaciones</label>
                             <input type="text" class="form-control" id="txtObs">
@@ -131,25 +141,34 @@ function getView(){
         }
     }
 
-    root.innerHTML= view.encabezado() + view.listado() + view.btnNuevo();
+    root.innerHTML=  view.listado() + view.btnNuevo(); //view.encabezado() +
     rootModal.innerHTML = view.modalNuevo();
     
 };
 
 async function addListeners(){
-    
+   
+
     document.getElementById('cmbRubro').innerHTML = funciones.getComboRubros();
 
     let btnNuevo = document.getElementById('btnNuevo');
     btnNuevo.addEventListener('click',()=>{
+        
+        document.getElementById('txtNumeroCheque').value = 0;
+        document.getElementById('txtImporte').value = 0;
+        document.getElementById('txtRecibe').value = 'SN';
+        document.getElementById('txtObs').value = 'SN';
+
         $('#modalNuevo').modal('show');
+        
     })
 
+/*
     let txtBuscar = document.getElementById('txtBuscar');
     txtBuscar.addEventListener('keyup',()=>{
         funciones.FiltrarTabla('tablaCheques','txtBuscar');
     })
-
+ */
 
     let txtFecha = document.getElementById('txtFecha');
     txtFecha.value = funciones.getFecha(); 
@@ -165,6 +184,7 @@ async function addListeners(){
         }
     });
 
+    
     //combo Proyectos, cambia los subcontratistas según se cambia el proyecto
     let cmbProyecto = document.getElementById('cmbProyecto');
     cmbProyecto.addEventListener('change',()=>{
@@ -175,6 +195,7 @@ async function addListeners(){
             api.proveedores_combo('cmbAcreedor');
         }
     });
+
 
 
     api.proyectos_combo_promise('cmbProyecto')
@@ -191,12 +212,96 @@ async function addListeners(){
     //boton guardar cheque
     let btnGuardarCheque = document.getElementById('btnGuardarCheque');
     btnGuardarCheque.addEventListener('click',()=>{
-        
+        funciones.Confirmacion('¿Está seguro que desea Guardar este Cheque?')
+        .then((value)=>{
+            if(value==true){
+                
+                let nocontrato = document.getElementById('cmbAcreedor').value || 0;
+                let codcuenta = document.getElementById('cmbCuenta');
+                let numero = document.getElementById('txtNumeroCheque');
+                let cantidad = document.getElementById('txtImporte');
+                let recibe = document.getElementById('txtRecibe');
+                let rubro = document.getElementById('cmbRubro');
+                let obs = document.getElementById('txtObs');
+
+                if(obs.value==''){}else{obs.value='SN'};
+                if(recibe.value=''){}else{recibe.value='SN'};
+
+                if(numero.value==''){
+                    funciones.AvisoError('Indique el número de cheque emitido');
+                }else{
+                    if(Number(cantidad.value)>0){
+
+                        api.cheque_insertar_nocontrato(funciones.getFecha('txtFecha'),
+                                                nocontrato,
+                                                0,
+                                                codcuenta.value,
+                                                numero.value,
+                                                Number(cantidad.value),
+                                                recibe.value,
+                                                obs.value,
+                                                rubro.value)
+                        .then(()=>{
+                            funciones.Aviso('Cheque creado exitosamente!!');
+                            $('#modalNuevo').modal('hide');
+
+                            let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
+                            api.cheques_proyecto(cmbProyectoCheques, 'tblCheques');
+                        })
+                        .catch(()=>{
+                            funciones.AvisoError('No se pudo crear el cheque');
+                        })
+
+                    }else{
+                        funciones.AvisoError('Indique el monto/cantidad del cheque');
+                    };
+                };
+                
+                
+
+                
+            }
+        })      
     });
 
+    //selector de proyectos para ver lista de cheques
+    let cmbProyectoCheques = document.getElementById('cmbProyectoCheques');
+    cmbProyectoCheques.addEventListener('change',()=>{
+        let cmbProyectoC = document.getElementById('cmbProyectoCheques').value || 0;
+        api.cheques_proyecto(cmbProyectoC, 'tblCheques');
+    })
+
+    api.proyectos_combo_promise('cmbProyectoCheques')
+    .then(async()=>{
+        let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
+        await api.cheques_proyecto(cmbProyectoCheques, 'tblCheques');
+    })
+    .catch(()=>{
+        funciones.AvisoError('No se pudo cargar la lista de Proyectos');
+    })
 };
 
 function initView(){
     getView();
     addListeners();
+};
+
+
+function deleteCheque(id){
+    funciones.Confirmacion('¿Está seguro que desea ELIMINAR este cheque?')
+    .then((value)=>{
+        if(value==true){
+
+            api.cheques_delete(id)
+            .then(()=>{
+                funciones.Aviso('Cheque ELIMINADO exitosamente!!');
+                let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
+                api.cheques_proyecto(cmbProyectoCheques, 'tblCheques');
+            })
+            .catch(()=>{
+                funciones.AvisoError('No se pudo ELIMINAR el cheque')
+            })
+
+        }
+    })
 };

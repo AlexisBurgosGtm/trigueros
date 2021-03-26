@@ -2,7 +2,7 @@ function getView(){
     let view = {
         login : ()=>{
             return `
-                <div class="card col-sm-12 col-md-4 col-lg-4 col-xl-4 shadow">
+                <div class="card col-sm-12 col-md-3 col-lg-3 col-xl-3 shadow">
                     <div class="card-header text-center bg-white border-bottom ">
                         <img src="../img/favicon.png" widht="50" height="50">
                     </div>

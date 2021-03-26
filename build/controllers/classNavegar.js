@@ -14,16 +14,27 @@ let classNavegar = {
         })
     },
     proyectos: ()=>{
-        funciones.loadScript('../views/proyectos.js','root')
-        .then(async()=>{
-            GlobalSelectedForm = 'proyectos';
-            initView();
-        })
+        if(GlobalNivelUsuario==1){
+            funciones.loadScript('../views/proyectos.js','root')
+            .then(async()=>{
+                GlobalSelectedForm = 'proyectos';
+                initView();
+            })
+        }else{
+            funciones.AvisoError('Usted no puede entrar a esta sección')
+        }
     },
     cheques: ()=>{
         funciones.loadScript('../views/cheques.js','root')
         .then(async()=>{
             GlobalSelectedForm = 'cheques';
+            initView();
+        })
+    },
+    contratos: ()=>{
+        funciones.loadScript('../views/contratos.js','root')
+        .then(async()=>{
+            GlobalSelectedForm = 'contratos';
             initView();
         })
     },
@@ -35,10 +46,14 @@ let classNavegar = {
         })
     },
     reportes: ()=>{
-        funciones.loadScript('../views/reportes.js','root')
-        .then(async()=>{
-            GlobalSelectedForm = 'reportes';
-            initView();
-        })
+        if(GlobalNivelUsuario==1){
+            funciones.loadScript('../views/reportes.js','root')
+            .then(async()=>{
+                GlobalSelectedForm = 'reportes';
+                initView();
+            })
+        }else{
+            funciones.AvisoError('Usted no puede entrar a esta sección')
+        }
     }
 }

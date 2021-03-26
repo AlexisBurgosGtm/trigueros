@@ -344,7 +344,7 @@ let api = {
             try {
                 const data = response.data.recordset;
                 data.map((rows) => {
-                    str = str + `<option value="${rows.NOCONTRATO}">${rows.DESACREEDOR} (Saldo:${funciones.setMoneda(rows.SALDO,'Q')})</option>`
+                    str = str + `<option value="${rows.NOCONTRATO}">${rows.DESACREEDOR} (Contrato No. ${rows.NOCONTRATO}) (Saldo:${funciones.setMoneda(rows.SALDO,'Q')})</option>`
                 })
                 container.innerHTML = str;
             } catch (err) {
@@ -538,5 +538,110 @@ let api = {
                         container.innerHTML = '<option value="SN">Error..</option>';
                 });
 
+    },
+    cheque_insertar_nocontrato: (fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                fecha:fecha,
+                nocontrato:nocontrato,
+                codacreedor: codacreedor,
+                codcuenta:codcuenta,
+                numero:numero,
+                cantidad:cantidad,
+                recibe:recibe,
+                obs:obs,
+                rubro:rubro
+            };
+
+            let url = GlobalUrlBackend + '/cheques/nuevo'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
+    },
+    cheques_proyecto: (idproyecto,idContainer) => {
+        let container = document.getElementById(idContainer);
+        container.innerHTML = GlobalLoader;
+        let str = '';
+    
+        let url = GlobalUrlBackend + '/cheques/listadoproyecto';
+
+        axios.post(url, {
+                    idproyecto : idproyecto
+                    })
+        .then((response) => {
+            try {
+                const data = response.data.recordset;
+                data.map((rows) => {
+                    str = str + `<tr class="border-bottom border-info">
+                                    <td>${funciones.cleanDataFecha(rows.FECHA)}
+                                            <br>
+                                            <small class="negrita text-danger">Cheque No. ${rows.NOCHEQUE}</small>
+                                    </td>
+                                    <td>${rows.BANCO}
+                                            <br>
+                                            <small>Cuenta No. ${rows.NOCUENTA}</small>
+                                    </td>
+                                    <td>${rows.DESACREEDOR}
+                                            <br>
+                                            <small class="negrita text-info">${rows.ASIGNACION}</small>
+                                            <br class="solid">
+                                            <small>Proyecto:${rows.PROYECTO}</small>
+                                    </td>
+                                    <td>${funciones.setMoneda(rows.IMPORTE,'Q')}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-danger btn-circle" onclick="deleteCheque(${rows.ID})">x</button>
+                                    </td>
+                                </tr>`
+                })
+                container.innerHTML = str;
+            } catch (err) {
+                container.innerHTML = 'Agregue un cheque al proyecto...';
+            }
+        }, (error) => {
+                console.log(error);
+                container.innerHTML = 'Agregue un cheque al proyecto...';
+        });
+
+    },
+    cheques_delete: (id) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                id:id
+            };
+
+            let url = GlobalUrlBackend + '/cheques/eliminar'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
     }
 }
