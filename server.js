@@ -79,8 +79,8 @@ io.on('connection', function(socket){
     io.emit('login', `Sesión iniciada con usuario ${user}`)
   })
 
-  socket.on('noticias nueva', (msg,usuario)=>{
-    io.emit('noticias nueva', msg,usuario);
+  socket.on('nuevo cheque', (msg,user)=>{
+    io.emit('nuevo cheque', msg,user);
   });
  
   

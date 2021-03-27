@@ -465,6 +465,59 @@ let api = {
 
         });
     },
+    subcontrato_listado: (idproyecto,idContainer)=>{
+        let container = document.getElementById(idContainer);
+        container.innerHTML = GlobalLoader;
+        
+        let str = '';
+
+            let url = GlobalUrlBackend + '/proyectos/subcontratos'
+
+            axios.post(url, {idproyecto: idproyecto})
+                .then((response) => {
+                    try {
+                        const data = response.data.recordset;
+                        data.map((rows) => {
+                            str = str + `<tr class="border-info hand" 
+                            onClick="detalleContrato(${rows.NOCONTRATO},
+                                '${funciones.cleanDataFecha(rows.FECHAENTREGA)}',
+                                '${rows.PROYECTO}',
+                                '${rows.DESACREEDOR}',
+                                '${rows.ASIGNACION}',
+                                '${funciones.setMoneda(rows.IMPORTE,'Q')}',
+                                '${funciones.setMoneda(rows.ENTREGADO,'Q')}',
+                                '${funciones.setMoneda(rows.SALDO,'Q')}'
+                                )">
+                                            <td>No: ${rows.NOCONTRATO}
+                                                <hr class="solid">
+                                                <small class="">Entrega:</small>
+                                                <br>
+                                                <small class="negrita">${funciones.cleanDataFecha(rows.FECHAENTREGA)}</small>
+                                            </td>
+                                            <td>${rows.PROYECTO}
+                                                <br>
+                                                <small class="negrita text-info">${rows.DESACREEDOR}</small>
+                                                <br>
+                                                <small class="">Tarea:${rows.ASIGNACION}</small>
+                                            </td>
+                                            <td><b>${funciones.setMoneda(rows.IMPORTE,'Q')}</b>
+                                                <br>
+                                                <small class="text-success">E:${funciones.setMoneda(rows.ENTREGADO,'Q')}</small>
+                                                <br>
+                                                <small class="negrita text-danger">S:${funciones.setMoneda(rows.SALDO,'Q')}</small>
+                                            </td>
+                                        </tr>`
+                        })
+                        container.innerHTML = str;
+                    } catch (err) {
+                        container.innerHTML = '<option value="SN">No hay datos..</option>';
+                    }
+                }, (error) => {
+                        console.log(error);
+                        container.innerHTML = '<option value="SN">Error..</option>';
+                });
+
+    },
     contratantes_combo: (idContainer) => {
         let container = document.getElementById(idContainer);
         
@@ -643,5 +696,5 @@ let api = {
 
 
         });
-    }
+    }    
 }

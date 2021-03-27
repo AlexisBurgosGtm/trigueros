@@ -1,5 +1,9 @@
 const socket = io();
 
-socket.on('productos nuevo', function(msg){
-    funciones.NotificacionPersistent("Nuevo producto",msg);
+socket.on('nuevo cheque', function(msg,user){
+    
+    if(Number(GlobalNivelUsuario)==1){
+        funciones.NotificacionPersistent("Nuevo Cheque",msg + 'Creado por el usuario' + user);
+    }
+    
 });

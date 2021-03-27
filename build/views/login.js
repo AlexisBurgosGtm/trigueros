@@ -2,9 +2,9 @@ function getView(){
     let view = {
         login : ()=>{
             return `
-                <div class="card col-sm-12 col-md-3 col-lg-3 col-xl-3 shadow">
+                <div class="card col-sm-12 col-md-3 col-lg-3 col-xl-3 shadow border-info">
                     <div class="card-header text-center bg-white border-bottom ">
-                        <img src="../img/favicon.png" widht="50" height="50">
+                        <img src="../img/favicon.png" widht="80" height="80">
                     </div>
                     <div class="card-body">
                         <div class="form-group">
@@ -52,6 +52,8 @@ function addListeners(){
                 menuPrincipal.style = "visibility : visible";
                 document.getElementById('lbUsuario').innerText = GlobalUsuario;
                 document.getElementById('lbUsuarioNivel').innerText = GlobalNivelUsuario;
+                document.body.requestFullscreen();
+
             })
             .catch(() => {
                 funciones.AvisoError('Usuario o contraseña incorrectos');

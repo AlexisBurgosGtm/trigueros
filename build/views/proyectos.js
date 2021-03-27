@@ -6,11 +6,12 @@ function getView(){
                 <div class="col-lg-4 col-sm-12 col-md-6">
                     <div class="form-group">
                         <label>Buscar:</label>
-                        <input type="text" class="form-control" id="txtBuscar" placeholder="Escriba para filtrar...">
+                        <input type="text" class="form-control border-info" id="txtBuscar" placeholder="Escriba para filtrar...">
                     </div>
                 </div>
                
             </div>
+            <hr class="solid">
             `
         },
         listado : ()=>{
@@ -107,11 +108,19 @@ function getView(){
                 <div class="modal-dialog modal-dialog-right modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header bg-warning">
-                            <h5 class="modal-title" id="exampleModalLabel">Opciones del Proyecto</h5>
-                            <button class="btn btn-warning" data-dismiss="modal">
-                                        <i class="fal fa-times"></i>
-                                        Cerrar
-                            </button>
+                            <div class="row">
+                                <div class="col-4">
+                                    <button class="btn btn-warning border-secondary" data-dismiss="modal">
+                                        <i class="fal fa-arrow-left"></i>
+                                    </button>
+                                </div>
+
+                                <div class="col-8">
+                                    <h5 class="modal-title" id="exampleModalLabel">Opciones del Proyecto</h5>    
+                                </div>
+                            </div>
+                            
+                            
                         </div>
                         <div class="modal-body" style="font-size :small">
                             <h4 id="lbDetProyecto">Proyecto</h4>
