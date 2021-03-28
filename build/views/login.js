@@ -48,12 +48,28 @@ function addListeners(){
 
         api.usuarios_login(us, ps)
             .then(() => {
-                classNavegar.proyectos();
+
+                               
                 menuPrincipal.style = "visibility : visible";
                 document.getElementById('lbUsuario').innerText = GlobalUsuario;
                 document.getElementById('lbUsuarioNivel').innerText = GlobalNivelUsuario;
                 document.body.requestFullscreen();
 
+                switch (Number(GlobalNivelUsuario)) {
+                    case 1:
+                        classNavegar.proyectos();    
+                        break;
+                    case 2:
+                        classNavegar.cheques();    
+                        break;
+                    case 3:
+                        classNavegar.contratos();
+                        break;
+                    default:
+                        classNavegar.login();
+                        break;
+                }
+                
             })
             .catch(() => {
                 funciones.AvisoError('Usuario o contraseña incorrectos');

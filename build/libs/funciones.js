@@ -124,6 +124,39 @@ let funciones = {
             
         }
     },
+    getPassword : (titulo,nivel)=>{
+      if(nivel==1){
+        return new Promise(async(resolve,reject)=>{
+
+          const { value: password } =  await Swal.fire({
+            title: 'Escriba su contraseña',
+            input: 'password',
+            inputLabel: 'Password',
+            inputPlaceholder: 'Escriba aqui...',
+            inputAttributes: {
+              maxlength: 10,
+              autocapitalize: 'off',
+              autocorrect: 'off'
+            }
+          })
+          
+          if (password) {
+            if(password==GlobalPassUsuario){
+              resolve(password);
+            }else{
+              reject('no');
+            }
+          }else{
+            reject('no');
+          }
+
+        })
+
+      }else{
+        funciones.AvisoError('Usted no tiene permiso de realizar esta acción');
+      }
+      
+    },
     FiltrarListaProductos: function(idTabla){
         swal({
           text: 'Escriba para buscar...',
@@ -146,7 +179,7 @@ let funciones = {
             text: 'Escriba su contraseña de usuario',
             content: "input",
             button: {
-              text: "Contraseña",
+              text: "Verificar",
               closeModal: true,
             },
           })

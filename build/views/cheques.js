@@ -37,13 +37,61 @@ function getView(){
                 </table>
             </div> `
         },
+        modalMenuCheques : ()=>{
+            return `
+        <div class="modal fade js-modal-settings modal-backdrop-transparent" tabindex="-1" role="dialog" aria-hidden="true"  id="modalTiposCheque">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-secondary text-white text-center">
+                        <h5 class="modal-title" id="exampleModalLabel">Seleccione un tipo de Cheque</h5>
+                    </div>
+                    <div class="modal-body">
+                        <hr class="solid">
+                        
+                        <div class="row">
+                            <div class="col-4">
+                                <button class="btn btn-outline-success btn-xl shadow btn-rounded"  data-dismiss="modal" id="btnMenuChequeContratista">
+                                    <i class="fal fa-bell"></i>
+                                    Pago a Sub-Contratista
+                                </button>    
+                            </div>
+                            <div class="col-4">
+                                <button class="btn btn-outline-warning btn-xl shadow btn-rounded" data-dismiss="modal" id="btnMenuChequeProveedor">
+                                    <i class="fal fa-box"></i>
+                                    Pago a Proveedor
+                                </button>    
+                            </div>
+                            <div class="col-4">
+                                <button class="btn btn-outline-info btn-xl shadow btn-rounded" data-dismiss="modal" id="btnMenuChequeContratante">
+                                    <i class="fal fa-archive"></i>
+                                    Recibo de Contratante
+                                </button>    
+                            </div>
+                        </div>                
+                        
+                        <hr class="solid">
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary col-12" data-dismiss="modal">
+                            <i class="fal fa-times"></i>
+                            CANCELAR
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+            `
+        },
         modalNuevo : ()=>{
             return `
-        <div class="modal fade js-modal-settings modal-backdrop-transparent" tabindex="-1" role="dialog" aria-hidden="true"  id="modalNuevo">
+        <div class="modal fade js-modal-settings modal-backdrop-transparent modal-with-scroll" tabindex="-1" role="dialog" aria-hidden="true"  id="modalNuevo">
             <div class="modal-dialog modal-dialog-right modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header bg-trans-gradient text-white">
-                            <h5 class="modal-title" id="exampleModalLabel">Datos del Cheque</h5>
+                            <h5 class="modal-title" id="lbDatosCheque">Datos del Cheque</h5>
                         </div>
                     <div class="modal-body">
 
@@ -142,7 +190,7 @@ function getView(){
     }
 
     root.innerHTML=  view.listado() + view.btnNuevo(); //view.encabezado() +
-    rootModal.innerHTML = view.modalNuevo();
+    rootModal.innerHTML = view.modalMenuCheques() + view.modalNuevo();
     
 };
 
@@ -153,16 +201,49 @@ async function addListeners(){
 
     let btnNuevo = document.getElementById('btnNuevo');
     btnNuevo.addEventListener('click',()=>{
-        
+        /*
         document.getElementById('txtNumeroCheque').value = 0;
         document.getElementById('txtImporte').value = 0;
         document.getElementById('txtRecibe').value = 'SN';
         document.getElementById('txtObs').value = 'SN';
-
-        $('#modalNuevo').modal('show');
+        */
+        //$('#modalNuevo').modal('show');
+        $('#modalTiposCheque').modal('show');
         
-    })
+    });
 
+    let btnMenuChequeContratista = document.getElementById('btnMenuChequeContratista');
+    btnMenuChequeContratista.addEventListener('click',()=>{
+        document.getElementById('lbDatosCheque').innerText = "Nuevo Cheque a Sub-Contratista"
+
+        document.getElementById('txtNumeroCheque').value = 0;
+        document.getElementById('txtImporte').value = 0;
+        document.getElementById('txtRecibe').value = 'SN';
+        document.getElementById('txtObs').value = 'SN';
+        $('#modalNuevo').modal('show');
+    });
+
+    let btnMenuChequeProveedor = document.getElementById('btnMenuChequeProveedor');
+    btnMenuChequeProveedor.addEventListener('click',()=>{
+        document.getElementById('lbDatosCheque').innerText = "Nuevo Cheque a Proveedor"
+
+        document.getElementById('txtNumeroCheque').value = 0;
+        document.getElementById('txtImporte').value = 0;
+        document.getElementById('txtRecibe').value = 'SN';
+        document.getElementById('txtObs').value = 'SN';
+        $('#modalNuevo').modal('show');
+    });
+
+    let btnMenuChequeContratante = document.getElementById('btnMenuChequeContratante');
+    btnMenuChequeContratante.addEventListener('click',()=>{
+        document.getElementById('lbDatosCheque').innerText = "Nuevo Pago de Contratante"
+
+        document.getElementById('txtNumeroCheque').value = 0;
+        document.getElementById('txtImporte').value = 0;
+        document.getElementById('txtRecibe').value = 'SN';
+        document.getElementById('txtObs').value = 'SN';
+        $('#modalNuevo').modal('show');
+    });
 /*
     let txtBuscar = document.getElementById('txtBuscar');
     txtBuscar.addEventListener('keyup',()=>{

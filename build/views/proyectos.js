@@ -252,7 +252,7 @@ function getView(){
                        
                         <div class="form-group">
                             <label>Presupuesto Asignado:</label>
-                            Q<input type="number" class="form-control col-8" id="txtPPresupuesto">
+                            Q<input type="number" class="form-control col-6 bg-amarillo" id="txtPPresupuesto" value=0>
                         </div>
 
                     </div>
@@ -337,18 +337,24 @@ function addListeners() {
     //VENTANA DE OPCIONES DEL PROYECTO
     let btnMenuProyectoEliminar = document.getElementById('btnMenuProyectoEliminar');
     btnMenuProyectoEliminar.addEventListener('click',()=>{
-        funciones.Confirmacion('¿Está seguro que desea ELIMINAR este proyecto?')
-        .then(()=>{
-            api.proyectos_eliminar(GlobalSelectedCodProyecto)
-            .then(async()=>{
-                funciones.Aviso('Proyecto Eliminado exitosamente!!')
-                await api.proyectos_listado('NO', 'tblProyectos');
-                $('#modalMenuProyecto').modal('hide');
-            })
-            .catch(()=>{
-                funciones.AvisoError('No se pudo Eliminar este proyecto')
-            })
-        })
+        
+            funciones.Confirmacion('¿Está seguro que desea ELIMINAR este proyecto?')
+            .then((value)=>{
+                if(value==true){
+                    api.proyectos_eliminar(GlobalSelectedCodProyecto)
+                    .then(async()=>{
+                        funciones.Aviso('Proyecto Eliminado exitosamente!!')
+                        await api.proyectos_listado('NO', 'tblProyectos');
+                        $('#modalMenuProyecto').modal('hide');
+                    })
+                    .catch(()=>{
+                        funciones.AvisoError('No se pudo Eliminar este proyecto')
+                    })
+                }
+        
+            })    
+        
+        
     });
 
     
@@ -453,20 +459,22 @@ function getMenuProyecto(codigo,descripcion){
 };
 
 function deleteContrato(nocontrato){
-    funciones.Confirmacion('¿Está seguro que desea Eliminar este Sub-Contrato?, no se podrán recuperar los datos')
-    .then((value)=>{
-        if(value==true){
-            api.subcontrato_eliminar(nocontrato)
-            .then(()=>{
-                funciones.Aviso('Sub-contrato ELIMINADO exitosamente !!')
-                api.proyectos_subcontratistas(GlobalSelectedCodProyecto,'tblPSucontratistas')
-                $('#modalNuevoContrato').modal('hide');
-            })
-            .catch(()=>{
-                funciones.AvisoError('No se pudo ELIMINAR el Sub-contrato')
-            })
-        }
-    })
+    
+        funciones.Confirmacion('¿Está seguro que desea Eliminar este Sub-Contrato?, no se podrán recuperar los datos')
+        .then((value)=>{
+            if(value==true){
+                api.subcontrato_eliminar(nocontrato)
+                .then(()=>{
+                    funciones.Aviso('Sub-contrato ELIMINADO exitosamente !!')
+                    api.proyectos_subcontratistas(GlobalSelectedCodProyecto,'tblPSucontratistas')
+                    $('#modalNuevoContrato').modal('hide');
+                })
+                .catch(()=>{
+                    funciones.AvisoError('No se pudo ELIMINAR el Sub-contrato')
+                })
+            }
+        })
+        
     
 };
 
@@ -487,19 +495,21 @@ function editContrato(nocontrato,codacreedor,asignacion,fecha,presupuesto){
 };
 
 function deleteCheque(id){
-    funciones.Confirmacion('¿Está seguro que desea ELIMINAR este cheque?')
-    .then((value)=>{
-        if(value==true){
-
-            api.cheques_delete(id)
-            .then(()=>{
-                funciones.Aviso('Cheque ELIMINADO exitosamente!!');
-                api.cheques_proyecto(GlobalSelectedCodProyecto, 'tblPChequesEmitidos');
-            })
-            .catch(()=>{
-                funciones.AvisoError('No se pudo ELIMINAR el cheque')
-            })
-
-        }
-    })
+    
+        funciones.Confirmacion('¿Está seguro que desea ELIMINAR este cheque?')
+        .then((value)=>{
+            if(value==true){
+    
+                api.cheques_delete(id)
+                .then(()=>{
+                    funciones.Aviso('Cheque ELIMINADO exitosamente!!');
+                    api.cheques_proyecto(GlobalSelectedCodProyecto, 'tblPChequesEmitidos');
+                })
+                .catch(()=>{
+                    funciones.AvisoError('No se pudo ELIMINAR el cheque')
+                })
+    
+            }
+        })
+        
 };
