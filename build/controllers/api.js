@@ -592,7 +592,7 @@ let api = {
                 });
 
     },
-    cheque_insertar_nocontrato: (fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro) => {
+    cheques_insertar: (fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro,tipo) => {
         return new Promise((resolve, reject) => {
 
             let data = {
@@ -604,7 +604,8 @@ let api = {
                 cantidad:cantidad,
                 recibe:recibe,
                 obs:obs,
-                rubro:rubro
+                rubro:rubro,
+                tipo:tipo
             };
 
             let url = GlobalUrlBackend + '/cheques/nuevo'

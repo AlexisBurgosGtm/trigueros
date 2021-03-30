@@ -18,3 +18,4 @@ let GlobalLoader = `<div>
 let GlobalSelectedCodProyecto = 0;
 let GlobalSelectedDesProyecto = '';
 let GlobalSelectedNumeroContrato = 0;
+let GlobalSelectedTipoCheque = 'SN';

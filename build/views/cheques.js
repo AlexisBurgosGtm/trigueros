@@ -58,7 +58,7 @@ function getView(){
                             <div class="col-4">
                                 <button class="btn btn-outline-warning btn-xl shadow btn-rounded" data-dismiss="modal" id="btnMenuChequeProveedor">
                                     <i class="fal fa-box"></i>
-                                    Pago a Proveedor
+                                    Pago hacia Proveedore
                                 </button>    
                             </div>
                             <div class="col-4">
@@ -119,10 +119,11 @@ function getView(){
                         </div>
                         
                         <div class="form-group">
-                            <label>Acreedor (Proveedor o Subcontratista)</label>
-                            <select id="cmbTipoAcreedor">
+                            <label>Acreedor</label>
+                            <select id="cmbTipoAcreedor" readonly="true">
                                 <option value="SUBCONTRATISTA">SUBCONTRATISTA</option>
                                 <option value="PROVEEDOR">PROVEEDOR</option>
+                                <option value="CONTRATANTE">CONTRATANTE</option>
                             </select>
 
                             <select class="form-control" id="cmbAcreedor">
@@ -215,6 +216,8 @@ async function addListeners(){
     let btnMenuChequeContratista = document.getElementById('btnMenuChequeContratista');
     btnMenuChequeContratista.addEventListener('click',()=>{
         document.getElementById('lbDatosCheque').innerText = "Nuevo Cheque a Sub-Contratista"
+        GlobalSelectedTipoCheque = 'SUBCONTRATISTA';
+        document.getElementById('cmbTipoAcreedor').value = 'SUBCONTRATISTA';
 
         document.getElementById('txtNumeroCheque').value = 0;
         document.getElementById('txtImporte').value = 0;
@@ -226,6 +229,8 @@ async function addListeners(){
     let btnMenuChequeProveedor = document.getElementById('btnMenuChequeProveedor');
     btnMenuChequeProveedor.addEventListener('click',()=>{
         document.getElementById('lbDatosCheque').innerText = "Nuevo Cheque a Proveedor"
+        GlobalSelectedTipoCheque = 'PROVEEDOR';
+        document.getElementById('cmbTipoAcreedor').value = 'PROVEEDOR';
 
         document.getElementById('txtNumeroCheque').value = 0;
         document.getElementById('txtImporte').value = 0;
@@ -237,6 +242,8 @@ async function addListeners(){
     let btnMenuChequeContratante = document.getElementById('btnMenuChequeContratante');
     btnMenuChequeContratante.addEventListener('click',()=>{
         document.getElementById('lbDatosCheque').innerText = "Nuevo Pago de Contratante"
+        GlobalSelectedTipoCheque = 'CONTRATANTE';
+        document.getElementById('cmbTipoAcreedor').value = 'CONTRATANTE';
 
         document.getElementById('txtNumeroCheque').value = 0;
         document.getElementById('txtImporte').value = 0;
@@ -313,7 +320,7 @@ async function addListeners(){
                 }else{
                     if(Number(cantidad.value)>0){
 
-                        api.cheque_insertar_nocontrato(funciones.getFecha('txtFecha'),
+                        api.cheques_insertar(funciones.getFecha('txtFecha'),
                                                 nocontrato,
                                                 0,
                                                 codcuenta.value,
@@ -321,7 +328,8 @@ async function addListeners(){
                                                 Number(cantidad.value),
                                                 recibe.value,
                                                 obs.value,
-                                                rubro.value)
+                                                rubro.value,
+                                                GlobalSelectedTipoCheque)
                         .then(()=>{
                             funciones.Aviso('Cheque creado exitosamente!!');
                             $('#modalNuevo').modal('hide');

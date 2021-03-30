@@ -5,12 +5,12 @@ const router = express.Router();
 
 router.post("/nuevo", async (req, res) => {
     
-    const {fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro} = req.body;
+    const {fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro,tipo} = req.body;
 
     let qry = '';
 
-    qry = `INSERT INTO CONST_CHEQUES (FECHA,NOCONTRATO,CODACREEDOR,CODCUENTA,NUMERO,CANTIDAD,RECIBE,OBS,RUBRO) 
-        VALUES ('${fecha}',${nocontrato},${codacreedor},${codcuenta},'${numero}',${cantidad},'${recibe}','${obs}','${rubro}')`
+    qry = `INSERT INTO CONST_CHEQUES (FECHA,NOCONTRATO,CODACREEDOR,CODCUENTA,NUMERO,CANTIDAD,RECIBE,OBS,RUBRO,TIPOCHEQUE) 
+        VALUES ('${fecha}',${nocontrato},${codacreedor},${codcuenta},'${numero}',${cantidad},'${recibe}','${obs}','${rubro}','${tipo}')`
 
         
     execute.Query(res, qry);
