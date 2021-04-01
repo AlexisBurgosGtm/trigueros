@@ -15,4 +15,19 @@ router.post("/listado", async (req, res) => {
 });
 
 
+router.post("/listadoproyectos", async (req, res) => {
+    
+    const {codcontratante} = req.body;
+
+    let qry = '';
+
+    qry = `SELECT IDPROYECTO AS CODIGO, PROYECTO AS DESCRIPCION, DIRECCION, FECHAINICIO, FECHAFIN, RECIBIDO, EJECUTADO, PRESUPUESTO, (PRESUPUESTO-EJECUTADO) AS SALDO
+            FROM CONST_PROYECTOS
+            WHERE (CODCONTRATANTE = ${codcontratante}) AND (FINALIZADO = 'NO')`
+
+    execute.Query(res, qry);
+
+});
+
+
 module.exports = router;

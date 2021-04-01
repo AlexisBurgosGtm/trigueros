@@ -1,4 +1,4 @@
-﻿const config = {
+﻿const configx = {
 	user: 'DB_A6478C_autoventa_admin',
 	password: 'razors1805',
 	server: 'sql5094.site4now.net',
@@ -7,7 +7,7 @@
 };
 
 
-const configx = {
+const config = {
 	user: 'iEx',
 	password: 'iEx',
 	server: 'DEVELOPER\\SQLDEV',

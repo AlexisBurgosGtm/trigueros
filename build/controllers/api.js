@@ -356,6 +356,32 @@ let api = {
         });
 
     },
+    proyectos_contratante_combo: (idproyecto,idContainer) => {
+        let container = document.getElementById(idContainer);
+        container.innerHTML = GlobalLoader;
+        let str = '';
+    
+        let url = GlobalUrlBackend + '/proyectos/contratante';
+
+        axios.post(url, {
+                    idproyecto : idproyecto
+                    })
+        .then((response) => {
+            try {
+                const data = response.data.recordset;
+                data.map((rows) => {
+                    str = str + `<option value="${rows.CODCONTRATANTE}">${rows.DESCONTRATANTE}</option>`
+                })
+                container.innerHTML = str;
+            } catch (err) {
+                container.innerHTML = 'No hay contratantes...';
+            }
+        }, (error) => {
+                console.log(error);
+                container.innerHTML = 'No hay contratantes...';
+        });
+
+    },
     subcontratistas_combo: (idContainer) => {
         let container = document.getElementById(idContainer);
         
@@ -542,6 +568,61 @@ let api = {
                 });
 
     },
+    contratantes_combo_promise: (idContainer) => {
+
+        let container = document.getElementById(idContainer);
+        
+        return new Promise((resolve,reject)=>{
+            let str = '';
+
+            let url = GlobalUrlBackend + '/contratantes/listado'
+
+            axios.post(url)
+                .then((response) => {
+                    try {
+                        const data = response.data.recordset;
+                        data.map((rows) => {
+                            str = str + `<option value="${rows.CODIGO}">${rows.DESCRIPCION}</option>`
+                        })
+                        container.innerHTML = str;
+                        resolve();
+                    } catch (err) {
+                        container.innerHTML = '<option value="SN">No hay datos..</option>';
+                        reject();
+                    }
+                }, (error) => {
+                        console.log(error);
+                        container.innerHTML = '<option value="SN">Error..</option>';
+                        reject();
+                });
+
+        })
+        
+    },
+    contratantes_proyectos_combo: (codcontratante,idContainer) => {
+        let container = document.getElementById(idContainer);
+        
+        let str = '';
+
+            let url = GlobalUrlBackend + '/contratantes/listadoproyectos';
+
+            axios.post(url, {codcontratante:codcontratante})
+                .then((response) => {
+                    try {
+                        const data = response.data.recordset;
+                        data.map((rows) => {
+                            str = str + `<option value="${rows.CODIGO}">${rows.DESCRIPCION} (Saldo: ${funciones.setMoneda(rows.SALDO,'Q')})</option>`
+                        })
+                        container.innerHTML = str;
+                    } catch (err) {
+                        container.innerHTML = '<option value="SN">No hay datos..</option>';
+                    }
+                }, (error) => {
+                        console.log(error);
+                        container.innerHTML = '<option value="SN">Error..</option>';
+                });
+
+    },
     cuentas_combo: (idContainer) => {
         let container = document.getElementById(idContainer);
         
@@ -553,8 +634,6 @@ let api = {
                 .then((response) => {
                     try {
                         const data = response.data.recordset;
-                        console.log('bancos')
-                        console.log(data);
                         data.map((rows) => {
                             str = str + `<option value="${rows.CODCUENTA}">${rows.BANCO} (No. ${rows.NUMERO})</option>`
                         })
@@ -592,7 +671,42 @@ let api = {
                 });
 
     },
-    cheques_insertar: (fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro,tipo) => {
+    cheques_contratante_insertar_: (fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro,tipo) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                fecha:fecha,
+                nocontrato:nocontrato,
+                codacreedor: codacreedor,
+                codcuenta:codcuenta,
+                numero:numero,
+                cantidad:cantidad,
+                recibe:recibe,
+                obs:obs,
+                rubro:rubro,
+                tipo:tipo
+            };
+
+            let url = GlobalUrlBackend + '/cheques/nuevo'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
+    },
+    cheques_proveedor_insertar_: (fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro,tipo) => {
         return new Promise((resolve, reject) => {
 
             let data = {
@@ -641,10 +755,13 @@ let api = {
             try {
                 const data = response.data.recordset;
                 data.map((rows) => {
+                    let tipo = rows.TIPOCHEQUE;
                     str = str + `<tr class="border-bottom border-info">
                                     <td>${funciones.cleanDataFecha(rows.FECHA)}
                                             <br>
                                             <small class="negrita text-danger">Cheque No. ${rows.NOCHEQUE}</small>
+                                            <br>
+                                            <small>${rows.TIPOCHEQUE}</small>
                                     </td>
                                     <td>${rows.BANCO}
                                             <br>

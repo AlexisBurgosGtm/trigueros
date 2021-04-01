@@ -3,6 +3,21 @@ const express = require('express');
 const router = express.Router();
 
 
+router.post("/contratante", async (req, res) => {
+    
+    const {idproyecto} = req.body;
+
+    let qry = '';
+
+    qry = `SELECT CONST_PROYECTOS.CODCONTRATANTE, CONST_CONTRATANTES.DESCONTRATANTE
+                FROM  CONST_PROYECTOS LEFT OUTER JOIN CONST_CONTRATANTES ON CONST_PROYECTOS.CODCONTRATANTE = CONST_CONTRATANTES.CODCONTRATANTE
+                WHERE (CONST_PROYECTOS.IDPROYECTO = ${idproyecto})`;
+
+    execute.Query(res, qry);
+
+});
+
+
 router.post("/subcontratos", async (req, res) => {
 
     const { idproyecto } = req.body;

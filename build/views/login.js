@@ -53,7 +53,7 @@ function addListeners(){
                 document.getElementById('lbUsuario').innerText = GlobalUsuario;
                 document.getElementById('lbUsuarioNivel').innerText = GlobalNivelUsuario;
                 
-                document.body.requestFullscreen();
+                //document.body.requestFullscreen();
 
                 switch (Number(GlobalNivelUsuario)) {
                     case 1:

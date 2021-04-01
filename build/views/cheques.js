@@ -120,15 +120,8 @@ function getView(){
                         
                         <div class="form-group">
                             <label>Acreedor</label>
-                            <select id="cmbTipoAcreedor" readonly="true">
-                                <option value="SUBCONTRATISTA">SUBCONTRATISTA</option>
-                                <option value="PROVEEDOR">PROVEEDOR</option>
-                                <option value="CONTRATANTE">CONTRATANTE</option>
-                            </select>
-
                             <select class="form-control" id="cmbAcreedor">
                             </select> 
-
                         </div>
         
                         <div class="form-group">
@@ -178,6 +171,86 @@ function getView(){
             </div>
             `
         },
+        modalNuevoChequeContratante : ()=>{
+            return `
+        <div class="modal fade js-modal-settings modal-backdrop-transparent modal-with-scroll" tabindex="-1" role="dialog" aria-hidden="true"  id="modalNuevoContratante">
+            <div class="modal-dialog modal-dialog-right modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-success text-white">
+                            <h5 class="modal-title" id="">Datos del Cheque Recibido</h5>
+                        </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label>Contratante</label>
+                            <select class="form-control" id="cmbContratanteC">
+                            </select> 
+                        </div>
+
+                        <div class="form group"
+                            <label>Proyecto</label>
+                            <select class="form-control" id="cmbProyectoC">
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Fecha:</label>
+                            <input type="date" class="form-control" id="txtFechaC">
+                        </div>   
+                        
+                        <div class="form group">
+                            <label>Banco</label>
+                            <input type="text" class="form-control" id="txtBanco">
+                        </div>
+
+                        
+                        <div class="form-group">
+                            <label>No. Cheque</label>
+                            <input type="number" class="form-control" id="txtNumeroChequeC">
+                        </div>
+                        
+                                
+                        <div class="form-group">
+                            <label>Cantidad</label>
+                            <input type="number" class="form-control bg-amarillo text-danger col-6" id="txtImporteC" value=0>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Recibido por</label>
+                            <input type="text" class="form-control" id="txtRecibeC" value='SN'>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Observaciones</label>
+                            <input type="text" class="form-control" id="txtObsC">
+                        </div>
+                        
+                        <hr class="solid"><hr class="solid">
+
+                        <div class="row">
+                            <div class="col-6">
+                                <button class="btn btn-outline-secondary btn-xl" data-dismiss="modal">
+                                    <i class="fal fa-times"></i>
+                                    Cancelar
+                                </button>    
+                            </div>
+                            <div class="col-6">
+                                <button class="btn btn-primary btn-xl" id="btnGuardarChequeC">
+                                    <i class="fal fa-save"></i>
+                                    Guardar
+                                </button>    
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+
+                    </div>
+                </div>
+            </div>
+            `
+        },
         btnNuevo : ()=>{
             return `
                 <div class="" id="btnFlotanteDerecha">
@@ -191,7 +264,7 @@ function getView(){
     }
 
     root.innerHTML=  view.listado() + view.btnNuevo(); //view.encabezado() +
-    rootModal.innerHTML = view.modalMenuCheques() + view.modalNuevo();
+    rootModal.innerHTML = view.modalMenuCheques() + view.modalNuevo() + view.modalNuevoChequeContratante();
     
 };
 
@@ -200,24 +273,23 @@ async function addListeners(){
 
     document.getElementById('cmbRubro').innerHTML = funciones.getComboRubros();
 
+    //**************************************************** */
+    // MENU NUEVO CHEQUE
     let btnNuevo = document.getElementById('btnNuevo');
     btnNuevo.addEventListener('click',()=>{
-        /*
-        document.getElementById('txtNumeroCheque').value = 0;
-        document.getElementById('txtImporte').value = 0;
-        document.getElementById('txtRecibe').value = 'SN';
-        document.getElementById('txtObs').value = 'SN';
-        */
-        //$('#modalNuevo').modal('show');
         $('#modalTiposCheque').modal('show');
-        
     });
+
+    //GlobalSelectedTipoCheque = 'SUBCONTRATISTA','PROVEEDOR','CONTRATANTE';
 
     let btnMenuChequeContratista = document.getElementById('btnMenuChequeContratista');
     btnMenuChequeContratista.addEventListener('click',()=>{
         document.getElementById('lbDatosCheque').innerText = "Nuevo Cheque a Sub-Contratista"
         GlobalSelectedTipoCheque = 'SUBCONTRATISTA';
-        document.getElementById('cmbTipoAcreedor').value = 'SUBCONTRATISTA';
+        
+        //CARGA LA LISTA DE SUBCONTRATISTAS O SEA CONTRATOS
+        let codproyecto = document.getElementById('cmbProyecto').value || 0;
+        api.proyectos_subcontratistas_combo(codproyecto, 'cmbAcreedor');
 
         document.getElementById('txtNumeroCheque').value = 0;
         document.getElementById('txtImporte').value = 0;
@@ -230,7 +302,8 @@ async function addListeners(){
     btnMenuChequeProveedor.addEventListener('click',()=>{
         document.getElementById('lbDatosCheque').innerText = "Nuevo Cheque a Proveedor"
         GlobalSelectedTipoCheque = 'PROVEEDOR';
-        document.getElementById('cmbTipoAcreedor').value = 'PROVEEDOR';
+        //CARGA LA LISTA DE PROVEEDORES EN EL COMBO ACREEDOR
+        api.proveedores_combo('cmbAcreedor');
 
         document.getElementById('txtNumeroCheque').value = 0;
         document.getElementById('txtImporte').value = 0;
@@ -239,63 +312,27 @@ async function addListeners(){
         $('#modalNuevo').modal('show');
     });
 
-    let btnMenuChequeContratante = document.getElementById('btnMenuChequeContratante');
-    btnMenuChequeContratante.addEventListener('click',()=>{
-        document.getElementById('lbDatosCheque').innerText = "Nuevo Pago de Contratante"
-        GlobalSelectedTipoCheque = 'CONTRATANTE';
-        document.getElementById('cmbTipoAcreedor').value = 'CONTRATANTE';
+    //****************************************************
+    //****************************************************
 
-        document.getElementById('txtNumeroCheque').value = 0;
-        document.getElementById('txtImporte').value = 0;
-        document.getElementById('txtRecibe').value = 'SN';
-        document.getElementById('txtObs').value = 'SN';
-        $('#modalNuevo').modal('show');
-    });
-/*
-    let txtBuscar = document.getElementById('txtBuscar');
-    txtBuscar.addEventListener('keyup',()=>{
-        funciones.FiltrarTabla('tablaCheques','txtBuscar');
-    })
- */
-
-    let txtFecha = document.getElementById('txtFecha');
+    let txtFecha = document.getElementById('txtFecha'); 
     txtFecha.value = funciones.getFecha(); 
 
-    //combo TIPO ACREEDOR - Cambia entre proveedores y subcontratistas
-    let cmbTipoAcreedor = document.getElementById('cmbTipoAcreedor');
-    cmbTipoAcreedor.addEventListener('change',()=>{
-        if(cmbTipoAcreedor.value=='SUBCONTRATISTA'){
-            let codproyecto = document.getElementById('cmbProyecto').value || 0;
-            api.proyectos_subcontratistas_combo(codproyecto, 'cmbAcreedor');
-        }else{
-            api.proveedores_combo('cmbAcreedor');
-        }
-    });
-
-    
-    //combo Proyectos, cambia los subcontratistas según se cambia el proyecto
     let cmbProyecto = document.getElementById('cmbProyecto');
     cmbProyecto.addEventListener('change',()=>{
-        if(cmbTipoAcreedor.value=='SUBCONTRATISTA'){
+        if(GlobalSelectedTipoCheque=='SUBCONTRATISTA'){
             let codproyecto = document.getElementById('cmbProyecto').value || 0;
             api.proyectos_subcontratistas_combo(codproyecto, 'cmbAcreedor');
-        }else{
+        }else{ //si no es subcontratista es proveedor
             api.proveedores_combo('cmbAcreedor');
         }
     });
 
 
-
-    api.proyectos_combo_promise('cmbProyecto')
-    .then(async()=>{
-        let codproyecto = document.getElementById('cmbProyecto').value || 0;
-        await api.proyectos_subcontratistas_combo(codproyecto, 'cmbAcreedor');
-    })
-    .catch(()=>{
-        funciones.AvisoError('No se pudo cargar la lista de Proyectos');
-    })
+    api.proyectos_combo_promise('cmbProyecto');
 
     await api.cuentas_combo('cmbCuenta');
+
   
     //boton guardar cheque
     let btnGuardarCheque = document.getElementById('btnGuardarCheque');
@@ -320,27 +357,53 @@ async function addListeners(){
                 }else{
                     if(Number(cantidad.value)>0){
 
-                        api.cheques_insertar(funciones.getFecha('txtFecha'),
-                                                nocontrato,
-                                                0,
-                                                codcuenta.value,
-                                                numero.value,
-                                                Number(cantidad.value),
-                                                recibe.value,
-                                                obs.value,
-                                                rubro.value,
-                                                GlobalSelectedTipoCheque)
-                        .then(()=>{
-                            funciones.Aviso('Cheque creado exitosamente!!');
-                            $('#modalNuevo').modal('hide');
+                        switch (GlobalSelectedTipoCheque) {
+                            case 'SUBCONTRATISTA':
+                                api.cheques_contratante_insertar(funciones.getFecha('txtFecha'),
+                                    nocontrato,
+                                    0,
+                                    codcuenta.value,
+                                    numero.value,
+                                    Number(cantidad.value),
+                                    recibe.value,
+                                    obs.value,
+                                    rubro.value,
+                                    'SUBCONTRATISTA')
+                                .then(()=>{
+                                    funciones.Aviso('Cheque creado exitosamente!!');
+                                    $('#modalNuevo').modal('hide');
 
-                            let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
-                            api.cheques_proyecto(cmbProyectoCheques, 'tblCheques');
-                        })
-                        .catch(()=>{
-                            funciones.AvisoError('No se pudo crear el cheque');
-                        })
+                                    let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
+                                    api.cheques_proyecto(cmbProyectoCheques, 'tblCheques');
+                                })
+                                .catch(()=>{
+                                    funciones.AvisoError('No se pudo crear el cheque');
+                                })        
+                                break;
+                            case 'PROVEEDOR':
+                                api.cheques_proveedor_insertar(funciones.getFecha('txtFecha'),
+                                    0,
+                                    nocontrato,
+                                    codcuenta.value,
+                                    numero.value,
+                                    Number(cantidad.value),
+                                    recibe.value,
+                                    obs.value,
+                                    rubro.value,
+                                    'PROVEEDOR')
+                                .then(()=>{
+                                    funciones.Aviso('Cheque creado exitosamente!!');
+                                    $('#modalNuevo').modal('hide');
 
+                                    let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
+                                    api.cheques_proyecto(cmbProyectoCheques, 'tblCheques');
+                                })
+                                .catch(()=>{
+                                    funciones.AvisoError('No se pudo crear el cheque');
+                                })        
+                                break;                            
+                        }
+                        
                     }else{
                         funciones.AvisoError('Indique el monto/cantidad del cheque');
                     };
@@ -360,6 +423,7 @@ async function addListeners(){
         api.cheques_proyecto(cmbProyectoC, 'tblCheques');
     })
 
+    //LISTADO DEL INICIO DE LA VISTA CHEQUES
     api.proyectos_combo_promise('cmbProyectoCheques')
     .then(async()=>{
         let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
@@ -368,6 +432,34 @@ async function addListeners(){
     .catch(()=>{
         funciones.AvisoError('No se pudo cargar la lista de Proyectos');
     })
+
+    // VENTANA CHEQUE CONTRATANTE
+    let txtFechaC = document.getElementById('txtFechaC');
+    txtFechaC.value = funciones.getFecha(); 
+
+
+    let btnMenuChequeContratante = document.getElementById('btnMenuChequeContratante');
+    btnMenuChequeContratante.addEventListener('click',()=>{    
+        GlobalSelectedTipoCheque = 'CONTRATANTE';
+        //CONTRANTE DEL PROYECTO
+        let codigo = document.getElementById('cmbContratanteC').value || 0;
+        api.contratantes_proyectos_combo(codigo,'cmbProyectoC');
+
+        document.getElementById('txtNumeroChequeC').value = 0;
+        document.getElementById('txtImporteC').value = 0;
+        document.getElementById('txtRecibeC').value = 'SN';
+        document.getElementById('txtObsC').value = 'SN';
+        $('#modalNuevoContratante').modal('show');
+    });
+
+
+    api.contratantes_combo_promise('cmbContratanteC');
+    let cmbContratanteC = document.getElementById('cmbContratanteC');
+    cmbContratanteC.addEventListener('change',()=>{
+        api.contratantes_proyectos_combo(cmbContratanteC.value,'cmbProyectoC');
+    });
+
+    
 };
 
 function initView(){
