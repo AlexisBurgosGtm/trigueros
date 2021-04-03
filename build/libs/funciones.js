@@ -778,6 +778,19 @@ let funciones = {
       <option value="VARIOS">VARIOS</option>
       `;
       return str;
+    },
+    getComboBancos: ()=>{
+      return `
+      <option value="BANRURAL">BANRURAL</option>
+      <option value="BAM">BAM (BANCO AGRICOLA MERCANTIL)</option>
+      <option value="G&T">BANCO G&T</option>
+      <option value="CHN">CREDITO HIPOTECARIO NACIONAL</option>
+      <option value="PROMERICA">BANCO PROMERICA</option>
+      <option value="BANCO INDUSTRIAL">BANCO INDUSTRIAL (BI)</option>
+      <option value="BANCO INTERNACIONAL">BANCO INTERNACIONAL</option>
+      <option value="BANTRAB">BANCO DE LOS TRABAJADORES</option>
+      <option value="BANCO AZTECA">BANCO AZTECA</option>
+      `
     }
 
 };

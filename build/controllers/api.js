@@ -70,12 +70,14 @@ let api = {
 
         });
     },
-    proyectos_listado: (activo,idContainer) => {
+    proyectos_listado: (activo,mes,anio,idContainer) => {
         let container = document.getElementById(idContainer);
         container.innerHTML = GlobalLoader;
         let str = '';
             let data = {
-                activo : activo
+                activo : activo,
+                mes:mes,
+                anio:anio
             };
 
             let url = GlobalUrlBackend + '/proyectos/listaproyectos'
@@ -146,7 +148,7 @@ let api = {
                 try {
                     const data = response.data.recordset;
                     data.map((rows) => {
-                        str = str + `<option value="${rows.IDPROYECTO}">${rows.PROYECTO}</option>`;
+                        str = str + `<option value="${rows.IDPROYECTO}">${rows.PROYECTO} (Presupuesto: ${funciones.setMoneda(rows.PRESUPUESTO,'Q')})</option>`;
                     })
                     container.innerHTML=str;
                     resolve();
@@ -671,11 +673,12 @@ let api = {
                 });
 
     },
-    cheques_contratante_insertar_: (fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro,tipo) => {
+    cheques_contratista_insertar: (codproyecto,fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro,tipo) => {
         return new Promise((resolve, reject) => {
 
             let data = {
                 fecha:fecha,
+                idproyecto:codproyecto,
                 nocontrato:nocontrato,
                 codacreedor: codacreedor,
                 codcuenta:codcuenta,
@@ -706,11 +709,12 @@ let api = {
 
         });
     },
-    cheques_proveedor_insertar_: (fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro,tipo) => {
+    cheques_proveedor_insertar: (codproyecto,fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro,tipo) => {
         return new Promise((resolve, reject) => {
 
             let data = {
                 fecha:fecha,
+                idproyecto:codproyecto,
                 nocontrato:nocontrato,
                 codacreedor: codacreedor,
                 codcuenta:codcuenta,
@@ -741,11 +745,61 @@ let api = {
 
         });
     },
-    cheques_proyecto: (idproyecto,idContainer) => {
-        let container = document.getElementById(idContainer);
-        container.innerHTML = GlobalLoader;
-        let str = '';
-    
+    cheques_contratante_insertar: (codproyecto,fecha,
+        codcontratante,banco,numero,cantidad,recibe,obs,tipo) => {
+                    
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                idproyecto:codproyecto,
+                fecha:fecha,
+                codcontratante:codcontratante,
+                banco:banco,
+                numero:numero,
+                cantidad:cantidad,
+                recibe:recibe,
+                obs:obs,
+                tipo:tipo
+            };
+
+            let url = GlobalUrlBackend + '/cheques/nuevochequecontratante'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
+    },
+    cheques_proyecto: (idproyecto,idContainer1,idContainer2,idContainer3,idPresupuesto,idSaldo) => {
+        
+        let container1 = document.getElementById(idContainer1);
+        container1.innerHTML = GlobalLoader;
+        let container2 = document.getElementById(idContainer2);
+        container2.innerHTML = GlobalLoader;
+        let container3 = document.getElementById(idContainer3);
+        container3.innerHTML = GlobalLoader;
+
+        let lbPresupuesto = document.getElementById(idPresupuesto);
+        lbPresupuesto.innerText = 'Q --';
+        let lbSaldo = document.getElementById(idSaldo);
+        lbSaldo.innerText = 'Q --';
+        
+        let str1 = ''; let str2 = ''; let str3 = '';
+        let varTotalPresupuesto = 0; let varTotalSaldo = 0;
+
+        let newrow = '';
+
         let url = GlobalUrlBackend + '/cheques/listadoproyecto';
 
         axios.post(url, {
@@ -756,36 +810,61 @@ let api = {
                 const data = response.data.recordset;
                 data.map((rows) => {
                     let tipo = rows.TIPOCHEQUE;
-                    str = str + `<tr class="border-bottom border-info">
-                                    <td>${funciones.cleanDataFecha(rows.FECHA)}
-                                            <br>
-                                            <small class="negrita text-danger">Cheque No. ${rows.NOCHEQUE}</small>
-                                            <br>
-                                            <small>${rows.TIPOCHEQUE}</small>
-                                    </td>
-                                    <td>${rows.BANCO}
-                                            <br>
-                                            <small>Cuenta No. ${rows.NOCUENTA}</small>
-                                    </td>
-                                    <td>${rows.DESACREEDOR}
-                                            <br>
-                                            <small class="negrita text-info">${rows.ASIGNACION}</small>
-                                            <br class="solid">
-                                            <small>Proyecto:${rows.PROYECTO}</small>
-                                    </td>
-                                    <td>${funciones.setMoneda(rows.IMPORTE,'Q')}</td>
-                                    <td>
-                                        <button class="btn btn-sm btn-danger btn-circle" onclick="deleteCheque(${rows.ID})">x</button>
-                                    </td>
-                                </tr>`
+                    
+                    newrow = `<tr class="border-bottom border-info">
+                                <td>${funciones.cleanDataFecha(rows.FECHA)}
+                                        <br>
+                                        <small class="negrita text-danger">Cheque No. ${rows.NOCHEQUE}</small>
+                                </td>
+                                <td>${rows.BANCO}
+                                        <br>
+                                        <small>Cuenta No. ${rows.NOCUENTA}</small>
+                                </td>
+                                <td>${rows.DESACREEDOR}
+                                        <br>
+                                        <small class="negrita text-info">${rows.ASIGNACION}</small>
+                                        <br class="solid">
+                                        <small>Proyecto:${rows.PROYECTO}</small>
+                                </td>
+                                <td>${funciones.setMoneda(rows.IMPORTE,'Q')}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-danger btn-circle" onclick="deleteCheque(${rows.ID})">x</button>
+                                </td>
+                            </tr>`
+                    switch (tipo) {
+                        case 'SUBCONTRATISTA':
+                            str1 = str1 + newrow;
+                            varTotalSaldo = varTotalSaldo + Number(rows.IMPORTE);
+                            break;
+                        case 'PROVEEDOR':
+                            str2 = str2 + newrow;
+                            varTotalSaldo = varTotalSaldo + Number(rows.IMPORTE);
+                            break;
+                        case 'CONTRATANTE':
+                            str3 = str3 + newrow;
+                            varTotalPresupuesto = varTotalPresupuesto + Number(rows.IMPORTE);
+                            break;
+                    }
                 })
-                container.innerHTML = str;
+                container1.innerHTML = str1;
+                container2.innerHTML = str2;
+                container3.innerHTML = str3;
+                lbSaldo.innerText = funciones.setMoneda((varTotalSaldo * -1),'Q');
+                lbPresupuesto.innerText = funciones.setMoneda((varTotalPresupuesto),'Q');
             } catch (err) {
-                container.innerHTML = 'Agregue un cheque al proyecto...';
+                container1.innerHTML = 'Agregue un cheque al proyecto...';
+                container2.innerHTML = 'Agregue un cheque al proyecto...';
+                container3.innerHTML = 'Agregue un cheque al proyecto...';
+                lbSaldo.innerText = 'Q --';
+                lbPresupuesto.innerText = 'Q --';
             }
         }, (error) => {
                 console.log(error);
-                container.innerHTML = 'Agregue un cheque al proyecto...';
+                container1.innerHTML = 'Agregue un cheque al proyecto...';
+                container2.innerHTML = 'Agregue un cheque al proyecto...';
+                container3.innerHTML = 'Agregue un cheque al proyecto...';
+                lbSaldo.innerText = 'Q --';
+                lbPresupuesto.innerText = 'Q --';
         });
 
     },

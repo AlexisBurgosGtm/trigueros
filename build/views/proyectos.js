@@ -3,15 +3,35 @@ function getView(){
         encabezado:()=>{
             return `
             <div class="row">
-                <div class="col-lg-4 col-sm-12 col-md-6">
+                <div class="col">
                     <div class="form-group">
-                        <label>Buscar:</label>
-                        <input type="text" class="form-control border-info" id="txtBuscar" placeholder="Escriba para filtrar...">
+                        <label>Status</label>
+                        <select class="form-control" id="cmbStatus">
+                            <option value="NO">ACTIVOS</option>
+                            <option value="SI">FINALIZADOS</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>Mes</label>
+                        <select class="form-control" id="cmbMes">
+                            
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>Año</label>
+                        <select class="form-control" id="cmbAnio">
+                            
+                        </select>
                     </div>
                 </div>
                
             </div>
             <hr class="solid">
+            
             `
         },
         listado : ()=>{
@@ -127,35 +147,55 @@ function getView(){
                             <br>
                             
                             <div class="row">
-                                <div class="col-4">
-                                    <button class="btn btn-success col-12" id="btnNuevoContrato">
+                                <div class="col-3">
+                                    <button class="btn btn-success btn-md" id="btnNuevoContrato">
                                         <i class="fal fa-list"></i>
                                         Nuevo
                                     </button>
                                 </div>
-                                <div class="col-4">
-                                    <button class="btn btn-warning col-10">
+                                <div class="col-3">
+                                    <button class="btn btn-warning btn-md" id="btnMenuProyectoEditar">
                                         <i class="fal fa-edit"></i>
                                         Editar
                                     </button>
                                 </div>
-                                <div class="col-4">
-                                    <button class="btn btn-danger btn-rounded col-10" id="btnMenuProyectoEliminar">
+                                <div class="col-3">
+                                    <button class="btn btn-secondary btn-md" id="btnMenuProyectoFinalizar">
+                                        <i class="fal fa-check"></i>
+                                        Finalizar
+                                    </button>
+                                </div>
+                                <div class="col-3">
+                                    <button class="btn btn-danger btn-md" id="btnMenuProyectoEliminar">
                                         <i class="fal fa-trash"></i>
                                         Eliminar
                                     </button>
                                 </div>
                             </div>
-                                <br>
-                                <hr class="rounded">
-                                <br>
+                            
+                            <hr class="rounded">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label>Recibido</label>
+                                        <h5 class="text-info" id="lbRecibido"></h5>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label>Ejecutado</label>
+                                        <h5 class="text-danger" id="lbEjecutado"></h5>
+                                    </div>
+                                </div>
+                            </div>
                                 
                             <div class="panel-container show">
                                 <div class="panel-content">
                                     <ul class="nav nav-pills nav-justified" role="tablist">
                                         <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel1">Subcontratistas</a></li>    
-                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel2">Cheques Emitidos</a></li>
-                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel3">Cheques Recibidos</a></li>
+                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel2">Sub</a></li>
+                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel3">Prov</a></li>
+                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel4">Rec</a></li>
                                     </ul>
                                     <div class="tab-content py-3">
                                         <!-- sub contratistas -->
@@ -176,8 +216,44 @@ function getView(){
                                             </div>
                                             
                                         </div>   
-                                        <!-- cheques emitidos -->
+                                        <!-- cheques subcontratistas -->
                                         <div class="tab-pane fade" id="panel2" role="tabpanel">
+                                            <div class="table-responsive">
+                                                <div class="table-responsive">
+                                                    <table class="table table-responsive">
+                                                        <thead class="bg-trans-gradient text-white">
+                                                            <tr>
+                                                                <td>FECHA</td>
+                                                                <td>CUENTA</td>
+                                                                <td>ACREEDOR</td>
+                                                                <td>VALOR</td>
+                                                                <td></td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="tblCheques1"></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- cheques proveedores -->
+                                        <div class="tab-pane fade" id="panel3" role="tabpanel">
+                                            <div class="table-responsive">
+                                                <div class="table-responsive">
+                                                    <table class="table table-responsive">
+                                                        <thead class="bg-info text-white">
+                                                            <tr>
+                                                                <td>CHEQUE</td>
+                                                                <td>DESCRIPCIOON</td>
+                                                                <td>VALOR</td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="tblCheques2"></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- cheques contratante -->
+                                        <div class="tab-pane fade" id="panel4" role="tabpanel">
                                             <div class="table-responsive">
                                                 <div class="table-responsive">
                                                     <table class="table table-responsive">
@@ -190,24 +266,7 @@ function getView(){
                                                                 <td></td>
                                                             </tr>
                                                         </thead>
-                                                        <tbody id="tblPChequesEmitidos"></tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- cheques recibidos -->
-                                        <div class="tab-pane fade" id="panel3" role="tabpanel">
-                                            <div class="table-responsive">
-                                                <div class="table-responsive">
-                                                    <table class="table table-responsive">
-                                                        <thead class="bg-danger text-white">
-                                                            <tr>
-                                                                <td>CHEQUE</td>
-                                                                <td>DESCRIPCIOON</td>
-                                                                <td>VALOR</td>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody></tbody>
+                                                        <tbody id="tblCheques3"></tbody>
                                                     </table>
                                                 </div>
                                             </div>
@@ -282,13 +341,31 @@ function getView(){
 
 function addListeners() { 
     
+    let cmbStatus = document.getElementById('cmbStatus');
+    let cmbAnio = document.getElementById('cmbAnio');
+    let cmbMes = document.getElementById('cmbMes');
 
-    //VENTANA INICIAL DE PROYECTOS
-    let txtBuscar = document.getElementById('txtBuscar');
-    txtBuscar.addEventListener('keyup', () => {
-        funciones.FiltrarTabla('tablaProyectos', 'txtBuscar');
+    cmbAnio.innerHTML = funciones.ComboAnio();
+    cmbMes.innerHTML = funciones.ComboMeses();
+
+    let fecha = new Date();
+    cmbMes.value = fecha.getUTCMonth()+1;
+    cmbAnio.value = fecha.getFullYear();
+
+    cmbMes.addEventListener('change',()=>{
+        api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
     });
 
+    
+    cmbAnio.addEventListener('change',()=>{
+        api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
+    });
+
+    cmbStatus.addEventListener('change',()=>{
+        api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
+    });
+
+    //VENTANA INICIAL DE PROYECTOS
     let btnNuevo = document.getElementById('btnNuevo');
     btnNuevo.addEventListener('click', () => {
         $('#modalNuevo').modal('show');
@@ -320,7 +397,11 @@ function addListeners() {
                         .then(async() => {
                             btnGuardarProyecto.innerHTML = `<i class="fal fa-save"></i>Guardar`;
                             funciones.Aviso('Proyecto guardado exitosamente!!')
-                            await api.proyectos_listado('NO', 'tblProyectos');
+                            let cmbStatus = document.getElementById('cmbStatus');
+                            let cmbMes = document.getElementById('cmbMes');
+                            let cmbAnio = document.getElementById('cmbAnio');
+
+                            await api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
                             $('#modalNuevo').modal('hide');
                         })
                         .catch(() => {
@@ -333,7 +414,8 @@ function addListeners() {
         
     })
 
-    
+
+
     //VENTANA DE OPCIONES DEL PROYECTO
     let btnMenuProyectoEliminar = document.getElementById('btnMenuProyectoEliminar');
     btnMenuProyectoEliminar.addEventListener('click',()=>{
@@ -344,7 +426,11 @@ function addListeners() {
                     api.proyectos_eliminar(GlobalSelectedCodProyecto)
                     .then(async()=>{
                         funciones.Aviso('Proyecto Eliminado exitosamente!!')
-                        await api.proyectos_listado('NO', 'tblProyectos');
+                        let cmbStatus = document.getElementById('cmbStatus');
+                        let cmbMes = document.getElementById('cmbMes');
+                        let cmbAnio = document.getElementById('cmbAnio');
+
+                        await api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
                         $('#modalMenuProyecto').modal('hide');
                     })
                     .catch(()=>{
@@ -357,8 +443,15 @@ function addListeners() {
         
     });
 
-    
+    let btnMenuProyectoEditar = document.getElementById('btnMenuProyectoEditar');
+    btnMenuProyectoEditar.addEventListener('click',()=>{
+        funciones.Aviso('Edición de los datos generales del proyecto');
+    });
 
+    let btnMenuProyectoFinalizar = document.getElementById('btnMenuProyectoFinalizar');
+    btnMenuProyectoFinalizar.addEventListener('click',()=>{
+        funciones.Aviso('Opción para finalizar el proyecto')
+    });
 
     //VENTANA NUEVO CONTRATO
     let txtPFechaEntrega = document.getElementById('txtPFechaEntrega');
@@ -434,7 +527,11 @@ function addListeners() {
 
 async function getCargasIniciales() {
 
-    await api.proyectos_listado('NO', 'tblProyectos');
+    let cmbStatus = document.getElementById('cmbStatus');
+    let cmbMes = document.getElementById('cmbMes');
+    let cmbAnio = document.getElementById('cmbAnio');
+
+    await api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
     await api.contratantes_combo('cmbContratante');
     await api.subcontratistas_combo('cmbPSubContratista');
 
@@ -452,7 +549,7 @@ function getMenuProyecto(codigo,descripcion){
     document.getElementById('lbDetProyecto').innerText = descripcion;
 
     api.proyectos_subcontratistas(codigo,'tblPSucontratistas');
-    api.cheques_proyecto(GlobalSelectedCodProyecto, 'tblPChequesEmitidos');
+    api.cheques_proyecto(GlobalSelectedCodProyecto, 'tblCheques1','tblCheques2','tblCheques3','lbRecibido','lbEjecutado');
 
     $('#modalMenuProyecto').modal('show');
 
@@ -503,7 +600,7 @@ function deleteCheque(id){
                 api.cheques_delete(id)
                 .then(()=>{
                     funciones.Aviso('Cheque ELIMINADO exitosamente!!');
-                    api.cheques_proyecto(GlobalSelectedCodProyecto, 'tblPChequesEmitidos');
+                    api.cheques_proyecto(GlobalSelectedCodProyecto, 'tblCheques1','tblCheques2','tblCheques3','lbRecibido','lbEjecutado');
                 })
                 .catch(()=>{
                     funciones.AvisoError('No se pudo ELIMINAR el cheque')

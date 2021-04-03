@@ -4,15 +4,16 @@ const router = express.Router();
 
 
 router.post("/nuevochequecontratante", async (req, res) => {
-    
-    const {fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro,tipo} = req.body;
+
+    const {idproyecto,fecha,codcontratante,banco,numero,cantidad,recibe,obs,tipo} = req.body;
 
     let qry = '';
 
-    qry = `INSERT INTO CONST_CHEQUES (FECHA,NOCONTRATO,CODACREEDOR,CODCUENTA,NUMERO,CANTIDAD,RECIBE,OBS,RUBRO,TIPOCHEQUE) 
-        VALUES ('${fecha}',${nocontrato},${codacreedor},${codcuenta},'${numero}',${cantidad},'${recibe}','${obs}','${rubro}','${tipo}')`
+    qry = `INSERT INTO CONST_CHEQUES (IDPROYECTO,FECHA,NOCONTRATO,CODACREEDOR,CODCONTRATANTE,CODCUENTA,BANCO,NUMERO,CANTIDAD,RECIBE,OBS,RUBRO,TIPOCHEQUE) 
+        VALUES (${idproyecto},'${fecha}',0,0,${codcontratante},0,'${banco}','${numero}',${cantidad},'${recibe}','${obs}','OTROS','${tipo}')`
 
-        
+    console.log(qry);
+
     execute.Query(res, qry);
 
 });
@@ -20,14 +21,23 @@ router.post("/nuevochequecontratante", async (req, res) => {
 
 router.post("/nuevo", async (req, res) => {
     
-    const {fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro,tipo} = req.body;
+    const {idproyecto,fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro,tipo} = req.body;
 
     let qry = '';
 
-    qry = `INSERT INTO CONST_CHEQUES (FECHA,NOCONTRATO,CODACREEDOR,CODCUENTA,NUMERO,CANTIDAD,RECIBE,OBS,RUBRO,TIPOCHEQUE) 
-        VALUES ('${fecha}',${nocontrato},${codacreedor},${codcuenta},'${numero}',${(cantidad*-1)},'${recibe}','${obs}','${rubro}','${tipo}')`
+    qry = `INSERT INTO CONST_CHEQUES (
+        IDPROYECTO,FECHA,NOCONTRATO,
+        CODACREEDOR,CODCONTRATANTE,CODCUENTA,
+        BANCO,NUMERO,CANTIDAD,
+        RECIBE,OBS,RUBRO,
+        TIPOCHEQUE) 
+        VALUES 
+        (${idproyecto},'${fecha}',${nocontrato},
+        ${codacreedor},0,${codcuenta},
+        'SN','${numero}', ${(cantidad*-1)},
+        '${recibe}','${obs}','${rubro}',
+        '${tipo}')`
 
-        
     execute.Query(res, qry);
 
 });
@@ -39,7 +49,7 @@ router.post("/listadoproyecto", async (req, res) => {
 
     let qry = '';
 
-    qry  = `SELECT CONST_CHEQUES.ID, CONST_CHEQUES.FECHA, CONST_CHEQUES.NOCONTRATO, 
+    let qryold  = `SELECT CONST_CHEQUES.ID, CONST_CHEQUES.FECHA, CONST_CHEQUES.NOCONTRATO, 
             CONST_CUENTAS.BANCO, CONST_CUENTAS.NUMERO AS NOCUENTA, CONST_CHEQUES.NUMERO AS NOCHEQUE, 
             CONST_CHEQUES.CANTIDAD AS IMPORTE, CONST_CHEQUES.RECIBE, CONST_CHEQUES.OBS, 
             CONST_CHEQUES.RUBRO, CONST_CONTRATISTAS_PROYECTO.ASIGNACION, CONST_ACREEDORES.DESACREEDOR, 
@@ -51,7 +61,18 @@ router.post("/listadoproyecto", async (req, res) => {
                     CONST_CUENTAS ON CONST_CHEQUES.CODCUENTA = CONST_CUENTAS.CODCUENTA ON CONST_CONTRATISTAS_PROYECTO.NOCONTRATO = CONST_CHEQUES.NOCONTRATO
                 WHERE (CONST_CONTRATISTAS_PROYECTO.IDPROYECTO = ${idproyecto})`
         
-        
+    qry = `SELECT CONST_CHEQUES.ID, CONST_CHEQUES.FECHA, CONST_CHEQUES.NOCONTRATO, ISNULL(CONST_CUENTAS.BANCO, CONST_CHEQUES.BANCO) AS BANCO, ISNULL(CONST_CUENTAS.NUMERO, 0) AS NOCUENTA, 
+                CONST_CHEQUES.NUMERO AS NOCHEQUE, CONST_CHEQUES.CANTIDAD AS IMPORTE, CONST_CHEQUES.RECIBE, CONST_CHEQUES.OBS, CONST_CHEQUES.RUBRO, 
+                ISNULL(CONST_CONTRATISTAS_PROYECTO.ASIGNACION, 'SN') AS ASIGNACION, ISNULL(CONST_ACREEDORES.DESACREEDOR, 'A FAVOR') AS DESACREEDOR, ISNULL(CONST_ACREEDORES.TIPO, 'CONTRATANTE') AS TIPO, 
+                CONST_PROYECTOS.PROYECTO, CONST_CHEQUES.TIPOCHEQUE
+            FROM CONST_ACREEDORES RIGHT OUTER JOIN
+                CONST_CONTRATISTAS_PROYECTO ON CONST_ACREEDORES.CODACREEDOR = CONST_CONTRATISTAS_PROYECTO.CODACREEDOR FULL OUTER JOIN
+                CONST_CUENTAS RIGHT OUTER JOIN
+                CONST_CHEQUES LEFT OUTER JOIN
+                CONST_PROYECTOS ON CONST_CHEQUES.IDPROYECTO = CONST_PROYECTOS.IDPROYECTO ON CONST_CUENTAS.CODCUENTA = CONST_CHEQUES.CODCUENTA ON 
+                CONST_CONTRATISTAS_PROYECTO.NOCONTRATO = CONST_CHEQUES.NOCONTRATO
+            WHERE (CONST_CHEQUES.IDPROYECTO = ${idproyecto})`;
+            
     execute.Query(res, qry);
 
 });

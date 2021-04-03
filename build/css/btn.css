@@ -46,6 +46,11 @@
   font-weight: bold;
 }
 
+.labelstyle {
+  font-weight: bold;
+  font-style:inherit;
+}
+
 .toppegado {
   margin-top: 0px;
 };
