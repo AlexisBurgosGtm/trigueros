@@ -359,6 +359,7 @@ async function addListeners(){
     // MENU NUEVO CHEQUE
     let btnNuevo = document.getElementById('btnNuevo');
     btnNuevo.addEventListener('click',()=>{
+        document.getElementById('cmbProyecto').value = document.getElementById('cmbProyectoCheques').value;
         $('#modalTiposCheque').modal('show');
     });
 

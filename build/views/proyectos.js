@@ -248,9 +248,11 @@ function getView(){
                                                     <table class="table table-responsive">
                                                         <thead class="bg-info text-white">
                                                             <tr>
+                                                                <td>FECHA</td>
                                                                 <td>CHEQUE</td>
                                                                 <td>DESCRIPCIOON</td>
                                                                 <td>VALOR</td>
+                                                                <td></td>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="tblCheques2"></tbody>
@@ -400,7 +402,7 @@ function addListeners() {
                     btnGuardarProyecto.innerHTML = GlobalLoader;
 
                     api.proyectos_insertar(txtDescripcion.value, txtDireccion.value, funciones.devuelveFecha('txtFInicio'), funciones.devuelveFecha('txtFFinal'), 'SN', '0', cmbContratante.value, Number(txtPresupuesto.value))
-                        .then(async() => {
+                    .then(async() => {
                             btnGuardarProyecto.innerHTML = `<i class="fal fa-save"></i>Guardar`;
                             funciones.Aviso('Proyecto guardado exitosamente!!')
                             let cmbStatus = document.getElementById('cmbStatus');
@@ -409,17 +411,16 @@ function addListeners() {
 
                             await api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
                             $('#modalNuevo').modal('hide');
-                        })
-                        .catch(() => {
-                            funciones.AvisoError('No se pudo guardar');
-                            btnGuardarProyecto.innerHTML = `<i class="fal fa-save"></i>Guardar`;
-                        })
+                    })
+                    .catch(() => {
+                            funciones.AvisoError('No se pudo guardar'); 
+                    });
+                    btnGuardarProyecto.innerHTML = `<i class="fal fa-save"></i>Guardar`;
 
                 }
             })
         
     })
-
 
 
     //VENTANA DE OPCIONES DEL PROYECTO
@@ -429,6 +430,7 @@ function addListeners() {
             funciones.Confirmacion('¿Está seguro que desea ELIMINAR este proyecto?')
             .then((value)=>{
                 if(value==true){
+                    btnMenuProyectoEliminar.innerHTML = GlobalLoader;
                     api.proyectos_eliminar(GlobalSelectedCodProyecto)
                     .then(async()=>{
                         funciones.Aviso('Proyecto Eliminado exitosamente!!')
@@ -442,8 +444,8 @@ function addListeners() {
                     .catch(()=>{
                         funciones.AvisoError('No se pudo Eliminar este proyecto')
                     })
-                }
-        
+                    btnMenuProyectoEliminar.innerHTML =`<i class="fal fa-trash"></i>Eliminar`
+                }        
             })    
         
         
@@ -456,7 +458,27 @@ function addListeners() {
 
     let btnMenuProyectoFinalizar = document.getElementById('btnMenuProyectoFinalizar');
     btnMenuProyectoFinalizar.addEventListener('click',()=>{
-        funciones.Aviso('Opción para finalizar el proyecto')
+        funciones.Confirmacion('¿Está seguro que desea FINALIZAR este proyecto?')
+            .then((value)=>{
+                if(value==true){
+                    btnMenuProyectoFinalizar.innerHTML = GlobalLoader;
+                    api.proyectos_finalizar(GlobalSelectedCodProyecto)
+                    .then(async()=>{
+                        funciones.Aviso('Proyecto Finalizado exitosamente!!')
+                        let cmbStatus = document.getElementById('cmbStatus');
+                        let cmbMes = document.getElementById('cmbMes');
+                        let cmbAnio = document.getElementById('cmbAnio');
+
+                        await api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
+                        $('#modalMenuProyecto').modal('hide');
+                    })
+                    .catch(()=>{
+                        funciones.AvisoError('No se pudo Finalizado este proyecto')
+                    })
+                    btnMenuProyectoFinalizar.innerHTML = `<i class="fal fa-check"></i>Finalizar`
+                }
+            })
+        
     });
 
     //VENTANA NUEVO CONTRATO

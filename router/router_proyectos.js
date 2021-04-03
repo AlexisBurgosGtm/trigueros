@@ -137,7 +137,17 @@ router.post("/eliminar", async (req, res) => {
 
 });
 
+router.post("/finalizar", async (req, res) => {
 
+    const { codigo } = req.body;
+
+    let qry = `UPDATE CONST_PROYECTOS 
+                SET FINALIZADO='SI'
+                WHERE IDPROYECTO=${codigo};`;
+
+    execute.Query(res, qry);
+
+});
 
 
 

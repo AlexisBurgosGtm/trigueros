@@ -276,6 +276,32 @@ let api = {
 
         });
     },
+    proyectos_finalizar: (codigo) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                codigo:codigo
+            };
+
+            let url = GlobalUrlBackend + '/proyectos/finalizar'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
+    },
     proyectos_subcontratistas: (idproyecto,idContainer) => {
                 let container = document.getElementById(idContainer);
                 container.innerHTML = GlobalLoader;
