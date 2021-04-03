@@ -25,16 +25,22 @@ function getView(){
                 <hr class="solid">
 
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-4">
                         <div class="form-group">
                             <label>Recibido</label>
                             <h3 class="text-info" id="lbPresupuesto"></h3>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-4">
                         <div class="form-group">
                             <label>Ejecutado</label>
-                            <h3 class="text-danger" id="lbSaldo"></h3>
+                            <h3 class="text-success" id="lbSaldo"></h3>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label>Diferencia</label>
+                            <h3 id="lbDiferencia"></h3>
                         </div>
                     </div>
                 </div>
@@ -47,9 +53,9 @@ function getView(){
                 <div class="panel-container show">
                     <div class="panel-content">
                         <ul class="nav nav-pills nav-justified" role="tablist">
-                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel1">SUBCONTRATISTAS</a></li>    
-                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel2">PROVEEDORES</a></li>
-                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel3">CONTRATANTES</a></li>
+                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel1">SUBCON</a></li>    
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel2">PROV</a></li>
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel3">CONTRAT</a></li>
                         </ul>
                         <div class="tab-content py-3">
                             <!-- sub contratistas -->
@@ -452,7 +458,7 @@ async function addListeners(){
                                     $('#modalNuevo').modal('hide');
 
                                     let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
-                                    api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1', 'tblCheques2', 'tblCheques3','lbPresupuesto','lbSaldo');
+                                    api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1', 'tblCheques2', 'tblCheques3','lbPresupuesto','lbSaldo','lbDiferencia');
                                 })
                                 .catch(()=>{
                                     funciones.AvisoError('No se pudo crear el cheque');
@@ -476,7 +482,7 @@ async function addListeners(){
                                     $('#modalNuevo').modal('hide');
 
                                     let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
-                                    api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1', 'tblCheques2', 'tblCheques3','lbPresupuesto','lbSaldo');
+                                    api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1', 'tblCheques2', 'tblCheques3','lbPresupuesto','lbSaldo','lbDiferencia');
                                 })
                                 .catch(()=>{
                                     funciones.AvisoError('No se pudo crear el cheque');
@@ -500,14 +506,14 @@ async function addListeners(){
     let cmbProyectoCheques = document.getElementById('cmbProyectoCheques');
     cmbProyectoCheques.addEventListener('change',()=>{
         let cmbProyectoC = document.getElementById('cmbProyectoCheques').value || 0;
-        api.cheques_proyecto(cmbProyectoC, 'tblCheques1', 'tblCheques2', 'tblCheques3','lbPresupuesto','lbSaldo');
+        api.cheques_proyecto(cmbProyectoC, 'tblCheques1', 'tblCheques2', 'tblCheques3','lbPresupuesto','lbSaldo','lbDiferencia');
     })
 
     //LISTADO DEL INICIO DE LA VISTA CHEQUES
     api.proyectos_combo_promise('cmbProyectoCheques')
     .then(async()=>{
         let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
-        await api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1', 'tblCheques2', 'tblCheques3','lbPresupuesto','lbSaldo');
+        await api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1', 'tblCheques2', 'tblCheques3','lbPresupuesto','lbSaldo','lbDiferencia');
     })
     .catch(()=>{
         funciones.AvisoError('No se pudo cargar la lista de Proyectos');
@@ -578,7 +584,7 @@ async function addListeners(){
                                     $('#modalNuevoContratante').modal('hide');
 
                                     let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
-                                    api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1', 'tblCheques2', 'tblCheques3','lbPresupuesto','lbSaldo');
+                                    api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1', 'tblCheques2', 'tblCheques3','lbPresupuesto','lbSaldo','lbDiferencia');
                                 })
                                 .catch(()=>{
                                     funciones.AvisoError('No se pudo crear el cheque');
@@ -616,7 +622,7 @@ function deleteCheque(id){
             .then(()=>{
                 funciones.Aviso('Cheque ELIMINADO exitosamente!!');
                 let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
-                api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1', 'tblCheques2', 'tblCheques3','lbPresupuesto','lbSaldo');
+                api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1', 'tblCheques2', 'tblCheques3','lbPresupuesto','lbSaldo','lbDiferencia');
             })
             .catch(()=>{
                 funciones.AvisoError('No se pudo ELIMINAR el cheque')

@@ -142,7 +142,7 @@ let api = {
                 activo : 'NO'
             };
     
-            let url = GlobalUrlBackend + '/proyectos/listaproyectos';
+            let url = GlobalUrlBackend + '/proyectos/listaproyectoscombo';
             axios.post(url,data)
             .then((response) => {
                 try {
@@ -175,7 +175,7 @@ let api = {
                 activo : 'NO'
             };
     
-            let url = GlobalUrlBackend + '/proyectos/listaproyectos';
+            let url = GlobalUrlBackend + '/proyectos/listaproyectoscombo';
             axios.post(url,data)
             .then((response) => {
                 try {
@@ -781,7 +781,7 @@ let api = {
 
         });
     },
-    cheques_proyecto: (idproyecto,idContainer1,idContainer2,idContainer3,idPresupuesto,idSaldo) => {
+    cheques_proyecto: (idproyecto,idContainer1,idContainer2,idContainer3,idPresupuesto,idSaldo,idDiferencia) => {
         
         let container1 = document.getElementById(idContainer1);
         container1.innerHTML = GlobalLoader;
@@ -794,6 +794,8 @@ let api = {
         lbPresupuesto.innerText = 'Q --';
         let lbSaldo = document.getElementById(idSaldo);
         lbSaldo.innerText = 'Q --';
+        let lbDiferencia = document.getElementById(idDiferencia);
+        lbDiferencia.innerText = 'Q --';
         
         let str1 = ''; let str2 = ''; let str3 = '';
         let varTotalPresupuesto = 0; let varTotalSaldo = 0;
@@ -851,12 +853,19 @@ let api = {
                 container3.innerHTML = str3;
                 lbSaldo.innerText = funciones.setMoneda((varTotalSaldo * -1),'Q');
                 lbPresupuesto.innerText = funciones.setMoneda((varTotalPresupuesto),'Q');
+                let dif = varTotalPresupuesto - (varTotalSaldo * -1); //recibido menos ejecutado
+                if(Number(dif)>0){
+                    lbDiferencia.innerHTML = `<b class="text-info">${funciones.setMoneda(dif,'Q')}</b>`;
+                }else{
+                    lbDiferencia.innerHTML = `<b class="text-danger">${funciones.setMoneda(dif,'Q')}</b>`;
+                }
             } catch (err) {
                 container1.innerHTML = 'Agregue un cheque al proyecto...';
                 container2.innerHTML = 'Agregue un cheque al proyecto...';
                 container3.innerHTML = 'Agregue un cheque al proyecto...';
                 lbSaldo.innerText = 'Q --';
                 lbPresupuesto.innerText = 'Q --';
+                lbDiferencia.innerText = 'Q --';
             }
         }, (error) => {
                 console.log(error);
@@ -865,6 +874,7 @@ let api = {
                 container3.innerHTML = 'Agregue un cheque al proyecto...';
                 lbSaldo.innerText = 'Q --';
                 lbPresupuesto.innerText = 'Q --';
+                lbDiferencia.innerText = 'Q --';
         });
 
     },

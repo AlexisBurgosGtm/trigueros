@@ -175,16 +175,22 @@ function getView(){
                             
                             <hr class="rounded">
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-4">
                                     <div class="form-group">
                                         <label>Recibido</label>
                                         <h5 class="text-info" id="lbRecibido"></h5>
                                     </div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-4">
                                     <div class="form-group">
                                         <label>Ejecutado</label>
                                         <h5 class="text-danger" id="lbEjecutado"></h5>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>Diferencia</label>
+                                        <h5 id="lbDiferencia"></h5>
                                     </div>
                                 </div>
                             </div>
@@ -549,7 +555,7 @@ function getMenuProyecto(codigo,descripcion){
     document.getElementById('lbDetProyecto').innerText = descripcion;
 
     api.proyectos_subcontratistas(codigo,'tblPSucontratistas');
-    api.cheques_proyecto(GlobalSelectedCodProyecto, 'tblCheques1','tblCheques2','tblCheques3','lbRecibido','lbEjecutado');
+    api.cheques_proyecto(GlobalSelectedCodProyecto, 'tblCheques1','tblCheques2','tblCheques3','lbRecibido','lbEjecutado','lbDiferencia');
 
     $('#modalMenuProyecto').modal('show');
 
@@ -600,7 +606,7 @@ function deleteCheque(id){
                 api.cheques_delete(id)
                 .then(()=>{
                     funciones.Aviso('Cheque ELIMINADO exitosamente!!');
-                    api.cheques_proyecto(GlobalSelectedCodProyecto, 'tblCheques1','tblCheques2','tblCheques3','lbRecibido','lbEjecutado');
+                    api.cheques_proyecto(GlobalSelectedCodProyecto, 'tblCheques1','tblCheques2','tblCheques3','lbRecibido','lbEjecutado','lbDiferencia');
                 })
                 .catch(()=>{
                     funciones.AvisoError('No se pudo ELIMINAR el cheque')
