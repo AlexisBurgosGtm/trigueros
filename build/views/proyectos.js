@@ -88,7 +88,7 @@ function getView(){
                         
                         <div class="form-group">
                             <label>Presupuesto</label>
-                            Q<input type="number" class="form-control col-8" id="txtPresupuesto">
+                            Q<input type="number" class="form-control col-6 bg-amarillo" id="txtPresupuesto" value=0>
                         </div>
 
                         <div class="form-group">
@@ -459,10 +459,10 @@ function addListeners() {
     let btnMenuProyectoFinalizar = document.getElementById('btnMenuProyectoFinalizar');
     btnMenuProyectoFinalizar.addEventListener('click',()=>{
         funciones.Confirmacion('¿Está seguro que desea FINALIZAR este proyecto?')
-            .then((value)=>{
+            .then(async(value)=>{
                 if(value==true){
                     btnMenuProyectoFinalizar.innerHTML = GlobalLoader;
-                    api.proyectos_finalizar(GlobalSelectedCodProyecto)
+                    await api.proyectos_finalizar(GlobalSelectedCodProyecto)
                     .then(async()=>{
                         funciones.Aviso('Proyecto Finalizado exitosamente!!')
                         let cmbStatus = document.getElementById('cmbStatus');
@@ -502,16 +502,19 @@ function addListeners() {
     let btnGuardarContrato = document.getElementById('btnGuardarContrato');
     btnGuardarContrato.addEventListener('click',()=>{
         funciones.Confirmacion('¿Está seguro que desea guardar este Sub-Contrato?')
-        .then((value)=>{
+        .then(async (value)=>{
             if(value==true){
 
                 if (txtPAsignacion.value==''){
                     funciones.AvisoError('Escriba la asignación o tarea del contrato');
                 }else{
                     if(Number(txtPPresupuesto.value)>0){
+                        
+                        btnGuardarContrato.innerHTML = GlobalLoader;
+
                         if(GlobalSelectedNumeroContrato==0){
                             //es un nuevo contrato
-                            api.subcontrato_insertar(GlobalSelectedCodProyecto,cmbPSubContratista.value,txtPAsignacion.value,txtPPresupuesto.value,funciones.getFecha('txtPFechaEntrega'))
+                           await api.subcontrato_insertar(GlobalSelectedCodProyecto,cmbPSubContratista.value,txtPAsignacion.value,txtPPresupuesto.value,funciones.getFecha('txtPFechaEntrega'))
                             .then(()=>{
                                 funciones.Aviso('Nuevo Sub-contrato creado exitosamente !!')
                                 api.proyectos_subcontratistas(GlobalSelectedCodProyecto,'tblPSucontratistas')
@@ -522,7 +525,7 @@ function addListeners() {
                             })
                         }else{
                             //edita un contrato existente
-                            api.subcontrato_editar(GlobalSelectedNumeroContrato,cmbPSubContratista.value,txtPAsignacion.value,txtPPresupuesto.value,funciones.getFecha('txtPFechaEntrega'))
+                            await api.subcontrato_editar(GlobalSelectedNumeroContrato,cmbPSubContratista.value,txtPAsignacion.value,txtPPresupuesto.value,funciones.getFecha('txtPFechaEntrega'))
                             .then(()=>{
                                 funciones.Aviso('Sub-contrato actualizado exitosamente !!')
                                 api.proyectos_subcontratistas(GlobalSelectedCodProyecto,'tblPSucontratistas')
@@ -532,7 +535,8 @@ function addListeners() {
                                 funciones.AvisoError('No se pudo editar el Sub-contrato')
                             })
                         }
-                        
+
+                        btnGuardarContrato.innerHTML = `<i class="fal fa-save"></i>Guardar`
                         
 
                     }else{

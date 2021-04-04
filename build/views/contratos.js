@@ -104,6 +104,25 @@ function getView(){
                         
                         <hr class="solid">
 
+                        <div class="row">
+                            <div class="table-responsive">
+                                <div class="table-responsive">
+                                    <table class="table table-responsive">
+                                        <thead class="bg-trans-gradient text-white">
+                                            <tr>
+                                                <td>FECHA</td>
+                                                <td>CUENTA</td>
+                                                <td>ACREEDOR</td>
+                                                <td>VALOR</td>
+                                                <td></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tblChequesContrato"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary btn-xl col-12" data-dismiss="modal">
@@ -149,7 +168,7 @@ function initView(){
     addListeners();
 };
 
-function detalleContrato(nocontrato,entrega,proyecto,acreedor,asignacion,importe,entregado,saldo){
+async function detalleContrato(nocontrato,entrega,proyecto,acreedor,asignacion,importe,entregado,saldo){
     
     document.getElementById('NoContrato').innerText = nocontrato;
     document.getElementById('FechaEntrega').innerText = entrega;
@@ -160,6 +179,45 @@ function detalleContrato(nocontrato,entrega,proyecto,acreedor,asignacion,importe
     document.getElementById('Entregado').innerText = entregado;
     document.getElementById('Saldo').innerText = saldo;
 
+    await api.cheques_contrato(nocontrato,'tblChequesContrato')
+
     $('#modalDetalle').modal('show');
 
+};
+
+function deleteCheque(id){
+    funciones.solicitarClave()
+    .then((name)=>{
+        if(name==GlobalPassUsuario){
+
+        }else{
+            funciones.AvisoError('Clave incorrecta');
+            return;
+        }
+    })
+    .catch(()=>{
+        funciones.AvisoError('Clave incorrecta');
+        return;
+    })
+
+    funciones.Confirmacion('¿Está seguro que desea ELIMINAR este cheque?')
+    .then((value)=>{
+        if(value==true){
+
+            api.cheques_delete(id)
+            .then(()=>{
+                funciones.Aviso('Cheque ELIMINADO exitosamente!!');
+                let codproy =  document.getElementById('cmbProyectos').value || 0;
+                api.subcontrato_listado(codproy,'tblContratos');
+
+                let nocontrato = document.getElementById('NoContrato').innerText;
+                api.cheques_contrato(nocontrato,'tblChequesContrato');
+                
+            })
+            .catch(()=>{
+                funciones.AvisoError('No se pudo ELIMINAR el cheque')
+            })
+
+        }
+    })
 };

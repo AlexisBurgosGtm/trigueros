@@ -78,6 +78,9 @@ let execute = {
 		} catch (error) {
 			console.log('primera conexion fallo: ' & error);
 		}
+	},
+	getSaldosProyecto:(idproyecto)=>{
+
 	}
 }
 

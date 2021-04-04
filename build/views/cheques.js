@@ -439,7 +439,7 @@ async function addListeners(){
                     funciones.AvisoError('Indique el número de cheque emitido');
                 }else{
                     if(Number(cantidad.value)>0){
-
+                        btnGuardarCheque.innerHTML = GlobalLoader;
                         switch (GlobalSelectedTipoCheque) {
                             case 'SUBCONTRATISTA':
                                 api.cheques_contratista_insertar(
@@ -490,7 +490,7 @@ async function addListeners(){
                                 })        
                                 break;                            
                         }
-                        
+                        btnGuardarCheque.innerHTML = `<i class="fal fa-save"></i>Guardar`;
                     }else{
                         funciones.AvisoError('Indique el monto/cantidad del cheque');
                     };
@@ -569,7 +569,7 @@ async function addListeners(){
                     funciones.AvisoError('Indique el número de cheque emitido');
                 }else{
                     if(Number(cantidad.value)>0){
-
+                        btnGuardarChequeC.innerHTML = GlobalLoader;
                         api.cheques_contratante_insertar(
                                     codproyecto,
                                     funciones.getFecha('txtFechaC'),
@@ -589,7 +589,8 @@ async function addListeners(){
                                 })
                                 .catch(()=>{
                                     funciones.AvisoError('No se pudo crear el cheque');
-                                })   
+                                })
+                            btnGuardarChequeC.innerHTML = `<i class="fal fa-save"></i>Guardar`;
                         
                     }else{
                         funciones.AvisoError('Indique el monto/cantidad del cheque');

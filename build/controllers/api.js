@@ -123,6 +123,7 @@ let api = {
                         })
                         container.innerHTML = str;
                     } catch (err) {
+                        console.log(err);
                         container.innerHTML = 'Cree un proyecto para empezar';
                     }
                 }, (error) => {
@@ -329,7 +330,7 @@ let api = {
                                                 <br>
                                                 <small class="negrita text-success">Ent:${funciones.setMoneda(rows.ENTREGADO,'Q')}</small>
                                                 <br>
-                                                <small class="negrita text-danger">Saldo:${funciones.setMoneda(rows.SALDO,'Q')}</small>
+                                                <small class="negrita text-danger">Saldo:${funciones.setMoneda((Number(rows.IMPORTE)-Number(rows.ENTREGADO)),'Q')}</small>
                                             </td>
                                             <td>
                                                 <button class="btn btn-sm btn-info btn-circle"
@@ -372,7 +373,7 @@ let api = {
             try {
                 const data = response.data.recordset;
                 data.map((rows) => {
-                    str = str + `<option value="${rows.NOCONTRATO}">${rows.DESACREEDOR} (Contrato No. ${rows.NOCONTRATO}) (Saldo:${funciones.setMoneda(rows.SALDO,'Q')})</option>`
+                    str = str + `<option value="${rows.NOCONTRATO}">${rows.DESACREEDOR} (Contrato No. ${rows.NOCONTRATO}) (Saldo:${funciones.setMoneda((Number(rows.IMPORTE)-Number(rows.ENTREGADO)),'Q')})</option>`
                 })
                 container.innerHTML = str;
             } catch (err) {
@@ -540,7 +541,7 @@ let api = {
                                 '${rows.ASIGNACION}',
                                 '${funciones.setMoneda(rows.IMPORTE,'Q')}',
                                 '${funciones.setMoneda(rows.ENTREGADO,'Q')}',
-                                '${funciones.setMoneda(rows.SALDO,'Q')}'
+                                '${funciones.setMoneda((Number(rows.IMPORTE)-Number(rows.ENTREGADO)),'Q')}'
                                 )">
                                             <td>No: ${rows.NOCONTRATO}
                                                 <hr class="solid">
@@ -558,7 +559,7 @@ let api = {
                                                 <br>
                                                 <small class="text-success">E:${funciones.setMoneda(rows.ENTREGADO,'Q')}</small>
                                                 <br>
-                                                <small class="negrita text-danger">S:${funciones.setMoneda(rows.SALDO,'Q')}</small>
+                                                <small class="negrita text-danger">S:${funciones.setMoneda((Number(rows.IMPORTE)-Number(rows.ENTREGADO)),'Q')}</small>
                                             </td>
                                         </tr>`
                         })
@@ -901,6 +902,56 @@ let api = {
                 lbSaldo.innerText = 'Q --';
                 lbPresupuesto.innerText = 'Q --';
                 lbDiferencia.innerText = 'Q --';
+        });
+
+    },
+    cheques_contrato: (nocontrato,idContainer) => {
+        
+        let container = document.getElementById(idContainer);
+        container.innerHTML = GlobalLoader;
+        
+        let str = '';
+        
+        let url = GlobalUrlBackend + '/cheques/listadocontrato';
+
+        axios.post(url, {
+                    nocontrato : nocontrato
+                    })
+        .then((response) => {
+            try {
+                const data = response.data.recordset;
+                data.map((rows) => {
+                    let tipo = rows.TIPOCHEQUE;
+                    
+                    newrow = `<tr class="border-bottom border-info">
+                                <td>${funciones.cleanDataFecha(rows.FECHA)}
+                                        <br>
+                                        <small class="negrita text-danger">Cheque No. ${rows.NOCHEQUE}</small>
+                                </td>
+                                <td>${rows.BANCO}
+                                        <br>
+                                        <small>Cuenta No. ${rows.NOCUENTA}</small>
+                                </td>
+                                <td>${rows.DESACREEDOR}
+                                        <br>
+                                        <small class="negrita text-info">${rows.ASIGNACION}</small>
+                                        <br class="solid">
+                                        <small>Proyecto:${rows.PROYECTO}</small>
+                                </td>
+                                <td>${funciones.setMoneda(rows.IMPORTE,'Q')}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-danger btn-circle" onclick="deleteCheque(${rows.ID})">x</button>
+                                </td>
+                            </tr>`
+                            str = str + newrow;
+                })
+                container.innerHTML = str;
+            } catch (err) {
+                container.innerHTML = 'Agregue un cheque al contrato...';
+            }
+        }, (error) => {
+                console.log(error);
+                container.innerHTML = 'Agregue un cheque al contrato...';
         });
 
     },
