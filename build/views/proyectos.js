@@ -453,7 +453,19 @@ function addListeners() {
 
     let btnMenuProyectoEditar = document.getElementById('btnMenuProyectoEditar');
     btnMenuProyectoEditar.addEventListener('click',()=>{
-        funciones.Aviso('Edición de los datos generales del proyecto');
+        $('#modalMenuProyecto').modal('hide');
+        funciones.solicitarClave()
+        .then((name)=>{
+            if(name==GlobalPassUsuario){
+                funciones.Aviso('Edición de los datos generales del proyecto');
+            }else{
+                funciones.AvisoError('Clave incorrecta')
+            }
+        })
+        .catch(()=>{
+            funciones.AvisoError('Clave incorrecta')
+        })
+        
     });
 
     let btnMenuProyectoFinalizar = document.getElementById('btnMenuProyectoFinalizar');

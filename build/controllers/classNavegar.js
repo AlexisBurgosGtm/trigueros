@@ -39,11 +39,16 @@ let classNavegar = {
         })
     },
     mantenimientos: ()=>{
-        funciones.loadScript('../views/mantenimientos.js','root')
-        .then(async()=>{
-            GlobalSelectedForm = 'mantenimientos';
-            initView();
-        })
+            if(GlobalNivelUsuario==1){
+                funciones.loadScript('../views/mantenimientos.js','root')
+                .then(async()=>{
+                    GlobalSelectedForm = 'mantenimientos';
+                    initView();
+                })
+            }else{
+                funciones.AvisoError('Usted no puede acceder a esta sección')
+                funciones.hablar('Usted no puede acceder a esta sección')
+            }
     },
     reportes: ()=>{
         if(GlobalNivelUsuario==1){

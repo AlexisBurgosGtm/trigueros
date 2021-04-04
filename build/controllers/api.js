@@ -980,5 +980,54 @@ let api = {
 
 
         });
+    },
+    config_bancos_lista: (idContainer)=>{
+        let container = document.getElementById(idContainer);
+        container.innerHTML = GlobalLoader;
+        
+        let strHeader = `<table class="table table-striped table-responsive table-hover">
+                            <thead class="bg-trans-gradient text-white">
+                                <tr>
+                                    <td>ID</td>
+                                    <td>DESCRIPCION</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody>`
+        let str = '';
+        let strFooter = `</tbody></table>`
+        
+        
+        let url = GlobalUrlBackend + '/bancos/listado';
+
+        axios.post(url)
+        .then((response) => {
+            try {
+                const data = response.data.recordset;
+                data.map((rows) => {
+                    str = str + `<tr class="border-bottom border-info">
+                                <td>${rows.CODCUENTA}</td>
+                                <td>${rows.DESCRIPCION}
+                                    <br>
+                                        <small class="negrita">Banco: ${rows.BANCO}</small>
+                                        <br>
+                                        <small class="negrita text-info">Cuenta No. ${rows.NUMERO}</small>
+                                        <hr class="solid">
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-warning btn-circle" onclick="getMenuBancos(${rows})">
+                                        <i class="fal fa-edit"></i>
+                                    </button>
+                                </td>
+                            </tr>`
+                })
+                container.innerHTML = strHeader + str + strFooter;
+            } catch (err) {
+                container.innerHTML = 'Agregue un banco...';
+            }
+        }, (error) => {
+                console.log(error);
+                container.innerHTML = 'Agregue un banco...';
+        });
     }    
 }
