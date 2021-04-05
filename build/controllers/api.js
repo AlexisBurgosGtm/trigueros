@@ -652,30 +652,6 @@ let api = {
                 });
 
     },
-    cuentas_combo: (idContainer) => {
-        let container = document.getElementById(idContainer);
-        
-        let str = '';
-
-            let url = GlobalUrlBackend + '/bancos/listado'
-
-            axios.post(url)
-                .then((response) => {
-                    try {
-                        const data = response.data.recordset;
-                        data.map((rows) => {
-                            str = str + `<option value="${rows.CODCUENTA}">${rows.BANCO} (No. ${rows.NUMERO})</option>`
-                        })
-                        container.innerHTML = str;
-                    } catch (err) {
-                        container.innerHTML = '<option value="SN">No hay datos..</option>';
-                    }
-                }, (error) => {
-                        console.log(error);
-                        container.innerHTML = '<option value="SN">Error..</option>';
-                });
-
-    },
     proveedores_combo: (idContainer) => {
         let container = document.getElementById(idContainer);
         
@@ -981,6 +957,30 @@ let api = {
 
         });
     },
+    cuentas_combo: (idContainer) => {
+        let container = document.getElementById(idContainer);
+        
+        let str = '';
+
+            let url = GlobalUrlBackend + '/bancos/listado'
+
+            axios.post(url)
+                .then((response) => {
+                    try {
+                        const data = response.data.recordset;
+                        data.map((rows) => {
+                            str = str + `<option value="${rows.CODCUENTA}">${rows.BANCO} (No. ${rows.NUMERO})</option>`
+                        })
+                        container.innerHTML = str;
+                    } catch (err) {
+                        container.innerHTML = '<option value="SN">No hay datos..</option>';
+                    }
+                }, (error) => {
+                        console.log(error);
+                        container.innerHTML = '<option value="SN">Error..</option>';
+                });
+
+    },
     config_bancos_lista: (idContainer)=>{
         let container = document.getElementById(idContainer);
         container.innerHTML = GlobalLoader;
@@ -1005,6 +1005,7 @@ let api = {
             try {
                 const data = response.data.recordset;
                 data.map((rows) => {
+                    let d = []; d = rows
                     str = str + `<tr class="border-bottom border-info">
                                 <td>${rows.CODCUENTA}</td>
                                 <td>${rows.DESCRIPCION}
@@ -1015,7 +1016,7 @@ let api = {
                                         <hr class="solid">
                                 </td>
                                 <td>
-                                    <button class="btn btn-sm btn-warning btn-circle" onclick="getMenuBancos(${rows})">
+                                    <button class="btn btn-sm btn-warning btn-circle" onclick="getMenuBancos(${rows.CODCUENTA},'${rows.DESCRIPCION}','${rows.BANCO}','${rows.NUMERO}')">
                                         <i class="fal fa-edit"></i>
                                     </button>
                                 </td>
@@ -1029,5 +1030,216 @@ let api = {
                 console.log(error);
                 container.innerHTML = 'Agregue un banco...';
         });
-    }    
+    },
+    config_bancos_insert: (descripcion,bancos,numero) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                descripcion: descripcion,
+                bancos:bancos,
+                numero:numero
+            };
+
+            let url = GlobalUrlBackend + '/bancos/nuevo'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
+    },
+    config_bancos_update: (codigo,descripcion,bancos,numero) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                codcuenta:codigo,
+                descripcion: descripcion,
+                bancos:bancos,
+                numero:numero
+            };
+
+            let url = GlobalUrlBackend + '/bancos/editar'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
+    },
+    config_bancos_delete: (codigo) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                codcuenta:codigo
+            };
+
+            let url = GlobalUrlBackend + '/bancos/eliminar'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
+    }, 
+    config_contratantes_lista: (idContainer) => {
+        let container = document.getElementById(idContainer);
+        container.innerHTML = GlobalLoader;
+
+        let strHeader = `<table class="table table-striped table-responsive table-hover">
+                            <thead class="bg-warning text-white">
+                                <tr>
+                                    <td>ID</td>
+                                    <td>DESCRIPCION</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody>`
+        let str = '';
+        let strFooter = `</tbody></table>`
+
+            let url = GlobalUrlBackend + '/contratantes/listado'
+
+            axios.post(url)
+                .then((response) => {
+                    try {
+                        const data = response.data.recordset;
+                        data.map((rows) => {
+                                str = str + `<tr class="border-warning border-bottom">
+                                                <td>${rows.CODIGO}</td>
+                                                <td>${rows.DESCRIPCION}
+                                                    <br>
+                                                    <small class="negrita">Teléfono: ${rows.TELEFONO}</small>
+                                                </td>
+
+                                                <td>
+                                                    <button class="btn btn-sm btn-warning btn-circle" onclick="getMenuContratantes(${rows.CODIGO},'${rows.DESCRIPCION}','${rows.TELEFONO}')">
+                                                        <i class="fal fa-edit"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>`
+                        })
+                        container.innerHTML = strHeader + str + strFooter;
+                    } catch (err) {
+                        container.innerHTML = 'No hay datos..';
+                    }
+                }, (error) => {
+                        console.log(error);
+                        container.innerHTML = 'Error..';
+                });
+
+    },
+    config_contratantes_delete: (codigo) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                codcontratante:codigo
+            };
+
+            let url = GlobalUrlBackend + '/contratantes/eliminar'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
+    },
+    config_contratantes_insert: (descripcion,telefono) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                descripcion:descripcion,
+                telefono:telefono
+            };
+
+            let url = GlobalUrlBackend + '/contratantes/nuevo'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
+    },
+    config_contratantes_update: (codigo,descripcion,telefono) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                codigo:codigo,
+                descripcion:descripcion,
+                telefono:telefono
+            };
+
+            let url = GlobalUrlBackend + '/contratantes/editar'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
+    }
 }

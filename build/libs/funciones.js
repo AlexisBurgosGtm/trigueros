@@ -791,6 +791,19 @@ let funciones = {
       <option value="BANTRAB">BANCO DE LOS TRABAJADORES</option>
       <option value="BANCO AZTECA">BANCO AZTECA</option>
       `
+    },
+    openFullscreen : (idElement)=>{
+      let elem = document.getElementById(idElement);
+  
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.mozRequestFullScreen) { /* Firefox */
+        elem.mozRequestFullScreen();
+      } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) { /* IE/Edge */
+        elem.msRequestFullscreen();
+      }
     }
 
 };
