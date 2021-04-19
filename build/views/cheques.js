@@ -53,9 +53,9 @@ function getView(){
                 <div class="panel-container show">
                     <div class="panel-content">
                         <ul class="nav nav-pills nav-justified" role="tablist">
-                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel1">SUBCON</a></li>    
-                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel2">PROV</a></li>
-                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel3">CONTRAT</a></li>
+                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel1">SUBCONCONTRATISTA</a></li>    
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel2">PROVEEDORES</a></li>
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel3">PAGO RECIBIDO</a></li>
                         </ul>
                         <div class="tab-content py-3">
                             <!-- sub contratistas -->
