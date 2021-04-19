@@ -87,7 +87,7 @@ function getView(){
                         </div>
                         
                         <div class="form-group">
-                            <label>Presupuesto</label>
+                            <label>Costo Total</label>
                             Q<input type="number" class="form-control col-6 bg-amarillo" id="txtPresupuesto" value=0>
                         </div>
 
@@ -195,9 +195,9 @@ function getView(){
                             <div class="panel-container show">
                                 <div class="panel-content">
                                     <ul class="nav nav-pills nav-justified" role="tablist">
-                                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel1">Subcontratistas</a></li>    
-                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel2">Sub</a></li>
-                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel3">Prov</a></li>
+                                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel3">ChProv</a></li>
+                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel2">ChSub</a></li>
+                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel1">Subcontratos</a></li>    
                                         <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel4">Rec</a></li>
                                     </ul>
                                     <div class="tab-content py-3">
