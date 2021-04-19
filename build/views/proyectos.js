@@ -148,10 +148,7 @@ function getView(){
                             
                             <div class="row">
                                 <div class="col-3">
-                                    <button class="btn btn-success btn-md" id="btnNuevoContrato">
-                                        <i class="fal fa-list"></i>
-                                        Nuevo
-                                    </button>
+                                    
                                 </div>
                                 <div class="col-3">
                                     <button class="btn btn-warning btn-md" id="btnMenuProyectoEditar">
@@ -219,6 +216,12 @@ function getView(){
                                                     </thead>
                                                     <tbody id="tblPSucontratistas"></tbody>
                                                 </table>
+                                            </div>
+
+                                            <div id="btnFlotanteDerecha">
+                                                <button class="btn btn-success btn-circle btn-xl shadow" id="btnNuevoContrato">
+                                                    +
+                                                </button>
                                             </div>
                                             
                                         </div>   
