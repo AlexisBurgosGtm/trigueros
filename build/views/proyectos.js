@@ -136,7 +136,7 @@ function getView(){
                                 </div>
 
                                 <div class="col-8">
-                                    <h5 class="modal-title" id="exampleModalLabel">Opciones del Proyecto</h5>    
+                                    <h5 class="modal-title" id="exampleModalLabel">INFORMACION GENERAL DEL PROYECTO</h5>    
                                 </div>
                             </div>
                             
@@ -195,14 +195,14 @@ function getView(){
                             <div class="panel-container show">
                                 <div class="panel-content">
                                     <ul class="nav nav-pills nav-justified" role="tablist">
-                                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel3">ChProv</a></li>
-                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel2">ChSub</a></li>
-                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel1">Subcontratos</a></li>    
-                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel4">Rec</a></li>
+                                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel3">CHPROVEED</a></li>
+                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel2">CHSUBC</a></li>
+                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel1">SUBCONTRATOS</a></li>    
+                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel4">CHRECIB</a></li>
                                     </ul>
                                     <div class="tab-content py-3">
                                         <!-- sub contratistas -->
-                                        <div class="tab-pane fade active show" id="panel1" role="tabpanel">
+                                        <div class="tab-pane fade" id="panel1" role="tabpanel">
                                             
                                             <div class="table-responsive">
                                                 <table class="table table-responsive">
@@ -245,7 +245,7 @@ function getView(){
                                             </div>
                                         </div>
                                         <!-- cheques proveedores -->
-                                        <div class="tab-pane fade" id="panel3" role="tabpanel">
+                                        <div class="tab-pane fade active show" id="panel3" role="tabpanel">
                                             <div class="table-responsive">
                                                 <div class="table-responsive">
                                                     <table class="table table-responsive">
