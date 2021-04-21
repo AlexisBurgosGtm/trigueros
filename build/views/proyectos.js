@@ -127,80 +127,74 @@ function getView(){
             <div class="modal fade js-modal-settings modal-backdrop-transparent modal-with-scroll" tabindex="-1" role="dialog" aria-hidden="true"  id="modalMenuProyecto" >
                 <div class="modal-dialog modal-dialog-right modal-lg" role="document">
                     <div class="modal-content">
-                        <div class="modal-header bg-warning">
-                            <div class="row">
-                                <div class="col-4">
-                                    <button class="btn btn-warning border-secondary" data-dismiss="modal">
-                                        <i class="fal fa-arrow-left"></i>
-                                    </button>
-                                </div>
-
-                                <div class="col-8">
-                                    <h5 class="modal-title" id="exampleModalLabel">INFORMACION GENERAL DEL PROYECTO</h5>    
-                                </div>
-                            </div>
-                            
-                            
-                        </div>
+                        
                         <div class="modal-body" style="font-size :small">
-                            <h4 id="lbDetProyecto">Proyecto</h4>
-                            <br>
-                            
-                            <div class="row">
-                                <div class="col-3">
-                                    
-                                </div>
-                                <div class="col-3">
-                                    <button class="btn btn-warning btn-md" id="btnMenuProyectoEditar">
-                                        <i class="fal fa-edit"></i>
-                                        Editar
-                                    </button>
-                                </div>
-                                <div class="col-3">
-                                    <button class="btn btn-secondary btn-md" id="btnMenuProyectoFinalizar">
-                                        <i class="fal fa-check"></i>
-                                        Finalizar
-                                    </button>
-                                </div>
-                                <div class="col-3">
-                                    <button class="btn btn-danger btn-md" id="btnMenuProyectoEliminar">
-                                        <i class="fal fa-trash"></i>
-                                        Eliminar
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <hr class="rounded">
-                            <div class="row">
-                                <div class="col-4">
-                                    <div class="form-group">
-                                        <label>Recibido</label>
-                                        <h5 class="text-info" id="lbRecibido"></h5>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="form-group">
-                                        <label>Ejecutado</label>
-                                        <h5 class="text-danger" id="lbEjecutado"></h5>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="form-group">
-                                        <label>Diferencia</label>
-                                        <h5 id="lbDiferencia"></h5>
-                                    </div>
-                                </div>
-                            </div>
                                 
                             <div class="panel-container show">
                                 <div class="panel-content">
-                                    <ul class="nav nav-pills nav-justified" role="tablist">
-                                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel3">CHPROVEED</a></li>
-                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel2">CHSUBC</a></li>
-                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel1">SUBCONTRATOS</a></li>    
-                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel4">CHRECIB</a></li>
+                                
+                                    <ul class="nav nav-pills nav-justified border-primary" role="tablist">
+                                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel0" id="btnTabGeneral">DATOS GENERALES</a></li>
+                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel3" id="btnTabProveedores">CHEQUES A PROVEEDORES</a></li>
+                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel2" id="btnTabSubcontratistas">CHEQUES A SUBCONTRATISTAS</a></li>
+                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel1"  id="btnTabContratos">SUBCONTRATOS</a></li>    
+                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel4"  id="btnTabRecibidos">PAGOS RECIBIDOS</a></li>
                                     </ul>
                                     <div class="tab-content py-3">
+                                        <!-- inicio -->
+                                        <div class="tab-pane fade active show" id="panel0" role="tabpanel">
+                                        
+                                            <h4 id="lbDetProyecto">Proyecto</h4>
+                                            <br>
+                                            
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    
+                                                </div>
+                                                <div class="col-3">
+                                                    <button class="btn btn-warning btn-md" id="btnMenuProyectoEditar">
+                                                        <i class="fal fa-edit"></i>
+                                                        Editar
+                                                    </button>
+                                                </div>
+                                                <div class="col-3">
+                                                    <button class="btn btn-secondary btn-md" id="btnMenuProyectoFinalizar">
+                                                        <i class="fal fa-check"></i>
+                                                        Finalizar
+                                                    </button>
+                                                </div>
+                                                <div class="col-3">
+                                                    <button class="btn btn-danger btn-md" id="btnMenuProyectoEliminar">
+                                                        <i class="fal fa-trash"></i>
+                                                        Eliminar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            
+                                            <hr class="rounded">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <div class="form-group">
+                                                        <label>Recibido</label>
+                                                        <h5 class="text-info" id="lbRecibido"></h5>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="form-group">
+                                                        <label>Ejecutado</label>
+                                                        <h5 class="text-danger" id="lbEjecutado"></h5>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="form-group">
+                                                        <label>Diferencia</label>
+                                                        <h5 id="lbDiferencia"></h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>   
+
                                         <!-- sub contratistas -->
                                         <div class="tab-pane fade" id="panel1" role="tabpanel">
                                             
@@ -245,7 +239,7 @@ function getView(){
                                             </div>
                                         </div>
                                         <!-- cheques proveedores -->
-                                        <div class="tab-pane fade active show" id="panel3" role="tabpanel">
+                                        <div class="tab-pane fade" id="panel3" role="tabpanel">
                                             <div class="table-responsive">
                                                 <div class="table-responsive">
                                                     <table class="table table-responsive">
@@ -287,12 +281,14 @@ function getView(){
                                 </div> 
                             </div>
 
-                            
-                                                        
                         </div>
-                        
                     </div>
                 </div>
+                <div class="" id="btnFlotanteDerecha">
+                    <button class="btn btn-danger btn-md" data-dismiss="modal">
+                        <i class="fal fa-arrow-left"></i>Atrás
+                    </button>
+                </div>                                
             </div>
             `   
         },
@@ -372,8 +368,20 @@ function addListeners() {
         api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
     });
 
+    cmbAnio.style = "visibility:hidden";
+    cmbMes.style = "visibility:hidden";
+
     cmbStatus.addEventListener('change',()=>{
-        api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
+        if(cmbStatus.value=='NO'){
+            cmbAnio.style = "visibility:hidden";
+            cmbMes.style = "visibility:hidden";
+            api.proyectos_listado(cmbStatus.value, 0, 0, 'tblProyectos');
+            
+        }else{
+            cmbAnio.style = "visibility:visible";
+            cmbMes.style = "visibility:visible";
+            api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
+        }
     });
 
     //VENTANA INICIAL DE PROYECTOS
@@ -578,7 +586,7 @@ async function getCargasIniciales() {
     let cmbMes = document.getElementById('cmbMes');
     let cmbAnio = document.getElementById('cmbAnio');
 
-    await api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
+    await api.proyectos_listado(cmbStatus.value, 0, 0, 'tblProyectos');
     await api.contratantes_combo('cmbContratante');
     await api.subcontratistas_combo('cmbPSubContratista');
 

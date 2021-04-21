@@ -2,6 +2,7 @@ let classNavegar = {
     login: ()=>{
         funciones.loadScript('../views/login.js','root')
         .then(async()=>{
+            lbTituloVista.innerText = 'INICIO';
             GlobalSelectedForm = 'login';
             GlobalUsuario = 'USUARIO';
             GlobalPassUsuario = '';
@@ -17,6 +18,7 @@ let classNavegar = {
         if(GlobalNivelUsuario==1){
             funciones.loadScript('../views/proyectos.js','root')
             .then(async()=>{
+                lbTituloVista.innerText = 'GESTION DE PROYECTOS';
                 GlobalSelectedForm = 'proyectos';
                 initView();
             })
@@ -27,6 +29,7 @@ let classNavegar = {
     cheques: ()=>{
         funciones.loadScript('../views/cheques.js','root')
         .then(async()=>{
+            lbTituloVista.innerText = 'GESTION DE CHEQUES';
             GlobalSelectedForm = 'cheques';
             initView();
         })
@@ -34,6 +37,7 @@ let classNavegar = {
     contratos: ()=>{
         funciones.loadScript('../views/contratos.js','root')
         .then(async()=>{
+            lbTituloVista.innerText = 'LISTA DE CONTRATOS';
             GlobalSelectedForm = 'contratos';
             initView();
         })
@@ -42,6 +46,7 @@ let classNavegar = {
             if(GlobalNivelUsuario==1){
                 funciones.loadScript('../views/mantenimientos.js','root')
                 .then(async()=>{
+                    lbTituloVista.innerText = 'MANTENIMIENTOS';
                     GlobalSelectedForm = 'mantenimientos';
                     initView();
                 })
@@ -54,6 +59,7 @@ let classNavegar = {
         if(GlobalNivelUsuario==1){
             funciones.loadScript('../views/reportes.js','root')
             .then(async()=>{
+                lbTituloVista.innerText = 'REPORTES';
                 GlobalSelectedForm = 'reportes';
                 initView();
             })

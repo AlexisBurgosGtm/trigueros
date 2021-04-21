@@ -3,6 +3,8 @@ let rootModal= document.getElementById('rootModal');
 let menuPrincipal = document.getElementById('footerNav');
 let btnSalir = document.getElementById('btnSalir');
 
+let lbTituloVista = document.getElementById('lbTituloVista');
+
 const socket = io();
 
 
