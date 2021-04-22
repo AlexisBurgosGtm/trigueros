@@ -40,7 +40,13 @@ btnMenuMantenimientos.addEventListener('click',()=>{
 
 
 btnSalir.addEventListener('click',()=>{
-    classNavegar.login();    
+    funciones.Confirmacion('¿Está seguro que desea salir?')
+    .then((value)=>{
+        if(value==true){
+            classNavegar.login();    
+        }
+    })
+    
 });
 
 classNavegar.login();

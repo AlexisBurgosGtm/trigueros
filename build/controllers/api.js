@@ -44,6 +44,38 @@ let api = {
 
         });
     },
+    insertar_bitacora: (descripcion) => {
+        return new Promise((resolve, reject) => {
+
+            let fecha = funciones.getFecha();
+            let hora = funciones.getHora();
+
+            let data = {
+                fecha:fecha,
+                hora:hora,
+                descripcion:descripcion,
+                usuario:GlobalUsuario
+            };
+
+            let url = GlobalUrlBackend + '/usuarios/bitacora'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
+    },
     usuarios_eliminar: (codigo) => {
         return new Promise((resolve, reject) => {
 
@@ -319,7 +351,7 @@ let api = {
                         data.map((rows) => {
                             str = str + `<tr>
                                             <td>
-                                                ${rows.DESACREEDOR} (Contrato No.:${rows.NOCONTRATO})
+                                                ${rows.DESACREEDOR}
                                                 <br>
                                                 <small class="negrita">${rows.ASIGNACION}</small>
                                                 <br>

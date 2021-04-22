@@ -25,7 +25,8 @@ router.post("/nuevo", async (req, res) => {
 
     let qry = '';
 
-    qry = `INSERT INTO CONST_CHEQUES (
+    qry = ` 
+        INSERT INTO CONST_CHEQUES (
         IDPROYECTO,FECHA,NOCONTRATO,
         CODACREEDOR,CODCONTRATANTE,CODCUENTA,
         BANCO,NUMERO,CANTIDAD,

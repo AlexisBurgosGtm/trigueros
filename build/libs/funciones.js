@@ -600,6 +600,12 @@ let funciones = {
               <option value='2030'>2030</option>`
     return str;
     },
+    getHora(){
+      let f = new Date(); 
+      let h = f.getHours();
+      let m = f.getMinutes();
+      return `${h.toString()}:${m.toString()}`;
+    },
     getFecha(){
       let fecha
       let f = new Date(); 

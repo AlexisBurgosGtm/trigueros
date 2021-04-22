@@ -50,8 +50,8 @@ function addListeners(){
             .then(() => {
                                
                 menuPrincipal.style = "visibility : visible";
-                document.getElementById('lbUsuario').innerText = GlobalUsuario;
-                document.getElementById('lbUsuarioNivel').innerText = GlobalNivelUsuario;
+                //document.getElementById('lbUsuario').innerText = GlobalUsuario;
+                //document.getElementById('lbUsuarioNivel').innerText = GlobalNivelUsuario;
                 
                 //document.body.requestFullscreen();
 
@@ -69,11 +69,13 @@ function addListeners(){
                         classNavegar.login();
                         break;
                 }
+                document.getElementById('btnSalir').style = "visibility : visible";
                 
             })
             .catch(() => {
                 funciones.AvisoError('Usuario o contraseña incorrectos');
                 btnIniciar.innerHTML = `<i class="lni lni-cloud-check"></i>Ingresar`;
+                
             })
         
     })

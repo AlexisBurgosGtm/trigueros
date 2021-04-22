@@ -3,6 +3,32 @@ const express = require('express');
 const router = express.Router();
 
 
+router.post("/bitacora", async(req,res)=>{
+    
+    const {fecha,hora,descripcion,usuario} = req.body;
+    
+    let qry ='';
+    
+    qry = `INSERT INTO CONST_BITACORA(FECHA,HORA,DESCRIPCION,USUARIO) 
+            VALUES ('${fecha}','${hora}','${descripcion}','${usuario}')`;     
+    
+    execute.Query(res,qry);
+
+});
+
+router.post("/listabitacora", async(req,res)=>{
+    
+    const {mes,anio} = req.body;
+    
+    let qry ='';
+    
+    qry = `SELECT FECHA,HORA,DESCRIPCION,USUARIO FROM CONST_BITACORA
+            WHERE MONTH()=${mes} AND YEAR()=${anio}`;     
+    
+    execute.Query(res,qry);
+
+});
+
 
 router.post("/login", async (req, res) => {
 

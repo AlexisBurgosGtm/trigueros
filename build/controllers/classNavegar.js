@@ -8,9 +8,10 @@ let classNavegar = {
             GlobalPassUsuario = '';
             GlobalNivelUsuario = 0;
             GlobalCodUsuario = 0;
-            document.getElementById('lbUsuario').innerHTML = GlobalUsuario;
-            document.getElementById('lbUsuarioNivel').innerText = GlobalNivelUsuario;
+            //document.getElementById('lbUsuario').innerHTML = GlobalUsuario;
+            //document.getElementById('lbUsuarioNivel').innerText = GlobalNivelUsuario;
             menuPrincipal.style = "visibility : hidden";
+            document.getElementById('btnSalir').style = "visibility : hidden";
             initView();
         })
     },

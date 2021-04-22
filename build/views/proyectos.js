@@ -133,7 +133,7 @@ function getView(){
                             <div class="panel-container show">
                                 <div class="panel-content">
                                 
-                                    <ul class="nav nav-pills nav-justified border-primary" role="tablist">
+                                    <ul class="nav nav-pills nav-justified" role="tablist">
                                         <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel0" id="btnTabGeneral">DATOS GENERALES</a></li>
                                         <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel3" id="btnTabProveedores">CHEQUES A PROVEEDORES</a></li>
                                         <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel2" id="btnTabSubcontratistas">CHEQUES A SUBCONTRATISTAS</a></li>
@@ -141,6 +141,7 @@ function getView(){
                                         <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel4"  id="btnTabRecibidos">PAGOS RECIBIDOS</a></li>
                                     </ul>
                                     <div class="tab-content py-3">
+                                    <hr class="solid">
                                         <!-- inicio -->
                                         <div class="tab-pane fade active show" id="panel0" role="tabpanel">
                                         
@@ -197,7 +198,15 @@ function getView(){
 
                                         <!-- sub contratistas -->
                                         <div class="tab-pane fade" id="panel1" role="tabpanel">
-                                            
+                                            <div class="row">
+                                                <div class="col-6">
+                                                </div>
+                                                <div class="col-6 text-right">
+                                                    <button class="btn btn-success btn-md shadow" id="btnNuevoContrato">
+                                                        Nuevo (+)
+                                                    </button>
+                                                </div>
+                                            </div>    
                                             <div class="table-responsive">
                                                 <table class="table table-responsive">
                                                     <thead class="bg-trans-gradient text-white">
@@ -211,14 +220,9 @@ function getView(){
                                                     <tbody id="tblPSucontratistas"></tbody>
                                                 </table>
                                             </div>
-
-                                            <div id="btnFlotanteDerecha">
-                                                <button class="btn btn-success btn-circle btn-xl shadow" id="btnNuevoContrato">
-                                                    +
-                                                </button>
-                                            </div>
                                             
                                         </div>   
+
                                         <!-- cheques subcontratistas -->
                                         <div class="tab-pane fade" id="panel2" role="tabpanel">
                                             <div class="table-responsive">
@@ -421,6 +425,7 @@ function addListeners() {
                             let cmbAnio = document.getElementById('cmbAnio');
 
                             await api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
+                            await api.insertar_bitacora(`Proyecto nuevo: ${txtDescripcion.value}`)
                             $('#modalNuevo').modal('hide');
                     })
                     .catch(() => {
@@ -450,6 +455,8 @@ function addListeners() {
                         let cmbAnio = document.getElementById('cmbAnio');
 
                         await api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
+                        await api.insertar_bitacora(`Proyecto Eliminado: ${GlobalSelectedCodProyecto}`);
+
                         $('#modalMenuProyecto').modal('hide');
                     })
                     .catch(()=>{
@@ -493,6 +500,7 @@ function addListeners() {
                         let cmbAnio = document.getElementById('cmbAnio');
 
                         await api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
+                        await api.insertar_bitacora(`Proyecto finalizado: ${GlobalSelectedCodProyecto}`)
                         $('#modalMenuProyecto').modal('hide');
                     })
                     .catch(()=>{
@@ -538,10 +546,11 @@ function addListeners() {
                         if(GlobalSelectedNumeroContrato==0){
                             //es un nuevo contrato
                            await api.subcontrato_insertar(GlobalSelectedCodProyecto,cmbPSubContratista.value,txtPAsignacion.value,txtPPresupuesto.value,funciones.getFecha('txtPFechaEntrega'))
-                            .then(()=>{
+                            .then(async()=>{
                                 funciones.Aviso('Nuevo Sub-contrato creado exitosamente !!')
                                 api.proyectos_subcontratistas(GlobalSelectedCodProyecto,'tblPSucontratistas')
                                 $('#modalNuevoContrato').modal('hide');
+                                await api.insertar_bitacora(`Nuevo subcontrato: ${txtPAsignacion.value} para ${cmbPSubContratista.value}`)
                             })
                             .catch(()=>{
                                 funciones.AvisoError('No se pudo crear el Sub-contrato')
