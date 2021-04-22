@@ -132,10 +132,10 @@ let api = {
                                                <br>
                                             <div class="row">
                                                 <div class="col-6">
-                                                    <small class="text-info">Inicio: ${funciones.cleanDataFecha(rows.FECHAINICIO)}</small>
+                                                    <small class="text-info">Inicio: ${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHAINICIO))}</small>
                                                 </div>
                                                 <div class="col-6">
-                                                    <small class="text-info">Fin: ${funciones.cleanDataFecha(rows.FECHAFIN)}</small>
+                                                    <small class="text-info">Fin: ${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHAFIN))}</small>
                                                 </div>
                                             </div>
                                             <br><small>Contratante: ${rows.DESCONTRATANTE}</small>
@@ -575,15 +575,14 @@ let api = {
                                 '${funciones.setMoneda(rows.ENTREGADO,'Q')}',
                                 '${funciones.setMoneda((Number(rows.IMPORTE)-Number(rows.ENTREGADO)),'Q')}'
                                 )">
-                                            <td>No: ${rows.NOCONTRATO}
+                                            <td>Correlativo: ${rows.NOCONTRATO}
                                                 <hr class="solid">
                                                 <small class="">Entrega:</small>
                                                 <br>
-                                                <small class="negrita">${funciones.cleanDataFecha(rows.FECHAENTREGA)}</small>
+                                                <small class="negrita">${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHAENTREGA))}</small>
                                             </td>
-                                            <td>${rows.PROYECTO}
-                                                <br>
-                                                <small class="negrita text-info">${rows.DESACREEDOR}</small>
+                                            <td><!--${rows.PROYECTO}<br>-->
+                                                <div class="negrita text-info">${rows.DESACREEDOR}</div>
                                                 <br>
                                                 <small class="">Tarea:${rows.ASIGNACION}</small>
                                             </td>
@@ -849,7 +848,7 @@ let api = {
                     let tipo = rows.TIPOCHEQUE;
                     
                     newrow = `<tr class="border-bottom border-info">
-                                <td>${funciones.cleanDataFecha(rows.FECHA)}
+                                <td>${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHA))}
                                         <br>
                                         <small class="negrita text-danger">Cheque No. ${rows.NOCHEQUE}</small>
                                 </td>
@@ -861,7 +860,7 @@ let api = {
                                         <br>
                                         <small class="negrita text-info">${rows.ASIGNACION}</small>
                                         <br class="solid">
-                                        <small>Proyecto:${rows.PROYECTO}</small>
+                                        <!--<small>Proyecto:${rows.PROYECTO}</small>-->
                                 </td>
                                 <td>${funciones.setMoneda(rows.IMPORTE,'Q')}</td>
                                 <td>
@@ -932,7 +931,7 @@ let api = {
                     let tipo = rows.TIPOCHEQUE;
                     
                     newrow = `<tr class="border-bottom border-info">
-                                <td>${funciones.cleanDataFecha(rows.FECHA)}
+                                <td>${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHA))}
                                         <br>
                                         <small class="negrita text-danger">Cheque No. ${rows.NOCHEQUE}</small>
                                 </td>
@@ -943,8 +942,8 @@ let api = {
                                 <td>${rows.DESACREEDOR}
                                         <br>
                                         <small class="negrita text-info">${rows.ASIGNACION}</small>
-                                        <br class="solid">
-                                        <small>Proyecto:${rows.PROYECTO}</small>
+                                        <!--<br class="solid">
+                                        <small>Proyecto:${rows.PROYECTO}</small>-->
                                 </td>
                                 <td>${funciones.setMoneda(rows.IMPORTE,'Q')}</td>
                                 <td>

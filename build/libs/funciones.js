@@ -600,6 +600,17 @@ let funciones = {
               <option value='2030'>2030</option>`
     return str;
     },
+    convertDate2(date) {
+      const [yy, mm, dd] = date.split(/-/g);
+      return `${dd}/${mm}/${yy}`;
+    },
+    convertDate(input) {
+      var datePart = input.match(/\d+/g),
+      year = datePart[0].substring(4), // get only two digits
+      month = datePart[1], day = datePart[2];
+    
+      return day+'/'+month+'/'+year;
+    },
     getHora(){
       let f = new Date(); 
       let h = f.getHours();

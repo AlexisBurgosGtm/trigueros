@@ -171,7 +171,7 @@ function initView(){
 async function detalleContrato(nocontrato,entrega,proyecto,acreedor,asignacion,importe,entregado,saldo){
     
     document.getElementById('NoContrato').innerText = nocontrato;
-    document.getElementById('FechaEntrega').innerText = entrega;
+    document.getElementById('FechaEntrega').innerText =funciones.convertDate2(entrega);
     document.getElementById('Proyecto').innerText = proyecto;
     document.getElementById('Acreedor').innerText = acreedor;
     document.getElementById('Asignacion').innerText = asignacion;
