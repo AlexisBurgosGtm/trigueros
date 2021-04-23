@@ -176,8 +176,15 @@ let funciones = {
     solicitarClave: function(){
       return new Promise((resolve,reject)=>{
           swal({
+            html:true,
             text: 'Escriba su contraseña de usuario',
-            content: "input",
+            content: {
+              element: "input",
+              attributes: {
+                placeholder: "",
+                type: "password",
+              }
+            },
             button: {
               text: "Verificar",
               closeModal: true,

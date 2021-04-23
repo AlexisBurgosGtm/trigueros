@@ -155,7 +155,7 @@ function getView(){
                                                 <div class="col-3">
                                                     <button class="btn btn-warning btn-md" id="btnMenuProyectoEditar">
                                                         <i class="fal fa-edit"></i>
-                                                        Editar
+                                                        __Editar
                                                     </button>
                                                 </div>
                                                 <div class="col-3">
@@ -173,20 +173,30 @@ function getView(){
                                             </div>
                                             
                                             <hr class="rounded">
+
                                             <div class="row">
-                                                <div class="col-4">
+                                                <div class="col-6">
                                                     <div class="form-group">
-                                                        <label>Recibido</label>
-                                                        <h5 class="text-info" id="lbRecibido"></h5>
+                                                        <label>Costo Total</label>
+                                                        <h5 class="text-info" id="lbPresupuesto"></h5>
                                                     </div>
                                                 </div>
-                                                <div class="col-4">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label>Recibido</label>
+                                                        <h5 class="text-success" id="lbRecibido"></h5>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">
                                                     <div class="form-group">
                                                         <label>Ejecutado</label>
                                                         <h5 class="text-danger" id="lbEjecutado"></h5>
                                                     </div>
                                                 </div>
-                                                <div class="col-4">
+                                                <div class="col-6">
                                                     <div class="form-group">
                                                         <label>Diferencia</label>
                                                         <h5 id="lbDiferencia"></h5>
@@ -391,6 +401,7 @@ function addListeners() {
     //VENTANA INICIAL DE PROYECTOS
     let btnNuevo = document.getElementById('btnNuevo');
     btnNuevo.addEventListener('click', () => {
+        
         $('#modalNuevo').modal('show');
     });   
 
@@ -443,28 +454,45 @@ function addListeners() {
     let btnMenuProyectoEliminar = document.getElementById('btnMenuProyectoEliminar');
     btnMenuProyectoEliminar.addEventListener('click',()=>{
         
-            funciones.Confirmacion('¿Está seguro que desea ELIMINAR este proyecto?')
-            .then((value)=>{
-                if(value==true){
-                    btnMenuProyectoEliminar.innerHTML = GlobalLoader;
-                    api.proyectos_eliminar(GlobalSelectedCodProyecto)
-                    .then(async()=>{
-                        funciones.Aviso('Proyecto Eliminado exitosamente!!')
-                        let cmbStatus = document.getElementById('cmbStatus');
-                        let cmbMes = document.getElementById('cmbMes');
-                        let cmbAnio = document.getElementById('cmbAnio');
+        $('#modalMenuProyecto').modal('hide');
+    
+        funciones.solicitarClave()
+        .then((name)=>{
+            if(name.toString()==GlobalConfigClave.toString()){
+               
+                funciones.Confirmacion('¿Está seguro que desea ELIMINAR este proyecto?')
+                .then((value)=>{
+                    if(value==true){
+                        btnMenuProyectoEliminar.innerHTML = GlobalLoader;
+                        api.proyectos_eliminar(GlobalSelectedCodProyecto)
+                        .then(async()=>{
+                            funciones.Aviso('Proyecto Eliminado exitosamente!!')
+                            let cmbStatus = document.getElementById('cmbStatus');
+                            let cmbMes = document.getElementById('cmbMes');
+                            let cmbAnio = document.getElementById('cmbAnio');
+    
+                            await api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
+                            await api.insertar_bitacora(`Proyecto Eliminado: ${GlobalSelectedCodProyecto}`);
+    
+                            $('#modalMenuProyecto').modal('hide');
+                        })
+                        .catch(()=>{
+                            funciones.AvisoError('No se pudo Eliminar este proyecto')
+                        })
+                        btnMenuProyectoEliminar.innerHTML =`<i class="fal fa-trash"></i>Eliminar`
+                    }        
+                })    
+            
 
-                        await api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
-                        await api.insertar_bitacora(`Proyecto Eliminado: ${GlobalSelectedCodProyecto}`);
+            }else{
+                funciones.AvisoError('Incorrecta')
+            }
+        })
+        .catch(()=>{
+            funciones.AvisoError('Incorrecta')
+        })
+        
 
-                        $('#modalMenuProyecto').modal('hide');
-                    })
-                    .catch(()=>{
-                        funciones.AvisoError('No se pudo Eliminar este proyecto')
-                    })
-                    btnMenuProyectoEliminar.innerHTML =`<i class="fal fa-trash"></i>Eliminar`
-                }        
-            })    
         
         
     });
@@ -472,44 +500,62 @@ function addListeners() {
     let btnMenuProyectoEditar = document.getElementById('btnMenuProyectoEditar');
     btnMenuProyectoEditar.addEventListener('click',()=>{
         $('#modalMenuProyecto').modal('hide');
+    
         funciones.solicitarClave()
         .then((name)=>{
-            if(name==GlobalPassUsuario){
-                funciones.Aviso('Edición de los datos generales del proyecto');
+            if(name.toString()==GlobalConfigClave.toString()){
+                funciones.Aviso('Clave correcta')
             }else{
-                funciones.AvisoError('Clave incorrecta')
+                funciones.AvisoError('Incorrecta')
             }
         })
         .catch(()=>{
-            funciones.AvisoError('Clave incorrecta')
+            funciones.AvisoError('Incorrecta')
         })
-        
+
     });
 
     let btnMenuProyectoFinalizar = document.getElementById('btnMenuProyectoFinalizar');
     btnMenuProyectoFinalizar.addEventListener('click',()=>{
-        funciones.Confirmacion('¿Está seguro que desea FINALIZAR este proyecto?')
-            .then(async(value)=>{
-                if(value==true){
-                    btnMenuProyectoFinalizar.innerHTML = GlobalLoader;
-                    await api.proyectos_finalizar(GlobalSelectedCodProyecto)
-                    .then(async()=>{
-                        funciones.Aviso('Proyecto Finalizado exitosamente!!')
-                        let cmbStatus = document.getElementById('cmbStatus');
-                        let cmbMes = document.getElementById('cmbMes');
-                        let cmbAnio = document.getElementById('cmbAnio');
+        $('#modalMenuProyecto').modal('hide');
+    
+        funciones.solicitarClave()
+        .then((name)=>{
+            if(name.toString()==GlobalConfigClave.toString()){
+                
+                funciones.Confirmacion('¿Está seguro que desea FINALIZAR este proyecto?')
+                .then(async(value)=>{
+                    if(value==true){
+                        btnMenuProyectoFinalizar.innerHTML = GlobalLoader;
+                        await api.proyectos_finalizar(GlobalSelectedCodProyecto)
+                        .then(async()=>{
+                            funciones.Aviso('Proyecto Finalizado exitosamente!!')
+                            let cmbStatus = document.getElementById('cmbStatus');
+                            let cmbMes = document.getElementById('cmbMes');
+                            let cmbAnio = document.getElementById('cmbAnio');
+    
+                            await api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
+                            await api.insertar_bitacora(`Proyecto finalizado: ${GlobalSelectedCodProyecto}`)
+                            $('#modalMenuProyecto').modal('hide');
+                        })
+                        .catch(()=>{
+                            funciones.AvisoError('No se pudo Finalizado este proyecto')
+                        })
+                        btnMenuProyectoFinalizar.innerHTML = `<i class="fal fa-check"></i>Finalizar`
+                    }
+                })
+            
 
-                        await api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
-                        await api.insertar_bitacora(`Proyecto finalizado: ${GlobalSelectedCodProyecto}`)
-                        $('#modalMenuProyecto').modal('hide');
-                    })
-                    .catch(()=>{
-                        funciones.AvisoError('No se pudo Finalizado este proyecto')
-                    })
-                    btnMenuProyectoFinalizar.innerHTML = `<i class="fal fa-check"></i>Finalizar`
-                }
-            })
+            }else{
+                funciones.AvisoError('Incorrecta')
+            }
+        })
+        .catch(()=>{
+            funciones.AvisoError('Incorrecta')
+        })
         
+
+
     });
 
     //VENTANA NUEVO CONTRATO
@@ -606,11 +652,12 @@ function initView(){
     addListeners();
 };
 
-function getMenuProyecto(codigo,descripcion){
+function getMenuProyecto(codigo,descripcion, presupuesto){
     
     GlobalSelectedCodProyecto = codigo;
     
     document.getElementById('lbDetProyecto').innerText = descripcion;
+    document.getElementById('lbPresupuesto').innerText = presupuesto;
 
     api.proyectos_subcontratistas(codigo,'tblPSucontratistas');
     api.cheques_proyecto(GlobalSelectedCodProyecto, 'tblCheques1','tblCheques2','tblCheques3','lbRecibido','lbEjecutado','lbDiferencia');
@@ -620,6 +667,8 @@ function getMenuProyecto(codigo,descripcion){
 };
 
 function deleteContrato(nocontrato){
+    funciones.solicitarClave()
+    
     
         funciones.Confirmacion('¿Está seguro que desea Eliminar este Sub-Contrato?, no se podrán recuperar los datos')
         .then((value)=>{
@@ -640,6 +689,10 @@ function deleteContrato(nocontrato){
 };
 
 function editContrato(nocontrato,codacreedor,asignacion,fecha,presupuesto){
+     
+    funciones.solicitarClave()
+    
+    
         document.getElementById('lbNuevoContrato').innerText = 'Edición del Contrato No. ' + nocontrato.toString();
         GlobalSelectedNumeroContrato = nocontrato;
 
@@ -656,6 +709,7 @@ function editContrato(nocontrato,codacreedor,asignacion,fecha,presupuesto){
 };
 
 function deleteCheque(id){
+    funciones.solicitarClave()
     
         funciones.Confirmacion('¿Está seguro que desea ELIMINAR este cheque?')
         .then((value)=>{

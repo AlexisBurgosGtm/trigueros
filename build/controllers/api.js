@@ -126,7 +126,7 @@ let api = {
                             }else{
                                 stClasDif = 'text-danger';
                             };
-                            str = str + `<tr class="hand border-bottom" onClick="getMenuProyecto(${rows.IDPROYECTO},'${rows.PROYECTO}');">
+                            str = str + `<tr class="hand border-bottom" onClick="getMenuProyecto(${rows.IDPROYECTO},'${rows.PROYECTO}','${funciones.setMoneda(rows.PRESUPUESTO, 'Q')}');">
                                         <td>${rows.PROYECTO}
                                             <br><small>${rows.DIRECCION}</small>
                                                <br>
