@@ -213,5 +213,14 @@ router.post("/finalizar", async (req, res) => {
 });
 
 
+router.post("/listarubros", async (req, res) => {
+
+
+    let qry = `SELECT ID, RUBRO FROM CONST_RUBROS`;
+
+    execute.Query(res, qry);
+
+});
+
 
 module.exports = router;

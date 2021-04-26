@@ -11,6 +11,7 @@ function getView(){
                                 <option value="CONTRATANTES">CONTRATANTES</option>
                                 <option value="PROVEEDORES">PROVEEDORES</option>
                                 <option value="SUBCONTRATISTAS">SUBCONTRATISTAS</option>
+                                <option value="RUBROS">RUBROS</option>
                                 <option value="USUARIOS">USUARIOS</option>
                             </select>
                         </div>
@@ -179,8 +180,9 @@ function addListeners(){
                 $('#modalContratantes').modal('show');   
 
                 break;
-            case 'BANCOS':
-                
+            case 'RUBROS':
+                GlobalSelectedId = 0;
+
                 break;
             
         }
@@ -345,6 +347,9 @@ async function getListado(tipo){
             await api.config_contratantes_lista('tblContainer');
             break;
 
+        case 'RUBROS':
+            await api.config_rubros_lista('tblContainer');
+            break;
         default:
             document.getElementById('tblContainer').innerHTML = `<b class="text-danger">Opción en construcción</b>`
             break;

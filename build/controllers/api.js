@@ -1272,5 +1272,71 @@ let api = {
 
 
         });
-    }
+    },
+    rubros_listado: (idContainer) => {
+            let container = document.getElementById(idContainer)
+            let str = '';
+    
+            let url = GlobalUrlBackend + '/proyectos/listarubros';
+            axios.post(url)
+            .then((response) => {
+                try {
+                    const data = response.data.recordset;
+                    data.map((rows) => {
+                        str = str + `<option value="${rows.RUBRO}">${rows.RUBRO}</option>`
+                    })
+                    container.innerHTML = str;
+                } catch (err) {
+                    str = '<option value="SN">';
+                    container.innerHTML = str;
+                }
+            }, (error) => {
+                    str = '<option value="SN">Error..</option>';
+                    container.innerHTML = str;
+            });           
+    },
+    config_rubros_lista: (idContainer) => {
+        let container = document.getElementById(idContainer)
+        container.innerHTML = GlobalLoader;
+
+        let strHeader = `<table class="table table-striped table-responsive table-hover">
+                            <thead class="bg-warning text-white">
+                                <tr>
+                                    <td>ID</td>
+                                    <td>DESCRIPCION</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody>`
+        let str = '';
+        let strFooter = `</tbody></table>`
+
+        let url = GlobalUrlBackend + '/proyectos/listarubros';
+        axios.post(url)
+        .then((response) => {
+            try {
+                const data = response.data.recordset;
+                data.map((rows) => {
+                    str = str + `<tr class="border-warning border-bottom">
+                                                <td>${rows.ID}</td>
+                                                <td>${rows.RUBRO}
+                                                </td>
+
+                                                <td>
+                                                    <button class="btn btn-sm btn-warning btn-circle" onclick="getMenuRubro(${rows.ID},'${rows.RUBRO}')">
+                                                        <i class="fal fa-edit"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>`
+                })
+                container.innerHTML = strHeader + str + strFooter;
+            } catch (err) {
+                str = 'AGREGUE DATOS...';
+                container.innerHTML = str;
+            }
+        }, (error) => {
+                str = 'ERROR...';
+                container.innerHTML = str;
+        });           
+}
 }

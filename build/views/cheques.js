@@ -353,7 +353,8 @@ function getView(){
 async function addListeners(){
    
 
-    document.getElementById('cmbRubro').innerHTML = funciones.getComboRubros();
+    //document.getElementById('cmbRubro').innerHTML = funciones.getComboRubros();
+    api.rubros_listado('cmbRubro');
 
     //**************************************************** */
     // MENU NUEVO CHEQUE

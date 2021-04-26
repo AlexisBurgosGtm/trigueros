@@ -50,9 +50,7 @@ function addListeners(){
             .then(() => {
                                
                 menuPrincipal.style = "visibility : visible";
-                //document.getElementById('lbUsuario').innerText = GlobalUsuario;
-                //document.getElementById('lbUsuarioNivel').innerText = GlobalNivelUsuario;
-                
+               
                 //document.body.requestFullscreen();
 
                 switch (Number(GlobalNivelUsuario)) {
@@ -70,6 +68,7 @@ function addListeners(){
                         break;
                 }
                 document.getElementById('btnSalir').style = "visibility : visible";
+                
                 
             })
             .catch(() => {

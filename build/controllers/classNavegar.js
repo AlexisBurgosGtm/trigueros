@@ -2,6 +2,7 @@ let classNavegar = {
     login: ()=>{
         funciones.loadScript('../views/login.js','root')
         .then(async()=>{
+            GlobalListaRubros = '';
             lbTituloVista.innerText = 'INICIO';
             GlobalSelectedForm = 'login';
             GlobalUsuario = 'USUARIO';

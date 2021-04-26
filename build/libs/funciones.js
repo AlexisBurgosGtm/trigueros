@@ -801,7 +801,8 @@ let funciones = {
       <option value="ELECTRICIDAD">ELECTRICIDAD</option>
       <option value="VARIOS">VARIOS</option>
       `;
-      return str;
+      return GlobalListaRubros;
+      
     },
     getComboBancos: ()=>{
       return `
