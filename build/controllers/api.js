@@ -1396,8 +1396,7 @@ let api = {
                 });
     },
     bitacora_insertar: (descripcion) => {
-        return new Promise((resolve, reject) => {
-
+       
             let data = {
                 fecha:funciones.getFecha(),
                 hora:funciones.getHora(),
@@ -1410,18 +1409,11 @@ let api = {
             axios.post(url, data)
                 .then((response) => {
                     const data = response.data.recordset;
-                    if (response.data.rowsAffected[0] == 0) {
-                        reject();
-                    } else {
-                        resolve();
-                    }
+                    console.log(data);
                 }, (error) => {
                     console.log(error);
-                    reject();
+          
                 });
 
-
-
-        });
     }
 }
