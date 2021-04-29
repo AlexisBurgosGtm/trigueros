@@ -2,7 +2,7 @@ function getView(){
     let view = {
         login : ()=>{
             return `
-                <div class="card col-sm-12 col-md-3 col-lg-3 col-xl-3 shadow border-info-left border-info-bottom">
+                <div class="card col-sm-12 col-md-4 col-lg-3 col-xl-3 shadow border-info-left border-info-bottom">
                     <div class="card-header text-center bg-white border-bottom ">
                         <img src="../img/favicon.png" widht="80" height="80">
                     </div>
@@ -58,10 +58,10 @@ function addListeners(){
                         classNavegar.proyectos();    
                         break;
                     case 2:
-                        classNavegar.cheques();    
+                        classNavegar.proyectos();  
                         break;
                     case 3:
-                        classNavegar.contratos();
+                        classNavegar.cheques(); 
                         break;
                     default:
                         classNavegar.login();

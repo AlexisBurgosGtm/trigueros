@@ -609,7 +609,7 @@ let funciones = {
     },
     convertDate2(date) {
       const [yy, mm, dd] = date.split(/-/g);
-      return `${dd}/${mm}/${yy}`;
+      return `${dd}/${mm}/${yy}`.replace('T00:00:00.000Z', '');
     },
     convertDate(input) {
       var datePart = input.match(/\d+/g),

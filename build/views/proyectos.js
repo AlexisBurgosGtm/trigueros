@@ -668,30 +668,41 @@ function getMenuProyecto(codigo,descripcion, presupuesto){
 
 function deleteContrato(nocontrato){
     funciones.solicitarClave()
-    
-    
-        funciones.Confirmacion('¿Está seguro que desea Eliminar este Sub-Contrato?, no se podrán recuperar los datos')
-        .then((value)=>{
-            if(value==true){
-                api.subcontrato_eliminar(nocontrato)
-                .then(()=>{
-                    funciones.Aviso('Sub-contrato ELIMINADO exitosamente !!')
-                    api.proyectos_subcontratistas(GlobalSelectedCodProyecto,'tblPSucontratistas')
-                    $('#modalNuevoContrato').modal('hide');
+        .then((name)=>{
+            if(name.toString()==GlobalConfigClave.toString()){
+
+                funciones.Confirmacion('¿Está seguro que desea Eliminar este Sub-Contrato?, no se podrán recuperar los datos')
+                .then((value)=>{
+                    if(value==true){
+                        api.subcontrato_eliminar(nocontrato)
+                        .then(()=>{
+                            funciones.Aviso('Sub-contrato ELIMINADO exitosamente !!')
+                            api.proyectos_subcontratistas(GlobalSelectedCodProyecto,'tblPSucontratistas')
+                            $('#modalNuevoContrato').modal('hide');
+                        })
+                        .catch(()=>{
+                            funciones.AvisoError('No se pudo ELIMINAR el Sub-contrato')
+                        })
+                    }
                 })
-                .catch(()=>{
-                    funciones.AvisoError('No se pudo ELIMINAR el Sub-contrato')
-                })
+
+            }else{
+                funciones.AvisoError('Incorrecta')
             }
         })
+        .catch(()=>{
+            funciones.AvisoError('Incorrecta')
+        })
+
+    
+    
+     
         
     
 };
 
 function editContrato(nocontrato,codacreedor,asignacion,fecha,presupuesto){
      
-    funciones.solicitarClave()
-    
     
         document.getElementById('lbNuevoContrato').innerText = 'Edición del Contrato No. ' + nocontrato.toString();
         GlobalSelectedNumeroContrato = nocontrato;
@@ -710,21 +721,33 @@ function editContrato(nocontrato,codacreedor,asignacion,fecha,presupuesto){
 
 function deleteCheque(id){
     funciones.solicitarClave()
+    .then((name)=>{
+        if(name.toString()==GlobalConfigClave.toString()){
+
+            funciones.Confirmacion('¿Está seguro que desea ELIMINAR este cheque?')
+            .then((value)=>{
+                if(value==true){
+        
+                    api.cheques_delete(id)
+                    .then(()=>{
+                        funciones.Aviso('Cheque ELIMINADO exitosamente!!');
+                        api.cheques_proyecto(GlobalSelectedCodProyecto, 'tblCheques1','tblCheques2','tblCheques3','lbRecibido','lbEjecutado','lbDiferencia');
+                    })
+                    .catch(()=>{
+                        funciones.AvisoError('No se pudo ELIMINAR el cheque')
+                    })
+        
+                }
+            })
+
+        }else{
+            funciones.AvisoError('Incorrecta')
+        }
+    })
+    .catch(()=>{
+        funciones.AvisoError('Incorrecta')
+    })
     
-        funciones.Confirmacion('¿Está seguro que desea ELIMINAR este cheque?')
-        .then((value)=>{
-            if(value==true){
-    
-                api.cheques_delete(id)
-                .then(()=>{
-                    funciones.Aviso('Cheque ELIMINADO exitosamente!!');
-                    api.cheques_proyecto(GlobalSelectedCodProyecto, 'tblCheques1','tblCheques2','tblCheques3','lbRecibido','lbEjecutado','lbDiferencia');
-                })
-                .catch(()=>{
-                    funciones.AvisoError('No se pudo ELIMINAR el cheque')
-                })
-    
-            }
-        })
+
         
 };

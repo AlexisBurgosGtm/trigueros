@@ -7,6 +7,7 @@ function getView(){
                         <div class="form-group">
                             <label>Seleccione un Elemento de la Lista</label>
                             <select class="form-control" id="cmbLista">
+                                <option value="BITACORA">BITACORA</option>    
                                 <option value="BANCOS">BANCOS</option>
                                 <option value="CONTRATANTES">CONTRATANTES</option>
                                 <option value="PROVEEDORES">PROVEEDORES</option>
@@ -340,6 +341,10 @@ function initView(){
 
 async function getListado(tipo){
     switch (tipo) {
+        case 'BITACORA':
+            await api.bitacora_lista('tblContainer');
+
+            break;
         case 'BANCOS':
             await api.config_bancos_lista('tblContainer');           
             break;

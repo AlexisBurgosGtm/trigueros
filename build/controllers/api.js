@@ -270,6 +270,7 @@ let api = {
                 .then((response) => {
                     const data = response.data.recordset;
                     if (response.data.rowsAffected[0] == 0) {
+                        api.bitacora_insertar('Proyecto nuevo creado ' + proyecto)
                         reject();
                     } else {
                         resolve();
@@ -296,6 +297,7 @@ let api = {
                 .then((response) => {
                     const data = response.data.recordset;
                     if (response.data.rowsAffected[0] == 0) {
+                        api.bitacora_insertar('Eliminacion de proyecto ' + codigo)
                         reject();
                     } else {
                         resolve();
@@ -484,6 +486,7 @@ let api = {
                 .then((response) => {
                     const data = response.data.recordset;
                     if (response.data.rowsAffected[0] == 0) {
+                        api.bitacora_insertar('Subcontrato creado ' + asignacion)
                         reject();
                     } else {
                         resolve();
@@ -514,6 +517,7 @@ let api = {
                 .then((response) => {
                     const data = response.data.recordset;
                     if (response.data.rowsAffected[0] == 0) {
+                        api.bitacora_insertar(`Edición de subcontrato No: ${nocontrato}, asinacion ${asignacion}`)
                         reject();
                     } else {
                         resolve();
@@ -540,6 +544,7 @@ let api = {
                 .then((response) => {
                     const data = response.data.recordset;
                     if (response.data.rowsAffected[0] == 0) {
+                        api.bitacora_insertar('Sucontrato eliminado ' + nocontrato.toString())
                         reject();
                     } else {
                         resolve();
@@ -707,7 +712,7 @@ let api = {
                 });
 
     },
-    cheques_contratista_insertar: (codproyecto,fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro,tipo) => {
+    cheques_contratista_insertar: (codproyecto,fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro,tipo,concepto) => {
         return new Promise((resolve, reject) => {
 
             let data = {
@@ -721,7 +726,8 @@ let api = {
                 recibe:recibe,
                 obs:obs,
                 rubro:rubro,
-                tipo:tipo
+                tipo:tipo,
+                concepto:concepto
             };
 
             let url = GlobalUrlBackend + '/cheques/nuevo'
@@ -730,6 +736,7 @@ let api = {
                 .then((response) => {
                     const data = response.data.recordset;
                     if (response.data.rowsAffected[0] == 0) {
+                        api.bitacora_insertar(`Cheque nuevo. a subcontratista No: ${numero}, importe: ${cantidad}`)
                         reject();
                     } else {
                         resolve();
@@ -743,7 +750,7 @@ let api = {
 
         });
     },
-    cheques_proveedor_insertar: (codproyecto,fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro,tipo) => {
+    cheques_proveedor_insertar: (codproyecto,fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro,tipo,concepto) => {
         return new Promise((resolve, reject) => {
 
             let data = {
@@ -757,7 +764,8 @@ let api = {
                 recibe:recibe,
                 obs:obs,
                 rubro:rubro,
-                tipo:tipo
+                tipo:tipo,
+                concepto:concepto
             };
 
             let url = GlobalUrlBackend + '/cheques/nuevo'
@@ -766,6 +774,7 @@ let api = {
                 .then((response) => {
                     const data = response.data.recordset;
                     if (response.data.rowsAffected[0] == 0) {
+                        api.bitacora_insertar(`Cheque nuevo a proveedor No: ${numero}, importe: ${cantidad}`)
                         reject();
                     } else {
                         resolve();
@@ -780,7 +789,7 @@ let api = {
         });
     },
     cheques_contratante_insertar: (codproyecto,fecha,
-        codcontratante,banco,numero,cantidad,recibe,obs,tipo) => {
+        codcontratante,banco,numero,cantidad,recibe,obs,tipo,concepto) => {
                     
         return new Promise((resolve, reject) => {
 
@@ -793,7 +802,8 @@ let api = {
                 cantidad:cantidad,
                 recibe:recibe,
                 obs:obs,
-                tipo:tipo
+                tipo:tipo,
+                concepto:concepto
             };
 
             let url = GlobalUrlBackend + '/cheques/nuevochequecontratante'
@@ -802,6 +812,7 @@ let api = {
                 .then((response) => {
                     const data = response.data.recordset;
                     if (response.data.rowsAffected[0] == 0) {
+                        api.bitacora_insertar(`Cheque nuevo de contratante No: ${numero}, importe: ${cantidad}`)
                         reject();
                     } else {
                         resolve();
@@ -975,6 +986,7 @@ let api = {
                 .then((response) => {
                     const data = response.data.recordset;
                     if (response.data.rowsAffected[0] == 0) {
+                        api.bitacora_insertar(`Cheque Eliminado. Id: ${id}`)
                         reject();
                     } else {
                         resolve();
@@ -1338,5 +1350,78 @@ let api = {
                 str = 'ERROR...';
                 container.innerHTML = str;
         });           
-}
+    },
+    verificar_nocheque: (banco,nocheque)=>{
+        return new Promise((resolve, reject)=>{
+
+        })
+    },
+    bitacora_lista: (idContainer)=>{
+        let container = document.getElementById(idContainer);
+        container.innerHTML = GlobalLoader;
+
+        let strHeader = `<table class="table table-striped table-responsive table-hover">
+                            <thead class="bg-danger text-white">
+                                <tr>
+                                    <td>FECHA</td>
+                                    <td>EVENTO</td>
+                                </tr>
+                            </thead>
+                            <tbody>`
+        let str = '';
+        let strFooter = `</tbody></table>`
+
+            let url = GlobalUrlBackend + '/bitacora/listado'
+
+            axios.post(url)
+                .then((response) => {
+                    try {
+                        const data = response.data.recordset;
+                        data.map((rows) => {
+                                str = str + `<tr class="border-warning border-bottom">
+                                                <td>${funciones.convertDate2(rows.FECHA)}</td>
+                                                <td>${rows.DESCRIPCION}
+                                                    <br>
+                                                    <small class="negrita">Usuario: ${rows.USUARIO}</small>
+                                                </td>
+                                            </tr>`
+                        })
+                        container.innerHTML = strHeader + str + strFooter;
+                    } catch (err) {
+                        container.innerHTML = 'No hay datos..';
+                    }
+                }, (error) => {
+                        console.log(error);
+                        container.innerHTML = 'Error..';
+                });
+    },
+    bitacora_insertar: (descripcion) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                fecha:funciones.getFecha(),
+                hora:funciones.getHora(),
+                descripcion: descripcion,
+                usuario:GlobalUsuario
+            };
+
+            let url = GlobalUrlBackend + '/bitacora/nuevo'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
+    }
 }

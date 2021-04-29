@@ -24,7 +24,7 @@ function getView(){
 
                 <hr class="solid">
 
-                <div class="row">
+                <div class="row" id="permisoLb1">
                     <div class="col-4">
                         <div class="form-group">
                             <label>Recibido</label>
@@ -55,7 +55,7 @@ function getView(){
                         <ul class="nav nav-pills nav-justified" role="tablist">
                             <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel1">SUBCONCONTRATISTA</a></li>    
                             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel2">PROVEEDORES</a></li>
-                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel3">PAGO RECIBIDO</a></li>
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel3" id="permisoLb2">PAGO RECIBIDO</a></li>
                         </ul>
                         <div class="tab-content py-3">
                             <!-- sub contratistas -->
@@ -197,7 +197,7 @@ function getView(){
                         
                         <div class="form-group">
                             <label class="negrita">No. Cheque</label>
-                            <input type="number" class="form-control" id="txtNumeroCheque">
+                            <input type="text" class="form-control bg-amarillo negrita" id="txtNumeroCheque">
                         </div>
                         
                         <div class="form-group">
@@ -217,6 +217,11 @@ function getView(){
                             </select> 
                         </div>
         
+                        <div class="form-group">
+                            <label class="negrita">Concepto</label>
+                            <input type="text" class="form-control" id="txtConcepto" value='SN'>
+                        </div>
+
                         <div class="form-group">
                             <label class="negrita">Recibido por</label>
                             <input type="text" class="form-control" id="txtRecibe" value='SN'>
@@ -288,13 +293,18 @@ function getView(){
                         
                         <div class="form-group">
                             <label class="negrita">No. Cheque</label>
-                            <input type="number" class="form-control negrita" id="txtNumeroChequeC">
+                            <input type="text" class="form-control negrita bg-amarillo" id="txtNumeroChequeC">
                         </div>
                         
                                 
                         <div class="form-group">
                             <label class="negrita">Cantidad</label>
                             <input type="number" class="form-control bg-amarillo text-danger col-6" id="txtImporteC" value=0>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="negrita">Concepto</label>
+                            <input type="text" class="form-control" id="txtConceptoC" value='SN'>
                         </div>
 
                         <div class="form-group">
@@ -429,6 +439,7 @@ async function addListeners(){
                 let codcuenta = document.getElementById('cmbCuenta');
                 let numero = document.getElementById('txtNumeroCheque');
                 let cantidad = document.getElementById('txtImporte');
+                let concepto = document.getElementById('txtConcepto');
                 let recibe = document.getElementById('txtRecibe');
                 let rubro = document.getElementById('cmbRubro');
                 let obs = document.getElementById('txtObs');
@@ -454,7 +465,8 @@ async function addListeners(){
                                     recibe.value,
                                     obs.value,
                                     rubro.value,
-                                    'SUBCONTRATISTA')
+                                    'SUBCONTRATISTA',
+                                    concepto.value)
                                 .then(()=>{
                                     funciones.Aviso('Cheque creado exitosamente!!');
                                     $('#modalNuevo').modal('hide');
@@ -478,7 +490,8 @@ async function addListeners(){
                                     recibe.value,
                                     obs.value,
                                     rubro.value,
-                                    'PROVEEDOR')
+                                    'PROVEEDOR',
+                                    concepto.value)
                                 .then(()=>{
                                     funciones.Aviso('Cheque creado exitosamente!!');
                                     $('#modalNuevo').modal('hide');
@@ -560,6 +573,7 @@ async function addListeners(){
                 let cmbBancoC = document.getElementById('cmbBancoC');
                 let numero = document.getElementById('txtNumeroChequeC');
                 let cantidad = document.getElementById('txtImporteC');
+                let concepto = document.getElementById('txtConceptoC');
                 let recibe = document.getElementById('txtRecibeC');
                 let obs = document.getElementById('txtObsC');
 
@@ -580,7 +594,8 @@ async function addListeners(){
                                     Number(cantidad.value),
                                     recibe.value,
                                     obs.value,
-                                    'CONTRATANTE')
+                                    'CONTRATANTE',
+                                    concepto.value)
                                 .then(()=>{
                                     funciones.Aviso('Cheque creado exitosamente!!');
                                     $('#modalNuevoContratante').modal('hide');
@@ -613,6 +628,7 @@ async function addListeners(){
 function initView(){
     getView();
     addListeners();
+    setPermisos();
 };
 
 
@@ -634,3 +650,27 @@ function deleteCheque(id){
         }
     })
 };
+
+function setPermisos(){
+    //permisoLb1 = div de los totales de cheques
+    //permisoLb2 = tab de cheques recibidos
+    switch (GlobalNivelUsuario) {
+        case 1:
+            document.getElementById('permisoLb1').style = "visibility:visible";
+            document.getElementById('permisoLb2').style = "visibility:visible";
+            break;
+
+        case 2:
+            document.getElementById('permisoLb1').style = "visibility:visible";
+            document.getElementById('permisoLb2').style = "visibility:visible";
+            break;
+
+        case 3:
+            document.getElementById('permisoLb1').style = "visibility:hidden";
+            document.getElementById('permisoLb2').style = "visibility:hidden";
+            break;
+
+        default:
+            break;
+    }
+}
