@@ -375,6 +375,7 @@ function getMenuBancos(codcuenta,descripcion,banco,numero){
     
 };
 
+
 function getMenuContratantes(codcontratante,descripcion,telefono){
     
     GlobalSelectedId = codcontratante;

@@ -7,8 +7,8 @@ router.post("/listado", async (req, res) => {
     
     let qry = '';
 
-    qry = `SELECT FECHA, HORA, DESCRIPCION, USUARIO 
-            FROM CONST_BITACORA`
+    qry = `SELECT TOP 30 FECHA, HORA, DESCRIPCION, USUARIO 
+            FROM CONST_BITACORA ORDER BY ID DESC`
 
     execute.Query(res, qry);
 

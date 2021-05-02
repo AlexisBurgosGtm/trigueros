@@ -30,6 +30,11 @@
 /*********************************
 *******/
 
+.horizontal {
+  overflow-x:scroll;
+  white-space: nowrap;
+}
+
 
 .bg-amarillo {
   background-color: beige;

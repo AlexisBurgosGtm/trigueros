@@ -178,10 +178,10 @@ router.post("/listaproyectoscombo", async (req, res) => {
 
 router.post("/nuevo", async (req, res) => {
 
-    const { proyecto, direccion, inicio, final, contacto, telefono, contratante, presupuesto } = req.body;
+    const { proyecto, direccion, inicio, final, contacto, telefono, contratante, presupuesto, usuario } = req.body;
 
-    let qry = `INSERT INTO CONST_PROYECTOS (PROYECTO, DIRECCION, FECHAINICIO, FECHAFIN, CONTACTO, TELEFONO, CODCONTRATANTE, PRESUPUESTO, EJECUTADO, RECIBIDO, FINALIZADO)
-                    VALUES ('${proyecto}', '${direccion}', '${inicio}', '${final}', '${contacto}', '${telefono}', ${contratante}, ${presupuesto}, 0, 0, 'NO');`;
+    let qry = `INSERT INTO CONST_PROYECTOS (PROYECTO, DIRECCION, FECHAINICIO, FECHAFIN, CONTACTO, TELEFONO, CODCONTRATANTE, PRESUPUESTO, EJECUTADO, RECIBIDO, FINALIZADO,USUARIO)
+                    VALUES ('${proyecto}', '${direccion}', '${inicio}', '${final}', '${contacto}', '${telefono}', ${contratante}, ${presupuesto}, 0, 0, 'NO', '${usuario}');`;
 
     execute.Query(res, qry);
 

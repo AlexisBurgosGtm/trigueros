@@ -5,12 +5,12 @@ const router = express.Router();
 
 router.post("/nuevochequecontratante", async (req, res) => {
 
-    const {idproyecto,fecha,codcontratante,banco,numero,cantidad,recibe,obs,tipo,acreedor} = req.body;
+    const {idproyecto,fecha,codcontratante,banco,numero,cantidad,recibe,obs,tipo,concepto,usuario} = req.body;
 
     let qry = '';
 
-    qry = `INSERT INTO CONST_CHEQUES (IDPROYECTO,FECHA,NOCONTRATO,CODACREEDOR,CODCONTRATANTE,CODCUENTA,BANCO,NUMERO,CANTIDAD,RECIBE,OBS,RUBRO,TIPOCHEQUE,CONCEPTO) 
-        VALUES (${idproyecto},'${fecha}',0,0,${codcontratante},0,'${banco}','${numero}',${cantidad},'${recibe}','${obs}','OTROS','${tipo}','${concepto}')`
+    qry = `INSERT INTO CONST_CHEQUES (IDPROYECTO,FECHA,NOCONTRATO,CODACREEDOR,CODCONTRATANTE,CODCUENTA,BANCO,NUMERO,CANTIDAD,RECIBE,OBS,RUBRO,TIPOCHEQUE,CONCEPTO,USUARIO) 
+        VALUES (${idproyecto},'${fecha}',0,0,${codcontratante},0,'${banco}','${numero}',${cantidad},'${recibe}','${obs}','OTROS','${tipo}','${concepto}','${usuario}')`
 
     console.log(qry);
 
@@ -21,7 +21,7 @@ router.post("/nuevochequecontratante", async (req, res) => {
 
 router.post("/nuevo", async (req, res) => {
     
-    const {idproyecto,fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro,tipo,concepto} = req.body;
+    const {idproyecto,fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro,tipo,concepto,usuario} = req.body;
 
     let qry = '';
 
@@ -31,13 +31,13 @@ router.post("/nuevo", async (req, res) => {
         CODACREEDOR,CODCONTRATANTE,CODCUENTA,
         BANCO,NUMERO,CANTIDAD,
         RECIBE,OBS,RUBRO,
-        TIPOCHEQUE,CONCEPTO) 
+        TIPOCHEQUE,CONCEPTO,USUARIO) 
         VALUES 
         (${idproyecto},'${fecha}',${nocontrato},
         ${codacreedor},0,${codcuenta},
         'SN','${numero}', ${(cantidad*-1)},
         '${recibe}','${obs}','${rubro}',
-        '${tipo}','${concepto}')`
+        '${tipo}','${concepto}','${usuario}')`
 
     execute.Query(res, qry);
 

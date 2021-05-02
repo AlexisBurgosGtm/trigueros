@@ -261,7 +261,8 @@ let api = {
                 contacto: contacto,
                 telefono: telefono,
                 contratante: contratante,
-                presupuesto: presupuesto
+                presupuesto: presupuesto,
+                usuario:GlobalUsuario
             };
 
             let url = GlobalUrlBackend + '/proyectos/nuevo'
@@ -727,7 +728,8 @@ let api = {
                 obs:obs,
                 rubro:rubro,
                 tipo:tipo,
-                concepto:concepto
+                concepto:concepto,
+                usuario:GlobalUsuario
             };
 
             let url = GlobalUrlBackend + '/cheques/nuevo'
@@ -765,7 +767,8 @@ let api = {
                 obs:obs,
                 rubro:rubro,
                 tipo:tipo,
-                concepto:concepto
+                concepto:concepto,
+                usuario:GlobalUsuario
             };
 
             let url = GlobalUrlBackend + '/cheques/nuevo'
@@ -803,7 +806,8 @@ let api = {
                 recibe:recibe,
                 obs:obs,
                 tipo:tipo,
-                concepto:concepto
+                concepto:concepto,
+                usuario:GlobalUsuario
             };
 
             let url = GlobalUrlBackend + '/cheques/nuevochequecontratante'
@@ -1360,7 +1364,9 @@ let api = {
         let container = document.getElementById(idContainer);
         container.innerHTML = GlobalLoader;
 
-        let strHeader = `<table class="table table-striped table-responsive table-hover">
+
+        let strHeader = `
+                        <table class="table table-striped table-responsive table-hover">
                             <thead class="bg-danger text-white">
                                 <tr>
                                     <td>FECHA</td>
@@ -1387,6 +1393,7 @@ let api = {
                                             </tr>`
                         })
                         container.innerHTML = strHeader + str + strFooter;
+                        
                     } catch (err) {
                         container.innerHTML = 'No hay datos..';
                     }
