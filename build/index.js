@@ -13,6 +13,8 @@ let btnMenuCheques = document.getElementById('btnMenuCheques');
 let btnMenuContratos = document.getElementById('btnMenuContratos');
 let btnMenuReportes = document.getElementById('btnMenuReportes');
 let btnMenuMantenimientos = document.getElementById('btnMenuMantenimientos');
+let btnMenuCaja = document.getElementById('btnMenuCaja');
+let btnMenuCotizaciones = document.getElementById('btnMenuCotizaciones');
 
 
 btnMenuProyectos.addEventListener('click',()=>{
@@ -35,7 +37,13 @@ btnMenuMantenimientos.addEventListener('click',()=>{
     classNavegar.mantenimientos();
 });
 
+btnMenuCaja.addEventListener('click',()=>{
+    classNavegar.caja();
+});
 
+btnMenuCotizaciones.addEventListener('click',()=>{
+    classNavegar.cotizaciones();
+});
 
 
 

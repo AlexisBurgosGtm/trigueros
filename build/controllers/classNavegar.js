@@ -17,16 +17,29 @@ let classNavegar = {
         })
     },
     proyectos: ()=>{
-        if(GlobalNivelUsuario==1){
-            funciones.loadScript('../views/proyectos.js','root')
-            .then(async()=>{
-                lbTituloVista.innerText = 'GESTION DE PROYECTOS';
-                GlobalSelectedForm = 'proyectos';
-                initView();
-            })
-        }else{
-            funciones.AvisoError('Usted no puede entrar a esta sección')
+        switch (Number(GlobalNivelUsuario)) {
+            case 1:
+                funciones.loadScript('../views/proyectos.js','root')
+                .then(async()=>{
+                    lbTituloVista.innerText = 'GESTION DE PROYECTOS';
+                    GlobalSelectedForm = 'proyectos';
+                    initView();
+                })    
+                break;
+            case 2:
+                funciones.loadScript('../views/proyectos.js','root')
+                .then(async()=>{
+                    lbTituloVista.innerText = 'GESTION DE PROYECTOS';
+                    GlobalSelectedForm = 'proyectos';
+                    initView();
+                })
+                break;
+        
+            default:
+                funciones.AvisoHablado('Usted no puede entrar a esta sección')    
+                break;
         }
+        
     },
     cheques: ()=>{
         funciones.loadScript('../views/cheques.js','root')
@@ -53,8 +66,7 @@ let classNavegar = {
                     initView();
                 })
             }else{
-                funciones.AvisoError('Usted no puede acceder a esta sección')
-                funciones.hablar('Usted no puede acceder a esta sección')
+                funciones.AvisoHablado('Usted no puede acceder a esta sección')
             }
     },
     reportes: ()=>{
@@ -66,7 +78,13 @@ let classNavegar = {
                 initView();
             })
         }else{
-            funciones.AvisoError('Usted no puede entrar a esta sección')
+            funciones.AvisoHablado('Usted no puede entrar a esta sección')
         }
+    },
+    caja: ()=>{
+        funciones.Aviso('En proceso...')
+    },
+    cotizaciones: ()=>{
+        funciones.Aviso('En proceso...')
     }
 }

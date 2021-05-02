@@ -112,6 +112,20 @@ let funciones = {
             
         }
     },
+    AvisoHablado: function(msn){
+      swal(msn, {
+          timer: 1500,
+          icon: "error",
+          buttons: false
+          });
+          var utterance = new SpeechSynthesisUtterance(msn);
+          window.speechSynthesis.speak(utterance); 
+      try {
+          navigator.vibrate(500);
+      } catch (error) {
+          
+      }
+    },
     AvisoError: function(msn){
         swal(msn, {
             timer: 1500,
