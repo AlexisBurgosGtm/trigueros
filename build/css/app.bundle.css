@@ -247,7 +247,8 @@ aside.page-sidebar ($nav-width, $nav-background)
 body {
   font-family: "Roboto", "Helvetica Neue", Helvetica, Arial;
   font-size: 0.8125rem;
-  letter-spacing: 0.1px; }
+  letter-spacing: 0.1px;
+}
 
 .page-content {
   color: #666666; }
@@ -2447,9 +2448,9 @@ html body {
 }
 
 */
-/* app footer */
+/* app footer height: 2.8125rem; */
 .page-footer {
-  height: 2.8125rem;
+  height: 3rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

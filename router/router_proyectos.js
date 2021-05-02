@@ -40,7 +40,8 @@ router.post("/subcontratos", async (req, res) => {
                 CONST_CONTRATISTAS_PROYECTO.FECHAENTREGA, 
                 CONST_CONTRATISTAS_PROYECTO.IMPORTE, 
                 (ISNULL((SELECT SUM(CANTIDAD) FROM CONST_CHEQUES WHERE TIPOCHEQUE='SUBCONTRATISTA' AND NOCONTRATO= CONST_CONTRATISTAS_PROYECTO.NOCONTRATO),0) * -1) AS ENTREGADO,
-                ISNULL(CONST_CONTRATISTAS_PROYECTO.SALDO,0) AS SALDO
+                ISNULL(CONST_CONTRATISTAS_PROYECTO.SALDO,0) AS SALDO,
+                CONST_CONTRATISTAS_PROYECTO.FECHA
                 FROM CONST_CONTRATISTAS_PROYECTO LEFT OUTER JOIN
             CONST_ACREEDORES ON CONST_CONTRATISTAS_PROYECTO.CODACREEDOR = CONST_ACREEDORES.CODACREEDOR LEFT OUTER JOIN
             CONST_PROYECTOS ON CONST_CONTRATISTAS_PROYECTO.IDPROYECTO = CONST_PROYECTOS.IDPROYECTO
@@ -52,10 +53,10 @@ router.post("/subcontratos", async (req, res) => {
 
 router.post("/nuevocontrato", async (req, res) => {
 
-    const { idproyecto, idsubcontratista, fecha, asignacion, importe } = req.body;
+    const { idproyecto, idsubcontratista, fechainicio,fecha, asignacion, importe } = req.body;
 
-    let qry = `INSERT INTO CONST_CONTRATISTAS_PROYECTO (IDPROYECTO,CODACREEDOR,ASIGNACION, FECHAENTREGA,IMPORTE,ENTREGADO,SALDO) 
-    values (${idproyecto},${idsubcontratista},'${asignacion}', '${fecha}',${importe},0,${importe})`;
+    let qry = `INSERT INTO CONST_CONTRATISTAS_PROYECTO (IDPROYECTO,CODACREEDOR,ASIGNACION, FECHA,FECHAENTREGA,IMPORTE,ENTREGADO,SALDO) 
+    values (${idproyecto},${idsubcontratista},'${asignacion}','${fechainicio}', '${fecha}',${importe},0,${importe})`;
 
     execute.Query(res, qry);
 
@@ -63,10 +64,10 @@ router.post("/nuevocontrato", async (req, res) => {
 
 router.post("/editarcontrato", async (req, res) => {
 
-    const { nocontrato, idsubcontratista, fecha, asignacion, importe } = req.body;
+    const { nocontrato, idsubcontratista, fechainicio,fecha, asignacion, importe } = req.body;
     let qry = `
         UPDATE CONST_CONTRATISTAS_PROYECTO SET CODACREEDOR=${idsubcontratista}, 
-                        ASIGNACION='${asignacion}',FECHAENTREGA='${fecha}',IMPORTE=${importe}
+                        ASIGNACION='${asignacion}',FECHA='${fechainicio}',FECHAENTREGA='${fecha}',IMPORTE=${importe}
         WHERE NOCONTRATO=${nocontrato};
     `
     
@@ -129,7 +130,7 @@ router.post("/listaproyectos", async (req, res) => {
     isnull((SELECT SUM(CANTIDAD) FROM CONST_CHEQUES WHERE TIPOCHEQUE='CONTRATANTE' AND IDPROYECTO= CONST_PROYECTOS.IDPROYECTO),0) AS RECIBIDO,
     isnull((SELECT SUM(CANTIDAD) FROM CONST_CHEQUES WHERE TIPOCHEQUE<>'CONTRATANTE' AND IDPROYECTO= CONST_PROYECTOS.IDPROYECTO),0) * -1 AS EJECUTADO, 
     CONST_PROYECTOS.CODCONTRATANTE, 
-    CONST_CONTRATANTES.DESCONTRATANTE
+    CONST_CONTRATANTES.DESCONTRATANTE, ISNULL(CONST_PROYECTOS.USUARIO,'--') AS USUARIO
         FROM CONST_PROYECTOS LEFT OUTER JOIN
             CONST_CONTRATANTES ON CONST_PROYECTOS.CODCONTRATANTE = CONST_CONTRATANTES.CODCONTRATANTE
             WHERE (CONST_PROYECTOS.FINALIZADO = 'NO') `
@@ -145,7 +146,7 @@ router.post("/listaproyectos", async (req, res) => {
     isnull((SELECT SUM(CANTIDAD) FROM CONST_CHEQUES WHERE TIPOCHEQUE='CONTRATANTE' AND IDPROYECTO= CONST_PROYECTOS.IDPROYECTO),0) AS RECIBIDO,
     isnull((SELECT SUM(CANTIDAD) FROM CONST_CHEQUES WHERE TIPOCHEQUE<>'CONTRATANTE' AND IDPROYECTO= CONST_PROYECTOS.IDPROYECTO),0) * -1 AS EJECUTADO, 
     CONST_PROYECTOS.CODCONTRATANTE, 
-    CONST_CONTRATANTES.DESCONTRATANTE
+    CONST_CONTRATANTES.DESCONTRATANTE, ISNULL(CONST_PROYECTOS.USUARIO,'--') AS USUARIO
         FROM CONST_PROYECTOS LEFT OUTER JOIN
             CONST_CONTRATANTES ON CONST_PROYECTOS.CODCONTRATANTE = CONST_CONTRATANTES.CODCONTRATANTE
             WHERE (CONST_PROYECTOS.FINALIZADO = 'SI') AND
@@ -217,6 +218,38 @@ router.post("/listarubros", async (req, res) => {
 
 
     let qry = `SELECT ID, RUBRO FROM CONST_RUBROS`;
+
+    execute.Query(res, qry);
+
+});
+
+router.post("/insertrubro", async (req, res) => {
+
+    const {descripcion} = req.body;
+
+    let qry = `INSERT INTO CONST_RUBROS (RUBRO ) VALUES ('${descripcion}')`;
+
+    execute.Query(res, qry);
+
+});
+
+router.post("/updaterubro", async (req, res) => {
+
+    const {id,descripcion} = req.body;
+
+    let qry = `UPDATE CONST_RUBROS SET RUBRO='${descripcion}'
+                WHERE ID=${id}`;
+
+    execute.Query(res, qry);
+
+});
+
+router.post("/deleterubro", async (req, res) => {
+
+    const {id} = req.body;
+
+    let qry = `DELETE FROM CONST_RUBROS
+                WHERE ID=${id}`;
 
     execute.Query(res, qry);
 

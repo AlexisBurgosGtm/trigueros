@@ -129,7 +129,7 @@ let api = {
                             str = str + `<tr class="hand border-bottom" onClick="getMenuProyecto(${rows.IDPROYECTO},'${rows.PROYECTO}','${funciones.setMoneda(rows.PRESUPUESTO, 'Q')}');">
                                         <td>${rows.PROYECTO}
                                             <br><small>${rows.DIRECCION}</small>
-                                               <br>
+                                               <br><small>Creado:${rows.USUARIO}</small>
                                             <div class="row">
                                                 <div class="col-6">
                                                     <small class="text-info">Inicio: ${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHAINICIO))}</small>
@@ -358,7 +358,9 @@ let api = {
                                                 <br>
                                                 <small class="negrita">${rows.ASIGNACION}</small>
                                                 <br>
-                                                <small>Entrega: ${funciones.cleanDataFecha(rows.FECHAENTREGA)}</small>
+                                                <small>Inicio: ${funciones.convertDate2(rows.FECHA)}</small>
+                                                <br>
+                                                <small>Entrega: ${funciones.convertDate2(rows.FECHAENTREGA)}</small>
                                             </td>
                                             <td>
                                                 <b class="text-info">${funciones.setMoneda(rows.IMPORTE,'Q')}</b>
@@ -374,7 +376,8 @@ let api = {
                                                         ${Number(rows.CODACREEDOR)},
                                                         '${rows.ASIGNACION}',
                                                         '${funciones.cleanDataFecha(rows.FECHAENTREGA)}',
-                                                        ${Number(rows.IMPORTE)}
+                                                        ${Number(rows.IMPORTE)},
+                                                        '${funciones.cleanDataFecha(rows.FECHA)}'
                                                         )">
                                                     <i class="fal fa-edit"></i>
                                                 </button>
@@ -470,12 +473,13 @@ let api = {
                 });
 
     },
-    subcontrato_insertar: (idProyecto,idSubcontratista,asignacion,importe,fecha) => {
+    subcontrato_insertar: (idProyecto,idSubcontratista,asignacion,importe,fecha,fechainicio) => {
         return new Promise((resolve, reject) => {
 
             let data = {
                 idproyecto:idProyecto,
                 idsubcontratista:idSubcontratista,
+                fechainicio:fechainicio,
                 fecha: fecha,
                 asignacion:asignacion,
                 importe:Number(importe)
@@ -501,12 +505,13 @@ let api = {
 
         });
     },
-    subcontrato_editar: (nocontrato,idSubcontratista,asignacion,importe,fecha) => {
+    subcontrato_editar: (nocontrato,idSubcontratista,asignacion,importe,fecha,fechainicio) => {
         return new Promise((resolve, reject) => {
 
             let data = {
                 nocontrato:nocontrato,
                 idsubcontratista:idSubcontratista,
+                fechainicio:fechainicio,
                 fecha: fecha,
                 asignacion:asignacion,
                 importe:Number(importe)
@@ -875,7 +880,7 @@ let api = {
                                         <br>
                                         <small class="negrita text-info">${rows.ASIGNACION}</small>
                                         <br class="solid">
-                                        <!--<small>Proyecto:${rows.PROYECTO}</small>-->
+                                        <small>Creado:${rows.USUARIO}</small>
                                 </td>
                                 <td>${funciones.setMoneda(rows.IMPORTE,'Q')}</td>
                                 <td>
@@ -957,8 +962,8 @@ let api = {
                                 <td>${rows.DESACREEDOR}
                                         <br>
                                         <small class="negrita text-info">${rows.ASIGNACION}</small>
-                                        <!--<br class="solid">
-                                        <small>Proyecto:${rows.PROYECTO}</small>-->
+                                        <br class="solid">
+                                        <small>Creado:${rows.USUARIO}</small>
                                 </td>
                                 <td>${funciones.setMoneda(rows.IMPORTE,'Q')}</td>
                                 <td>
@@ -1310,6 +1315,85 @@ let api = {
                     str = '<option value="SN">Error..</option>';
                     container.innerHTML = str;
             });           
+    },
+    config_rubros_insert: (descripcion) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                descripcion:descripcion
+            };
+
+            let url = GlobalUrlBackend + '/proyectos/insertrubro'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
+    },
+    config_rubros_update: (id,descripcion) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                id:id,
+                descripcion:descripcion
+            };
+
+            let url = GlobalUrlBackend + '/proyectos/updaterubro'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
+    },
+    config_rubros_delete: (id) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                id:id
+            };
+
+            let url = GlobalUrlBackend + '/proyectos/deleterubro'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
     },
     config_rubros_lista: (idContainer) => {
         let container = document.getElementById(idContainer)

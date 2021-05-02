@@ -326,6 +326,10 @@ function getView(){
                             <textarea class="form-control" rows="4" id="txtPAsignacion" placeholder="Describa el motivo del contrato"></textarea>
                         </div>
                         <div class="form-group">
+                            <label>Fecha Inicio</label>
+                            <input type="date" class="form-control input-sm" id="txtPFechaInicio">
+                        </div>    
+                        <div class="form-group">
                             <label>Fecha Estimada de Finalización</label>
                             <input type="date" class="form-control input-sm" id="txtPFechaEntrega">
                         </div>    
@@ -562,6 +566,9 @@ function addListeners() {
     let txtPFechaEntrega = document.getElementById('txtPFechaEntrega');
     txtPFechaEntrega.value = funciones.getFecha();
 
+    let txtPFechaInicio = document.getElementById('txtPFechaInicio');
+    txtPFechaInicio.value = funciones.getFecha();
+
     let txtPAsignacion = document.getElementById('txtPAsignacion');
     let txtPPresupuesto = document.getElementById('txtPPresupuesto');
     let cmbPSubContratista = document.getElementById('cmbPSubContratista');
@@ -591,7 +598,7 @@ function addListeners() {
 
                         if(GlobalSelectedNumeroContrato==0){
                             //es un nuevo contrato
-                           await api.subcontrato_insertar(GlobalSelectedCodProyecto,cmbPSubContratista.value,txtPAsignacion.value,txtPPresupuesto.value,funciones.getFecha('txtPFechaEntrega'))
+                           await api.subcontrato_insertar(GlobalSelectedCodProyecto,cmbPSubContratista.value,txtPAsignacion.value,txtPPresupuesto.value,funciones.getFecha('txtPFechaEntrega'),funciones.getFecha('txtPFechaInicio'))
                             .then(async()=>{
                                 funciones.Aviso('Nuevo Sub-contrato creado exitosamente !!')
                                 api.proyectos_subcontratistas(GlobalSelectedCodProyecto,'tblPSucontratistas')
@@ -603,7 +610,7 @@ function addListeners() {
                             })
                         }else{
                             //edita un contrato existente
-                            await api.subcontrato_editar(GlobalSelectedNumeroContrato,cmbPSubContratista.value,txtPAsignacion.value,txtPPresupuesto.value,funciones.getFecha('txtPFechaEntrega'))
+                            await api.subcontrato_editar(GlobalSelectedNumeroContrato,cmbPSubContratista.value,txtPAsignacion.value,txtPPresupuesto.value,funciones.getFecha('txtPFechaEntrega'),funciones.getFecha('txtPFechaInicio'))
                             .then(()=>{
                                 funciones.Aviso('Sub-contrato actualizado exitosamente !!')
                                 api.proyectos_subcontratistas(GlobalSelectedCodProyecto,'tblPSucontratistas')
@@ -701,7 +708,7 @@ function deleteContrato(nocontrato){
     
 };
 
-function editContrato(nocontrato,codacreedor,asignacion,fecha,presupuesto){
+function editContrato(nocontrato,codacreedor,asignacion,fecha,presupuesto,fechainicio){
      
     
         document.getElementById('lbNuevoContrato').innerText = 'Edición del Contrato No. ' + nocontrato.toString();
@@ -712,6 +719,7 @@ function editContrato(nocontrato,codacreedor,asignacion,fecha,presupuesto){
         
         document.getElementById('txtPAsignacion').value = asignacion;
         document.getElementById('txtPPresupuesto').value = presupuesto;
+        document.getElementById('txtPFechaInicio').value = fechainicio;
         document.getElementById('txtPFechaEntrega').value = fecha;
         
         

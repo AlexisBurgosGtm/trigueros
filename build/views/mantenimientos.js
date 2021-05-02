@@ -141,11 +141,55 @@ function getView(){
                 </div>
             </div>
             `
+        },
+        modalRubros : ()=>{
+            return `
+        <div class="modal fade js-modal-settings modal-backdrop-transparent modal-with-scroll" tabindex="-1" role="dialog" aria-hidden="true"  id="modalRubros">
+            <div class="modal-dialog modal-dialog-right modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-info text-white">
+                            <h5 class="modal-title" id="">Datos del Rubro</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="negrita">Descripción</label>
+                                <input type="text" class="form-control" id="txtRubrosDescripcion" value='SN'>
+                            </div>
+                            
+                                                    
+                            <hr class="solid"><hr class="solid">
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <button class="btn btn-outline-secondary btn-xl" data-dismiss="modal">
+                                        <i class="fal fa-times"></i>
+                                        Cancelar
+                                    </button>    
+                                </div>
+                                <div class="col-6">
+                                    <button class="btn btn-primary btn-xl" id="btnRubrosGuardar">
+                                        <i class="fal fa-save"></i>
+                                        Guardar
+                                    </button>    
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline-danger btn-xl shadow" id="btnRubrosEliminar">
+                                <i class="fal fa-trash"></i>Eliminar
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            `
         }
     }
 
     root.innerHTML= view.encabezado() + view.listado() + view.btnNuevo();
-    rootModal.innerHTML = view.modalBancos() + view.modalContratantes();
+    rootModal.innerHTML = view.modalBancos() + view.modalContratantes() + view.modalRubros();
 };
 
 function addListeners(){
@@ -183,13 +227,17 @@ function addListeners(){
                 break;
             case 'RUBROS':
                 GlobalSelectedId = 0;
+                document.getElementById('txtRubrosDescripcion').value = "";
+                document.getElementById('btnRubrosEliminar').style = "visibility:hidden";
 
+                $('#modalRubros').modal('show');
                 break;
             
         }
 
     })
 
+    //**** BANCOS ***//
     let btnBancosGuardar = document.getElementById('btnBancosGuardar');
     btnBancosGuardar.addEventListener('click',()=>{
         funciones.Confirmacion('¿Está seguro que desea guardar estos datos?')
@@ -261,7 +309,7 @@ function addListeners(){
        
     });
 
-
+    //**** CONTRATANTES ***//
     let btnContratantesGuardar = document.getElementById('btnContratantesGuardar');
     btnContratantesGuardar.addEventListener('click',()=>{
         funciones.Confirmacion('¿Está seguro que desea guardar estos datos?')
@@ -332,6 +380,74 @@ function addListeners(){
     });
 
 
+    //**** RUBROS ***//
+    let btnRubrosGuardar = document.getElementById('btnRubrosGuardar');
+    btnRubrosGuardar.addEventListener('click',()=>{
+        funciones.Confirmacion('¿Está seguro que desea guardar estos datos?')
+        .then((value)=>{
+            if(value==true){
+                if(GlobalSelectedId==0){ //es nuevo
+                    let d = document.getElementById('txtRubrosDescripcion').value || 'SN';
+                    
+                    api.config_rubros_insert(d)
+                    .then(async()=>{
+                        $('#modalRubros').modal('hide');   
+                        funciones.Aviso('Rubro creado exitosamente!!');
+                        await getListado('RUBROS')
+                    })
+                    .catch(()=>{
+                        funciones.AvisoError('No se pudo crear este rubro')
+                    })
+                }else{ // se está editando
+                    let d = document.getElementById('txtRubrosDescripcion').value || 'SN';
+                    
+                    api.config_rubros_update(GlobalSelectedId,d)
+                    .then(async()=>{
+                        $('#modalRubros').modal('hide');   
+                        funciones.Aviso('Rubro actualizado exitosamente!!');
+                        await getListado('RUBROS')
+                    })
+                    .catch(()=>{
+                        funciones.AvisoError('No se pudo actualizar este rubro')
+                    })
+                }
+
+            }
+        })
+
+    });
+
+    let btnRubrosEliminar = document.getElementById('btnRubrosEliminar');
+    btnRubrosEliminar.addEventListener('click',()=>{
+        funciones.Confirmacion('¿Está seguro que desea ELIMINAR este Rubro?')
+        .then((value)=>{
+            if(value==true){
+                $('#modalRubros').modal('hide');   
+
+                funciones.solicitarClave()
+                .then((name)=>{
+                    if(name==GlobalPassUsuario){
+                        api.config_rubros_delete(GlobalSelectedId)
+                        .then(async()=>{
+                            funciones.Aviso('Rubro eliminado exitosamente !!')
+                            await getListado('RUBROS');
+                        })
+                        .catch(()=>{
+                            funciones.AvisoError('No se puedo eliminar este rubro')
+                        })
+                    }else{
+                        funciones.AvisoError('Contraseña Incorrecta');    
+                    }
+                })
+                .catch(()=>{
+                    funciones.AvisoError('Contraseña Incorrecta');
+                })
+
+           }
+       }) 
+
+    });
+
 };
 
 function initView(){
@@ -384,4 +500,17 @@ function getMenuContratantes(codcontratante,descripcion,telefono){
 
     document.getElementById('btnContratantesEliminar').style = "visibility:visible";
     $('#modalContratantes').modal('show');   
+};
+
+
+function getMenuRubros(codcuenta,descripcion,banco,numero){
+    
+    GlobalSelectedId = codcuenta;
+    document.getElementById('txtBancosDescripcion').value = descripcion;
+    document.getElementById('cmbBancosBanco').value = banco;
+    document.getElementById('txtBancosNumero').value = numero;
+    document.getElementById('btnBancosEliminar').style = "visibility:visible";
+    
+    $('#modalBancos').modal('show');
+    
 };

@@ -189,7 +189,26 @@ function deleteCheque(id){
     funciones.solicitarClave()
     .then((name)=>{
         if(name==GlobalPassUsuario){
-
+            funciones.Confirmacion('¿Está seguro que desea ELIMINAR este cheque?')
+            .then((value)=>{
+                if(value==true){
+        
+                    api.cheques_delete(id)
+                    .then(()=>{
+                        funciones.Aviso('Cheque ELIMINADO exitosamente!!');
+                        let codproy =  document.getElementById('cmbProyectos').value || 0;
+                        api.subcontrato_listado(codproy,'tblContratos');
+        
+                        let nocontrato = document.getElementById('NoContrato').innerText;
+                        api.cheques_contrato(nocontrato,'tblChequesContrato');
+                        
+                    })
+                    .catch(()=>{
+                        funciones.AvisoError('No se pudo ELIMINAR el cheque')
+                    })
+        
+                }
+            })
         }else{
             funciones.AvisoError('Clave incorrecta');
             return;
@@ -200,24 +219,5 @@ function deleteCheque(id){
         return;
     })
 
-    funciones.Confirmacion('¿Está seguro que desea ELIMINAR este cheque?')
-    .then((value)=>{
-        if(value==true){
-
-            api.cheques_delete(id)
-            .then(()=>{
-                funciones.Aviso('Cheque ELIMINADO exitosamente!!');
-                let codproy =  document.getElementById('cmbProyectos').value || 0;
-                api.subcontrato_listado(codproy,'tblContratos');
-
-                let nocontrato = document.getElementById('NoContrato').innerText;
-                api.cheques_contrato(nocontrato,'tblChequesContrato');
-                
-            })
-            .catch(()=>{
-                funciones.AvisoError('No se pudo ELIMINAR el cheque')
-            })
-
-        }
-    })
+    
 };

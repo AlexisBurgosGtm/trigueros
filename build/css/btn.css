@@ -31,10 +31,15 @@
 *******/
 
 .horizontal {
+  height:3rem;
   overflow-x:scroll;
   white-space: nowrap;
 }
 
+/* oculta las scrollbars sin quitar el scroll */
+::-webkit-scrollbar {
+  display: none;
+}
 
 .bg-amarillo {
   background-color: beige;
