@@ -431,6 +431,7 @@ async function addListeners(){
     //boton guardar cheque - SUBCONTRATISTAS y PROVEEDORES
     let btnGuardarCheque = document.getElementById('btnGuardarCheque');
     btnGuardarCheque.addEventListener('click',()=>{
+        
         funciones.Confirmacion('¿Está seguro que desea Guardar este Cheque?')
         .then((value)=>{
             if(value==true){
@@ -447,72 +448,75 @@ async function addListeners(){
                 if(obs.value==''){obs.value='SN'};
                 if(recibe.value==''){recibe.value='SN'};
 
-                if(numero.value==''){
-                    funciones.AvisoError('Indique el número de cheque emitido');
-                }else{
-                    if(Number(cantidad.value)>0){
-                        btnGuardarCheque.innerHTML = GlobalLoader;
-                        switch (GlobalSelectedTipoCheque) {
-                            case 'SUBCONTRATISTA':
-                                api.cheques_contratista_insertar(
-                                    codproyecto,
-                                    funciones.getFecha('txtFecha'),
-                                    nocontrato,
-                                    0,
-                                    codcuenta.value,
-                                    numero.value,
-                                    Number(cantidad.value),
-                                    recibe.value,
-                                    obs.value,
-                                    rubro.value,
-                                    'SUBCONTRATISTA',
-                                    concepto.value)
-                                .then(()=>{
-                                    funciones.Aviso('Cheque creado exitosamente!!');
-                                    $('#modalNuevo').modal('hide');
-
-                                    let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
-                                    api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1', 'tblCheques2', 'tblCheques3','lbPresupuesto','lbSaldo','lbDiferencia');
-                                })
-                                .catch(()=>{
-                                    funciones.AvisoError('No se pudo crear el cheque');
-                                })        
-                                break;
-                            case 'PROVEEDOR':
-                                api.cheques_proveedor_insertar(
-                                    codproyecto,
-                                    funciones.getFecha('txtFecha'),
-                                    0,
-                                    nocontrato,
-                                    codcuenta.value,
-                                    numero.value,
-                                    Number(cantidad.value),
-                                    recibe.value,
-                                    obs.value,
-                                    rubro.value,
-                                    'PROVEEDOR',
-                                    concepto.value)
-                                .then(()=>{
-                                    funciones.Aviso('Cheque creado exitosamente!!');
-                                    $('#modalNuevo').modal('hide');
-
-                                    let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
-                                    api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1', 'tblCheques2', 'tblCheques3','lbPresupuesto','lbSaldo','lbDiferencia');
-                                })
-                                .catch(()=>{
-                                    funciones.AvisoError('No se pudo crear el cheque');
-                                })        
-                                break;                            
-                        }
-                        btnGuardarCheque.innerHTML = `<i class="fal fa-save"></i>Guardar`;
+                api.verificar_nocheque(codcuenta.value,numero.value)
+                .then(()=>{
+                    if(numero.value==''){
+                        funciones.AvisoError('Indique el número de cheque emitido');
                     }else{
-                        funciones.AvisoError('Indique el monto/cantidad del cheque');
+                        if(Number(cantidad.value)>0){
+                            btnGuardarCheque.innerHTML = GlobalLoader;
+                            switch (GlobalSelectedTipoCheque) {
+                                case 'SUBCONTRATISTA':
+                                    api.cheques_contratista_insertar(
+                                        codproyecto,
+                                        funciones.getFecha('txtFecha'),
+                                        nocontrato,
+                                        0,
+                                        codcuenta.value,
+                                        numero.value,
+                                        Number(cantidad.value),
+                                        recibe.value,
+                                        obs.value,
+                                        rubro.value,
+                                        'SUBCONTRATISTA',
+                                        concepto.value)
+                                    .then(()=>{
+                                        funciones.Aviso('Cheque creado exitosamente!!');
+                                        $('#modalNuevo').modal('hide');
+    
+                                        let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
+                                        api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1', 'tblCheques2', 'tblCheques3','lbPresupuesto','lbSaldo','lbDiferencia');
+                                    })
+                                    .catch(()=>{
+                                        funciones.AvisoError('No se pudo crear el cheque');
+                                    })        
+                                    break;
+                                case 'PROVEEDOR':
+                                    api.cheques_proveedor_insertar(
+                                        codproyecto,
+                                        funciones.getFecha('txtFecha'),
+                                        0,
+                                        nocontrato,
+                                        codcuenta.value,
+                                        numero.value,
+                                        Number(cantidad.value),
+                                        recibe.value,
+                                        obs.value,
+                                        rubro.value,
+                                        'PROVEEDOR',
+                                        concepto.value)
+                                    .then(()=>{
+                                        funciones.Aviso('Cheque creado exitosamente!!');
+                                        $('#modalNuevo').modal('hide');
+    
+                                        let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
+                                        api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1', 'tblCheques2', 'tblCheques3','lbPresupuesto','lbSaldo','lbDiferencia');
+                                    })
+                                    .catch(()=>{
+                                        funciones.AvisoError('No se pudo crear el cheque');
+                                    })        
+                                    break;                            
+                            }
+                            btnGuardarCheque.innerHTML = `<i class="fal fa-save"></i>Guardar`;
+                        }else{
+                            funciones.AvisoError('Indique el monto/cantidad del cheque');
+                        };
                     };
-                };
-                
-                
+                })
+                .catch(()=>{
+                    funciones.AvisoError('Cheque ya existe')
+                })
 
-                
             }
         })      
     });

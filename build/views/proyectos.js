@@ -575,11 +575,16 @@ function addListeners() {
 
     let btnNuevoContrato = document.getElementById('btnNuevoContrato');
     btnNuevoContrato.addEventListener('click',()=>{
+
         document.getElementById('lbNuevoContrato').innerText='Nuevo Sub-Contrato';
 
         GlobalSelectedNumeroContrato = 0;
         txtPAsignacion.value = '';
         txtPPresupuesto.value= 0;
+
+        document.getElementById('txtPFechaInicio').value = funciones.getFecha();
+        document.getElementById('txtPFechaEntrega').value = funciones.getFecha();
+
         $('#modalNuevoContrato').modal('show');
     })
 

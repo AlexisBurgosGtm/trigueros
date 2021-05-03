@@ -5,7 +5,7 @@ let GlobalUsuario = 'USUARIO';
 let GlobalPassUsuario = '';
 let GlobalNivelUsuario = 0;
 let GlobalSelectedForm = 'login';
-let GlobalConfigClave = '123';
+let GlobalConfigClave = '1234';
 
 
 

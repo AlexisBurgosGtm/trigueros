@@ -1439,10 +1439,36 @@ let api = {
                 container.innerHTML = str;
         });           
     },
-    verificar_nocheque: (banco,nocheque)=>{
-        return new Promise((resolve, reject)=>{
+    verificar_nocheque: (codcuenta,numero)=>{
+        return new Promise((resolve, reject) => {
+            if(numero=='0'){
+                resolve();
+                //return;
+            }
 
-        })
+            let data = {
+                codcuenta:codcuenta,
+                numero:numero
+            };
+
+            let url = GlobalUrlBackend + '/cheques/verificarcheque'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        resolve();
+                    } else {
+                        reject();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    resolve();
+                });
+
+
+
+        });
     },
     bitacora_lista: (idContainer)=>{
         let container = document.getElementById(idContainer);

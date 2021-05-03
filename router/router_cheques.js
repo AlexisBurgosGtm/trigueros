@@ -3,6 +3,19 @@ const express = require('express');
 const router = express.Router();
 
 
+router.post("/verificarcheque", async (req, res) => {
+
+    const {codcuenta,numero} = req.body;
+    
+    let qry ='';
+
+    qry = `SELECT NUMERO FROM CONST_CHEQUES
+        WHERE CODCUENTA=${codcuenta} AND NUMERO='${numero}' ` 
+
+    execute.Query(res, qry);
+
+});
+
 router.post("/nuevochequecontratante", async (req, res) => {
 
     const {idproyecto,fecha,codcontratante,banco,numero,cantidad,recibe,obs,tipo,concepto,usuario} = req.body;
