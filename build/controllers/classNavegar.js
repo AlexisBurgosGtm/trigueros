@@ -49,6 +49,14 @@ let classNavegar = {
             initView();
         })
     },
+    caja: ()=>{
+        funciones.loadScript('../views/caja.js','root')
+        .then(async()=>{
+            lbTituloVista.innerText = 'CAJA CHICA';
+            GlobalSelectedForm = 'caja';
+            initView();
+        })
+    },
     contratos: ()=>{
         funciones.loadScript('../views/contratos.js','root')
         .then(async()=>{
@@ -80,9 +88,6 @@ let classNavegar = {
         }else{
             funciones.AvisoHablado('Usted no puede entrar a esta sección')
         }
-    },
-    caja: ()=>{
-        funciones.Aviso('En proceso...')
     },
     cotizaciones: ()=>{
         funciones.Aviso('En proceso...')

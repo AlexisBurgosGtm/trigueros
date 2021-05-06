@@ -571,7 +571,7 @@ async function addListeners(){
         funciones.Confirmacion('¿Está seguro que desea Guardar este Cheque?')
         .then((value)=>{
             if(value==true){
-                
+
                 let codcontratante = document.getElementById('cmbContratanteC').value || 0;
                 let codproyecto = document.getElementById('cmbProyectoC').value || 0;
                 let cmbBancoC = document.getElementById('cmbBancoC');
@@ -584,41 +584,45 @@ async function addListeners(){
                 if(obs.value==''){obs.value='SN'};
                 if(recibe.value==''){recibe.value='SN'};
 
-                if(numero.value==''){
-                    funciones.AvisoError('Indique el número de cheque emitido');
-                }else{
-                    if(Number(cantidad.value)>0){
-                        btnGuardarChequeC.innerHTML = GlobalLoader;
-                        api.cheques_contratante_insertar(
-                                    codproyecto,
-                                    funciones.getFecha('txtFechaC'),
-                                    codcontratante,
-                                    cmbBancoC.value,
-                                    numero.value,
-                                    Number(cantidad.value),
-                                    recibe.value,
-                                    obs.value,
-                                    'CONTRATANTE',
-                                    concepto.value)
-                                .then(()=>{
-                                    funciones.Aviso('Cheque creado exitosamente!!');
-                                    $('#modalNuevoContratante').modal('hide');
+                api.verificar_nocheque(cmbBancoC.value,numero.value)
+                .then(()=>{
 
-                                    let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
-                                    api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1', 'tblCheques2', 'tblCheques3','lbPresupuesto','lbSaldo','lbDiferencia');
-                                })
-                                .catch(()=>{
-                                    funciones.AvisoError('No se pudo crear el cheque');
-                                })
-                            btnGuardarChequeC.innerHTML = `<i class="fal fa-save"></i>Guardar`;
-                        
+                    if(numero.value==''){
+                        funciones.AvisoError('Indique el número de cheque emitido');
                     }else{
-                        funciones.AvisoError('Indique el monto/cantidad del cheque');
+                        if(Number(cantidad.value)>0){
+                            btnGuardarChequeC.innerHTML = GlobalLoader;
+                            api.cheques_contratante_insertar(
+                                        codproyecto,
+                                        funciones.getFecha('txtFechaC'),
+                                        codcontratante,
+                                        cmbBancoC.value,
+                                        numero.value,
+                                        Number(cantidad.value),
+                                        recibe.value,
+                                        obs.value,
+                                        'CONTRATANTE',
+                                        concepto.value)
+                                    .then(()=>{
+                                        funciones.Aviso('Cheque creado exitosamente!!');
+                                        $('#modalNuevoContratante').modal('hide');
+    
+                                        let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
+                                        api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1', 'tblCheques2', 'tblCheques3','lbPresupuesto','lbSaldo','lbDiferencia');
+                                    })
+                                    .catch(()=>{
+                                        funciones.AvisoError('No se pudo crear el cheque');
+                                    })
+                                btnGuardarChequeC.innerHTML = `<i class="fal fa-save"></i>Guardar`;
+                            
+                        }else{
+                            funciones.AvisoError('Indique el monto/cantidad del cheque');
+                        };
                     };
-                };
-                
-                
-
+                })
+                .catch(()=>{
+                    funciones.AvisoError('Cheque ya existe')
+                })
                 
             }
         })      

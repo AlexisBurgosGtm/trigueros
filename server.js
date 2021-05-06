@@ -11,6 +11,7 @@ var routerAcreedores = require('./router/router_acreedores');
 var routerContratantes = require('./router/router_contratantes');
 var routerUsuarios = require('./router/router_usuarios');
 var routerBitacora = require('./router/router_bitacora');
+var routerCajas = require('./router/router_cajas');
 
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -57,6 +58,9 @@ app.use('/contratantes', routerContratantes);
 
 //Router para BANCOS
 app.use('/bancos', routerBancos);
+
+//Router para CAJAS
+app.use('/cajas', routerCajas);
 
 //Router para CHEQUES
 app.use('/cheques', routerCheques);
