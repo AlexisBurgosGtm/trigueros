@@ -6,7 +6,7 @@ const router = express.Router();
 router.post("/listado", async (req, res) => {
 
     const { finalizado } = req.body;
-
+    
     let qry = '';
 
     qry = `SELECT CONST_CAJA.NOCORTE, CONST_CAJA.CODCUENTA, CONST_CUENTAS.BANCO, CONST_CUENTAS.NUMERO, CONST_CAJA.NOCHEQUE, 

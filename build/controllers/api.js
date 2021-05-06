@@ -1532,5 +1532,112 @@ let api = {
           
                 });
 
+    },
+    caja_lista: (idContainer,status) => {
+        let container = document.getElementById(idContainer)
+        container.innerHTML = GlobalLoader;
+
+        
+        let str = '';
+        
+        let data = {finalizado:status}
+
+        let url = GlobalUrlBackend + '/cajas/listado';
+        axios.post(url,data)
+        .then((response) => {
+            try {
+                const data = response.data.recordset;
+                data.map((rows) => {
+                    str = str + `<tr class="" onclick="getHistorialCorte(${rows.NOCORTE},'${funciones.convertDate2(rows.FECHA)}',${rows.IMPORTE})">
+                                                <td class="negrita text-danger">${rows.NOCORTE}</td>
+                                                <td>${funciones.convertDate2(rows.FECHA)}</td>
+                                                <td>${funciones.setMoneda(rows.IMPORTE,'Q')}</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-info btn-circle" >
+                                                        <i class="fal fa-list"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>`
+                })
+                container.innerHTML = str;
+            } catch (err) {
+                str = 'AGREGUE DATOS...';
+                container.innerHTML = str;
+            }
+        }, (error) => {
+                str = 'ERROR...';
+                container.innerHTML = str;
+        });           
+    },
+    caja_insertar: (codcuenta,nocheque,fecha,importe,recibido) => {
+    
+        return new Promise((resolve, reject)=>{
+            let data = {
+                codcuenta:codcuenta,
+                nocheque:nocheque,
+                fecha:fecha,
+                importe:importe,
+                recibido:recibido,
+                usuario:GlobalUsuario
+            };
+
+            let url = GlobalUrlBackend + '/cajas/insertcorte'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+       })
+
+    },
+    caja_historial_lista: (idContainer,nocorte) => {
+        let container = document.getElementById(idContainer)
+        container.innerHTML = GlobalLoader;
+
+        
+        let str = '';
+        
+        let data = {
+            nocorte:nocorte
+        }
+        let url = GlobalUrlBackend + '/cajas/listadomovimientos';
+        axios.post(url,data)
+        .then((response) => {
+            try {
+                const data = response.data.recordset;
+                data.map((rows) => {
+                    str = str + `<tr class="" onclick="">
+                                                <td>${funciones.convertDate2(rows.FECHA)}
+                                                    <br>
+                                                    <small class="negrita text-info">Factura:${rows.NOFACTURA}</small>
+                                                </td>
+                                                <td>${rows.PROYECTO}
+                                                    <br>
+                                                    <small class="negrita">${rows.DESCRIPCION}</small>
+                                                </td>
+                                                <td>${rows.RUBRO}
+                                                    <br>
+                                                    <small class="negrita">${rows.ACREEDOR}</small>
+                                                </td>
+                                                <td><b class="text-danger">${funciones.setMoneda(rows.IMPORTE,'Q')}</b></td>
+                                            </tr>`
+                })
+                container.innerHTML = str;
+            } catch (err) {
+                str = 'AGREGUE DATOS...';
+                container.innerHTML = str;
+            }
+        }, (error) => {
+                str = 'ERROR...';
+                container.innerHTML = str;
+        });           
     }
 }

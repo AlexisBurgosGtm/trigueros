@@ -8,6 +8,7 @@ let GlobalSelectedForm = 'login';
 let GlobalConfigClave = '1234';
 
 
+let GlobalMiniLoader = '<div class="spinner-grow text-primary" role="status"><span class="sr-only">Loading...</span></div>';
 
 let GlobalLoader = `<div>
                         <div class="spinner-grow text-primary" role="status"><span class="sr-only">Loading...</span></div>
