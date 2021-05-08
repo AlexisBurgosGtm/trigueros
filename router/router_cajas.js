@@ -70,7 +70,7 @@ router.post("/insertmovimiento", async (req, res) => {
     let qry = '';
 
     qry = `INSERT INTO CONST_CAJA_MOVIMIENTOS (NOCORTE,FECHA,PROYECTO,ACREEDOR,DESCRIPCION,RUBRO,NOFACTURA,IMPORTE,USUARIO)
-    VALUES (${nocorte},'${fecha}','${proyecto}','${acreedor}','${descripcion}','${rubro}','${nofactura}',${importe},'${usuario}'); `
+    VALUES (${nocorte},'${fecha}','${proyecto}','${acreedor}','${descripcion}','${rubro}','${nofactura}',${(importe * -1)},'${usuario}'); `
 
     execute.Query(res, qry);
 
