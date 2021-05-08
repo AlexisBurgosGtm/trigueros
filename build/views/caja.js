@@ -317,6 +317,8 @@ async function addListeners(){
     // MOVIMIENTO DE SALIDA
     //*********************************************/
 
+    api.rubros_listado('cmbSalRubro');
+
     let btnSalidaGuardar = document.getElementById('btnSalidaGuardar');
     btnSalidaGuardar.addEventListener('click',()=>{
         funciones.Confirmacion('¿Está seguro que desea registrar este nuevo movimiento?')
