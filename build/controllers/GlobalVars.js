@@ -26,3 +26,5 @@ let GlobalSelectedTipoCheque = 'SN';
 let GlobalSelectedId = 0;
 
 let GlobalListaRubros = '';
+
+let GlobalString = '';

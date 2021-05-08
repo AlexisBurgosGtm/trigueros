@@ -1550,7 +1550,10 @@ let api = {
                 data.map((rows) => {
                     str = str + `<tr class="" onclick="getHistorialCorte(${rows.NOCORTE},'${funciones.convertDate2(rows.FECHA)}',${rows.IMPORTE})">
                                                 <td class="negrita text-danger">${rows.NOCORTE}</td>
-                                                <td>${funciones.convertDate2(rows.FECHA)}</td>
+                                                <td>${funciones.convertDate2(rows.FECHA)}
+                                                    <br>
+                                                    <small class="negrita">Usuario:${rows.USUARIO}</small>
+                                                </td>
                                                 <td>${funciones.setMoneda(rows.IMPORTE,'Q')}</td>
                                                 <td>
                                                     <button class="btn btn-sm btn-info btn-circle" >
@@ -1601,7 +1604,6 @@ let api = {
     caja_historial_lista: (idContainer,nocorte) => {
         let container = document.getElementById(idContainer)
         container.innerHTML = GlobalLoader;
-
         
         let str = '';
         
@@ -1628,6 +1630,11 @@ let api = {
                                                     <small class="negrita">${rows.ACREEDOR}</small>
                                                 </td>
                                                 <td><b class="text-danger">${funciones.setMoneda(rows.IMPORTE,'Q')}</b></td>
+                                                <td>
+                                                    <button class="btn btn-danger btn-sm btn-circle" onclick="deleteMovimientoCaja(${rows.ID})">
+                                                        x
+                                                    </button>
+                                                </td>
                                             </tr>`
                 })
                 container.innerHTML = str;
@@ -1639,5 +1646,61 @@ let api = {
                 str = 'ERROR...';
                 container.innerHTML = str;
         });           
+    },
+    caja_delete: (nomovimiento) => {
+    
+        return new Promise((resolve, reject)=>{
+            let data = {
+                id:nomovimiento
+            };
+
+            let url = GlobalUrlBackend + '/cajas/deletemovimiento'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+       })
+
+    },
+    caja_insertar_movimiento: (nocorte,fecha,proyecto,acreedor,descripcion,rubro,nofactura,importe) => {
+    
+        return new Promise((resolve, reject)=>{
+            let data = {
+                nocorte:nocorte,
+                fecha:fecha,
+                proyecto:proyecto,
+                acreedor:acreedor,
+                descripcion:descripcion,
+                rubro:rubro,
+                nofactura:nofactura,
+                importe:importe,
+                usuario:GlobalUsuario
+            };
+
+            let url = GlobalUrlBackend + '/cajas/insertmovimiento'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+       })
+
     }
 }

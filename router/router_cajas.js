@@ -76,4 +76,17 @@ router.post("/insertmovimiento", async (req, res) => {
 
 });
 
+router.post("/deletemovimiento", async (req, res) => {
+
+    const { id } = req.body;
+
+    let qry = '';
+
+    qry = `DELETE FROM CONST_CAJA_MOVIMIENTOS WHERE ID=${id};`
+
+    execute.Query(res, qry);
+
+});
+
+
 module.exports = router;

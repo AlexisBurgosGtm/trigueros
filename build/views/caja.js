@@ -108,6 +108,42 @@ function getView(){
                         </div>
                     <div class="modal-body">
 
+                        <div class="form-group">
+                            <label>Fecha</label>
+                            <input type="date" class="form-control col-6" id="txtSalFecha">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Proyecto</label>
+                            <input type="text" class="form-control" id="txtSalProyecto">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Acreedor</label>
+                            <input type="text" class="form-control" id="txtSalAcreedor">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Descripción</label>
+                            <input type="text" class="form-control" id="txtSalDescripcion">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Rubro</label>
+                            <select class="form-control" id="cmbSalRubro"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Factura</label>
+                            <input type="text" class="form-control col-8" id="txtSalFactura">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Importe</label>
+                            <input type="number" class="form-control bg-amarillo negrita text-danger col-8" id="txtSalImporte" value=0>
+                        </div>
+
+
                         
                         <hr class="solid">
 
@@ -119,7 +155,7 @@ function getView(){
                                 </button>    
                             </div>
                             <div class="col-6">
-                                <button class="btn btn-primary btn-xl" id="btnGuardarChequeC">
+                                <button class="btn btn-info btn-xl" id="btnSalidaGuardar">
                                     <i class="fal fa-save"></i>
                                     Guardar
                                 </button>    
@@ -159,6 +195,7 @@ function getView(){
                                     <td>PROYECTO/DESCRIPCION</td>
                                     <td>RUBRO/ACREEDOR</td>
                                     <td>IMPORTE</td>
+                                    <td></td>
                                 </tr>
                             </thead>
                             <tbody id="tblHistorial"></tbody>
@@ -271,15 +308,54 @@ async function addListeners(){
     let btnNuevoSalida = document.getElementById('btnNuevoSalida');
     btnNuevoSalida.addEventListener('click',()=>{
         
+        document.getElementById('txtSalFecha').value = funciones.getFecha();
         $('#modalNuevoSalida').modal('show');
+
     });
 
+    //*********************************************/
+    // MOVIMIENTO DE SALIDA
+    //*********************************************/
+
+    let btnSalidaGuardar = document.getElementById('btnSalidaGuardar');
+    btnSalidaGuardar.addEventListener('click',()=>{
+        funciones.Confirmacion('¿Está seguro que desea registrar este nuevo movimiento?')
+        .then((value)=>{
+            if(value==true){
+
+                let fecha = funciones.devuelveFecha('txtSalFecha');
+                let txtSalProyecto = document.getElementById('txtSalProyecto').value || 'SN';
+                let txtSalAcreedor = document.getElementById('txtSalAcreedor').value || 'SN';
+                let txtSalDescripcion = document.getElementById('txtSalDescripcion').value || 'SN';
+                let cmbSalRubro = document.getElementById('cmbSalRubro').value;
+                let txtSalFactura = document.getElementById('txtSalFactura').value || '000';
+                let txtSalImporte = document.getElementById('txtSalImporte');
+
+                if(Number(txtSalImporte.value) > 0){
+                    api.caja_insertar_movimiento(GlobalSelectedId,fecha,txtSalProyecto,txtSalAcreedor,txtSalDescripcion,cmbSalRubro,txtSalFactura,Number(txtSalImporte.value))
+                    .then(()=>{
+                        funciones.Aviso('Movimiento guardado exitosamente!!');
+                        api.caja_historial_lista('tblHistorial',GlobalSelectedId);
+                    })
+                    .catch(()=>{
+                        funciones.AvisoError('No se pudo guardar este movimiento')                        
+                    })
+                }else{
+                    funciones.AvisoError('No se puede guardar una salida con valor cero');
+                }
+
+
+            }
+        })          
+    })
 
 
 
 };
 
 function getHistorialCorte(nocorte,fecha,importe){
+    
+    GlobalSelectedId = nocorte;
     let lbFechaCorte = document.getElementById('lbFechaCorte');
     lbFechaCorte.innerText = fecha;
     let lbImporteCorte = document.getElementById('lbImporteCorte');
@@ -294,4 +370,31 @@ function getHistorialCorte(nocorte,fecha,importe){
 function initView(){
     getView();
     addListeners();
+};
+
+function deleteMovimientoCaja(idmovimiento){
+    funciones.Confirmacion('¿Está seguro que desea Eliminar este movimiento?')
+    .then((value)=>{
+        if(value==true){
+
+            $('#modalDetalle').modal('hide');
+
+            funciones.solicitarClave()
+            .then((name)=>{
+                if(name.toString()==GlobalConfigClave.toString()){
+                    api.caja_delete(idmovimiento)
+                    .then(()=>{
+                        funciones.Aviso('Movimiento eliminado exitosamente!!')
+                    })
+                    .catch(()=>{
+                        funciones.AvisoError('No se pudo eliminar este movimiento')
+                    })
+                }else{
+                    funciones.AvisoError('Contraseña incorrecta');
+                }
+            })
+
+        }
+    })
+
 };
