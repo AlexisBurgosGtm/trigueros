@@ -178,8 +178,12 @@ function getView(){
                     <div class="modal-content">
                         <div class="modal-header bg-info text-white">
                             <h5 class="modal-title" id="">Movimientos del Corte</h5>
+                            <button class="btn btn-info shadow" id="btnFinalizar">
+                                <i class="fal fa-check"></i>Finalizar
+                            </button>
                         </div>
-                    <div class="modal-body">
+
+                        <div class="modal-body">
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
@@ -319,6 +323,7 @@ async function addListeners(){
 
 
     //MODAL HISTORIAL O DETALLE DEL CORTE
+
     let btnNuevoSalida = document.getElementById('btnNuevoSalida');
     btnNuevoSalida.addEventListener('click',()=>{
         
@@ -333,6 +338,33 @@ async function addListeners(){
         $('#modalNuevoSalida').modal('show');
 
     });
+
+    let btnFinalizar = document.getElementById('btnFinalizar');
+    btnFinalizar.addEventListener('click',()=>{
+        funciones.Confirmacion('¿Está seguro que desea FINALIZAR este corte?')
+        .then((value)=>{
+            if(value==true){
+                
+                $('#modalDetalle').modal('hide');
+
+                funciones.solicitarClave()
+                .then((name)=>{
+                    if(name.toString()==GlobalConfigClave.toString()){
+                        api.caja_finalizar(GlobalSelectedId)
+                        .then(async()=>{
+                            funciones.Aviso('Corte finalizado exitosamente!!');
+                            //LISTADO DE CORTES
+                            await api.caja_lista('tblCortes','NO');
+                        })
+                        .catch(()=>{
+                            funciones.AvisoError('No se pudo finalizar este Corte')
+                        })
+                    }
+                })
+
+            }
+        })
+    })
 
     //*********************************************/
     // MOVIMIENTO DE SALIDA
@@ -378,7 +410,15 @@ async function addListeners(){
 };
 
 function getHistorialCorte(nocorte,fecha,importe){
-    
+
+    let st = document.getElementById('cmbStatus').value;
+
+    if(st=='SI'){
+        document.getElementById('btnFinalizar').style ="visibility:hidden";
+    }else{
+        document.getElementById('btnFinalizar').style ="visibility:visible";
+    }
+
     GlobalSelectedId = nocorte;
     GlobalSelectedImporte = Number(importe);
     let lbFechaCorte = document.getElementById('lbFechaCorte');
@@ -398,28 +438,39 @@ function initView(){
 };
 
 function deleteMovimientoCaja(idmovimiento){
-    funciones.Confirmacion('¿Está seguro que desea Eliminar este movimiento?')
-    .then((value)=>{
-        if(value==true){
 
-            $('#modalDetalle').modal('hide');
+    let st = document.getElementById('cmbStatus').value;
 
-            funciones.solicitarClave()
-            .then((name)=>{
-                if(name.toString()==GlobalConfigClave.toString()){
-                    api.caja_delete(idmovimiento)
-                    .then(()=>{
-                        funciones.Aviso('Movimiento eliminado exitosamente!!')
-                    })
-                    .catch(()=>{
-                        funciones.AvisoError('No se pudo eliminar este movimiento')
-                    })
-                }else{
-                    funciones.AvisoError('Contraseña incorrecta');
-                }
-            })
+    if(st=='SI'){
+        funciones.AvisoHablado('No puede Eliminar un movimiento de un corte finalizado')
+    }else{
+        
+        funciones.Confirmacion('¿Está seguro que desea Eliminar este movimiento?')
+        .then((value)=>{
+            if(value==true){
+    
+                $('#modalDetalle').modal('hide');
+    
+                funciones.solicitarClave()
+                .then((name)=>{
+                    if(name.toString()==GlobalConfigClave.toString()){
+                        api.caja_delete(idmovimiento)
+                        .then(()=>{
+                            funciones.Aviso('Movimiento eliminado exitosamente!!')
+                        })
+                        .catch(()=>{
+                            funciones.AvisoError('No se pudo eliminar este movimiento')
+                        })
+                    }else{
+                        funciones.AvisoError('Contraseña incorrecta');
+                    }
+                })
+    
+            }
+        })
 
-        }
-    })
+    }
+
+    
 
 };

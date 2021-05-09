@@ -1601,6 +1601,30 @@ let api = {
        })
 
     },
+    caja_finalizar: (nocorte) => {
+    
+        return new Promise((resolve, reject)=>{
+            let data = {
+                nocorte:nocorte
+            };
+
+            let url = GlobalUrlBackend + '/cajas/finalizarcorte'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+       })
+
+    },
     caja_historial_lista: (idContainer,nocorte, idContainerTotal, idContainerSaldo, monto) => {
         
         let container = document.getElementById(idContainer)

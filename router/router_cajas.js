@@ -44,6 +44,21 @@ router.post("/deletecorte", async (req, res) => {
 
 });
 
+router.post("/finalizarcorte", async (req, res) => {
+
+    const { nocorte } = req.body;
+
+    let qry = '';
+
+    qry = `UPDATE CONST_CAJA SET FINALIZADO='NO' WHERE NOCORTE=${nocorte}; `
+
+    execute.Query(res, qry);
+
+});
+
+
+
+
 
 router.post("/listadomovimientos", async (req, res) => {
 
