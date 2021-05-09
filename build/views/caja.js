@@ -309,6 +309,13 @@ async function addListeners(){
     btnNuevoSalida.addEventListener('click',()=>{
         
         document.getElementById('txtSalFecha').value = funciones.getFecha();
+        document.getElementById('txtSalProyecto').value = 'SN';
+        document.getElementById('txtSalAcreedor').value = 'SN';
+        document.getElementById('txtSalDescripcion').value = 'SN';
+        document.getElementById('txtSalFactura').value = '000';
+        document.getElementById('txtSalImporte').value = 0;
+
+
         $('#modalNuevoSalida').modal('show');
 
     });
@@ -335,9 +342,10 @@ async function addListeners(){
 
                 if(Number(txtSalImporte.value) > 0){
                     api.caja_insertar_movimiento(GlobalSelectedId,fecha,txtSalProyecto,txtSalAcreedor,txtSalDescripcion,cmbSalRubro,txtSalFactura,Number(txtSalImporte.value))
-                    .then(()=>{
+                    .then(async()=>{
                         funciones.Aviso('Movimiento guardado exitosamente!!');
-                        api.caja_historial_lista('tblHistorial',GlobalSelectedId);
+                        await api.caja_historial_lista('tblHistorial',GlobalSelectedId);
+                        $('#modalNuevoSalida').modal('show');
                     })
                     .catch(()=>{
                         funciones.AvisoError('No se pudo guardar este movimiento')                        
