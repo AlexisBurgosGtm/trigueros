@@ -178,6 +178,8 @@ function getView(){
                     <div class="modal-content">
                         <div class="modal-header bg-info text-white">
                             <h5 class="modal-title" id="">Movimientos del Corte</h5>
+                        </div>
+                    <div class="modal-body">
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
@@ -186,24 +188,20 @@ function getView(){
                                     </div>
                                     <div class="form-group">
                                         <label>Monto:</label>
-                                        <h4 id="lbImporteCorte">0</h4>
+                                        <h4 class="negrita text-success" id="lbImporteCorte">0</h4>
                                     </div>    
                                 </div>
                                 <div class="col-6">
-                                        <div class="form-group">
-                                            <label>Total Salidas</label>
-                                            <h4 class="text-danger" id="lbCorteSalidas">0</h4>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Saldo</label>
-                                            <h4 class="text-info" id="lbCorteSaldo">0</h4>
-                                        </div>    
+                                    <div class="form-group">
+                                        <label>Total Salidas</label>
+                                        <h4 class="negrita text-danger" id="lbCorteSalidas">0</h4>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Saldo</label>
+                                        <h4 class="negrita" id="lbCorteSaldo">0</h4>
+                                    </div>    
                                 </div>
                             </div>
-                            
-
-                        </div>
-                    <div class="modal-body">
                         <table class="table table-responsive table-hover table-striped table-bordered">
                             <thead class="bg-trans-gradient text-white">
                                 <tr>
