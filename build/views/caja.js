@@ -178,14 +178,30 @@ function getView(){
                     <div class="modal-content">
                         <div class="modal-header bg-info text-white">
                             <h5 class="modal-title" id="">Movimientos del Corte</h5>
-                            <div class="form-group">
-                                <label>Creado el:</label>
-                                <h4 id="lbFechaCorte">0</h4>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label>Creado el:</label>
+                                        <h4 id="lbFechaCorte">0</h4>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Monto:</label>
+                                        <h4 id="lbImporteCorte">0</h4>
+                                    </div>    
+                                </div>
+                                <div class="col-6">
+                                        <div class="form-group">
+                                            <label>Total Salidas</label>
+                                            <h4 class="text-danger" id="lbCorteSalidas">0</h4>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Saldo</label>
+                                            <h4 class="text-info" id="lbCorteSaldo">0</h4>
+                                        </div>    
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label>Monto:</label>
-                                <h4 id="lbImporteCorte">0</h4>
-                            </div>
+                            
+
                         </div>
                     <div class="modal-body">
                         <table class="table table-responsive table-hover table-striped table-bordered">
@@ -344,8 +360,8 @@ async function addListeners(){
                     api.caja_insertar_movimiento(GlobalSelectedId,fecha,txtSalProyecto,txtSalAcreedor,txtSalDescripcion,cmbSalRubro,txtSalFactura,Number(txtSalImporte.value))
                     .then(async()=>{
                         funciones.Aviso('Movimiento guardado exitosamente!!');
-                        await api.caja_historial_lista('tblHistorial',GlobalSelectedId);
-                        $('#modalNuevoSalida').modal('show');
+                        await api.caja_historial_lista('tblHistorial',GlobalSelectedId, 'lbCorteSalidas', 'lbCorteSaldo',GlobalSelectedImporte);
+                        $('#modalNuevoSalida').modal('hide');
                     })
                     .catch(()=>{
                         funciones.AvisoError('No se pudo guardar este movimiento')                        
@@ -366,12 +382,13 @@ async function addListeners(){
 function getHistorialCorte(nocorte,fecha,importe){
     
     GlobalSelectedId = nocorte;
+    GlobalSelectedImporte = Number(importe);
     let lbFechaCorte = document.getElementById('lbFechaCorte');
     lbFechaCorte.innerText = fecha;
     let lbImporteCorte = document.getElementById('lbImporteCorte');
     lbImporteCorte.innerText = funciones.setMoneda(importe,'Q')
 
-    api.caja_historial_lista('tblHistorial',nocorte)
+    api.caja_historial_lista('tblHistorial',GlobalSelectedId, 'lbCorteSalidas', 'lbCorteSaldo',GlobalSelectedImporte);
 
     $('#modalDetalle').modal('show');
 

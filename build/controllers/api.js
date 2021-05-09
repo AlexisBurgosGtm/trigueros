@@ -1601,12 +1601,20 @@ let api = {
        })
 
     },
-    caja_historial_lista: (idContainer,nocorte) => {
+    caja_historial_lista: (idContainer,nocorte, idContainerTotal, idContainerSaldo, monto) => {
+        
         let container = document.getElementById(idContainer)
         container.innerHTML = GlobalLoader;
+
+        let containerTotal = document.getElementById(idContainerTotal)
+        containerTotal.innerHTML = '----';
+        let containerSaldo = document.getElementById(idContainerSaldo);
+        containerSaldo.innerHTML = '----';
+        
         
         let str = '';
-        
+        let varTotal = 0;
+
         let data = {
             nocorte:nocorte
         }
@@ -1616,6 +1624,7 @@ let api = {
             try {
                 const data = response.data.recordset;
                 data.map((rows) => {
+                    varTotal = varTotal + Number(rows.IMPORTE);
                     str = str + `<tr class="" onclick="">
                                                 <td>${funciones.convertDate2(rows.FECHA)}
                                                     <br>
@@ -1638,13 +1647,19 @@ let api = {
                                             </tr>`
                 })
                 container.innerHTML = str;
+                containerSaldo.innerHTML = funciones.setMoneda((Number(monto) + varTotal),'Q');
+                containerTotal.innerHTML = funciones.setMoneda(varTotal,'Q');
             } catch (err) {
                 str = 'AGREGUE DATOS...';
                 container.innerHTML = str;
+                containerSaldo.innerHTML = '----';
+                containerTotal.innerHTML = '----';
             }
         }, (error) => {
                 str = 'ERROR...';
                 container.innerHTML = str;
+                containerSaldo.innerHTML = '----';
+                containerTotal.innerHTML = '----';
         });           
     },
     caja_delete: (nomovimiento) => {

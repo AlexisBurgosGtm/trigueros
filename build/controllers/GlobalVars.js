@@ -28,3 +28,6 @@ let GlobalSelectedId = 0;
 let GlobalListaRubros = '';
 
 let GlobalString = '';
+
+let GlobalSelectedImporte = 0;
+
