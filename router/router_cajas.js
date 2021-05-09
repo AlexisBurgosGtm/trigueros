@@ -50,7 +50,7 @@ router.post("/finalizarcorte", async (req, res) => {
 
     let qry = '';
 
-    qry = `UPDATE CONST_CAJA SET FINALIZADO='NO' WHERE NOCORTE=${nocorte}; `
+    qry = `UPDATE CONST_CAJA SET FINALIZADO='SI' WHERE NOCORTE=${nocorte}; `
 
     execute.Query(res, qry);
 
