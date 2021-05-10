@@ -1524,7 +1524,7 @@ let api = {
                                                     <br>
                                                     <small class="negrita">Clave:${rows.PASS}</small>
                                                     <br>
-                                                    <small class="negrita text-danger">Nivel:${rows.NIVEL}</small>s
+                                                    <small class="negrita text-danger">Nivel:${rows.NIVEL}</small>
                                                 </td>
 
                                                 <td>

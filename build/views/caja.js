@@ -272,10 +272,13 @@ async function addListeners(){
 
     let btnNuevoIngreso = document.getElementById('btnNuevoIngreso');
     btnNuevoIngreso.addEventListener('click',()=>{
+        if(cmbStatus.value=='NO'){
+            document.getElementById('txtEntFecha').value = funciones.getFecha();
+            $('#modalNuevoIngreso').modal('show');
+        }else{
+            funciones.AvisoError('No se puede agregar más salidas a un corte finalizado')
+        }
         
-        document.getElementById('txtEntFecha').value = funciones.getFecha();
-
-        $('#modalNuevoIngreso').modal('show');
     });
 
     //LISTADO DE CORTES
