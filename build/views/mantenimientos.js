@@ -549,7 +549,47 @@ function addListeners(){
                 }
 
             }
-    })
+        })
+    });
+
+    let btnUsuarioEliminar = document.getElementById('btnUsuarioEliminar');
+    btnUsuarioEliminar.addEventListener('click',()=>{
+        funciones.Confirmacion('¿Está seguro que desea ELIMINAR este Usuario?')
+        .then((value)=>{
+            if(value==true){
+
+                $('#modalUsuarios').modal('hide');   
+
+                funciones.solicitarClave()
+                .then((name)=>{
+                    if(name==GlobalPassUsuario){
+                 
+                        api.config_usuarios_delete(GlobalSelectedId)
+                        .then(async()=>{
+                            funciones.Aviso('Usuario eliminado exitosamente !!')
+                            await getListado('USUARIOS');
+                        })
+                        .catch(()=>{
+                            funciones.AvisoError('No se puedo eliminar este Usuario')
+                        })
+
+
+                    }else{
+                        funciones.AvisoError('Contraseña Incorrecta');    
+                    }
+                })
+                .catch(()=>{
+                    funciones.AvisoError('Contraseña Incorrecta');
+                })
+
+           }
+       }) 
+
+    });
+
+
+
+
 
 };
 

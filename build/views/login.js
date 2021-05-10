@@ -80,9 +80,11 @@ function addListeners(){
     })
 };
 
-function initView(){
+async function initView(){
     getView();
     addListeners();
+
+   await api.config_getclave();
 };
 
 

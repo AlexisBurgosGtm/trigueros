@@ -3,6 +3,19 @@ const express = require('express');
 const router = express.Router();
 
 
+router.post("/claveverificacion", async(req,res)=>{
+    
+        
+    let qry =''; 
+
+    qry = `SELECT VALOR FROM CONST_CONFIG WHERE ID=1;`;     
+    
+    execute.Query(res, qry);
+
+});
+
+
+
 router.post("/bitacora", async(req,res)=>{
     
     const {fecha,hora,descripcion,usuario} = req.body;

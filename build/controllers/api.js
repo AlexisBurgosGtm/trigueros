@@ -1544,6 +1544,48 @@ let api = {
                 container.innerHTML = str;
         });           
     },
+    config_rubros_delete: (id) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                codigo:id
+            };
+
+            let url = GlobalUrlBackend + '/usuarios/eliminar'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
+    },
+    config_getclave:()=>{
+        let url = GlobalUrlBackend + '/usuarios/claveverificacion';
+        axios.post(url)
+        .then((response) => {
+            try {
+                const data = response.data.recordset;
+                data.map((rows) => {
+                    GlobalConfigClave = rows.VALOR;
+                })
+            } catch (err) {
+                GlobalConfigClave = '0';
+            }
+        }, (error) => {
+            GlobalConfigClave = '0';
+        });             
+    },
     verificar_nocheque: (codcuenta,numero)=>{
         return new Promise((resolve, reject) => {
             if(numero=='0'){
