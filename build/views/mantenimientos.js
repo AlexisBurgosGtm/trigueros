@@ -668,5 +668,5 @@ function getMenuUsuarios(codigo,usuario,pass,nivel){
     document.getElementById('txtUsuarioPass').value = pass;
     document.getElementById('cmbUsuarioNivel').value = nivel;
 
-    $('#modalBancos').modal('show');
+    $('#modalUsuarios').modal('show');
 };
