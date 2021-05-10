@@ -245,7 +245,7 @@ function getView(){
     }
 
     root.innerHTML= view.encabezado() + view.listado() + view.btnNuevo();
-    rootModal.innerHTML = view.modalBancos() + view.modalContratantes() + view.modalRubros();
+    rootModal.innerHTML = view.modalBancos() + view.modalContratantes() + view.modalRubros() + view.modalUsuarios();
 };
 
 function addListeners(){
