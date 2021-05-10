@@ -178,7 +178,7 @@ function getView(){
                     <div class="modal-content">
                         <div class="modal-header bg-info text-white">
                             <h5 class="modal-title" id="">Movimientos del Corte</h5>
-                            <button class="btn btn-info shadow" id="btnFinalizar">
+                            <button class="btn btn-danger shadow" id="btnFinalizar">
                                 <i class="fal fa-check"></i>Finalizar
                             </button>
                         </div>

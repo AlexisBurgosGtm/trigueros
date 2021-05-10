@@ -9,12 +9,12 @@ function getView(){
                     <div class="card-body">
                         <div class="form-group">
                             <label>Usuario</label>
-                            <input type="text" class="input-md form-control border-info" id="txtUsuario" value='TRIGUEROS'>
+                            <input type="text" class="input-md form-control border-info" id="txtUsuario">
                         </div>
                         <br>
                         <div class="form-group">
                             <label>Contraseña</label>
-                            <input type="password" class="form-control border-info" id="txtPass" value='123'>
+                            <input type="password" class="form-control border-info" id="txtPass">
                         </div>
                         <br>
                         <div class="form-group text-right">
