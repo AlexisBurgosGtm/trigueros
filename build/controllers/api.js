@@ -1439,6 +1439,111 @@ let api = {
                 container.innerHTML = str;
         });           
     },
+    config_usuarios_insert: (u,p,n) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                u:u,
+                p:p,
+                n:n
+            };
+
+            let url = GlobalUrlBackend + '/usuarios/nuevo'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
+    },
+    config_usuarios_edit: (u,p,n,c) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                u:u,
+                p:p,
+                n:n,
+                c:c
+            };
+
+            let url = GlobalUrlBackend + '/usuarios/editar'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
+    },
+    config_usuarios_lista: (idContainer) => {
+        let container = document.getElementById(idContainer)
+        container.innerHTML = GlobalLoader;
+
+        let strHeader = `<table class="table table-striped table-responsive table-hover">
+                            <thead class="bg-warning text-white">
+                                <tr>
+                                    <td>ID</td>
+                                    <td>USUARIO/CLAVE</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody>`
+        let str = '';
+        let strFooter = `</tbody></table>`
+        let data = {nivel:GlobalNivelUsuario}
+        let url = GlobalUrlBackend + '/usuarios/listado';
+        axios.post(url,data)
+        .then((response) => {
+            try {
+                const data = response.data.recordset;
+                data.map((rows) => {
+                    str = str + `<tr class="border-info border-bottom">
+                                                <td>${rows.CODIGO}</td>
+                                                <td>${rows.USUARIO}
+                                                    <br>
+                                                    <small class="negrita">Clave:${rows.PASS}</small>
+                                                    <br>
+                                                    <small class="negrita text-danger">Nivel:${rows.NIVEL}</small>s
+                                                </td>
+
+                                                <td>
+                                                    <button class="btn btn-sm btn-warning btn-circle" onclick="getMenuUsuarios(${rows.CODIGO},'${rows.USUARIO}','${rows.PASS}','${rows.NIVEL}')">
+                                                        <i class="fal fa-edit"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>`
+                })
+                container.innerHTML = strHeader + str + strFooter;
+            } catch (err) {
+                str = 'AGREGUE DATOS...';
+                container.innerHTML = str;
+            }
+        }, (error) => {
+                str = 'ERROR...';
+                container.innerHTML = str;
+        });           
+    },
     verificar_nocheque: (codcuenta,numero)=>{
         return new Promise((resolve, reject) => {
             if(numero=='0'){

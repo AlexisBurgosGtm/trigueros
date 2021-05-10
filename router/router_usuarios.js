@@ -51,11 +51,17 @@ router.post("/listado", async(req,res)=>{
     let qry ='';
 
     if(Number(nivel)==1){
-        qry = `SELECT ISNULL(CODUSUARIO,0) AS CODIGO, ISNULL(USUARIO,'SN') AS USUARIO, ISNULL(PASS,'SN') AS PASS ISNULL(NIVEL,0) AS NIVEL
-            FROM CONST_USUARIOS`;     
-    };
+        qry = `SELECT ISNULL(CODUSUARIO,0) AS CODIGO, 
+                ISNULL(USUARIO,'SN') AS USUARIO, ISNULL(PASS,'SN') AS PASS, 
+                ISNULL(NIVEL,0) AS NIVEL
+            FROM CONST_USUARIOS`;  
+
+            execute.Query(res,qry);
+    }else{
+        res.send('No hay datos')
+    }
         
-    execute.Query(res,qry);
+    
 
 });
 
@@ -65,48 +71,43 @@ router.post("/eliminar", async(req,res)=>{
     
     const {codigo} = req.body;
         
-    let qry =''; let qryVendedor = '';
+    let qry =''; 
 
     qry = `DELETE FROM CONST_USUARIOS WHERE CODUSUARIO=${codigo};`;     
     
-    execute.Query(res, qry + qryVendedor);
+    execute.Query(res, qry);
 
 });
 
 // NUEVO USUARIO
 router.post("/nuevo", async(req,res)=>{
     
-    const {sucursal,tipo,codusuario,usuario,clave,coddoc,telefono} = req.body;
+    const {u,p,n} = req.body;
         
-    let qry ='';let qryV ='';
+    let qry ='';
 
-    qry = `INSERT INTO ME_USUARIOS 
-        (CODUSUARIO,NOMBRE,PASS,TIPO,TELEFONO,CODDOC,CODSUCURSAL) VALUES
-        (${codusuario},'${usuario}','${clave}','${tipo}','${telefono}','${coddoc}','${sucursal}');`;     
-        
-
+    qry = `INSERT INTO CONST_USUARIOS (USUARIO,PASS,NIVEL) 
+            VALUES ('${u}','${p}',${n})`;     
 
     execute.Query(res, qry);
 
 });
 
+
 // EDITA EL USUARIO
 router.post("/editar", async(req,res)=>{
     
-    const {id,sucursal,tipo,codusuario,usuario,clave,coddoc,telefono} = req.body;
+const {u,p,n,c} = req.body;
         
-    let qry =''; let qryV ='';
+    let qry ='';
 
-    qry = `UPDATE ME_USUARIOS SET 
-            CODUSUARIO=${codusuario},
-            NOMBRE='${usuario}',
-            PASS='${clave}',
-            TIPO='${tipo}',
-            TELEFONO='${telefono}',
-            CODDOC='${coddoc}'
-            WHERE ID=${id} AND CODSUCURSAL='${sucursal}';`;     
+    qry = `UPDATE CONST_USUARIOS SET 
+            USUARIO='${u}',
+            PASS='${p}',
+            NIVEL=${n}
+            WHERE CODUSUARIO=${c}
+            `;     
 
-      
     execute.Query(res, qry);
 
 });

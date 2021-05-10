@@ -185,6 +185,62 @@ function getView(){
                 </div>
             </div>
             `
+        },
+        modalUsuarios : ()=>{
+            return `
+        <div class="modal fade js-modal-settings modal-backdrop-transparent modal-with-scroll" tabindex="-1" role="dialog" aria-hidden="true"  id="modalUsuarios">
+            <div class="modal-dialog modal-dialog-right modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger text-white">
+                            <h5 class="modal-title" id="">Datos del usuario</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="negrita">Usuario</label>
+                                <input type="text" class="form-control" id="txtUsuarioUser">
+                            </div>
+                            <div class="form-group">
+                                <label class="negrita">Contraseña</label>
+                                <input type="text" class="form-control" id="txtUsuarioPass">
+                            </div>
+                            <div class="form-group">
+                                <label class="negrita">Nivel</label>
+                                <select class="form-control" id="cmbUsuarioNivel">
+                                    <option value="1">ADMINISTRADOR</option>
+                                    <option value="2">SEMI-ADMINISTRADOR</option>
+                                    <option value="3">OPERADOR</option>
+                                </select>
+                            </div>
+                            
+                                                    
+                            <hr class="solid"><hr class="solid">
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <button class="btn btn-outline-secondary btn-xl" data-dismiss="modal">
+                                        <i class="fal fa-times"></i>
+                                        Cancelar
+                                    </button>    
+                                </div>
+                                <div class="col-6">
+                                    <button class="btn btn-primary btn-xl" id="btnUsuarioGuardar">
+                                        <i class="fal fa-save"></i>
+                                        Guardar
+                                    </button>    
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline-danger btn-xl shadow" id="btnUsuarioEliminar">
+                                <i class="fal fa-trash"></i>Eliminar
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            `
         }
     }
 
@@ -232,7 +288,15 @@ function addListeners(){
 
                 $('#modalRubros').modal('show');
                 break;
-            
+            case 'USUARIOS':
+                GlobalSelectedId = 0;
+                document.getElementById('txtUsuarioUser').value = "";
+                document.getElementById('txtUsuarioPass').value = "";
+                document.getElementById('btnUsuarioEliminar').style = "visibility:hidden";
+                
+                $('#modalUsuarios').modal('show');
+                break;
+
         }
 
     })
@@ -448,6 +512,45 @@ function addListeners(){
 
     });
 
+    //*** USUARIOS   ****/
+    let btnUsuarioGuardar = document.getElementById('btnUsuarioGuardar');
+    btnUsuarioGuardar.addEventListener('click',()=>{
+        funciones.Confirmacion('¿Está seguro que desea guardar estos datos?')
+        .then((value)=>{
+            if(value==true){
+                if(GlobalSelectedId==0){ //es nuevo
+                    let u = document.getElementById('txtUsuarioUser').value;
+                    let p = document.getElementById('txtUsuarioPass').value;
+                    let n = document.getElementById('cmbUsuarioNivel').value;
+                    
+                    api.config_usuarios_insert(u,p,n)
+                    .then(async()=>{
+                        $('#modalUsuarios').modal('hide');   
+                        funciones.Aviso('Usuario creado exitosamente!!');
+                        await getListado('USUARIOS')
+                    })
+                    .catch(()=>{
+                        funciones.AvisoError('No se pudo crear este USUARIO')
+                    })
+                }else{ // se está editando
+                    let u = document.getElementById('txtUsuarioUser').value;
+                    let p = document.getElementById('txtUsuarioPass').value;
+                    let n = document.getElementById('cmbUsuarioNivel').value;
+                    
+                    api.config_usuarios_edit(u,p,n,GlobalSelectedId)
+                    .then(async()=>{
+                        $('#modalUsuarios').modal('hide');   
+                        funciones.Aviso('Usuario editado exitosamente!!');
+                        await getListado('USUARIOS')
+                    })
+                    .catch(()=>{
+                        funciones.AvisoError('No se pudo editar este USUARIO')
+                    })
+                }
+
+            }
+    })
+
 };
 
 function initView(){
@@ -470,6 +573,9 @@ async function getListado(tipo){
 
         case 'RUBROS':
             await api.config_rubros_lista('tblContainer');
+            break;
+        case 'USUARIOS':
+            await api.config_usuarios_lista('tblContainer');
             break;
         default:
             document.getElementById('tblContainer').innerHTML = `<b class="text-danger">Opción en construcción</b>`
@@ -513,4 +619,9 @@ function getMenuRubros(codcuenta,descripcion,banco,numero){
     
     $('#modalBancos').modal('show');
     
+};
+
+function getMenuUsuarios(codigo,usuario,pass,nivel){
+    GlobalSelectedId = codcuenta;
+    $('#modalBancos').modal('show');
 };
