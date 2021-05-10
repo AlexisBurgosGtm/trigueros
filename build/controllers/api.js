@@ -1528,7 +1528,8 @@ let api = {
                                                 </td>
 
                                                 <td>
-                                                    <button class="btn btn-sm btn-warning btn-circle" onclick="getMenuUsuarios(${rows.CODIGO},'${rows.USUARIO}','${rows.PASS}','${rows.NIVEL}')">
+                                                    <button class="btn btn-sm btn-info btn-circle" 
+                                                        onclick="getMenuUsuarios(${rows.CODIGO},'${rows.USUARIO}','${rows.PASS}','${rows.NIVEL}')">
                                                         <i class="fal fa-edit"></i>
                                                     </button>
                                                 </td>
