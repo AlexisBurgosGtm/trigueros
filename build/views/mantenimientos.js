@@ -662,6 +662,11 @@ function getMenuRubros(codcuenta,descripcion,banco,numero){
 };
 
 function getMenuUsuarios(codigo,usuario,pass,nivel){
-    GlobalSelectedId = codcuenta;
+    GlobalSelectedId = codigo;
+
+    document.getElementById('txtUsuarioUser').value = usuario;
+    document.getElementById('txtUsuarioPass').value = pass;
+    document.getElementById('cmbUsuarioNivel').value = nivel;
+
     $('#modalBancos').modal('show');
 };

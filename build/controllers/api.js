@@ -1501,7 +1501,7 @@ let api = {
         container.innerHTML = GlobalLoader;
 
         let strHeader = `<table class="table table-striped table-responsive table-hover">
-                            <thead class="bg-warning text-white">
+                            <thead class="bg-trans-gradient text-white">
                                 <tr>
                                     <td>ID</td>
                                     <td>USUARIO/CLAVE</td>
