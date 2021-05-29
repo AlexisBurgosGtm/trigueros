@@ -1889,5 +1889,45 @@ let api = {
                 });
        })
 
+    },
+    caja_historial_lista: (idContainer, idMes, idAnio) => {
+        
+        let container = document.getElementById(idContainer)
+        container.innerHTML = GlobalLoader;
+
+        let mes = document.getElementById(idMes).value;
+        let anio = document.getElementById(idAnio).value;
+   
+        let str = '';
+        let varTotal = 0;
+
+        let data = {
+            mes:mes,
+            anio:anio
+        }
+        let url = GlobalUrlBackend + '/reportes/pagosmes';
+        axios.post(url,data)
+        .then((response) => {
+            try {
+                const data = response.data.recordset;
+                data.map((rows) => {
+                    str = str + `
+                    <tr>
+                        
+                    </tr>
+                    `
+                })
+                container.innerHTML = str;
+               
+            } catch (err) {
+                str = 'AGREGUE DATOS...';
+                container.innerHTML = str;
+               
+            }
+        }, (error) => {
+                str = 'ERROR...';
+                container.innerHTML = str;
+               
+        });           
     }
 }

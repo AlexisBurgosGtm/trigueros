@@ -272,12 +272,12 @@ async function addListeners(){
 
     let btnNuevoIngreso = document.getElementById('btnNuevoIngreso');
     btnNuevoIngreso.addEventListener('click',()=>{
-        if(cmbStatus.value=='NO'){
+        //if(cmbStatus.value=='NO'){
             document.getElementById('txtEntFecha').value = funciones.getFecha();
             $('#modalNuevoIngreso').modal('show');
-        }else{
-            funciones.AvisoError('No se puede agregar más salidas a un corte finalizado')
-        }
+        //}else{
+          //  funciones.AvisoError('No se puede agregar más salidas a un corte finalizado')
+        //}
         
     });
 
@@ -330,15 +330,22 @@ async function addListeners(){
     let btnNuevoSalida = document.getElementById('btnNuevoSalida');
     btnNuevoSalida.addEventListener('click',()=>{
         
-        document.getElementById('txtSalFecha').value = funciones.getFecha();
-        document.getElementById('txtSalProyecto').value = 'SN';
-        document.getElementById('txtSalAcreedor').value = 'SN';
-        document.getElementById('txtSalDescripcion').value = 'SN';
-        document.getElementById('txtSalFactura').value = '000';
-        document.getElementById('txtSalImporte').value = 0;
+        if(cmbStatus.value=='NO'){
+        
+            document.getElementById('txtSalFecha').value = funciones.getFecha();
+            document.getElementById('txtSalProyecto').value = 'SN';
+            document.getElementById('txtSalAcreedor').value = 'SN';
+            document.getElementById('txtSalDescripcion').value = 'SN';
+            document.getElementById('txtSalFactura').value = '000';
+            document.getElementById('txtSalImporte').value = 0;
+    
+            $('#modalNuevoSalida').modal('show');
 
+        }else{
+            funciones.AvisoError('No se puede agregar más salidas a un corte finalizado')
+        }
 
-        $('#modalNuevoSalida').modal('show');
+        
 
     });
 
