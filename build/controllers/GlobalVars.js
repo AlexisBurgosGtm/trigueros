@@ -5,7 +5,7 @@ let GlobalUsuario = 'USUARIO';
 let GlobalPassUsuario = '';
 let GlobalNivelUsuario = 0;
 let GlobalSelectedForm = 'login';
-let GlobalConfigClave = '1234';
+let GlobalConfigClave = 'trigueros123';
 
 
 let GlobalMiniLoader = '<div class="spinner-grow text-primary" role="status"><span class="sr-only">Loading...</span></div>';

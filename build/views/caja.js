@@ -374,6 +374,7 @@ async function addListeners(){
 
                 funciones.solicitarClave()
                 .then((name)=>{
+                    
                     if(name.toString()==GlobalConfigClave.toString()){
                         api.caja_finalizar(GlobalSelectedId)
                         .then(async()=>{
