@@ -584,8 +584,8 @@ async function addListeners(){
                 if(obs.value==''){obs.value='SN'};
                 if(recibe.value==''){recibe.value='SN'};
 
-                api.verificar_nocheque(cmbBancoC.value,numero.value)
-                .then(()=>{
+                //api.verificar_nocheque(cmbBancoC.value,numero.value)
+                //.then(()=>{
 
                     if(numero.value==''){
                         funciones.AvisoError('Indique el número de cheque emitido');
@@ -619,10 +619,10 @@ async function addListeners(){
                             funciones.AvisoError('Indique el monto/cantidad del cheque');
                         };
                     };
-                })
-                .catch(()=>{
-                    funciones.AvisoError('Cheque ya existe')
-                })
+                //})
+                //.catch(()=>{
+                  //  funciones.AvisoError('Cheque ya existe')
+                //})
                 
             }
         })      
