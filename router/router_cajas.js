@@ -67,11 +67,13 @@ router.post("/listadomovimientos", async (req, res) => {
     let qry = '';
 
     qry = `SELECT CONST_CAJA_MOVIMIENTOS.ID, CONST_CAJA_MOVIMIENTOS.NOCORTE, CONST_CAJA_MOVIMIENTOS.FECHA, 
-                CONST_CAJA_MOVIMIENTOS.PROYECTO, CONST_CAJA_MOVIMIENTOS.ACREEDOR, 
-                CONST_CAJA_MOVIMIENTOS.DESCRIPCION, CONST_CAJA_MOVIMIENTOS.RUBRO, 
-                CONST_CAJA_MOVIMIENTOS.NOFACTURA, CONST_CAJA_MOVIMIENTOS.IMPORTE, 
-                CONST_CAJA_MOVIMIENTOS.USUARIO, CONST_CAJA.FINALIZADO
-            FROM CONST_CAJA_MOVIMIENTOS LEFT OUTER JOIN CONST_CAJA ON CONST_CAJA_MOVIMIENTOS.NOCORTE = CONST_CAJA.NOCORTE
+    CASE WHEN CONST_CAJA_MOVIMIENTOS.PROYECTO=0 THEN 'GASTO DE OFICINA' ELSE CONST_PROYECTOS.PROYECTO END AS PROYECTO, 
+                CONST_CAJA_MOVIMIENTOS.ACREEDOR, 
+                CONST_CAJA_MOVIMIENTOS.DESCRIPCION, CONST_CAJA_MOVIMIENTOS.RUBRO, CONST_CAJA_MOVIMIENTOS.NOFACTURA, CONST_CAJA_MOVIMIENTOS.IMPORTE, CONST_CAJA_MOVIMIENTOS.USUARIO, 
+                CONST_CAJA.FINALIZADO
+                FROM CONST_CAJA_MOVIMIENTOS LEFT OUTER JOIN
+                CONST_PROYECTOS ON CONST_CAJA_MOVIMIENTOS.PROYECTO = CONST_PROYECTOS.IDPROYECTO LEFT OUTER JOIN
+                CONST_CAJA ON CONST_CAJA_MOVIMIENTOS.NOCORTE = CONST_CAJA.NOCORTE
             WHERE (CONST_CAJA_MOVIMIENTOS.NOCORTE = ${nocorte})`
 
     execute.Query(res, qry);
@@ -82,10 +84,12 @@ router.post("/insertmovimiento", async (req, res) => {
 
     const { nocorte, fecha, proyecto, acreedor, descripcion, rubro, nofactura, importe, usuario } = req.body;
 
+    console.log(proyecto)
+
     let qry = '';
 
     qry = `INSERT INTO CONST_CAJA_MOVIMIENTOS (NOCORTE,FECHA,PROYECTO,ACREEDOR,DESCRIPCION,RUBRO,NOFACTURA,IMPORTE,USUARIO)
-    VALUES (${nocorte},'${fecha}','${proyecto}','${acreedor}','${descripcion}','${rubro}','${nofactura}',${(importe * -1)},'${usuario}'); `
+    VALUES (${nocorte},'${fecha}',${proyecto},'${acreedor}','${descripcion}','${rubro}','${nofactura}',${(importe * -1)},'${usuario}'); `
 
     execute.Query(res, qry);
 

@@ -115,7 +115,8 @@ function getView(){
 
                         <div class="form-group">
                             <label>Proyecto</label>
-                            <input type="text" class="form-control" id="txtSalProyecto">
+                            <!--<input type="text" class="form-control" id="txtSalProyecto">-->
+                            <select class="form-control" id="txtSalProyecto"></select>
                         </div>
 
                         <div class="form-group">
@@ -230,9 +231,17 @@ function getView(){
                 </div>
 
                 <div class="" id="btnFlotanteDerecha">
-                    <button class="btn btn-danger btn-circle btn-xl shadow" id="btnNuevoSalida">
-                        -                       
-                    </button>
+                    <div class="row">
+                        <button class="btn btn-danger btn-circle btn-xl shadow" id="btnNuevoSalida">
+                            -                       
+                        </button>
+                    </div>
+                    <br><br>
+                    <div class="row">
+                        <button class="btn btn-danger btn-sm shadow" data-dismiss="modal">
+                            <<-Atrás                       
+                        </button>
+                    </div>
                 </div>
 
             </div>
@@ -261,6 +270,12 @@ async function addListeners(){
     cmbStatus.addEventListener('change',()=>{
         api.caja_lista('tblCortes',cmbStatus.value);
     });
+    
+
+    api.proyectos_combo_caja_promise('txtSalProyecto')
+    .then(()=>{
+        
+    })
     
 
     //*********************************************/

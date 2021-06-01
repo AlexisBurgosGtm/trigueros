@@ -1,4 +1,3 @@
-const { addListener } = require("nodemon");
 
 function getView(){
 
@@ -22,14 +21,14 @@ function getView(){
                     </div>
 
                     <div class="col-3">
-                        <button class="btn btn-outline-warning btn-sm shadow" id="btnRubros">
+                        <button class="btn btn-outline-warning btn-sm shadow hidden" id="btnRubros">
                             <i class="fal fa-double-check"></i>
                             Pagos Rubros
                         </button>
                     </div>
 
                     <div class="col-3">
-                        <button class="btn btn-secondary btn-sm shadow" id="btnCheques">
+                        <button class="btn btn-secondary btn-sm shadow hidden" id="btnCheques">
                             <i class="fal fa-search"></i>
                         </button>
                     </div>
@@ -61,7 +60,7 @@ function getView(){
         }
     }
 
-    root.innerHTML = view.encabezado()
+    root.innerHTML = view.encabezado() + view.detalle();
 
 };
 
@@ -107,11 +106,89 @@ function initView(){
 
 
 function getReportEmitidos(mes,anio){
+    let container = document.getElementById('rootList');
+    container.innerHTML = `
+                        <div class="card-body">
+                        
+                            <div class="row" id="permisoLb1">
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>Recibido</label>
+                                        <h3 class="text-info" id="lbPresupuesto"></h3>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>Ejecutado</label>
+                                        <h3 class="text-success" id="lbSaldo"></h3>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>Diferencia</label>
+                                        <h3 id="lbDiferencia"></h3>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr class="solid">
+                        
+                        </div> 
+                        <div class="table-responsive">
+                            <table class="table table-responsive table-striped table-hover table-bordered" id="">
+                                <thead class="bg-info text-white">
+                                    <tr>
+                                        <td>FECHA</td>
+                                        <td>CUENTA</td>
+                                        <td>ACREEDOR</td>
+                                        <td>VALOR</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblCheques">
+                                
+                                </tbody>
+                            </table>
+                        </div>`
+
+
+    api.reportes_pagosmes('tblCheques',"lbPresupuesto","lbSaldo","lbDiferencia",mes,anio)
 
 };
 
 function getReportRecibidos(mes,anio){
-
+    
+        let container = document.getElementById('rootList');
+        container.innerHTML = `
+                            <div class="card-body">
+                                <div class="row" id="permisoLb1">
+                                    <div class="col-4">
+                                        <div class="form-group">
+                                            <label>Recibido</label>
+                                            <h1 class="text-info" id="lbPresupuesto"></h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="table-responsive">
+                                <table class="table table-responsive table-striped table-hover table-bordered" id="">
+                                    <thead class="bg-success text-white">
+                                        <tr>
+                                            <td>FECHA</td>
+                                            <td>CUENTA</td>
+                                            <td>ACREEDOR</td>
+                                            <td>VALOR</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tblCheques">
+                                    
+                                    </tbody>
+                                </table>
+                            </div>`
+    
+    
+        api.reportes_recibidosmes('tblCheques',"lbSaldo",mes,anio)
+    
+    
 };
 
 function getMenuRubros(){

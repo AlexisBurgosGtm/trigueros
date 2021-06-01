@@ -198,6 +198,40 @@ let api = {
         })
 
     },
+    proyectos_combo_caja_promise: (idContainer) => {
+
+        let container  = document.getElementById(idContainer);    
+        return new Promise((resolve,reject)=>{
+            
+            let str = '<option value=0>GASTO DE OFICINA</option>';
+
+            let data = {
+                activo : 'NO'
+            };
+    
+            let url = GlobalUrlBackend + '/proyectos/listaproyectoscombo';
+            axios.post(url,data)
+            .then((response) => {
+                try {
+                    const data = response.data.recordset;
+                    data.map((rows) => {
+                        str = str + `<option value="${rows.IDPROYECTO}">${rows.PROYECTO} (Presupuesto: ${funciones.setMoneda(rows.PRESUPUESTO,'Q')})</option>`;
+                    })
+                    container.innerHTML=str;
+                    resolve();
+                } catch (err) {
+                    container.innerHTML='<option value="SN">No hay datos..</option>';
+                    resolve();
+                }
+            }, (error) => {
+                    console.log(error);
+                    container.innerHTML='<option value="SN">Error..</option>';
+                    reject();
+            });
+
+        })
+
+    },
     proyectos_combo: (idContainer) => {
         let container = document.getElementById(idContainer);
         
@@ -1890,44 +1924,176 @@ let api = {
        })
 
     },
-    caja_historial_lista: (idContainer, idMes, idAnio) => {
+    reportes_pagosmes: (idContainer1,idPresupuesto,idSaldo,idDiferencia,mes,anio) => {
         
-        let container = document.getElementById(idContainer)
-        container.innerHTML = GlobalLoader;
+        let container1 = document.getElementById(idContainer1);
+        container1.innerHTML = GlobalLoader;
+        
 
-        let mes = document.getElementById(idMes).value;
-        let anio = document.getElementById(idAnio).value;
-   
-        let str = '';
-        let varTotal = 0;
+        let lbPresupuesto = document.getElementById(idPresupuesto);
+        lbPresupuesto.innerText = 'Q --';
+        let lbSaldo = document.getElementById(idSaldo);
+        lbSaldo.innerText = 'Q --';
+        let lbDiferencia = document.getElementById(idDiferencia);
+        lbDiferencia.innerText = 'Q --';
+        
+        let str1 = ''; 
+        let varTotalPresupuesto = 0; let varTotalSaldo = 0;
 
-        let data = {
-            mes:mes,
-            anio:anio
-        }
+        
+
         let url = GlobalUrlBackend + '/reportes/pagosmes';
-        axios.post(url,data)
+
+        axios.post(url, {
+                    mes: mes,
+                    anio:anio
+                    })
         .then((response) => {
             try {
                 const data = response.data.recordset;
                 data.map((rows) => {
-                    str = str + `
-                    <tr>
-                        
-                    </tr>
-                    `
+                    let tipo = rows.TIPOCHEQUE;
+                    switch (tipo) {
+                        case 'SUBCONTRATISTA':
+                            varTotalSaldo = varTotalSaldo + Number(rows.IMPORTE);
+                            str1 =  str1 + `<tr class="border-bottom border-info">
+                                <td>${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHA))}
+                                        <br>
+                                        <small class="negrita text-danger">Cheque No. ${rows.NOCHEQUE}</small>
+                                </td>
+                                <td>${rows.BANCO}
+                                        <br>
+                                        <small>Cuenta No. ${rows.NOCUENTA}</small>
+                                </td>
+                                <td>${rows.DESACREEDOR}
+                                        <br>
+                                        <small class="negrita text-info">${rows.ASIGNACION}</small>
+                                        <br class="solid">
+                                        <small>Creado:${rows.USUARIO}</small>
+                                        <br>
+                                        <small>Tipo pago:${rows.TIPOCHEQUE}</small>
+                                </td>
+                                <td>${funciones.setMoneda(rows.IMPORTE,'Q')}</td>
+                                
+                            </tr>`
+                            break;
+                        case 'PROVEEDOR':
+                            varTotalSaldo = varTotalSaldo + Number(rows.IMPORTE);
+                            str1 =  str1 + `<tr class="border-bottom border-info">
+                                <td>${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHA))}
+                                        <br>
+                                        <small class="negrita text-danger">Cheque No. ${rows.NOCHEQUE}</small>
+                                </td>
+                                <td>${rows.BANCO}
+                                        <br>
+                                        <small>Cuenta No. ${rows.NOCUENTA}</small>
+                                </td>
+                                <td>${rows.DESACREEDOR}
+                                        <br>
+                                        <small class="negrita text-info">${rows.ASIGNACION}</small>
+                                        <br class="solid">
+                                        <small>Creado:${rows.USUARIO}</small>
+                                        <br>
+                                        <small>Tipo pago:${rows.TIPOCHEQUE}</small>
+                                </td>
+                                <td>${funciones.setMoneda(rows.IMPORTE,'Q')}</td>
+                                
+                            </tr>`
+                            break;
+                        case 'CONTRATANTE':
+                            varTotalPresupuesto = varTotalPresupuesto + Number(rows.IMPORTE);
+                            break;
+                    }
+                    
+                    
                 })
-                container.innerHTML = str;
-               
+                container1.innerHTML = str1;
+
+                lbSaldo.innerText = funciones.setMoneda((varTotalSaldo * -1),'Q');
+                lbPresupuesto.innerText = funciones.setMoneda((varTotalPresupuesto),'Q');
+                let dif = varTotalPresupuesto - (varTotalSaldo * -1); //recibido menos ejecutado
+                if(Number(dif)>0){
+                    lbDiferencia.innerHTML = `<b class="text-info">${funciones.setMoneda(dif,'Q')}</b>`;
+                }else{
+                    lbDiferencia.innerHTML = `<b class="text-danger">${funciones.setMoneda(dif,'Q')}</b>`;
+                }
             } catch (err) {
-                str = 'AGREGUE DATOS...';
-                container.innerHTML = str;
-               
+                container1.innerHTML = 'Agregue un cheque ...';
+                lbSaldo.innerText = 'Q --';
+                lbPresupuesto.innerText = 'Q --';
+                lbDiferencia.innerText = 'Q --';
             }
         }, (error) => {
-                str = 'ERROR...';
-                container.innerHTML = str;
-               
-        });           
+                console.log(error);
+                container1.innerHTML = 'Agregue un cheque...';
+                lbSaldo.innerText = 'Q --';
+                lbPresupuesto.innerText = 'Q --';
+                lbDiferencia.innerText = 'Q --';
+        });
+
+    },
+    reportes_recibidosmes: (idContainer1,idSaldo,mes,anio) => {
+        
+        let container1 = document.getElementById(idContainer1);
+        container1.innerHTML = GlobalLoader;
+        
+        let lbSaldo = document.getElementById(idSaldo);
+        lbSaldo.innerText = 'Q --';
+        
+        
+        let str1 = ''; 
+        let varTotalSaldo = 0;
+
+        
+
+        let url = GlobalUrlBackend + '/reportes/pagosmes';
+
+        axios.post(url, {
+                    mes: mes,
+                    anio:anio
+                    })
+        .then((response) => {
+            try {
+                const data = response.data.recordset;
+                data.map((rows) => {
+                    let tipo = rows.TIPOCHEQUE;
+                    switch (tipo) {
+                        case 'CONTRATANTE':
+                            varTotalSaldo = varTotalSaldo + Number(rows.IMPORTE);
+                            str1 =  str1 + `<tr class="border-bottom border-success">
+                                <td>${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHA))}
+                                        <br>
+                                        <small class="negrita text-danger">Cheque No. ${rows.NOCHEQUE}</small>
+                                </td>
+                                <td>${rows.BANCO}
+                                        <br>
+                                        <small>Cuenta No. ${rows.NOCUENTA}</small>
+                                </td>
+                                <td>${rows.DESACREEDOR}
+                                        <br>
+                                        <small class="negrita text-info">${rows.ASIGNACION}</small>
+                                        <br class="solid">
+                                        <small>Creado:${rows.USUARIO}</small>
+                                        <br>
+                                        <small>Tipo pago:${rows.TIPOCHEQUE}</small>
+                                </td>
+                                <td>${funciones.setMoneda(rows.IMPORTE,'Q')}</td>
+                                
+                            </tr>`
+                            break;
+                    }
+                })
+                container1.innerHTML = str1;
+                lbSaldo.innerText = funciones.setMoneda((varTotalSaldo * -1),'Q');
+            } catch (err) {
+                container1.innerHTML = 'Agregue un cheque ...';
+                lbSaldo.innerText = 'Q --';
+            }
+        }, (error) => {
+                console.log(error);
+                container1.innerHTML = 'Agregue un cheque...';
+                lbSaldo.innerText = 'Q --';
+        });
+
     }
 }
