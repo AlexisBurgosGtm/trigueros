@@ -820,6 +820,7 @@ let funciones = {
     },
     getComboBancos: ()=>{
       return `
+      <option value="EFECTIVO">EFECTIVO</option>
       <option value="BANRURAL">BANRURAL</option>
       <option value="BAM">BAM (BANCO AGRICOLA MERCANTIL)</option>
       <option value="G&T">BANCO G&T</option>
