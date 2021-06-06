@@ -23,6 +23,7 @@ let GlobalSelectedDesProyecto = '';
 let GlobalSelectedNumeroContrato = 0;
 let GlobalSelectedTipoCheque = 'SN';
 
+
 let GlobalSelectedId = 0;
 
 let GlobalListaRubros = '';
