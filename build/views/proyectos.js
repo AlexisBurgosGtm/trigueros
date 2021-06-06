@@ -405,7 +405,7 @@ function addListeners() {
     //VENTANA INICIAL DE PROYECTOS
     let btnNuevo = document.getElementById('btnNuevo');
     btnNuevo.addEventListener('click', () => {
-        
+        GlobalSelectedCodProyecto = 0;
         $('#modalNuevo').modal('show');
     });   
 
@@ -424,8 +424,8 @@ function addListeners() {
         let txtPresupuesto = document.getElementById('txtPresupuesto');
         let cmbContratante = document.getElementById('cmbContratante');
       
-
-        funciones.Confirmacion('¿Está seguro que desea guardar estos datos?')
+        if(GlobalSelectedCodProyecto==0){ //ES UN NUEVO PROYECTO
+            funciones.Confirmacion('¿Está seguro que desea guardar estos datos?')
             .then((value) => {
                 if (value == true) {
 
@@ -450,6 +450,40 @@ function addListeners() {
 
                 }
             })
+        
+
+        }else{ // EDITA EL PROYECTO
+            funciones.Confirmacion('¿Está seguro que desea guardar estos datos?')
+            .then((value) => {
+                if (value == true) {
+
+                    btnGuardarProyecto.innerHTML = GlobalLoader;
+
+                    api.proyectos_editar(GlobalSelectedCodProyecto,txtDescripcion.value, txtDireccion.value, funciones.devuelveFecha('txtFInicio'), funciones.devuelveFecha('txtFFinal'), 'SN', '0', cmbContratante.value, Number(txtPresupuesto.value))
+                    .then(async() => {
+                            btnGuardarProyecto.innerHTML = `<i class="fal fa-save"></i>Guardar`;
+                            funciones.Aviso('Proyecto editado exitosamente!!')
+                            
+                            let cmbStatus = document.getElementById('cmbStatus');
+                            let cmbMes = document.getElementById('cmbMes');
+                            let cmbAnio = document.getElementById('cmbAnio');
+
+                            await api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
+                            await api.insertar_bitacora(`Proyecto editado: ${txtDescripcion.value}`)
+
+                            $('#modalNuevo').modal('hide');
+                    })
+                    .catch(() => {
+                            funciones.AvisoError('No se pudo guardar'); 
+                    });
+                    btnGuardarProyecto.innerHTML = `<i class="fal fa-save"></i>Guardar`;
+
+                }
+            })
+        
+
+        }
+
         
     })
 
@@ -508,7 +542,8 @@ function addListeners() {
         funciones.solicitarClave()
         .then((name)=>{
             if(name.toString()==GlobalConfigClave.toString()){
-                funciones.Aviso('Clave correcta')
+                //funciones.Aviso('proyecto seleccionado ' + GlobalSelectedCodProyecto.toString())
+                getDataProyecto();
             }else{
                 funciones.AvisoError('Incorrecta')
             }
@@ -677,6 +712,13 @@ function getMenuProyecto(codigo,descripcion, presupuesto){
     $('#modalMenuProyecto').modal('show');
 
 };
+
+function getDataProyecto(){
+    funciones.showToast('Cargando datos del proyecto...');
+    api.proyectos_datos_proyecto(GlobalSelectedCodProyecto,'txtDescripcion','txtDireccion','txtPresupuesto','cmbContratante','txtFInicio','txtFFinal');
+    $('#modalNuevo').modal('show');
+}
+
 
 function deleteContrato(nocontrato){
     funciones.solicitarClave()

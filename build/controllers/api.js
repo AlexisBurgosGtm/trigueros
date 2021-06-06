@@ -319,6 +319,42 @@ let api = {
 
         });
     },
+    proyectos_editar: (idproyecto,proyecto, direccion, inicio, final, contacto, telefono, contratante, presupuesto) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                id:idproyecto,
+                proyecto: proyecto,
+                direccion: direccion,
+                inicio: inicio,
+                final: final,
+                contacto: contacto,
+                telefono: telefono,
+                contratante: contratante,
+                presupuesto: presupuesto,
+                usuario:GlobalUsuario
+            };
+
+            let url = GlobalUrlBackend + '/proyectos/editar'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        api.bitacora_insertar('Proyecto editado ' + proyecto)
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
+    },
     proyectos_eliminar: (codigo) => {
         return new Promise((resolve, reject) => {
 
@@ -482,6 +518,45 @@ let api = {
                 container.innerHTML = 'No hay contratantes...';
         });
 
+    },
+    proyectos_datos_proyecto: (idproyecto, idDescripcion, idDireccion, idPresupuesto, idContratante, idFechaInicial, idFechaFinal) => {
+        
+        let descripcion = document.getElementById(idDescripcion); descripcion.value = "--";
+        let direccion = document.getElementById(idDireccion); direccion.value = "--";
+        let presupuesto = document.getElementById(idPresupuesto); presupuesto.value = 0;
+        let finicial = document.getElementById(idFechaInicial);
+        let ffinal = document.getElementById(idFechaFinal); 
+        let contratante = document.getElementById(idContratante);
+
+        descripcion.value = 'Cargando datos del proyecto...'
+
+        let str = '';
+        
+        let data = {id:idproyecto}
+
+        let url = GlobalUrlBackend + '/proyectos/datosproyecto';
+        axios.post(url,data)
+        .then((response) => {
+            try {
+                const data = response.data.recordset;
+                data.map((rows) => {
+                    descripcion.value = rows.PROYECTO;
+                    direccion.value = rows.DIRECCION;
+                    presupuesto.value = Number(rows.PRESUPUESTO);
+                    finicial.value = funciones.cleanDataFecha(rows.FECHAINICIO);
+                    ffinal.value = funciones.cleanDataFecha(rows.FECHAFIN);
+                    contratante.value = rows.CODCONTRATANTE;
+                })
+            } catch (err) {
+                str = 'AGREGUE DATOS...';
+                descripcion.value = 'No se pudo cargar...'
+                GlobalSelectedCodProyecto = 0;
+            }
+        }, (error) => {
+                str = 'ERROR...';
+                descripcion.value = 'No se pudo cargar...'
+                GlobalSelectedCodProyecto = 0;
+        });           
     },
     subcontratistas_combo: (idContainer) => {
         let container = document.getElementById(idContainer);

@@ -182,6 +182,22 @@ router.post("/nuevo", async (req, res) => {
 
 });
 
+router.post("/editar", async (req, res) => {
+
+    const { id,proyecto, direccion, inicio, final, contacto, telefono, contratante, presupuesto, usuario } = req.body;
+
+    let qry = `UPDATE CONST_PROYECTOS SET PROYECTO='${proyecto}', 
+                    DIRECCION='${direccion}', 
+                    FECHAINICIO='${inicio}', 
+                    FECHAFIN='${final}', 
+                    CODCONTRATANTE=${contratante},
+                    PRESUPUESTO=${presupuesto}
+                WHERE IDPROYECTO=${id};`;
+
+    execute.Query(res, qry);
+
+});
+
 router.post("/eliminar", async (req, res) => {
 
     const { codigo } = req.body;
@@ -249,5 +265,15 @@ router.post("/deleterubro", async (req, res) => {
 
 });
 
+
+router.post('/datosproyecto', async (req,res)=>{
+
+    const {id } = req.body;
+
+    let qry = `select PROYECTO, DIRECCION, FECHAINICIO,FECHAFIN, PRESUPUESTO,CODCONTRATANTE FROM CONST_PROYECTOS WHERE IDPROYECTO=${id}`
+
+    execute.Query(res, qry);
+
+})
 
 module.exports = router;
