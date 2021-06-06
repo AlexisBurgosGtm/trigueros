@@ -46,9 +46,9 @@ router.post("/insertcotiz", async (req, res) => {
 
 router.post("/deletecotiz", async (req, res) => {
     
-    const {id} = req.body;
+    const {idmov} = req.body;
 
-    let qry = `DELETE FROM CONST_PRODUCTOS_COTIZACION WHERE ID=${id};`
+    let qry = `DELETE FROM CONST_PRODUCTOS_COTIZACION WHERE ID=${idmov};`
     execute.Query(res, qry);
 
 });
