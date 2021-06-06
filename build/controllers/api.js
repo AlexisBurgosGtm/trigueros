@@ -1984,6 +1984,73 @@ let api = {
                 container.innerHTML = str;
         });           
     },
+    cotiz_historial_producto: (idContainer,idprod) => {
+        let container = document.getElementById(idContainer)
+        container.innerHTML = GlobalLoader;
+
+        let str = '';
+        
+        let data = {producto:idprod}
+
+        let url = GlobalUrlBackend + '/cotizaciones/historialproducto';
+        axios.post(url,data)
+        .then((response) => {
+            try {
+                const data = response.data.recordset;
+                data.map((rows) => {
+                    str = str + `<tr>
+                                    <td>${rows.PROVEEDOR}
+                                        <br>
+                                        <small class="text-danger negrita">${funciones.convertDate2(rows.FECHA)}</small>
+                                    </td>
+                                    <td>${funciones.setMoneda(rows.PRECIO,'Q')}</td>
+                                    <td>
+                                        <button class="btn btn-md btn-circle btn-danger" onclick="deleteItemHistorial(${rows.ID})">
+                                            <i class="fal fa-trash"></i>
+                                        </button>
+                                    </td>
+                                 </tr>`
+                })
+                container.innerHTML = str;
+            } catch (err) {
+                str = 'AGREGUE DATOS...';
+                container.innerHTML = str;
+            }
+        }, (error) => {
+                str = 'ERROR...';
+                container.innerHTML = str;
+        });           
+    },
+    cotiz_historial_insert: (idprod,proveedor,fecha,precio) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                producto:idprod,
+                proveedor:proveedor,
+                fecha:fecha,
+                precio:precio,
+                usuario:GlobalUsuario
+            };
+
+            let url = GlobalUrlBackend + '/cotizaciones/insertcotiz'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
+    },
     reportes_pagosmes: (idContainer1,idPresupuesto,idSaldo,idDiferencia,mes,anio) => {
         
         let container1 = document.getElementById(idContainer1);

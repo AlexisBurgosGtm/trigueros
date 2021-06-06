@@ -94,62 +94,62 @@ function getView(){
             <div class="modal fade" id="modalHistorial" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-right modal-lg" role="document">
                     <div class="modal-content">
-                        <div class="modal-header">
+                    
+                        <div class="modal-body">
+                            
+                                <div class="card col-12">
+                                    <h3 class="text-danger">Nueva Cotización</h3>
+                                    <div class="form group"
+                                        <label>Proveedor</label>
+                                        <select class="form-control" id="cmbProveedores">
+                                        </select>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>Fecha</label>
+                                                <input type="date" class="form-control" id="txtFechaCot">
+                                            </div>    
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>Precio</label>
+                                                <input type="number" class="form-control bg-amarillo border-danger text-danger negrita" id="txtPrecioCot">
+                                            </div>    
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-8"></div>
+                                        <div class="col-4 text-right">
+                                            <button class="btn btn-info btn-md" id="btnAgregarCot">Agregar(+)</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                                <hr class="solid">
+
+                                <div class="table-responsive col-12">
+                                    <label class="negrita">PRECIOS COTIZADOS</label>
+                                    <table class="table table-responsive table-hover table-striped">
+                                        <thead class="bg-info text-white">
+                                            <tr>
+                                                <td>Proveedor</td>
+                                                <td>Precio</td>
+                                                <td></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tblHistorial"></tbody>
+                                    </table>
+                                </div>
+
+                            
                             
                         </div>
-                    <div class="modal-body">
-                        
-                            <div class="card col-12">
-                                <h3 class="text-danger">Nueva Cotización</h3>
-                                <div class="form group"
-                                    <label>Proveedor</label>
-                                    <select class="form-control" id="cmbProveedores">
-                                    </select>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <label>Fecha</label>
-                                            <input type="date" class="form-control" id="txtFechaCot">
-                                        </div>    
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <label>Precio</label>
-                                            <input type="number" class="form-control bg-amarillo border-danger text-danger negrita" id="txtPrecioCot">
-                                        </div>    
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-8"></div>
-                                    <div class="col-4">
-                                        <button class="btn btn-info btn-md" id="btnAgregarCot">Agregar(+)</button>
-                                    </div>
-                                </div>
-                            </div>
-                        
-                            <hr class="solid">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        </div>
 
-                            <div class="table-responsive col-12">
-                                <table class="table table-responsive table-hover table-striped">
-                                    <thead class="bg-info text-white">
-                                        <tr>
-                                            <td>Proveedor</td>
-                                            <td>Precio</td>
-                                            <td></td>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tblHistorial"></tbody>
-                                </table>
-                            </div>
-
-                        
-                        
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    </div>
-                    
                     </div>
                 </div>
             </div>
@@ -203,6 +203,35 @@ async function addListeners(){
     api.cotiz_listaproductos('tblListadoProductos');
 
     await api.proveedores_combo('cmbProveedores');
+
+    let btnAgregarCot = document.getElementById('btnAgregarCot');
+    btnAgregarCot.addEventListener('click',()=>{
+        //cmbProveedores
+        //txtPrecioCot
+        //txtFechaCot
+        let proveedor = document.getElementById('cmbProveedores').value;
+        let precio = document.getElementById('txtPrecioCot').value;
+        let fecha = funciones.devuelveFecha('txtFechaCot');
+
+        funciones.Confirmacion('¿Está seguro que desea AGREGAR este precio cotizado?')
+        .then((value)=>{
+            if(value==true){
+
+                api.cotiz_historial_insert(GlobalSelectedId,proveedor,fecha,precio)
+                .then(()=>{
+                    funciones.Aviso('Cotización agregada con éxito!!');
+                    api.cotiz_historial_producto('tblHistorial',GlobalSelectedId);
+        
+                })
+                .catch(()=>{
+                    funciones.AvisoError('No se pudo Guardar esta cotización')
+                })
+
+            }
+        })
+
+    });
+
 };
 
 function initView(){
@@ -213,11 +242,16 @@ function initView(){
 }
 
 function getHistorialProducto(idprod){
+    
+    //servirá para el botón AGREGAR de las nuevas cotizaciones
+    GlobalSelectedId = idprod;
 
     $('#modalHistorial').modal('show');
+
+    document.getElementById('txtPrecioCot').value = '';
     document.getElementById('txtFechaCot').value = funciones.getFecha();
 
-
+    api.cotiz_historial_producto('tblHistorial',idprod);
 
 };
 
