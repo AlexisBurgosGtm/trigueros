@@ -1924,6 +1924,66 @@ let api = {
        })
 
     },
+    cotiz_productos_insert: (codigo,descripcion,medida) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                codigo:codigo,
+                descripcion:descripcion,
+                medida:medida
+            };
+
+            let url = GlobalUrlBackend + '/cotizaciones/insertproducto'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
+    },
+    cotiz_listaproductos: (idContainer) => {
+        let container = document.getElementById(idContainer)
+        container.innerHTML = GlobalLoader;
+
+        let str = '';
+        
+        let data = {finalizado:status}
+
+        let url = GlobalUrlBackend + '/cotizaciones/listadoproductos';
+        axios.post(url,data)
+        .then((response) => {
+            try {
+                const data = response.data.recordset;
+                data.map((rows) => {
+                    str = str + `<tr class="" onclick="getHistorialProducto(${rows.ID})">
+                                    <td>${rows.DESPROD}
+                                        <br>
+                                        <small class="text-danger">Código:${rows.CODPROD}</small>
+                                    </td>
+                                    <td>${rows.MEDIDA}</td>
+                                 </tr>`
+                })
+                container.innerHTML = str;
+            } catch (err) {
+                str = 'AGREGUE DATOS...';
+                container.innerHTML = str;
+            }
+        }, (error) => {
+                str = 'ERROR...';
+                container.innerHTML = str;
+        });           
+    },
     reportes_pagosmes: (idContainer1,idPresupuesto,idSaldo,idDiferencia,mes,anio) => {
         
         let container1 = document.getElementById(idContainer1);

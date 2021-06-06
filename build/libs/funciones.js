@@ -832,6 +832,19 @@ let funciones = {
       <option value="BANCO AZTECA">BANCO AZTECA</option>
       `
     },
+    getComboMedidasProductos: ()=>{
+      return `  <option value="UNIDAD">UNIDAD</option>
+                <option value="LIBRA">LIBRA</option>
+                <option value="SACO">SACO</option>
+                <option value="QUINTAL">QUINTAL</option>
+                <option value="CAJA">CAJA</option>
+                <option value="KIT">KIT</option>
+                <option value="METRO">METRO</option>
+                <option value="DOCENA">DOCENA</option>
+                <option value="CIENTO">CIENTO</option>
+                <option value="LIO">LIO</option>
+                <option value="YARDA">YARDA</option>`
+    },
     openFullscreen : (idElement)=>{
       let elem = document.getElementById(idElement);
   

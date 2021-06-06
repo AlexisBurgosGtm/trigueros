@@ -90,6 +90,11 @@ let classNavegar = {
         }
     },
     cotizaciones: ()=>{
-        funciones.Aviso('En proceso...')
+        funciones.loadScript('../views/cotizaciones.js','root')
+            .then(async()=>{
+                lbTituloVista.innerText = 'COTIZACIÓN MATERIALES';
+                GlobalSelectedForm = 'cotizaciones';
+                initView();
+        })
     }
 }

@@ -13,6 +13,7 @@ var routerUsuarios = require('./router/router_usuarios');
 var routerBitacora = require('./router/router_bitacora');
 var routerCajas = require('./router/router_cajas');
 var routerReportes = require('./router/router_reportes');
+var routerCotizaciones = require('./router/router_cotizaciones');
 
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -74,6 +75,9 @@ app.use('/bitacora', routerBitacora);
 
 //Router para REPORTES
 app.use('/reportes', routerReportes);
+
+// cotizacion de material
+app.use('/cotizaciones', routerCotizaciones);
 
 
 
