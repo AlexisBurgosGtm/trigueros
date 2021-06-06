@@ -251,7 +251,7 @@ function getHistorialProducto(idprod){
     document.getElementById('txtPrecioCot').value = '';
     document.getElementById('txtFechaCot').value = funciones.getFecha();
 
-    api.cotiz_historial_producto('tblHistorial',idprod);
+    api.cotiz_historial_producto('tblHistorial',GlobalSelectedId);
 
 };
 
@@ -259,6 +259,19 @@ function getHistorialProducto(idprod){
 
 
 function deleteItemHistorial(id){
+    funciones.Confirmacion('¿Está seguro que desea ELIMINAR esta cotización?')
+    .then((value)=>{
+        if(value==true){
+            api.cotiz_historial_delete(id)
+            .then(()=>{
+                funciones.showToast('Cotización Eliminada')
+                api.cotiz_historial_producto('tblHistorial',GlobalSelectedId);
+            })
+            .catch(()=>{
+                funciones.AvisoError('No se pudo eliminar este movimiento')
+            })
 
+        }
+    })
 };
 

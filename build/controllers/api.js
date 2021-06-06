@@ -2051,6 +2051,32 @@ let api = {
 
         });
     },
+    cotiz_historial_delete: (id) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                idmov: id
+            };
+
+            let url = GlobalUrlBackend + '/cotizaciones/deletecotiz'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
+    },
     reportes_pagosmes: (idContainer1,idPresupuesto,idSaldo,idDiferencia,mes,anio) => {
         
         let container1 = document.getElementById(idContainer1);
