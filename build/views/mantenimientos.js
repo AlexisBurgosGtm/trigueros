@@ -2,21 +2,36 @@ function getView(){
     let view = {
         encabezado: ()=>{
             return `
-                
-                    <div class="card">
-                        <div class="form-group">
-                            <label>Seleccione un Elemento de la Lista</label>
-                            <select class="form-control" id="cmbLista">
-                                <option value="BITACORA">BITACORA</option>    
-                                <option value="BANCOS">BANCOS</option>
-                                <option value="CONTRATANTES">CONTRATANTES</option>
-                                <option value="PROVEEDORES">PROVEEDORES</option>
-                                <option value="SUBCONTRATISTAS">SUBCONTRATISTAS</option>
-                                <option value="RUBROS">RUBROS</option>
-                                <option value="USUARIOS">USUARIOS</option>
-                            </select>
+                    <div class="row">
+                        <div class="card">
+                            <div class="form-group">
+                                <label>Clave de verificaciones</label>
+                                <input type="password" class="form-control col-8" id="txtClave">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-danger-outline btn-md" id="btnClave">
+                                    <i class="fal fa-lock"></i>Cambiar Clave
+                                </button>
+                            </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="card">
+                            <div class="form-group">
+                                <label>Seleccione un Elemento de la Lista</label>
+                                <select class="form-control" id="cmbLista">
+                                    <option value="BITACORA">BITACORA</option>    
+                                    <option value="BANCOS">BANCOS</option>
+                                    <option value="CONTRATANTES">CONTRATANTES</option>
+                                    <option value="PROVEEDORES">PROVEEDORES</option>
+                                    <option value="SUBCONTRATISTAS">SUBCONTRATISTAS</option>
+                                    <option value="RUBROS">RUBROS</option>
+                                    <option value="USUARIOS">USUARIOS</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
                 
             `
         },
@@ -249,6 +264,26 @@ function getView(){
 };
 
 function addListeners(){
+
+
+    document.getElementById('txtClave').value = GlobalConfigClave;
+    let btnClave = document.getElementById('btnClave')
+    btnClave.addEventListener('click',()=>{
+        if(Number(GlobalNivelUsuario)==1){
+            let nueva = document.getElementById('txtClave').value;
+            
+            api.config_setClave(nueva)
+            .then(()=>{
+                GlobalConfigClave = nueva;
+                funciones.Aviso('Clave cambiada exitosamente!!')
+            })
+            .catch(()=>{
+                funciones.AvisoError('No se pudo cambiar la clave')
+            })
+        }else{
+            funciones.AvisoHablado('Su nivel de usuario no le permite cambiar esta clave')
+        }
+    })
 
     document.getElementById('cmbBancosBanco').innerHTML = funciones.getComboBancos();
 

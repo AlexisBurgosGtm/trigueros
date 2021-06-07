@@ -1696,6 +1696,32 @@ let api = {
             GlobalConfigClave = '0';
         });             
     },
+    config_setClave: (nuevaclave) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                clave:nuevaclave
+            };
+
+            let url = GlobalUrlBackend + '/usuarios/claveset'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
+    },
     verificar_nocheque: (codcuenta,numero)=>{
         return new Promise((resolve, reject) => {
             if(numero=='0'){

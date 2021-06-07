@@ -15,6 +15,18 @@ router.post("/claveverificacion", async(req,res)=>{
 });
 
 
+router.post("/claveset", async(req,res)=>{
+    
+    const {clave} = req.body;
+    
+    let qry =''; 
+
+    qry = `UPDATE CONST_CONFIG SET VALOR='${clave}' WHERE ID=1;`;     
+    
+    execute.Query(res, qry);
+
+});
+
 
 router.post("/bitacora", async(req,res)=>{
     
