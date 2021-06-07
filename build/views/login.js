@@ -73,7 +73,7 @@ function addListeners(){
             })
             .catch(() => {
                 funciones.AvisoError('Usuario o contraseña incorrectos');
-                btnIniciar.innerHTML = `<i class="lni lni-cloud-check"></i>Ingresar`;
+                btnIniciar.innerHTML = `<i class="fal fa-lock"></i>Ingresar`;
                 
             })
         

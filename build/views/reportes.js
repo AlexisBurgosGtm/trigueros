@@ -164,7 +164,7 @@ function getReportRecibidos(mes,anio){
                                     <div class="col-4">
                                         <div class="form-group">
                                             <label>Recibido</label>
-                                            <h1 class="text-info" id="lbPresupuesto"></h1>
+                                            <h1 class="text-info" id="lbRecibido"></h1>
                                         </div>
                                     </div>
                                 </div>
@@ -186,7 +186,7 @@ function getReportRecibidos(mes,anio){
                             </div>`
     
     
-        api.reportes_recibidosmes('tblCheques',"lbSaldo",mes,anio)
+        api.reportes_recibidosmes('tblCheques',"lbRecibido",mes,anio)
     
     
 };
