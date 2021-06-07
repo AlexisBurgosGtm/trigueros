@@ -6,10 +6,10 @@ function getView(){
                         <div class="card">
                             <div class="form-group">
                                 <label>Clave de verificaciones</label>
-                                <input type="password" class="form-control col-8" id="txtClave">
+                                <input type="password" class="form-control" id="txtClave">
                             </div>
                             <div class="form-group">
-                                <button class="btn btn-danger-outline btn-md" id="btnClave">
+                                <button class="btn btn-outline-danger btn-md" id="btnClave">
                                     <i class="fal fa-lock"></i>Cambiar Clave
                                 </button>
                             </div>
@@ -265,24 +265,31 @@ function getView(){
 
 function addListeners(){
 
-
+    //clave admin
     document.getElementById('txtClave').value = GlobalConfigClave;
+
     let btnClave = document.getElementById('btnClave')
     btnClave.addEventListener('click',()=>{
-        if(Number(GlobalNivelUsuario)==1){
-            let nueva = document.getElementById('txtClave').value;
-            
-            api.config_setClave(nueva)
-            .then(()=>{
-                GlobalConfigClave = nueva;
-                funciones.Aviso('Clave cambiada exitosamente!!')
-            })
-            .catch(()=>{
-                funciones.AvisoError('No se pudo cambiar la clave')
-            })
-        }else{
-            funciones.AvisoHablado('Su nivel de usuario no le permite cambiar esta clave')
-        }
+        funciones.Confirmacion('¿Está seguro que desea cambiar la clave de administrador?')
+        .then((value)=>{
+            if(value==true){
+                if(Number(GlobalNivelUsuario)==1){
+                    let nueva = document.getElementById('txtClave').value;
+                    
+                    api.config_setClave(nueva)
+                    .then(()=>{
+                        GlobalConfigClave = nueva;
+                        funciones.Aviso('Clave cambiada exitosamente!!')
+                    })
+                    .catch(()=>{
+                        funciones.AvisoError('No se pudo cambiar la clave')
+                    })
+                }else{
+                    funciones.AvisoHablado('Su nivel de usuario no le permite cambiar esta clave')
+                }
+            }
+        })
+        
     })
 
     document.getElementById('cmbBancosBanco').innerHTML = funciones.getComboBancos();
