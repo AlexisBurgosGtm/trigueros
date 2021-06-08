@@ -123,6 +123,7 @@ function getView(){
                             <label>Acreedor</label>
                             <input type="text" class="form-control" id="txtSalAcreedor">
                         </div>
+                       
 
                         <div class="form-group">
                             <label>Descripción</label>
@@ -276,7 +277,12 @@ async function addListeners(){
     .then(()=>{
         
     })
-    
+
+
+    let cmbProyecto = document.getElementById('txtSalProyecto');
+    cmbProyecto.addEventListener('change',()=>{
+        
+    })
 
     //*********************************************/
     //********  INGRESO DE CORTES DE CAJA  ********/
@@ -405,7 +411,7 @@ async function addListeners(){
             if(value==true){
 
                 let fecha = funciones.devuelveFecha('txtSalFecha');
-                let txtSalProyecto = document.getElementById('txtSalProyecto').value || 'SN';
+                let txtSalProyecto = document.getElementById('txtSalProyecto').value || '0';
                 let txtSalAcreedor = document.getElementById('txtSalAcreedor').value || 'SN';
                 let txtSalDescripcion = document.getElementById('txtSalDescripcion').value || 'SN';
                 let cmbSalRubro = document.getElementById('cmbSalRubro').value;
@@ -415,9 +421,32 @@ async function addListeners(){
                 if(Number(txtSalImporte.value) > 0){
                     api.caja_insertar_movimiento(GlobalSelectedId,fecha,txtSalProyecto,txtSalAcreedor,txtSalDescripcion,cmbSalRubro,txtSalFactura,Number(txtSalImporte.value))
                     .then(async()=>{
+                        //funciones.showToast('Salida de caja registrada..')
+
                         funciones.Aviso('Movimiento guardado exitosamente!!');
                         await api.caja_historial_lista('tblHistorial',GlobalSelectedId, 'lbCorteSalidas', 'lbCorteSaldo',GlobalSelectedImporte);
+
+                                                
                         $('#modalNuevoSalida').modal('hide');
+
+
+
+                        if(txtSalProyecto.toString()=='0'){
+                            //SI ES GASTO DE OFICINA NO GUARDA UN CHEQUE
+                        }else{
+                            //SI NO ES GASTO ES DE UN PROYECTO
+                            //let cmbTipoGasto = document.getElementById('cmbTipoGasto');
+                            //if(cmbTipoGasto.value=='PROVEEDOR'){
+                                //inserta un cheque a proveedor
+                                //api.cheques_proveedor_insertar(txtSalProyecto,fecha,0,0,0,'000',txtSalImporte.value,txtSalAcreedor,'GASTO RECIBIDO DE CAJA','VARIOS','PROVEEDOR',txtSalDescripcion)
+                            //}else{
+                                //inserta un cheque a subcontratista
+                                //api.cheques_contratista_insertar(txtSalProyecto,'SUBCONTRATISTA')
+                            //}
+                        }
+
+
+
                     })
                     .catch(()=>{
                         funciones.AvisoError('No se pudo guardar este movimiento')                        

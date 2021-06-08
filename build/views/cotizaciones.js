@@ -147,7 +147,17 @@ function getView(){
                             
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <div class="row">
+                                <div class="col-4">
+                                    <button class="btn btn-danger btn-sm" id="btnEliminarProducto">
+                                        <i class="fal fa-trash"></i>ELIMINAR PRODUCTO
+                                    </button>    
+                                </div>
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>    
+                                </div>
+                            
                         </div>
 
                     </div>
@@ -186,6 +196,9 @@ async function addListeners(){
                 let codigo = document.getElementById('txtCodprod').value;
                 let descripcion = document.getElementById('txtDesprod').value;
                 let medida = document.getElementById('cmbCodmedida').value;
+                
+                btnGuardarProd.innerHTML = GlobalLoader;
+
                 api.cotiz_productos_insert(codigo,descripcion,medida)
                 .then(()=>{
                     funciones.Aviso('Producto guardado exitosamente!!')
@@ -195,6 +208,8 @@ async function addListeners(){
                 .catch(()=>{
                     funciones.AvisoError('No se pudo guardar este producto')
                 })
+
+                btnGuardarProd.innerHTML = `<i class="fal fa-save"></i>Aceptar`;
 
             }
         })
@@ -232,6 +247,27 @@ async function addListeners(){
 
     });
 
+    let btnEliminarProducto = document.getElementById('btnEliminarProducto')
+    btnEliminarProducto.addEventListener('click',()=>{
+        funciones.Confirmacion('¿Está seguro que desea ELIMINAR este producto?')
+        .then((value)=>{
+            if(value==true){
+                btnEliminarProducto.innerHTML = GlobalLoader;
+                api.cotiz_productos_eliminar(GlobalSelectedId)
+                .then(()=>{
+                    btnEliminarProducto.innerHTML = `<i class="fal fa-trash"></i>ELIMINAR PRODUCTO`;
+                    funciones.Aviso('Producto eliminado exitosamente!!')
+                    $('#modalHistorial').modal('hide');
+                    api.cotiz_listaproductos('tblListadoProductos');
+                })
+                .catch(()=>{
+                    btnEliminarProducto.innerHTML = `<i class="fal fa-trash"></i>ELIMINAR PRODUCTO`;
+                    funciones.AvisoError('No se pudo eliminar este producto')
+                })
+
+            }
+        })
+    })
 };
 
 function initView(){

@@ -2251,6 +2251,32 @@ let api = {
                 container.innerHTML = str;
         });           
     },
+    cotiz_productos_eliminar: (codigo) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                id:codigo
+            };
+
+            let url = GlobalUrlBackend + '/cotizaciones/deleteprod'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
+    },
     cotiz_historial_producto: (idContainer,idprod) => {
         let container = document.getElementById(idContainer)
         container.innerHTML = GlobalLoader;

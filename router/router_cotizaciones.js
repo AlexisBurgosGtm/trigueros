@@ -26,7 +26,8 @@ router.post("/deleteprod", async (req, res) => {
     
     const {id} = req.body;
 
-    let qry = `DELETE FROM CONST_PRODUCTOS IDPROD=${id}`
+    let qry = `DELETE FROM CONST_PRODUCTOS WHERE IDPROD=${id}; 
+               DELETE FROM CONST_PRODUCTOS_COTIZACION WHERE IDPROD=${id}; `
 
         execute.Query(res, qry);
 
