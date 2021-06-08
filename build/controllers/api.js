@@ -1532,7 +1532,7 @@ let api = {
                                                 </td>
 
                                                 <td>
-                                                    <button class="btn btn-sm btn-warning btn-circle" onclick="getMenuRubro(${rows.ID},'${rows.RUBRO}')">
+                                                    <button class="btn btn-sm btn-warning btn-circle" onclick="getMenuRubros(${rows.ID},'${rows.RUBRO}')">
                                                         <i class="fal fa-edit"></i>
                                                     </button>
                                                 </td>
