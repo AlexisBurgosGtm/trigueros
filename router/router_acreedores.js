@@ -23,4 +23,38 @@ router.post("/listado", async (req, res) => {
 });
 
 
+router.post("/insert", async (req, res) => {
+
+    const {descripcion, tipo} = req.body;
+
+    let qry = `INSERT INTO CONST_ACREEDORES (DESACREEDOR, TIPO )
+            VALUES ('${descripcion}','${tipo}')`
+
+    execute.Query(res, qry);
+
+});
+
+router.post("/edit", async (req, res) => {
+
+    const {codigo, descripcion} = req.body;
+
+    let qry = `UPDATE CONST_ACREEDORES 
+            SET DESACREEDOR='${descripcion}'
+                WHERE CODACREEDOR=${codigo} `
+
+    execute.Query(res, qry);
+
+});
+
+router.post("/delete", async (req, res) => {
+
+    const {codigo} = req.body;
+
+    let qry = `DELETE FROM CONST_ACREEDORES 
+                WHERE CODACREEDOR=${codigo} `
+
+    execute.Query(res, qry);
+
+});
+
 module.exports = router;

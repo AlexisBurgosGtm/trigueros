@@ -256,11 +256,55 @@ function getView(){
                 </div>
             </div>
             `
+        },
+        modalProveedores : ()=>{
+            return `
+        <div class="modal fade js-modal-settings modal-backdrop-transparent modal-with-scroll" tabindex="-1" role="dialog" aria-hidden="true"  id="modalProveedores">
+            <div class="modal-dialog modal-dialog-right modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-trans-gradient text-white">
+                            <h5 class="modal-title" id="">Datos del Proveedor</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="negrita">Descripción</label>
+                                <input type="text" class="form-control" id="txtProveedoresDescripcion" value='SN'>
+                            </div>
+                            
+                                                    
+                            <hr class="solid"><hr class="solid">
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <button class="btn btn-outline-secondary btn-xl" data-dismiss="modal">
+                                        <i class="fal fa-times"></i>
+                                        Cancelar
+                                    </button>    
+                                </div>
+                                <div class="col-6">
+                                    <button class="btn btn-primary btn-xl" id="btnProveedoresGuardar">
+                                        <i class="fal fa-save"></i>
+                                        Guardar
+                                    </button>    
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline-danger btn-xl shadow" id="btnProveedoresEliminar">
+                                <i class="fal fa-trash"></i>Eliminar
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            `
         }
     }
 
     root.innerHTML= view.encabezado() + view.listado() + view.btnNuevo();
-    rootModal.innerHTML = view.modalBancos() + view.modalContratantes() + view.modalRubros() + view.modalUsuarios();
+    rootModal.innerHTML = view.modalBancos() + view.modalContratantes() + view.modalRubros() + view.modalUsuarios() + view.modalProveedores();
 };
 
 function addListeners(){
@@ -391,7 +435,7 @@ function addListeners(){
 
                 funciones.solicitarClave()
                 .then((name)=>{
-                    if(name==GlobalPassUsuario){
+                    if(name==GlobalConfigClave){
                         api.config_bancos_delete(GlobalSelectedId)
                         .then(async()=>{
                             funciones.Aviso('Cuenta eliminada exitosamente !!')
@@ -461,7 +505,7 @@ function addListeners(){
 
                 funciones.solicitarClave()
                 .then((name)=>{
-                    if(name==GlobalPassUsuario){
+                    if(name==GlobalConfigClave){
                         api.config_contratantes_delete(GlobalSelectedId)
                         .then(async()=>{
                             funciones.Aviso('Contrantate eliminado exitosamente !!')
@@ -532,7 +576,7 @@ function addListeners(){
 
                 funciones.solicitarClave()
                 .then((name)=>{
-                    if(name==GlobalPassUsuario){
+                    if(name==GlobalConfigClave){
                         api.config_rubros_delete(GlobalSelectedId)
                         .then(async()=>{
                             funciones.Aviso('Rubro eliminado exitosamente !!')
@@ -604,7 +648,7 @@ function addListeners(){
 
                 funciones.solicitarClave()
                 .then((name)=>{
-                    if(name==GlobalPassUsuario){
+                    if(name==GlobalConfigClave){
                  
                         api.config_usuarios_delete(GlobalSelectedId)
                         .then(async()=>{
@@ -630,7 +674,79 @@ function addListeners(){
     });
 
 
+    //** PROVEEDORES */
+    let btnProveedoresGuardar = document.getElementById('btnProveedoresGuardar');
+    btnProveedoresGuardar.addEventListener('click',()=>{
+        funciones.Confirmacion('¿Está seguro que desea guardar estos datos?')
+        .then((value)=>{
+            if(value==true){
+                if(GlobalSelectedId==0){ //es nuevo
+                    let d = document.getElementById('txtProveedoresDescripcion').value;
+                    let t = 'PROVEEDOR'
+                    
+                    api.config_proveedores_insert(d,t)
+                    .then(async()=>{
+                        $('#modalProveedores').modal('hide');   
+                        funciones.Aviso('Proveedor creado exitosamente!!');
+                        await getListado('PROVEEDORES')
+                    })
+                    .catch(()=>{
+                        funciones.AvisoError('No se pudo crear este PROVEEDOR')
+                    })
+                }else{ // se está editando
+                    let d = document.getElementById('txtProveedoresDescripcion').value;
+                    let t = 'PROVEEDOR'
+                    
+                    api.config_proveedores_edit(GlobalSelectedId,d,t)
+                    .then(async()=>{
+                        $('#modalProveedores').modal('hide');   
+                        funciones.Aviso('Proveedor actualizado exitosamente!!');
+                        await getListado('PROVEEDORES')
+                    })
+                    .catch(()=>{
+                        funciones.AvisoError('No se pudo editar este PROVEEDOR')
+                    })
+                }
 
+            }
+        })
+    });
+
+    let btnProveedoresEliminar = document.getElementById('btnProveedoresEliminar');
+    btnProveedoresEliminar.addEventListener('click',()=>{
+
+        funciones.Confirmacion('¿Está seguro que desea ELIMINAR este Proveedor?')
+        .then((value)=>{
+            if(value==true){
+
+                $('#modalProveedores').modal('hide');   
+
+                funciones.solicitarClave()
+                .then((name)=>{
+                    if(name==GlobalConfigClave){
+                 
+                        api.config_proveedores_delete(GlobalSelectedId)
+                        .then(async()=>{
+                            funciones.Aviso('Proveedor eliminado exitosamente !!')
+                            await getListado('PROVEEDORES');
+                        })
+                        .catch(()=>{
+                            funciones.AvisoError('No se puedo eliminar este Proveedor')
+                        })
+
+
+                    }else{
+                        funciones.AvisoError('Contraseña Incorrecta');    
+                    }
+                })
+                .catch(()=>{
+                    funciones.AvisoError('Contraseña Incorrecta');
+                })
+
+           }
+       }) 
+
+    });
 
 
 };
@@ -658,6 +774,9 @@ async function getListado(tipo){
             break;
         case 'USUARIOS':
             await api.config_usuarios_lista('tblContainer');
+            break;
+        case 'PROVEEDORES':
+            await api.config_proveedores_lista('tblContainer');
             break;
         default:
             document.getElementById('tblContainer').innerHTML = `<b class="text-danger">Opción en construcción</b>`
@@ -711,4 +830,12 @@ function getMenuUsuarios(codigo,usuario,pass,nivel){
     document.getElementById('cmbUsuarioNivel').value = nivel;
 
     $('#modalUsuarios').modal('show');
+};
+
+function getMenuProveedores(codigo,descripcion){
+
+    GlobalSelectedId = codigo;
+    document.getElementById('txtProveedoresDescripcion').value = descripcion;
+    $('#modalProveedores').modal('show');
+
 };
