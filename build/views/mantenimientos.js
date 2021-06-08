@@ -327,10 +327,54 @@ function getView(){
             </div>
             `
         },
+        modalSubcontratistas : ()=>{
+            return `
+        <div class="modal fade js-modal-settings modal-backdrop-transparent modal-with-scroll" tabindex="-1" role="dialog" aria-hidden="true"  id="modalSubcontratistas">
+            <div class="modal-dialog modal-dialog-right modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-warning">
+                            <h5 class="modal-title" id="">Datos del Subcontratista</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="negrita">Descripción</label>
+                                <input type="text" class="form-control" id="txtSubcontratistasDescripcion" value='SN'>
+                            </div>
+                            
+                                                    
+                            <hr class="solid"><hr class="solid">
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <button class="btn btn-outline-secondary btn-xl" data-dismiss="modal">
+                                        <i class="fal fa-times"></i>
+                                        Cancelar
+                                    </button>    
+                                </div>
+                                <div class="col-6">
+                                    <button class="btn btn-primary btn-xl" id="btnSubcontratistasGuardar">
+                                        <i class="fal fa-save"></i>
+                                        Guardar
+                                    </button>    
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline-danger btn-xl shadow" id="btnSubcontratistasEliminar">
+                                <i class="fal fa-trash"></i>Eliminar
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            `
+        },
     }
 
     root.innerHTML= view.encabezado() + view.listado() + view.btnNuevo();
-    rootModal.innerHTML = view.modalClave() + view.modalBancos() + view.modalContratantes() + view.modalRubros() + view.modalUsuarios() + view.modalProveedores();
+    rootModal.innerHTML = view.modalClave() + view.modalBancos() + view.modalContratantes() + view.modalRubros() + view.modalUsuarios() + view.modalProveedores() + view.modalSubcontratistas();
 };
 
 function addListeners(){
@@ -421,6 +465,13 @@ function addListeners(){
                     
                 $('#modalProveedores').modal('show');
                 break;
+            case 'PROVEEDORES':
+                GlobalSelectedId = 0;
+                document.getElementById('txtSubcontratistasDescripcion').value = "";
+                document.getElementById('btnSubcontratistasEliminar').style = "visibility:hidden";
+                        
+                $('#modalSubcontratistas').modal('show');
+                break;    
         }
 
     });
@@ -786,6 +837,83 @@ function addListeners(){
 
     });
 
+    //** SUBCONTRATISTAS */
+    let btnSubcontratistasGuardar = document.getElementById('btnSubcontratistasGuardar');
+    btnSubcontratistasGuardar.addEventListener('click',()=>{
+
+        funciones.Confirmacion('¿Está seguro que desea guardar estos datos?')
+        .then((value)=>{
+            if(value==true){
+                if(GlobalSelectedId==0){ //es nuevo
+                    let d = document.getElementById('txtSubcontratistasDescripcion').value;
+                    let t = 'SUBCONTRATISTA'
+                    
+                    api.config_proveedores_insert(d,t)
+                    .then(async()=>{
+                        $('#modalSubcontratistas').modal('hide');   
+                        funciones.Aviso('Subcontratista creado exitosamente!!');
+                        await getListado('SUBCONTRATISTAS')
+                    })
+                    .catch(()=>{
+                        funciones.AvisoError('No se pudo crear este PROVEEDOR')
+                    })
+                }else{ // se está editando
+                    let d = document.getElementById('txtSubcontratistasDescripcion').value;
+                    let t = 'SUBCONTRATISTA'
+                    
+                    api.config_proveedores_edit(GlobalSelectedId,d,t)
+                    .then(async()=>{
+                        $('#modalSubcontratistas').modal('hide');   
+                        funciones.Aviso('Subcontratista actualizado exitosamente!!');
+                        await getListado('SUBCONTRATISTAS')
+                    })
+                    .catch(()=>{
+                        funciones.AvisoError('No se pudo editar este SUBCONTRATISTA')
+                    })
+                }
+
+            }
+        })
+
+    });
+
+    let btnSubcontratistasEliminar = document.getElementById('btnSubcontratistasEliminar');
+    btnSubcontratistasEliminar.addEventListener('click',()=>{
+
+        funciones.Confirmacion('¿Está seguro que desea ELIMINAR este Subcontratista?')
+        .then((value)=>{
+            if(value==true){
+
+                $('#modalSubcontratistas').modal('hide');   
+
+                funciones.solicitarClave()
+                .then((name)=>{
+                    if(name==GlobalConfigClave){
+                 
+                        api.config_proveedores_delete(GlobalSelectedId)
+                        .then(async()=>{
+                            funciones.Aviso('Subcontratista eliminado exitosamente !!')
+                            await getListado('SUBCONTRATISTAS');
+                        })
+                        .catch(()=>{
+                            funciones.AvisoError('No se puedo eliminar este Subcontratista')
+                        })
+
+
+                    }else{
+                        funciones.AvisoError('Contraseña Incorrecta');    
+                    }
+                })
+                .catch(()=>{
+                    funciones.AvisoError('Contraseña Incorrecta');
+                })
+
+           }
+       }) 
+
+    });
+
+
 
 };
 
@@ -815,6 +943,9 @@ async function getListado(tipo){
             break;
         case 'PROVEEDORES':
             await api.config_proveedores_lista('tblContainer');
+            break;
+        case 'SUBCONTRATISTAS':
+            await api.config_subcontratistas_lista('tblContainer');
             break;
         default:
             document.getElementById('tblContainer').innerHTML = `<b class="text-danger">Opción en construcción</b>`
@@ -878,5 +1009,15 @@ function getMenuProveedores(codigo,descripcion){
     document.getElementById('btnProveedoresEliminar').style = "visibility:visible";
 
     $('#modalProveedores').modal('show');
+
+};
+
+function getMenuSubcontratistas(codigo,descripcion){
+
+    GlobalSelectedId = codigo;
+    document.getElementById('txtSubcontratistasDescripcion').value = descripcion;
+    document.getElementById('btnSubcontratistasEliminar').style = "visibility:visible";
+
+    $('#modalSubcontratistas').modal('show');
 
 };

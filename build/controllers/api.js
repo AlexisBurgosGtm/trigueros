@@ -1803,6 +1803,49 @@ let api = {
 
         });
     },
+    config_subcontratistas_lista: (idContainer) => {
+        let container = document.getElementById(idContainer)
+        container.innerHTML = GlobalLoader;
+
+        let strHeader = `<table class="table table-striped table-responsive table-hover">
+                            <thead class="bg-warning">
+                                <tr>
+                                    <td>ID</td>
+                                    <td>SUBCONTRATISTA</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody>`
+        let str = '';
+        let strFooter = `</tbody></table>`
+        let data = {tipo:'SUBCONTRATISTA'}
+        let url = GlobalUrlBackend + '/acreedores/listado';
+        axios.post(url,data)
+        .then((response) => {
+            try {
+                const data = response.data.recordset;
+                data.map((rows) => {
+                    str = str + `<tr class="border-info border-bottom">
+                                                <td>${rows.CODIGO}</td>
+                                                <td>${rows.DESCRIPCION}</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-warning btn-circle" 
+                                                        onclick="getMenuSubcontratistas(${rows.CODIGO},'${rows.DESCRIPCION}')">
+                                                        <i class="fal fa-edit"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>`
+                })
+                container.innerHTML = strHeader + str + strFooter;
+            } catch (err) {
+                str = 'AGREGUE DATOS...';
+                container.innerHTML = str;
+            }
+        }, (error) => {
+                str = 'ERROR...';
+                container.innerHTML = str;
+        });           
+    },
     config_getclave:()=>{
         let url = GlobalUrlBackend + '/usuarios/claveverificacion';
         axios.post(url)
