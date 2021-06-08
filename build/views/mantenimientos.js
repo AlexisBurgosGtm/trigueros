@@ -848,15 +848,14 @@ function getMenuContratantes(codcontratante,descripcion,telefono){
 };
 
 
-function getMenuRubros(codcuenta,descripcion,banco,numero){
+function getMenuRubros(codigo,descripcion){
     
-    GlobalSelectedId = codcuenta;
-    document.getElementById('txtBancosDescripcion').value = descripcion;
-    document.getElementById('cmbBancosBanco').value = banco;
-    document.getElementById('txtBancosNumero').value = numero;
-    document.getElementById('btnBancosEliminar').style = "visibility:visible";
+    GlobalSelectedId = codigo;
+    document.getElementById('txtRubrosDescripcion').value = descripcion;
     
-    $('#modalBancos').modal('show');
+    document.getElementById('btnRubrosEliminar').style = "visibility:visible";
+    
+    $('#modalRubros').modal('show');
     
 };
 
@@ -877,7 +876,7 @@ function getMenuProveedores(codigo,descripcion){
     GlobalSelectedId = codigo;
     document.getElementById('txtProveedoresDescripcion').value = descripcion;
     document.getElementById('btnProveedoresEliminar').style = "visibility:visible";
-    
+
     $('#modalProveedores').modal('show');
 
 };

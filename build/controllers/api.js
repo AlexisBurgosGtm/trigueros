@@ -1654,7 +1654,7 @@ let api = {
                 container.innerHTML = str;
         });           
     },
-    config_rubros_delete: (id) => {
+    config_usuarios_delete: (id) => {
         return new Promise((resolve, reject) => {
 
             let data = {
