@@ -3,32 +3,26 @@ function getView(){
         encabezado: ()=>{
             return `
                     <div class="row">
-                        <div class="card">
-                            <div class="form-group">
-                                <label>Clave de verificaciones</label>
-                                <input type="password" class="form-control" id="txtClave">
-                            </div>
-                            <div class="form-group">
-                                <button class="btn btn-outline-danger btn-md" id="btnClave">
-                                    <i class="fal fa-lock"></i>Cambiar Clave
-                                </button>
+                        <div class="col-10">
+                            <div class="card">
+                                <div class="form-group">
+                                    <label>Seleccione un Elemento de la Lista</label>
+                                    <select class="form-control" id="cmbLista">
+                                        <option value="BITACORA">BITACORA</option>    
+                                        <option value="BANCOS">BANCOS</option>
+                                        <option value="CONTRATANTES">CONTRATANTES</option>
+                                        <option value="PROVEEDORES">PROVEEDORES</option>
+                                        <option value="SUBCONTRATISTAS">SUBCONTRATISTAS</option>
+                                        <option value="RUBROS">RUBROS</option>
+                                        <option value="USUARIOS">USUARIOS</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="card">
-                            <div class="form-group">
-                                <label>Seleccione un Elemento de la Lista</label>
-                                <select class="form-control" id="cmbLista">
-                                    <option value="BITACORA">BITACORA</option>    
-                                    <option value="BANCOS">BANCOS</option>
-                                    <option value="CONTRATANTES">CONTRATANTES</option>
-                                    <option value="PROVEEDORES">PROVEEDORES</option>
-                                    <option value="SUBCONTRATISTAS">SUBCONTRATISTAS</option>
-                                    <option value="RUBROS">RUBROS</option>
-                                    <option value="USUARIOS">USUARIOS</option>
-                                </select>
-                            </div>
+                        <div class="col-2">
+                            <button class="btn btn-lg btn-circle btn-outline-info" id="btnConfig">
+                                <i class="fal fa-cog"></i>
+                            </button>
                         </div>
                     </div>
                     
@@ -51,6 +45,38 @@ function getView(){
                         +                        
                     </button>
                 </div>           
+            `
+        },
+        modalClave : ()=>{
+            return `
+        <div class="modal fade js-modal-settings modal-backdrop-transparent modal-with-scroll" tabindex="-1" role="dialog" aria-hidden="true"  id="modalClave">
+            <div class="modal-dialog modal-dialog-right modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger text-white">
+                            <h5 class="modal-title" id="">Cambio de Clave de Administrador</h5>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="card">
+                                <div class="form-group">
+                                    <label>Clave de verificaciones</label>
+                                    <input type="password" class="form-control" id="txtClave">
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-outline-danger btn-md" id="btnClave">
+                                        <i class="fal fa-lock"></i>Cambiar Clave
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
             `
         },
         modalBancos : ()=>{
@@ -300,16 +326,21 @@ function getView(){
                 </div>
             </div>
             `
-        }
+        },
     }
 
     root.innerHTML= view.encabezado() + view.listado() + view.btnNuevo();
-    rootModal.innerHTML = view.modalBancos() + view.modalContratantes() + view.modalRubros() + view.modalUsuarios() + view.modalProveedores();
+    rootModal.innerHTML = view.modalClave() + view.modalBancos() + view.modalContratantes() + view.modalRubros() + view.modalUsuarios() + view.modalProveedores();
 };
 
 function addListeners(){
 
     //clave admin
+    let btnConfig = document.getElementById('btnConfig');
+    btnConfig.addEventListener('click',()=>{
+        $('#modalClave').modal('show');   
+    });
+
     document.getElementById('txtClave').value = GlobalConfigClave;
 
     let btnClave = document.getElementById('btnClave')
@@ -335,6 +366,7 @@ function addListeners(){
         })
         
     })
+
 
     document.getElementById('cmbBancosBanco').innerHTML = funciones.getComboBancos();
 
@@ -382,10 +414,16 @@ function addListeners(){
                 
                 $('#modalUsuarios').modal('show');
                 break;
-
+            case 'PROVEEDORES':
+                GlobalSelectedId = 0;
+                document.getElementById('txtProveedoresDescripcion').value = "";
+                document.getElementById('btnProveedoresEliminar').style = "visibility:hidden";
+                    
+                $('#modalProveedores').modal('show');
+                break;
         }
 
-    })
+    });
 
     //**** BANCOS ***//
     let btnBancosGuardar = document.getElementById('btnBancosGuardar');
