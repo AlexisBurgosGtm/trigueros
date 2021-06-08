@@ -867,6 +867,8 @@ function getMenuUsuarios(codigo,usuario,pass,nivel){
     document.getElementById('txtUsuarioPass').value = pass;
     document.getElementById('cmbUsuarioNivel').value = nivel;
 
+    document.getElementById('btnUsuarioEliminar').style = "visibility:visible";
+
     $('#modalUsuarios').modal('show');
 };
 
@@ -874,6 +876,8 @@ function getMenuProveedores(codigo,descripcion){
 
     GlobalSelectedId = codigo;
     document.getElementById('txtProveedoresDescripcion').value = descripcion;
+    document.getElementById('btnProveedoresEliminar').style = "visibility:visible";
+    
     $('#modalProveedores').modal('show');
 
 };
