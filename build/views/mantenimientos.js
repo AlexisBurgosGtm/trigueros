@@ -465,7 +465,7 @@ function addListeners(){
                     
                 $('#modalProveedores').modal('show');
                 break;
-            case 'PROVEEDORES':
+            case 'SUBCONTRATISTAS':
                 GlobalSelectedId = 0;
                 document.getElementById('txtSubcontratistasDescripcion').value = "";
                 document.getElementById('btnSubcontratistasEliminar').style = "visibility:hidden";
