@@ -133,12 +133,13 @@ function getView(){
                             <div class="panel-container show">
                                 <div class="panel-content">
                                 
-                                    <ul class="nav nav-pills nav-justified" role="tablist">
-                                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel0" id="btnTabGeneral">DATOS GENERALES</a></li>
-                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel3" id="btnTabProveedores">CHEQUES A PROVEEDORES</a></li>
-                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel2" id="btnTabSubcontratistas">CHEQUES A SUBCONTRATISTAS</a></li>
-                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel1"  id="btnTabContratos">SUBCONTRATOS</a></li>    
-                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel4"  id="btnTabRecibidos">PAGOS RECIBIDOS</a></li>
+                                    <ul class="nav nav-pills nav-justified .bg-primarygrad" role="tablist">
+                                        <li class="nav-item "><a class="nav-link active shadow" data-toggle="tab" href="#panel0" id="btnTabGeneral">DATOS GENERALES</a></li>
+                                        <li class="nav-item"><a class="nav-link shadow" data-toggle="tab" href="#panel3" id="btnTabProveedores">CHEQUES A PROVEEDORES</a></li>
+                                        <li class="nav-item"><a class="nav-link shadow" data-toggle="tab" href="#panel2" id="btnTabSubcontratistas">CHEQUES A SUBCONTRATISTAS</a></li>
+                                        <li class="nav-item"><a class="nav-link shadow" data-toggle="tab" href="#panel5" id="btnTabCaja">GASTOS DE CAJA</a></li>
+                                        <li class="nav-item"><a class="nav-link shadow" data-toggle="tab" href="#panel1"  id="btnTabContratos">LISTADO DE SUBCONTRATOS</a></li>    
+                                        <li class="nav-item"><a class="nav-link shadow" data-toggle="tab" href="#panel4"  id="btnTabRecibidos">PAGOS RECIBIDOS</a></li>
                                     </ul>
                                     <div class="tab-content py-3">
                                     <hr class="solid">
@@ -178,28 +179,33 @@ function getView(){
                                                 <div class="col-6">
                                                     <div class="form-group">
                                                         <label>Costo Total</label>
-                                                        <h5 class="text-info" id="lbPresupuesto"></h5>
+                                                        <h1 class="text-info" id="lbPresupuesto"></h1>
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="form-group">
                                                         <label>Recibido</label>
-                                                        <h5 class="text-success" id="lbRecibido"></h5>
+                                                        <h1 class="text-success" id="lbRecibido"></h1>
                                                     </div>
                                                 </div>
                                                 
                                             </div>
+
+                                            <div class="row">
+                                                <hr class="solid">
+                                            </div>
+
                                             <div class="row">
                                                 <div class="col-6">
                                                     <div class="form-group">
                                                         <label>Ejecutado</label>
-                                                        <h5 class="text-danger" id="lbEjecutado"></h5>
+                                                        <h1 class="text-danger" id="lbEjecutado"></h1>
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="form-group">
                                                         <label>Diferencia</label>
-                                                        <h5 id="lbDiferencia"></h5>
+                                                        <h1 id="lbDiferencia"></h1>
                                                     </div>
                                                 </div>
                                             </div>
@@ -271,6 +277,26 @@ function getView(){
                                                 </div>
                                             </div>
                                         </div>
+
+                                        
+                                        <!-- pagos de caja chica -->
+                                        <div class="tab-pane fade" id="panel5" role="tabpanel">
+                                          
+                                            <div class="table-responsive">
+                                                <table class="table table-responsive">
+                                                    <thead class="bg-trans-gradient text-white">
+                                                        <tr>
+                                                            <td>FECHA</td>
+                                                            <td>ENTREGADO POR / CONCEPTO</td>
+                                                            <td>IMPORTE</td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tblPCaja"></tbody>
+                                                </table>
+                                            </div>
+                                            
+                                        </div>  
+
                                         <!-- cheques contratante -->
                                         <div class="tab-pane fade" id="panel4" role="tabpanel">
                                             <div class="table-responsive">
@@ -708,6 +734,7 @@ function getMenuProyecto(codigo,descripcion, presupuesto){
 
     api.proyectos_subcontratistas(codigo,'tblPSucontratistas');
     api.cheques_proyecto(GlobalSelectedCodProyecto, 'tblCheques1','tblCheques2','tblCheques3','lbRecibido','lbEjecutado','lbDiferencia');
+    api.cheques_cajachica(GlobalSelectedCodProyecto,'tblPCaja')
 
     $('#modalMenuProyecto').modal('show');
 

@@ -79,6 +79,29 @@ router.post("/listadoproyecto", async (req, res) => {
 
 });
 
+router.post("/listadoproyectocaja", async (req, res) => {
+    
+    const {idproyecto} = req.body;
+
+    let qry = '';
+        
+    qry = `SELECT  CONST_CAJA_MOVIMIENTOS.NOCORTE, 
+                        CONST_CAJA_MOVIMIENTOS.FECHA, 
+                        CONST_PROYECTOS.PROYECTO, 
+                        CONST_CAJA_MOVIMIENTOS.ACREEDOR, 
+                        CONST_CAJA_MOVIMIENTOS.DESCRIPCION, 
+                        CONST_CAJA_MOVIMIENTOS.RUBRO, 
+                        CONST_CAJA_MOVIMIENTOS.NOFACTURA, 
+                        CONST_CAJA_MOVIMIENTOS.IMPORTE, 
+                        CONST_CAJA_MOVIMIENTOS.USUARIO
+                FROM CONST_CAJA_MOVIMIENTOS LEFT OUTER JOIN
+                    CONST_PROYECTOS ON CONST_CAJA_MOVIMIENTOS.PROYECTO = CONST_PROYECTOS.IDPROYECTO
+                WHERE (CONST_CAJA_MOVIMIENTOS.PROYECTO = ${idproyecto}) `;
+            
+    execute.Query(res, qry);
+
+});
+
 router.post("/listadocontrato", async (req, res) => {
     
     const {nocontrato} = req.body;

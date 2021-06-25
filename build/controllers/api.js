@@ -996,7 +996,8 @@ let api = {
                 const data = response.data.recordset;
                 data.map((rows) => {
                     let tipo = rows.TIPOCHEQUE;
-                    
+                    let importe = Number(rows.IMPORTE);
+                    if(importe<0){importe= importe * -1};
                     newrow = `<tr class="border-bottom border-info">
                                 <td>${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHA))}
                                         <br>
@@ -1012,7 +1013,7 @@ let api = {
                                         <br class="solid">
                                         <small>Creado:${rows.USUARIO}</small>
                                 </td>
-                                <td>${funciones.setMoneda(rows.IMPORTE,'Q')}</td>
+                                <td>${funciones.setMoneda(importe,'Q')}</td>
                                 <td>
                                     <button class="btn btn-sm btn-danger btn-circle" onclick="deleteCheque(${rows.ID})">x</button>
                                 </td>
@@ -1062,6 +1063,52 @@ let api = {
         });
 
     },
+    cheques_cajachica: (idproyecto,idContainer) => {
+        
+        let container = document.getElementById(idContainer);
+        container.innerHTML = GlobalLoader;
+        
+        let str = ''; 
+       
+        let url = GlobalUrlBackend + '/cheques/listadoproyectocaja';
+
+        axios.post(url, {
+                    idproyecto : idproyecto
+                    })
+        .then((response) => {
+            try {
+                const data = response.data.recordset;
+                data.map((rows) => {
+                    let importe = Number(rows.IMPORTE);
+                    if(importe<0){importe= importe *-1};
+                    str = str + `<tr class="border-bottom border-info">
+                                <td>${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHA))}
+                                        <br>
+                                        <small class="negrita text-danger">Factura No. ${rows.NOFACTURA}</small>
+                                </td>
+                                <td>${rows.ACREEDOR}
+                                        <br>
+                                        <small>Usado para: ${rows.DESCRIPCION}</small> 
+                                        <br>
+                                        <small>Usuario: ${rows.USUARIO}</small>
+                                </td>
+                                
+                                <td><b>${funciones.setMoneda(importe,'Q')}</b></td>
+                                
+                            </tr>`
+                  
+                })
+                container.innerHTML = str;
+                
+            } catch (err) {
+                container.innerHTML = 'Agregue un cheque al proyecto...';
+                       }
+        }, (error) => {
+                console.log(error);
+                container.innerHTML = 'Agregue un cheque al proyecto...';
+        });
+
+    },
     cheques_contrato: (nocontrato,idContainer) => {
         
         let container = document.getElementById(idContainer);
@@ -1079,7 +1126,8 @@ let api = {
                 const data = response.data.recordset;
                 data.map((rows) => {
                     let tipo = rows.TIPOCHEQUE;
-                    
+                    let importe = Number(rows.IMPORTE);
+                    if(importe<0){importe= importe * -1};
                     newrow = `<tr class="border-bottom border-info">
                                 <td>${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHA))}
                                         <br>
@@ -1095,7 +1143,7 @@ let api = {
                                         <br class="solid">
                                         <small>Creado:${rows.USUARIO}</small>
                                 </td>
-                                <td>${funciones.setMoneda(rows.IMPORTE,'Q')}</td>
+                                <td>${funciones.setMoneda(importe,'Q')}</td>
                                 <td>
                                     <button class="btn btn-sm btn-danger btn-circle" onclick="deleteCheque(${rows.ID})">x</button>
                                 </td>
@@ -2427,6 +2475,8 @@ let api = {
                 const data = response.data.recordset;
                 data.map((rows) => {
                     let tipo = rows.TIPOCHEQUE;
+                    let importe = Number(rows.IMPORTE);
+                    if(importe<0){importe = importe * -1};
                     switch (tipo) {
                         case 'SUBCONTRATISTA':
                             varTotalSaldo = varTotalSaldo + Number(rows.IMPORTE);
@@ -2447,7 +2497,7 @@ let api = {
                                         <br>
                                         <small>Tipo pago:${rows.TIPOCHEQUE}</small>
                                 </td>
-                                <td>${funciones.setMoneda(rows.IMPORTE,'Q')}</td>
+                                <td>${funciones.setMoneda(importe,'Q')}</td>
                                 
                             </tr>`
                             break;
@@ -2558,7 +2608,7 @@ let api = {
                     }
                 })
                 container1.innerHTML = str1;
-                lbSaldo.innerText = funciones.setMoneda((varTotalSaldo * -1),'Q');
+                lbSaldo.innerText = funciones.setMoneda((varTotalSaldo),'Q');
             } catch (err) {
                 container1.innerHTML = 'Agregue un cheque ...';
                 lbSaldo.innerText = 'Q --';

@@ -637,6 +637,7 @@ async function addListeners(){
   
     funciones.slideAnimationTabs();
 
+
 };
 
 function initView(){
@@ -682,6 +683,8 @@ function setPermisos(){
         case 3:
             document.getElementById('permisoLb1').style = "visibility:hidden";
             document.getElementById('permisoLb2').style = "visibility:hidden";
+            document.getElementById('lbPresupuesto').style = "visibility:hidden";
+            document.getElementById('lbSaldo').style = "visibility:hidden";
             break;
 
         default:

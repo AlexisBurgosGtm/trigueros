@@ -60,7 +60,7 @@ let classNavegar = {
     contratos: ()=>{
         funciones.loadScript('../views/contratos.js','root')
         .then(async()=>{
-            lbTituloVista.innerText = 'LISTA DE CONTRATOS';
+            lbTituloVista.innerText = 'LISTADO DE SUBCONTRATOS';
             GlobalSelectedForm = 'contratos';
             initView();
         })

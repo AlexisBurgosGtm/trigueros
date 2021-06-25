@@ -46,6 +46,11 @@
   font-weight: bold;
 }
 
+.bg-primarygrad {
+  background-color: rgb(224, 203, 235);
+  font-weight: bold;
+}
+
 /* EVITA QUE UNA MODAL INFERIOR A OTRA PIERDA EL SCROLL */
 .modal-with-scroll{
   overflow-y: scroll; 
