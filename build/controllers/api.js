@@ -181,7 +181,13 @@ let api = {
                 try {
                     const data = response.data.recordset;
                     data.map((rows) => {
-                        str = str + `<option value="${rows.IDPROYECTO}">${rows.PROYECTO} (Presupuesto: ${funciones.setMoneda(rows.PRESUPUESTO,'Q')})</option>`;
+                        if(Number(GlobalNivelUsuario)==1){
+                            str = str + `<option value="${rows.IDPROYECTO}">${rows.PROYECTO} 
+                            (Presupuesto: ${funciones.setMoneda(rows.PRESUPUESTO,'Q')})</option>`;
+                        }else{
+                            str = str + `<option value="${rows.IDPROYECTO}">${rows.PROYECTO}</option>`;
+                        }
+                        
                     })
                     container.innerHTML=str;
                     resolve();
@@ -215,7 +221,11 @@ let api = {
                 try {
                     const data = response.data.recordset;
                     data.map((rows) => {
-                        str = str + `<option value="${rows.IDPROYECTO}">${rows.PROYECTO} (Presupuesto: ${funciones.setMoneda(rows.PRESUPUESTO,'Q')})</option>`;
+                        if(Number(GlobalNivelUsuario)==1){
+                            str = str + `<option value="${rows.IDPROYECTO}">${rows.PROYECTO} (Presupuesto: ${funciones.setMoneda(rows.PRESUPUESTO,'Q')})</option>`;
+                        }else{
+                            str = str + `<option value="${rows.IDPROYECTO}">${rows.PROYECTO}</option>`;
+                        }
                     })
                     container.innerHTML=str;
                     resolve();
@@ -248,6 +258,7 @@ let api = {
                 try {
                     const data = response.data.recordset;
                     data.map((rows) => {
+                        
                         str = str + `<option value="${rows.IDPROYECTO}">${rows.PROYECTO}</option>`
                     })
                     container.innerHTML = str;
@@ -481,7 +492,12 @@ let api = {
             try {
                 const data = response.data.recordset;
                 data.map((rows) => {
-                    str = str + `<option value="${rows.NOCONTRATO}">${rows.DESACREEDOR} (Contrato No. ${rows.NOCONTRATO}) (Saldo:${funciones.setMoneda((Number(rows.IMPORTE)-Number(rows.ENTREGADO)),'Q')})</option>`
+                    if(Number(GlobalNivelUsuario)==1){
+                        str = str + `<option value="${rows.NOCONTRATO}">${rows.DESACREEDOR} (Contrato No. ${rows.NOCONTRATO}) (Saldo:${funciones.setMoneda((Number(rows.IMPORTE)-Number(rows.ENTREGADO)),'Q')})</option>`
+                    }else{
+                        str = str + `<option value="${rows.NOCONTRATO}">${rows.DESACREEDOR} (Contrato No. ${rows.NOCONTRATO})</option>`
+                    }
+                   
                 })
                 container.innerHTML = str;
             } catch (err) {
@@ -791,7 +807,12 @@ let api = {
                     try {
                         const data = response.data.recordset;
                         data.map((rows) => {
-                            str = str + `<option value="${rows.CODIGO}">${rows.DESCRIPCION} (Saldo: ${funciones.setMoneda(rows.SALDO,'Q')})</option>`
+                            if(Number(GlobalNivelUsuario)==1){
+                                str = str + `<option value="${rows.CODIGO}">${rows.DESCRIPCION} (Saldo: ${funciones.setMoneda(rows.SALDO,'Q')})</option>`
+                            }else{
+                                str = str + `<option value="${rows.CODIGO}">${rows.DESCRIPCION} </option>`
+                            }
+                           
                         })
                         container.innerHTML = str;
                     } catch (err) {
@@ -2002,6 +2023,13 @@ let api = {
                                                 <td>${funciones.convertDate2(rows.FECHA)}
                                                     <br>
                                                     <small class="negrita">Usuario:${rows.USUARIO}</small>
+                                                </td>
+                                                <td>${rows.BANCO + '-' + rows.NUMERO}
+                                                    <br>
+                                                    <small class="negrita">Cheque No: ${rows.NOCHEQUE}</small>
+                                                    <br>
+                                                    <small class="negrita">Recibió: ${rows.RECIBIDO}</small>
+                                                    
                                                 </td>
                                                 <td>${funciones.setMoneda(rows.IMPORTE,'Q')}</td>
                                                 <td>

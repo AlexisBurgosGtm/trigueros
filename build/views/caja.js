@@ -28,6 +28,7 @@ function getView(){
                             <tr>
                                 <td>No.</td>
                                 <td>Fecha</td>
+                                <td>Datos Cheque</td>
                                 <td>Importe</td>
                                 <td></td>
                             </tr>

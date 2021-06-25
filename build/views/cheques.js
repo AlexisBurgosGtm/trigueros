@@ -140,13 +140,13 @@ function getView(){
                             <div class="col-4">
                                 <button class="btn btn-outline-warning btn-xl shadow btn-rounded" data-dismiss="modal" id="btnMenuChequeProveedor">
                                     <i class="fal fa-box"></i>
-                                    Pago hacia Proveedore
+                                    Pago a Proveedores
                                 </button>    
                             </div>
                             <div class="col-4">
                                 <button class="btn btn-outline-info btn-xl shadow btn-rounded" data-dismiss="modal" id="btnMenuChequeContratante">
                                     <i class="fal fa-archive"></i>
-                                    Recibo de Contratante
+                                    Pago de Cliente
                                 </button>    
                             </div>
                         </div>                
@@ -208,7 +208,7 @@ function getView(){
         
                         <div class="form-group">
                             <label class="negrita">Cantidad</label>
-                            <input type="number" class="form-control bg-amarillo text-danger col-6" id="txtImporte" value=0>
+                            <input type="number" class="form-control bg-amarillo text-danger col-6" id="txtImporte" value=>
                         </div>
 
                         <div class="form-group">
@@ -219,12 +219,12 @@ function getView(){
         
                         <div class="form-group">
                             <label class="negrita">Concepto</label>
-                            <input type="text" class="form-control" id="txtConcepto" value='SN'>
+                            <input type="text" class="form-control" id="txtConcepto" value=''>
                         </div>
 
                         <div class="form-group">
                             <label class="negrita">Recibido por</label>
-                            <input type="text" class="form-control" id="txtRecibe" value='SN'>
+                            <input type="text" class="form-control" id="txtRecibe" value=''>
                         </div>
 
                         <div class="form-group">
@@ -299,17 +299,17 @@ function getView(){
                                 
                         <div class="form-group">
                             <label class="negrita">Cantidad</label>
-                            <input type="number" class="form-control bg-amarillo text-danger col-6" id="txtImporteC" value=0>
+                            <input type="number" class="form-control bg-amarillo text-danger col-6" id="txtImporteC" value=>
                         </div>
 
                         <div class="form-group">
                             <label class="negrita">Concepto</label>
-                            <input type="text" class="form-control" id="txtConceptoC" value='SN'>
+                            <input type="text" class="form-control" id="txtConceptoC" value=''>
                         </div>
 
                         <div class="form-group">
                             <label class="negrita">Recibido por</label>
-                            <input type="text" class="form-control" id="txtRecibeC" value='SN'>
+                            <input type="text" class="form-control" id="txtRecibeC" value=''>
                         </div>
 
                         <div class="form-group">
@@ -371,6 +371,7 @@ async function addListeners(){
     let btnNuevo = document.getElementById('btnNuevo');
     btnNuevo.addEventListener('click',()=>{
         document.getElementById('cmbProyecto').value = document.getElementById('cmbProyectoCheques').value;
+
         $('#modalTiposCheque').modal('show');
     });
 
@@ -385,10 +386,10 @@ async function addListeners(){
         let codproyecto = document.getElementById('cmbProyecto').value || 0;
         api.proyectos_subcontratistas_combo(codproyecto, 'cmbAcreedor');
 
-        document.getElementById('txtNumeroCheque').value = 0;
-        document.getElementById('txtImporte').value = 0;
-        document.getElementById('txtRecibe').value = 'SN';
-        document.getElementById('txtObs').value = 'SN';
+        document.getElementById('txtNumeroCheque').value = '';
+        document.getElementById('txtImporte').value = '';
+        document.getElementById('txtRecibe').value = '';
+        document.getElementById('txtObs').value = '';
         $('#modalNuevo').modal('show');
     });
 
@@ -399,10 +400,10 @@ async function addListeners(){
         //CARGA LA LISTA DE PROVEEDORES EN EL COMBO ACREEDOR
         api.proveedores_combo('cmbAcreedor');
 
-        document.getElementById('txtNumeroCheque').value = 0;
-        document.getElementById('txtImporte').value = 0;
-        document.getElementById('txtRecibe').value = 'SN';
-        document.getElementById('txtObs').value = 'SN';
+        document.getElementById('txtNumeroCheque').value = '';
+        document.getElementById('txtImporte').value = '';
+        document.getElementById('txtRecibe').value = '';
+        document.getElementById('txtObs').value = '';
         $('#modalNuevo').modal('show');
     });
 
@@ -544,17 +545,22 @@ async function addListeners(){
     document.getElementById('cmbBancoC').innerHTML = funciones.getComboBancos();
 
     let btnMenuChequeContratante = document.getElementById('btnMenuChequeContratante');
-    btnMenuChequeContratante.addEventListener('click',()=>{    
-        GlobalSelectedTipoCheque = 'CONTRATANTE';
-        //CONTRANTE DEL PROYECTO
-        let codigo = document.getElementById('cmbContratanteC').value || 0;
-        api.contratantes_proyectos_combo(codigo,'cmbProyectoC');
-
-        document.getElementById('txtNumeroChequeC').value = 0;
-        document.getElementById('txtImporteC').value = 0;
-        document.getElementById('txtRecibeC').value = 'SN';
-        document.getElementById('txtObsC').value = 'SN';
-        $('#modalNuevoContratante').modal('show');
+    btnMenuChequeContratante.addEventListener('click',()=>{ 
+        if(Number(GlobalNivelUsuario)==1){
+            GlobalSelectedTipoCheque = 'CONTRATANTE';
+            //CONTRANTE DEL PROYECTO
+            let codigo = document.getElementById('cmbContratanteC').value || 0;
+            api.contratantes_proyectos_combo(codigo,'cmbProyectoC');
+    
+            document.getElementById('txtNumeroChequeC').value = '';
+            document.getElementById('txtImporteC').value = '';
+            document.getElementById('txtRecibeC').value = '';
+            document.getElementById('txtObsC').value = '';
+            $('#modalNuevoContratante').modal('show');
+        }else{
+            funciones.AvisoHablado('Usted no puede realizar esta opción, solicitela a su Administrador')
+        }
+        
 
     });
 
