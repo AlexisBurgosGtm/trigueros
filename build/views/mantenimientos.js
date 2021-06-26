@@ -426,13 +426,16 @@ function addListeners(){
         let tipo = document.getElementById('cmbLista').value;
         switch (tipo) {
             case 'BANCOS':
-                GlobalSelectedId = 0;
-                document.getElementById('txtBancosDescripcion').value = "";
-                document.getElementById('txtBancosNumero').value = "";
-                document.getElementById('btnBancosEliminar').style = "visibility:hidden";
+                if(Number(GlobalNivelUsuario)==1){
+                    GlobalSelectedId = 0;
+                    document.getElementById('txtBancosDescripcion').value = "";
+                    document.getElementById('txtBancosNumero').value = "";
+                    document.getElementById('btnBancosEliminar').style = "visibility:hidden";
 
-                $('#modalBancos').modal('show');   
-                         
+                    $('#modalBancos').modal('show');   
+                }else{
+                    funcions.AvisoHablado('Usted no puede ver o editar la lista de Bancos, comuníquese con su administrador');   
+                }
                 break;
             case 'CONTRATANTES':
                 GlobalSelectedId = 0;
@@ -451,12 +454,16 @@ function addListeners(){
                 $('#modalRubros').modal('show');
                 break;
             case 'USUARIOS':
-                GlobalSelectedId = 0;
-                document.getElementById('txtUsuarioUser').value = "";
-                document.getElementById('txtUsuarioPass').value = "";
-                document.getElementById('btnUsuarioEliminar').style = "visibility:hidden";
-                
-                $('#modalUsuarios').modal('show');
+                if(Number(GlobalNivelUsuario)==1){
+                    GlobalSelectedId = 0;
+                    document.getElementById('txtUsuarioUser').value = "";
+                    document.getElementById('txtUsuarioPass').value = "";
+                    document.getElementById('btnUsuarioEliminar').style = "visibility:hidden";
+                    
+                    $('#modalUsuarios').modal('show');
+                }else{
+                    funcions.AvisoHablado('Usted no puede ver o editar la lista de Usuarios, comuníquese con su administrador');   
+                };
                 break;
             case 'PROVEEDORES':
                 GlobalSelectedId = 0;
@@ -929,7 +936,11 @@ async function getListado(tipo){
 
             break;
         case 'BANCOS':
-            await api.config_bancos_lista('tblContainer');           
+            if(Number(GlobalNivelUsuario)==1){
+                await api.config_bancos_lista('tblContainer');
+            }else{
+                funciones.AvisoHablado('Usted no puede ver o editar la lista de Bancos, comuníquese con su administrador')
+            }           
             break;
         case 'CONTRATANTES':
             await api.config_contratantes_lista('tblContainer');
@@ -939,7 +950,11 @@ async function getListado(tipo){
             await api.config_rubros_lista('tblContainer');
             break;
         case 'USUARIOS':
-            await api.config_usuarios_lista('tblContainer');
+            if(Number(GlobalNivelUsuario)==1){
+                await api.config_usuarios_lista('tblContainer');
+            }else{
+                funciones.AvisoHablado('Usted no puede ver o editar la lista de Bancos, comuníquese con su administrador')
+            } 
             break;
         case 'PROVEEDORES':
             await api.config_proveedores_lista('tblContainer');
