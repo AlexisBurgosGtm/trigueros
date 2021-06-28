@@ -1010,6 +1010,8 @@ let api = {
                                 <td>${rows.DESACREEDOR}
                                         <br>
                                         <small class="negrita text-info">${rows.ASIGNACION}</small>
+                                        <br>
+                                        <small class="negrita">Concepto:${rows.CONCEPTO}</small>
                                         <br class="solid">
                                         <small>Creado:${rows.USUARIO}</small>
                                 </td>

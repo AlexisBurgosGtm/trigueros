@@ -66,16 +66,12 @@ let classNavegar = {
         })
     },
     mantenimientos: ()=>{
-            if(GlobalNivelUsuario==1){
                 funciones.loadScript('../views/mantenimientos.js','root')
                 .then(async()=>{
                     lbTituloVista.innerText = 'MANTENIMIENTOS';
                     GlobalSelectedForm = 'mantenimientos';
                     initView();
                 })
-            }else{
-                funciones.AvisoHablado('Usted no puede acceder a esta sección')
-            }
     },
     reportes: ()=>{
         if(GlobalNivelUsuario==1){
