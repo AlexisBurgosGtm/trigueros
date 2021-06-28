@@ -126,7 +126,7 @@ let api = {
                             }else{
                                 stClasDif = 'text-danger';
                             };
-                            str = str + `<tr class="hand border-bottom" onClick="getMenuProyecto(${rows.IDPROYECTO},'${rows.PROYECTO}','${funciones.setMoneda(rows.PRESUPUESTO, 'Q')}');">
+                            str = str + `<tr class="hand border-bottom border-danger shadow" onClick="getMenuProyecto(${rows.IDPROYECTO},'${rows.PROYECTO}','${funciones.setMoneda(rows.PRESUPUESTO, 'Q')}');">
                                         <td>${rows.PROYECTO}
                                             <br><small>${rows.DIRECCION}</small>
                                                <br><small>Creado:${rows.USUARIO}</small>
