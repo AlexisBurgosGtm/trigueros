@@ -37,8 +37,17 @@ function getView(){
         listado : ()=>{
             return `
             <div class="row">
-               <div id="tblProyectos" class="card-columns">
-               </div>
+                <table class="table table-responsive table-hover" id="tablaProyectos">
+                    <thead class="bg-trans-gradient text-white">
+                        <tr>
+                            <td>Proyecto</td>
+                            <td>Presupuesto</td>
+                        </tr>
+                    </thead>
+                    <tbody id="tblProyectos" class="bg-white">
+                    
+                    </tbody>
+                </table>
             </div>
             `
         },

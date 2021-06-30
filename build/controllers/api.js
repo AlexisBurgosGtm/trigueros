@@ -126,6 +126,85 @@ let api = {
                             }else{
                                 stClasDif = 'text-danger';
                             };
+                            str = str + `
+                            
+                            <div class="card shadow hand w-7" onClick="getMenuProyecto(${rows.IDPROYECTO},'${rows.PROYECTO}','${funciones.setMoneda(rows.PRESUPUESTO, 'Q')}');">
+                                <div class="card-header bg-info text-white">
+                                        <h5>${rows.PROYECTO}</h5>
+                                        <small>${rows.DIRECCION}</small>
+                                        <br>
+                                        <small>Creado por:${rows.USUARIO}</small>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <small class="text-info">F.Inicio: ${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHAINICIO))}</small>
+                                        </div>
+                                        <div class="col-6">
+                                            <small class="text-info">F.Fin: ${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHAFIN))}</small>
+                                        </div>
+                                    </div>
+                                    <br><small>Contratante: <b>${rows.DESCONTRATANTE}</b></small>        
+                                    
+                                </div>
+                                <div class="card-footer">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <b>Presupuesto: ${funciones.setMoneda(rows.PRESUPUESTO, 'Q')}</b>    
+                                        </div>
+                                        <div class="col-6">
+                                            <b class="text-success">Recibido:${funciones.setMoneda(rows.RECIBIDO, 'Q')}</b>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <b class="text-danger">Ejecutado:${funciones.setMoneda(rows.EJECUTADO, 'Q')}</b>
+                                            <br>
+                                            <small>${funciones.setMargen((Number(rows.EJECUTADO) / Number(rows.PRESUPUESTO) * 100),'%')}</small>    
+                                        </div>
+                                        <div class="col-6">
+                                            <h5 class='${stClasDif}'>Diferencia:${funciones.setMoneda(diferencia, 'Q')}</h5>
+                                        </div>
+                                    </div>                     
+                                </div>
+
+                            </div>`
+                        })
+                        container.innerHTML = str;
+                    } catch (err) {
+                        console.log(err);
+                        container.innerHTML = 'Cree un proyecto para empezar';
+                    }
+                }, (error) => {
+                        console.log(error);
+                        container.innerHTML = 'Cree un proyecto para empezar';
+                });
+
+    },
+    proyectos_listado_table: (activo,mes,anio,idContainer) => {
+        let container = document.getElementById(idContainer);
+        container.innerHTML = GlobalLoader;
+        let str = '';
+            let data = {
+                activo : activo,
+                mes:mes,
+                anio:anio
+            };
+
+            let url = GlobalUrlBackend + '/proyectos/listaproyectos'
+
+            axios.post(url, data)
+                .then((response) => {
+                    try {
+                        const data = response.data.recordset;
+                        data.map((rows) => {
+                            let diferencia = (Number(rows.RECIBIDO) - Number(rows.EJECUTADO))
+                            let stClasDif = '';
+                            if(Number(diferencia)>=0){
+                                stClasDif = 'text-success';
+                            }else{
+                                stClasDif = 'text-danger';
+                            };
                             str = str + `<tr class="hand border-bottom border-top border-danger" onClick="getMenuProyecto(${rows.IDPROYECTO},'${rows.PROYECTO}','${funciones.setMoneda(rows.PRESUPUESTO, 'Q')}');">
                                         <td>${rows.PROYECTO}
                                             <br><small>${rows.DIRECCION}</small>
