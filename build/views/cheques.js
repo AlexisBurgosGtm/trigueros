@@ -59,7 +59,7 @@ function getView(){
                         </ul>
                         <div class="tab-content py-3">
                             <!-- sub contratistas -->
-                            <div class="tab-pane fade active show" id="panel1" role="tabpanel">
+                            <div class="tab-pane fade active show align-items-left" id="panel1" role="tabpanel">
 
                                 <table class="table table-responsive table-striped table-hover table-bordered" id="">
                                     <thead class="bg-trans-gradient text-white">
@@ -78,40 +78,56 @@ function getView(){
                                             
                             </div>   
                             <!-- proveedores -->
-                            <div class="tab-pane fade" id="panel2" role="tabpanel">
+                            <div class="tab-pane fade  align-items-center" id="panel2" role="tabpanel">
                                 
-                                <table class="table table-responsive table-striped table-hover table-bordered" id="">
-                                    <thead class="bg-secondary text-white">
-                                        <tr>
-                                            <td>FECHA</td>
-                                            <td>CUENTA</td>
-                                            <td>ACREEDOR</td>
-                                            <td>VALOR</td>
-                                            <td></td>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tblCheques2">
+                            <div class="row">
+                                    <div class="col-sm-0 col-lg-4 col-xl-3 col-md-1"></div>
+                                    <div class="col-sm-0 col-lg-8 col-xl-6 col-md-10">
                                     
-                                    </tbody>
-                                </table>
+                                        <table class="table table-responsive table-striped table-hover table-bordered" id="">
+                                            <thead class="bg-secondary text-white">
+                                                <tr>
+                                                    <td>FECHA</td>
+                                                    <td>CUENTA</td>
+                                                    <td>ACREEDOR</td>
+                                                    <td>VALOR</td>
+                                                    <td></td>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tblCheques2">
+                                            
+                                            </tbody>
+                                        </table>
 
+                                    </div>
+                                    <div class="col-sm-0 col-lg-4 col-xl-3 col-md-1"></div>
+                                    
+                                </div>
                             </div>
                             <!-- contratantes -->
-                            <div class="tab-pane fade" id="panel3" role="tabpanel">
-                                <table class="table table-responsive table-striped table-hover table-bordered" id="">
-                                    <thead class="bg-info text-white">
-                                        <tr>
-                                            <td>FECHA</td>
-                                            <td>CUENTA</td>
-                                            <td>ACREEDOR</td>
-                                            <td>VALOR</td>
-                                            <td></td>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tblCheques3">
+                            <div class="tab-pane fade" style="align-self: flex-start" id="panel3" role="tabpanel">
+                               <div class="row">
+                                    <div class="col-sm-0 col-lg-6 col-xl-6 col-md-4"></div>
                                     
-                                    </tbody>
-                                </table>
+                                    <div class="col-sm-12 col-lg-6 col-xl-6 col-md-8">
+                                        <table class="table table-responsive table-striped table-hover table-bordered " id="">
+                                            <thead class="bg-info text-white">
+                                                <tr>
+                                                    <td>FECHA</td>
+                                                    <td>CUENTA</td>
+                                                    <td>ACREEDOR</td>
+                                                    <td>VALOR</td>
+                                                    <td></td>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tblCheques3">
+                                            
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                               </div>
+                                                                     
                             </div>
                         </div>
                     </div> 

@@ -27,9 +27,9 @@ FROM            CONST_ACREEDORES RIGHT OUTER JOIN
 
 
 
-router.post("/xpagosmes", async (req, res) => {
+router.post("/pagosacreedor", async (req, res) => {
 
-    const { mes, anio } = req.body;
+    const { mes, anio, codacreedor } = req.body;
 
     let qry = '';
 
