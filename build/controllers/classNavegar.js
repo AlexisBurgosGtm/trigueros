@@ -77,7 +77,7 @@ let classNavegar = {
         if(GlobalNivelUsuario==1){
             funciones.loadScript('../views/reportes.js','root')
             .then(async()=>{
-                lbTituloVista.innerText = 'REPORTES';
+                lbTituloVista.innerText = 'REPORTES PAGOS EFECTUADOS - RECIBIDOS';
                 GlobalSelectedForm = 'reportes';
                 initView();
             })
@@ -92,5 +92,29 @@ let classNavegar = {
                 GlobalSelectedForm = 'cotizaciones';
                 initView();
         })
+    },
+    reportesSubcontratistas: ()=>{
+        if(GlobalNivelUsuario==1){
+            funciones.loadScript('../views/reportes_subcontratistas.js','root')
+            .then(async()=>{
+                lbTituloVista.innerText = 'PAGOS A SUBCONTRATISTAS';
+                GlobalSelectedForm = 'reportes';
+                initView();
+            })
+        }else{
+            funciones.AvisoHablado('Usted no puede entrar a esta sección')
+        }
+    },
+    reportesRubros: ()=>{
+        if(GlobalNivelUsuario==1){
+            funciones.loadScript('../views/reportes_rubros.js','root')
+            .then(async()=>{
+                lbTituloVista.innerText = 'PAGOS POR RUBRO';
+                GlobalSelectedForm = 'reportes';
+                initView();
+            })
+        }else{
+            funciones.AvisoHablado('Usted no puede entrar a esta sección')
+        }
     }
 }

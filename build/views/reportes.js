@@ -4,6 +4,23 @@ function getView(){
     let view = {
         encabezado: ()=>{
             return `
+
+
+                <div class="row">
+                    <div class="col-5">
+                        <div class="form-group">
+                            <label>Mes</label>
+                            <select class="form-control" id="cmbMes"></select>
+                        </div>
+                    </div>
+                    <div class="col-5">
+                        <div class="form-group">
+                            <label>Año</label>
+                            <select class="form-control" id="cmbAnio"></select>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row">
 
                     <div class="col-3">
@@ -33,21 +50,6 @@ function getView(){
                         </button>
                     </div>
 
-                </div>
-
-                <div class="row">
-                    <div class="col-5">
-                        <div class="form-group">
-                            <label>Mes</label>
-                            <select class="form-control" id="cmbMes"></select>
-                        </div>
-                    </div>
-                    <div class="col-5">
-                        <div class="form-group">
-                            <label>Año</label>
-                            <select class="form-control" id="cmbAnio"></select>
-                        </div>
-                    </div>
                 </div>
             `
         },
@@ -196,6 +198,13 @@ function getMenuRubros(){
 };
 
 function getMenuBusqueda(){
+
+};
+
+
+function getReporteSubcontratistas(){
+
+    
 
 };
 

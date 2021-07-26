@@ -15,6 +15,8 @@ let btnMenuReportes = document.getElementById('btnMenuReportes');
 let btnMenuMantenimientos = document.getElementById('btnMenuMantenimientos');
 let btnMenuCaja = document.getElementById('btnMenuCaja');
 let btnMenuCotizaciones = document.getElementById('btnMenuCotizaciones');
+let btnMenuReportesSubcontratistas = document.getElementById('btnMenuReportesSubcontratistas');
+let btnMenuReportesRubros = document.getElementById('btnMenuReportesRubros');
 
 
 btnMenuProyectos.addEventListener('click',()=>{
@@ -29,10 +31,6 @@ btnMenuContratos.addEventListener('click',()=>{
     classNavegar.contratos();
 });
 
-btnMenuReportes.addEventListener('click',()=>{
-    classNavegar.reportes();
-});
-
 btnMenuMantenimientos.addEventListener('click',()=>{
     classNavegar.mantenimientos();
 });
@@ -43,6 +41,18 @@ btnMenuCaja.addEventListener('click',()=>{
 
 btnMenuCotizaciones.addEventListener('click',()=>{
     classNavegar.cotizaciones();
+});
+
+btnMenuReportes.addEventListener('click',()=>{
+    classNavegar.reportes();
+});
+
+btnMenuReportesSubcontratistas.addEventListener('click',()=>{
+    classNavegar.reportesSubcontratistas();
+});
+
+btnMenuReportesRubros.addEventListener('click',()=>{
+    classNavegar.reportesRubros();
 });
 
 
