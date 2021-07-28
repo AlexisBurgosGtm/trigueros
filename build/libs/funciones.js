@@ -830,6 +830,7 @@ let funciones = {
       <option value="BANCO INTERNACIONAL">BANCO INTERNACIONAL</option>
       <option value="BANTRAB">BANCO DE LOS TRABAJADORES</option>
       <option value="BANCO AZTECA">BANCO AZTECA</option>
+      <option value="BANCO BAC">BANCO BAC CREDOMATIC</option>
       `
     },
     getComboMedidasProductos: ()=>{
