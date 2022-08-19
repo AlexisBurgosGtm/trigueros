@@ -235,9 +235,11 @@ function getView(){
         
                         <div class="form-group">
                             <label class="negrita">Concepto</label>
-                            <input type="text" class="form-control" id="txtConcepto" value=''>
+                            <input type="text" class="form-control" id="txtConcepto" value='SN'>
                         </div>
 
+                      
+                        
                         <div class="form-group">
                             <label class="negrita">Recibido por</label>
                             <input type="text" class="form-control" id="txtRecibe" value=''>
@@ -247,20 +249,27 @@ function getView(){
                             <label class="negrita">Observaciones</label>
                             <input type="text" class="form-control" id="txtObs">
                         </div>
+
+                       
+
+                        <div class="form-group" id="nofact">
+                            <label class="negrita">No. Factura / No. Recibo</label>
+                            <input type="text" class="form-control" id="txtNoFactura">
+                        </div>
                         
                         <hr class="solid"><hr class="solid">
 
                         <div class="row">
                             <div class="col-6">
-                                <button class="btn btn-outline-secondary btn-xl" data-dismiss="modal">
+                                <button class="btn btn-outline-secondary btn-xl btn-circle hand shadow" data-dismiss="modal">
                                     <i class="fal fa-times"></i>
-                                    Cancelar
+                                    
                                 </button>    
                             </div>
                             <div class="col-6">
-                                <button class="btn btn-primary btn-xl" id="btnGuardarCheque">
+                                <button class="btn btn-primary btn-xl btn-circle hand shadow" id="btnGuardarCheque">
                                     <i class="fal fa-save"></i>
-                                    Guardar
+                                    
                                 </button>    
                             </div>
                         </div>
@@ -337,15 +346,15 @@ function getView(){
 
                         <div class="row">
                             <div class="col-6">
-                                <button class="btn btn-outline-secondary btn-xl" data-dismiss="modal">
+                                <button class="btn btn-outline-secondary btn-xl btn-circle hand shadow" data-dismiss="modal">
                                     <i class="fal fa-times"></i>
-                                    Cancelar
+                                    
                                 </button>    
                             </div>
                             <div class="col-6">
-                                <button class="btn btn-primary btn-xl" id="btnGuardarChequeC">
+                                <button class="btn btn-primary btn-xl btn-circle hand shadow" id="btnGuardarChequeC">
                                     <i class="fal fa-save"></i>
-                                    Guardar
+                                    
                                 </button>    
                             </div>
                         </div>
@@ -406,6 +415,10 @@ async function addListeners(){
         document.getElementById('txtImporte').value = '';
         document.getElementById('txtRecibe').value = '';
         document.getElementById('txtObs').value = '';
+        
+        document.getElementById('nofact').style = "visibility:hidden";
+        document.getElementById('txtNoFactura').value = 'SN';
+
         $('#modalNuevo').modal('show');
     });
 
@@ -420,6 +433,10 @@ async function addListeners(){
         document.getElementById('txtImporte').value = '';
         document.getElementById('txtRecibe').value = '';
         document.getElementById('txtObs').value = '';
+
+        document.getElementById('nofact').style = "visibility:visible";
+        document.getElementById('txtNoFactura').value = 'SN';
+
         $('#modalNuevo').modal('show');
     });
 
@@ -452,6 +469,11 @@ async function addListeners(){
         funciones.Confirmacion('¿Está seguro que desea Guardar este Cheque?')
         .then((value)=>{
             if(value==true){
+
+
+                btnGuardarCheque.disabled = true;
+                btnGuardarCheque.innerHTML = ' <i class="fal fa-save fa-spin"></i>';
+
                 let codproyecto = document.getElementById('cmbProyecto').value || 0;
                 let nocontrato = document.getElementById('cmbAcreedor').value || 0;
                 let codcuenta = document.getElementById('cmbCuenta');
@@ -461,17 +483,22 @@ async function addListeners(){
                 let recibe = document.getElementById('txtRecibe');
                 let rubro = document.getElementById('cmbRubro');
                 let obs = document.getElementById('txtObs');
+                let nofactura =  document.getElementById('txtNoFactura').value || 'SN';
 
                 if(obs.value==''){obs.value='SN'};
                 if(recibe.value==''){recibe.value='SN'};
 
                 api.verificar_nocheque(codcuenta.value,numero.value)
                 .then(()=>{
+
                     if(numero.value==''){
                         funciones.AvisoError('Indique el número de cheque emitido');
+
+                        btnGuardarCheque.disabled = false;
+                        btnGuardarCheque.innerHTML = ' <i class="fal fa-save"></i>';
                     }else{
                         if(Number(cantidad.value)>0){
-                            btnGuardarCheque.innerHTML = GlobalLoader;
+                            //btnGuardarCheque.innerHTML = GlobalLoader;
                             switch (GlobalSelectedTipoCheque) {
                                 case 'SUBCONTRATISTA':
                                     api.cheques_contratista_insertar(
@@ -489,6 +516,10 @@ async function addListeners(){
                                         concepto.value)
                                     .then(()=>{
                                         funciones.Aviso('Cheque creado exitosamente!!');
+                                        
+                                        btnGuardarCheque.disabled = false;
+                                        btnGuardarCheque.innerHTML = ' <i class="fal fa-save"></i>';
+
                                         $('#modalNuevo').modal('hide');
     
                                         let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
@@ -496,6 +527,9 @@ async function addListeners(){
                                     })
                                     .catch(()=>{
                                         funciones.AvisoError('No se pudo crear el cheque');
+
+                                        btnGuardarCheque.disabled = false;
+                                        btnGuardarCheque.innerHTML = ' <i class="fal fa-save"></i>';
                                     })        
                                     break;
                                 case 'PROVEEDOR':
@@ -511,9 +545,14 @@ async function addListeners(){
                                         obs.value,
                                         rubro.value,
                                         'PROVEEDOR',
-                                        concepto.value)
+                                        concepto.value,
+                                        nofactura)
                                     .then(()=>{
                                         funciones.Aviso('Cheque creado exitosamente!!');
+
+                                        btnGuardarCheque.disabled = false;
+                                        btnGuardarCheque.innerHTML = ' <i class="fal fa-save"></i>';
+
                                         $('#modalNuevo').modal('hide');
     
                                         let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
@@ -521,12 +560,18 @@ async function addListeners(){
                                     })
                                     .catch(()=>{
                                         funciones.AvisoError('No se pudo crear el cheque');
+
+                                        btnGuardarCheque.disabled = false;
+                                        btnGuardarCheque.innerHTML = ' <i class="fal fa-save"></i>';
                                     })        
                                     break;                            
                             }
-                            btnGuardarCheque.innerHTML = `<i class="fal fa-save"></i>Guardar`;
+                            //btnGuardarCheque.innerHTML = `<i class="fal fa-save"></i>`;
                         }else{
                             funciones.AvisoError('Indique el monto/cantidad del cheque');
+
+                            btnGuardarCheque.disabled = false;
+                            btnGuardarCheque.innerHTML = ' <i class="fal fa-save"></i>';
                         };
                     };
                 })
@@ -613,7 +658,11 @@ async function addListeners(){
                         funciones.AvisoError('Indique el número de cheque emitido');
                     }else{
                         if(Number(cantidad.value)>0){
-                            btnGuardarChequeC.innerHTML = GlobalLoader;
+                            //btnGuardarChequeC.innerHTML = GlobalLoader;
+
+                            btnGuardarChequeC.disabled = true;
+                            btnGuardarChequeC.innerHTML = ' <i class="fal fa-save fa-spin"></i>';
+
                             api.cheques_contratante_insertar(
                                         codproyecto,
                                         funciones.getFecha('txtFechaC'),
@@ -635,7 +684,9 @@ async function addListeners(){
                                     .catch(()=>{
                                         funciones.AvisoError('No se pudo crear el cheque');
                                     })
-                                btnGuardarChequeC.innerHTML = `<i class="fal fa-save"></i>Guardar`;
+                                //btnGuardarChequeC.innerHTML = `<i class="fal fa-save"></i>Guardar`;
+                                btnGuardarChequeC.disabled = false;
+                                btnGuardarChequeC.innerHTML = ' <i class="fal fa-save"></i>';
                             
                         }else{
                             funciones.AvisoError('Indique el monto/cantidad del cheque');

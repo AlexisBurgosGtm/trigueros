@@ -2,7 +2,7 @@ function getView(){
     let view = {
         login : ()=>{
             return `
-                <div class="card col-sm-12 col-md-4 col-lg-3 col-xl-3 shadow border-info-left border-info-bottom">
+                <div class="card col-sm-12 col-md-4 col-lg-3 col-xl-3 shadow card-rounded">
                     <div class="card-header text-center bg-white border-bottom ">
                         <img src="../img/favicon.png" widht="80" height="80">
                     </div>
@@ -18,12 +18,16 @@ function getView(){
                         </div>
                         <br>
                         <div class="form-group text-right">
-                            <button class="btn btn-info btn-lg btn-rounded" id="btnIniciar">
+                            <button class="btn btn-info btn-xl btn-circle hand shadow" id="btnIniciar">
                                 <i class="fal fa-lock"></i>
-                                Ingresar
+                                
                             </button>
                         </div>
+
                         <br>
+                        <div class="row">
+                            <small class="text-info">v8.2022</small>
+                        </div>
                     </div>
                 </div>           
             `
@@ -41,7 +45,8 @@ function addListeners(){
     let btnIniciar  = document.getElementById('btnIniciar');
     btnIniciar.addEventListener('click', () => {
         
-        btnIniciar.innerHTML = GlobalLoader;
+        btnIniciar.innerHTML = '<i class="fal fa-lock fa-spin"></i>';
+        btnIniciar.disabled = true;
 
         let us = document.getElementById('txtUsuario').value;
         let ps = document.getElementById('txtPass').value;
@@ -73,7 +78,9 @@ function addListeners(){
             })
             .catch(() => {
                 funciones.AvisoError('Usuario o contraseña incorrectos');
-                btnIniciar.innerHTML = `<i class="fal fa-lock"></i>Ingresar`;
+
+                btnIniciar.innerHTML = `<i class="fal fa-lock"></i>`;
+                btnIniciar.disabled = false;
                 
             })
         

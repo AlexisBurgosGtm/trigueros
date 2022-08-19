@@ -34,7 +34,7 @@ router.post("/nuevochequecontratante", async (req, res) => {
 
 router.post("/nuevo", async (req, res) => {
     
-    const {idproyecto,fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro,tipo,concepto,usuario} = req.body;
+    const {idproyecto,fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro,tipo,concepto,usuario,nofactura} = req.body;
 
     let qry = '';
 
@@ -44,13 +44,13 @@ router.post("/nuevo", async (req, res) => {
         CODACREEDOR,CODCONTRATANTE,CODCUENTA,
         BANCO,NUMERO,CANTIDAD,
         RECIBE,OBS,RUBRO,
-        TIPOCHEQUE,CONCEPTO,USUARIO) 
+        TIPOCHEQUE,CONCEPTO,USUARIO,NOFACTURA) 
         VALUES 
         (${idproyecto},'${fecha}',${nocontrato},
         ${codacreedor},0,${codcuenta},
         'SN','${numero}', ${(cantidad*-1)},
         '${recibe}','${obs}','${rubro}',
-        '${tipo}','${concepto}','${usuario}')`
+        '${tipo}','${concepto}','${usuario}','${nofactura}')`
 
     execute.Query(res, qry);
 

@@ -24,31 +24,6 @@ let funciones = {
       });
 
     },
-    GetDataNIS: async (NIS,idTxtPropietario,idTxtDireccion)=>{
-
-      return new Promise((resolve, reject) => {
-        
-        let url = 'https://oficinavirtual.energuate.com/mifactura/GetHistorial?nisrad=' + NIS;
-        
-        axios.get(url)
-        .then((response) => {
-            let json = response.data.dataPersonBill;
-            //console.log(response.data.dataPersonBill);
-            
-            //document.getElementById(idTxtPropietario).value = json.TITULAR_SERVICIO;
-            //document.getElementById(idTxtDireccion).value = json.DIRECCION_SERVICIO;    
-  
-            resolve(json);
-        }, (error) => {
-            console.log(error);
-            reject(error);
-        });
-  
-  
-  
-      });
-
-    },
     instalationHandlers: (idBtnInstall)=>{
       //INSTALACION APP
       let btnInstalarApp = document.getElementById(idBtnInstall);
@@ -858,8 +833,31 @@ let funciones = {
       } else if (elem.msRequestFullscreen) { /* IE/Edge */
         elem.msRequestFullscreen();
       }
-    }
-
+    },
+    convertDateNormal(date) {
+      const [yy, mm, dd] = date.split(/-/g);
+      return `${dd}/${mm}/${yy}`.replace('T00:00:00.000Z', '');
+    },
+    imprimirSelec:(nombreDiv)=>{
+      var contenido= document.getElementById(nombreDiv).innerHTML;
+      var contenidoOriginal= document.body.innerHTML;
+  
+      document.body.innerHTML = contenido;
+  
+      window.print();
+  
+      document.body.innerHTML = contenidoOriginal;
+    },
+    limpiarTexto: (texto) =>{
+      var ignorarMayMin = true;
+      var reemplazarCon = " pulg";
+      var reemplazarQue = '"';
+      reemplazarQue = reemplazarQue.replace(/[\\^$.|?*+()[{]/g, "\\$&"),
+      reemplazarCon = reemplazarCon.replace(/\$(?=[$&`"'\d])/g, "$$$$"),
+      modif = "g" + (ignorarMayMin ? "i" : ""),
+      regex = new RegExp(reemplazarQue, modif);
+      return texto.replace(regex,reemplazarCon);
+    }    
 };
 
 //export default funciones;

@@ -972,7 +972,8 @@ let api = {
                 rubro:rubro,
                 tipo:tipo,
                 concepto:concepto,
-                usuario:GlobalUsuario
+                usuario:GlobalUsuario,
+                nofactura:'SN'
             };
 
             let url = GlobalUrlBackend + '/cheques/nuevo'
@@ -995,7 +996,7 @@ let api = {
 
         });
     },
-    cheques_proveedor_insertar: (codproyecto,fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro,tipo,concepto) => {
+    cheques_proveedor_insertar: (codproyecto,fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro,tipo,concepto,nofactura) => {
         return new Promise((resolve, reject) => {
 
             let data = {
@@ -1011,7 +1012,8 @@ let api = {
                 rubro:rubro,
                 tipo:tipo,
                 concepto:concepto,
-                usuario:GlobalUsuario
+                usuario:GlobalUsuario,
+                nofactura:nofactura
             };
 
             let url = GlobalUrlBackend + '/cheques/nuevo'
