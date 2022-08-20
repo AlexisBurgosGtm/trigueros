@@ -10,7 +10,7 @@
 const configx = {
 	user: 'iEx',
 	password: 'iEx',
-	server: 'DEVELOPER\\SQLDEV',
+	server: 'DESKTOP-HB3TMU8\\SQL14',
 	database: 'DB_A6478C_autoventa',
 	pool: {	max: 100,	min: 0,	idleTimeoutMillis: 30000}
 };

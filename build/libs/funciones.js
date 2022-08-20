@@ -867,6 +867,56 @@ let funciones = {
               //console.log("No estás usando un móvil");
             return 'pc';
           }
+    },
+    exportarPDF:(iddiv,archivo)=>{
+
+      var doc = new jsPDF();
+      var elementHTML = $(iddiv).html();
+      var specialElementHandlers = {
+        '#elementH': function (element, renderer) {
+          return true;
+        }
+      };
+      doc.fromHTML(elementHTML, 15, 15, {
+            'width': 170,
+            'elementHandlers': specialElementHandlers
+        });
+      
+      // Save the PDF
+      doc.save(archivo.toString() + '.pdf');
+
+
+
+      return;
+
+      var pdf = new jsPDF('p', 'pt', 'letter');
+      //source = $('#' + iddiv.toString())[0];
+      source = document.getElementById(iddiv);
+
+      specialElementHandlers = {
+          '#bypassme': function (element, renderer) {
+              return true
+          }
+      };
+      margins = {
+          top: 80,
+          bottom: 60,
+          left: 40,
+          width: 522
+      };
+
+      pdf.fromHTML(
+          source, 
+          margins.left, // x coord
+          margins.top, { // y coord
+              'width': margins.width, 
+              'elementHandlers': specialElementHandlers
+          },
+
+          function (dispose) {
+              pdf.save(archivo.toString() + '.pdf');
+          }, margins
+      );
     }    
 };
 

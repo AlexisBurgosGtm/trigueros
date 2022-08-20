@@ -35,6 +35,20 @@ function getView(){
          
                 </div>
 
+                <div class="row">
+                    <div class="col-4">
+                        <button class="btn btn-success hand shadow" onclick="funciones.exportTableToExcel('tblRep1','ReporteRubros')">
+                            <i class="fal fa-file-excel"></i>Exportar Excel
+                        </button>
+                    </div>
+                    <div class="col-4">
+                        <button class="btn btn-danger hand shadow" onclick="funciones.exportarPDF('#divTable1','ReporteRubros')">
+                            <i class="fal fa-file-pdf"></i>Exportar PDF
+                        </button>
+                    </div>
+                    
+                </div>
+
         
             `
         },
@@ -42,9 +56,9 @@ function getView(){
             return `
                 <hr class="solid">
 
-                <div class="row" id="">
+                <div class="row" id="divTable1">
                     <div class="table-responsive">
-                        <table class="table table-responsive table-striped table-hover table-bordered" id="">
+                        <table class="table table-responsive table-striped table-hover table-bordered" id="tblRep1">
                             <thead class="bg-info text-white">
                                 <tr>
                                     <td>FECHA</td>

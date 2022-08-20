@@ -128,45 +128,48 @@ let api = {
                             };
                             str = str + `
                             
-                            <div class="card shadow hand w-7 card-rounded" onClick="getMenuProyecto(${rows.IDPROYECTO},'${rows.PROYECTO}','${funciones.setMoneda(rows.PRESUPUESTO, 'Q')}');">
-                                <div class="card-header bg-info text-white">
-                                        <h5>${rows.PROYECTO}</h5>
-                                        <small>${rows.DIRECCION}</small>
-                                        <br>
-                                        <small>Creado por:${rows.USUARIO}</small>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <small class="text-info">F.Inicio: ${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHAINICIO))}</small>
-                                        </div>
-                                        <div class="col-6">
-                                            <small class="text-info">F.Fin: ${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHAFIN))}</small>
-                                        </div>
-                                    </div>
-                                    <br><small>Contratante: <b>${rows.DESCONTRATANTE}</b></small>        
-                                    
-                                </div>
-                                <div class="card-footer">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <b>Presupuesto: ${funciones.setMoneda(rows.PRESUPUESTO, 'Q')}</b>    
-                                        </div>
-                                        <div class="col-6">
-                                            <b class="text-success">Recibido:${funciones.setMoneda(rows.RECIBIDO, 'Q')}</b>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <b class="text-danger">Ejecutado:${funciones.setMoneda(rows.EJECUTADO, 'Q')}</b>
+                            <div class="card card-rounded shadow hand border-top-rounded" onClick="getMenuProyecto(${rows.IDPROYECTO},'${rows.PROYECTO}','${funciones.setMoneda(rows.PRESUPUESTO, 'Q')}');">
+                               
+                                    <div class="card-body bg-info text-white">
+                                            <h5>${rows.PROYECTO}</h5>
+                                            <small>${rows.DIRECCION}</small>
                                             <br>
-                                            <small>${funciones.setMargen((Number(rows.EJECUTADO) / Number(rows.PRESUPUESTO) * 100),'%')}</small>    
+                                            <small>Creado por:${rows.USUARIO}</small>
+                                    </div>
+                                    
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <small class="text-info">F.Inicio: ${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHAINICIO))}</small>
+                                            </div>
+                                            <div class="col-6">
+                                                <small class="text-info">F.Fin: ${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHAFIN))}</small>
+                                            </div>
                                         </div>
-                                        <div class="col-6">
-                                            <h5 class='${stClasDif}'>Diferencia:${funciones.setMoneda(diferencia, 'Q')}</h5>
+                                        <br><small>Contratante: <b>${rows.DESCONTRATANTE}</b></small>        
+                                        
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <b>Presupuesto: ${funciones.setMoneda(rows.PRESUPUESTO, 'Q')}</b>    
+                                            </div>
+                                            <div class="col-6">
+                                                <b class="text-success">Recibido:${funciones.setMoneda(rows.RECIBIDO, 'Q')}</b>
+                                            </div>
                                         </div>
-                                    </div>                     
-                                </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <b class="text-danger">Ejecutado:${funciones.setMoneda(rows.EJECUTADO, 'Q')}</b>
+                                                <br>
+                                                <small>${funciones.setMargen((Number(rows.EJECUTADO) / Number(rows.PRESUPUESTO) * 100),'%')}</small>    
+                                            </div>
+                                            <div class="col-6">
+                                                <h5 class='${stClasDif}'>Diferencia:${funciones.setMoneda(diferencia, 'Q')}</h5>
+                                            </div>
+                                        </div>                     
+                                    </div>
 
                             </div>`
                         })
@@ -1036,8 +1039,7 @@ let api = {
 
         });
     },
-    cheques_contratante_insertar: (codproyecto,fecha,
-        codcontratante,banco,numero,cantidad,recibe,obs,tipo,concepto) => {
+    cheques_contratante_insertar: (codproyecto,fecha, codcontratante,banco,numero,cantidad,recibe,obs,tipo,concepto) => {
                     
         return new Promise((resolve, reject) => {
 
@@ -2630,6 +2632,7 @@ let api = {
                                         <small>Cuenta No. ${rows.NOCUENTA}</small>
                                 </td>
                                 <td>${rows.DESACREEDOR}
+                                           
                                         <br>
                                         <small class="negrita text-info">${rows.ASIGNACION}</small>
                                         <br class="solid">
@@ -2652,7 +2655,8 @@ let api = {
                                         <br>
                                         <small>Cuenta No. ${rows.NOCUENTA}</small>
                                 </td>
-                                <td>${rows.DESACREEDOR}
+                                <td>${rows.DESACREEDOR2}
+                                        
                                         <br>
                                         <small class="negrita text-info">${rows.ASIGNACION}</small>
                                         <br class="solid">

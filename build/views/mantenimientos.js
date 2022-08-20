@@ -62,10 +62,18 @@ function getView(){
                                     <label>Clave de verificaciones</label>
                                     <input type="password" class="form-control" id="txtClave">
                                 </div>
-                                <div class="form-group">
-                                    <button class="btn btn-outline-danger btn-md" id="btnClave">
-                                        <i class="fal fa-lock"></i>Cambiar Clave
-                                    </button>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <button class="btn btn-outline-danger btn-xl btn-circle shadow hand" data-dismiss="modal">
+                                            <i class="fal fa-arrow-left"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button class="btn btn-outline-danger btn-xl btn-circle hand shadow" id="btnClave">
+                                            <i class="fal fa-save"></i>
+                                        </button>
+                                    </div>
+                                    
                                 </div>
                             </div>
 
@@ -395,13 +403,21 @@ function addListeners(){
                 if(Number(GlobalNivelUsuario)==1){
                     let nueva = document.getElementById('txtClave').value;
                     
+                    btnClave.disabled = true;
+                    btnClave.innerHTML = ' <i class="fal fa-save fa-spin"></i>';
+
                     api.config_setClave(nueva)
                     .then(()=>{
                         GlobalConfigClave = nueva;
-                        funciones.Aviso('Clave cambiada exitosamente!!')
+                        funciones.Aviso('Clave cambiada exitosamente!!');
+                        
+                        btnClave.disabled = false;
+                        btnClave.innerHTML = ' <i class="fal fa-save"></i>';
                     })
                     .catch(()=>{
-                        funciones.AvisoError('No se pudo cambiar la clave')
+                        funciones.AvisoError('No se pudo cambiar la clave');
+                        btnClave.disabled = false;
+                        btnClave.innerHTML = ' <i class="fal fa-save"></i>';
                     })
                 }else{
                     funciones.AvisoHablado('Su nivel de usuario no le permite cambiar esta clave')

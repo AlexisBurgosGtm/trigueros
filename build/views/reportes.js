@@ -136,8 +136,23 @@ function getReportEmitidos(mes,anio){
                             <hr class="solid">
                         
                         </div> 
-                        <div class="table-responsive">
-                            <table class="table table-responsive table-striped table-hover table-bordered" id="">
+                        
+                        <div class="row">
+                            <div class="col-4">
+                                <button class="btn btn-success hand shadow" onclick="funciones.exportTableToExcel('tblRep1','ReportePagosEmitidos')">
+                                    <i class="fal fa-file-excel"></i>Exportar Excel
+                                </button>
+                            </div>
+                            <div class="col-4">
+                                <button class="btn btn-danger hand shadow" onclick="funciones.exportarPDF('#divTable1','ReportePagosEmitidos')">
+                                    <i class="fal fa-file-pdf"></i>Exportar PDF
+                                </button>
+                            </div>
+                            
+                        </div>
+
+                        <div class="table-responsive" id="divTable1">
+                            <table class="table table-responsive table-striped table-hover table-bordered" id="tblRep1">
                                 <thead class="bg-info text-white">
                                     <tr>
                                         <td>FECHA</td>
@@ -171,8 +186,23 @@ function getReportRecibidos(mes,anio){
                                     </div>
                                 </div>
                             </div> 
-                            <div class="table-responsive">
-                                <table class="table table-responsive table-striped table-hover table-bordered" id="">
+
+                            <div class="row">
+                                <div class="col-4">
+                                    <button class="btn btn-success hand shadow" onclick="funciones.exportTableToExcel('tblRep2','ReportePagosRecibidos')">
+                                        <i class="fal fa-file-excel"></i>Exportar Excel
+                                    </button>
+                                </div>
+                                <div class="col-4">
+                                    <button class="btn btn-danger hand shadow" onclick="funciones.exportarPDF('#divTable2','ReportePagosRecibidos')">
+                                        <i class="fal fa-file-pdf"></i>Exportar PDF
+                                    </button>
+                                </div>
+                                
+                            </div>
+                            
+                            <div class="table-responsive" id="divTable2">
+                                <table class="table table-responsive table-striped table-hover table-bordered" id="tblRep2">
                                     <thead class="bg-success text-white">
                                         <tr>
                                             <td>FECHA</td>
