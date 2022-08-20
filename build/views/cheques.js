@@ -503,7 +503,7 @@ async function addListeners(){
                                 case 'SUBCONTRATISTA':
                                     api.cheques_contratista_insertar(
                                         codproyecto,
-                                        funciones.getFecha('txtFecha'),
+                                        funciones.devuelveFecha('txtFecha'),
                                         nocontrato,
                                         0,
                                         codcuenta.value,
@@ -535,7 +535,7 @@ async function addListeners(){
                                 case 'PROVEEDOR':
                                     api.cheques_proveedor_insertar(
                                         codproyecto,
-                                        funciones.getFecha('txtFecha'),
+                                        funciones.devuelveFecha('txtFecha'),
                                         0,
                                         nocontrato,
                                         codcuenta.value,
@@ -665,7 +665,7 @@ async function addListeners(){
 
                             api.cheques_contratante_insertar(
                                         codproyecto,
-                                        funciones.getFecha('txtFechaC'),
+                                        funciones.devuelveFecha('txtFechaC'),
                                         codcontratante,
                                         cmbBancoC.value,
                                         numero.value,
