@@ -1118,6 +1118,8 @@ let api = {
                                 <td>${rows.BANCO}
                                         <br>
                                         <small>Cuenta No. ${rows.NOCUENTA}</small>
+                                        <br>
+                                        <small>No.Factura/Recibo: ${rows.NOFACTURA}</small>
                                 </td>
                                 <td>${rows.DESACREEDOR}
                                         <br>
