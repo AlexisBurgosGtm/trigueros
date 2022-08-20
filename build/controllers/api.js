@@ -128,7 +128,7 @@ let api = {
                             };
                             str = str + `
                             
-                            <div class="card shadow hand w-7" onClick="getMenuProyecto(${rows.IDPROYECTO},'${rows.PROYECTO}','${funciones.setMoneda(rows.PRESUPUESTO, 'Q')}');">
+                            <div class="card shadow hand w-7 card-rounded" onClick="getMenuProyecto(${rows.IDPROYECTO},'${rows.PROYECTO}','${funciones.setMoneda(rows.PRESUPUESTO, 'Q')}');">
                                 <div class="card-header bg-info text-white">
                                         <h5>${rows.PROYECTO}</h5>
                                         <small>${rows.DIRECCION}</small>
