@@ -26,7 +26,7 @@ function getView(){
 
                         <br>
                         <div class="row">
-                            <small class="text-info">v8.2022</small>
+                            <small class="text-info">v8.2022 (22)</small>
                         </div>
                     </div>
                 </div>           

@@ -49,6 +49,14 @@ let classNavegar = {
             initView();
         })
     },
+    cuentas: ()=>{
+        funciones.loadScript('../views/cuentas.js','root')
+        .then(async()=>{
+            lbTituloVista.innerText = 'REPORTE DE CUENTAS BANCARIAS';
+            GlobalSelectedForm = 'cuentas';
+            initView();
+        })
+    },
     caja: ()=>{
         funciones.loadScript('../views/caja.js','root')
         .then(async()=>{

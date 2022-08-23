@@ -17,7 +17,7 @@ let btnMenuCaja = document.getElementById('btnMenuCaja');
 let btnMenuCotizaciones = document.getElementById('btnMenuCotizaciones');
 let btnMenuReportesSubcontratistas = document.getElementById('btnMenuReportesSubcontratistas');
 let btnMenuReportesRubros = document.getElementById('btnMenuReportesRubros');
-
+let btnMenuReporteCuentas = document.getElementById('btnMenuReporteCuentas');
 
 btnMenuProyectos.addEventListener('click',()=>{
     classNavegar.proyectos();
@@ -54,6 +54,10 @@ btnMenuReportesSubcontratistas.addEventListener('click',()=>{
 btnMenuReportesRubros.addEventListener('click',()=>{
     classNavegar.reportesRubros();
 });
+
+btnMenuReporteCuentas.addEventListener('click',()=>{
+    classNavegar.cuentas();
+})
 
 
 

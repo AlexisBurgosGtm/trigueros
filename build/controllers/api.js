@@ -1306,6 +1306,7 @@ let api = {
     cuentas_combo: (idContainer) => {
         let container = document.getElementById(idContainer);
         
+        
         let str = '';
 
             let url = GlobalUrlBackend + '/bancos/listado'
@@ -1326,6 +1327,39 @@ let api = {
                         container.innerHTML = '<option value="SN">Error..</option>';
                 });
 
+    },
+    cuentas_combo_promise: (idContainer) => {
+        let container = document.getElementById(idContainer);
+        
+        let str = '';
+
+        return new Promise((resolve, reject) => {
+            let url = GlobalUrlBackend + '/bancos/listado'
+
+            axios.post(url)
+                .then((response) => {
+                    try {
+                        const data = response.data.recordset;
+                        data.map((rows) => {
+                            str = str + `<option value="${rows.CODCUENTA}">${rows.BANCO} (No. ${rows.NUMERO})</option>`
+                        })
+                        container.innerHTML = str;
+                        resolve();
+                    } catch (err) {
+                        container.innerHTML = '<option value="SN">No hay datos..</option>';
+                        reject();
+                    }
+                }, (error) => {
+                        console.log(error);
+                        container.innerHTML = '<option value="SN">Error..</option>';
+                        reject();
+                });
+
+
+        })
+      
+
+        
     },
     config_bancos_lista: (idContainer)=>{
         let container = document.getElementById(idContainer);
