@@ -8,17 +8,17 @@ function getView(){
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label>Usuario</label>
+                            <label class="negrita">Usuario</label>
                             <input type="text" class="input-md form-control border-info" id="txtUsuario">
                         </div>
                         <br>
                         <div class="form-group">
-                            <label>Contraseña</label>
+                            <label class="negrita">Contraseña</label>
                             <input type="password" class="form-control border-info" id="txtPass">
                         </div>
                         <br>
                         <div class="form-group text-right">
-                            <button class="btn btn-info btn-xl btn-circle hand shadow" id="btnIniciar">
+                            <button class="btn btn-owner btn-xl btn-circle hand shadow" id="btnIniciar">
                                 <i class="fal fa-lock"></i>
                                 
                             </button>
@@ -26,7 +26,7 @@ function getView(){
 
                         <br>
                         <div class="row">
-                            <small class="text-info">v8.2022 (22)</small>
+                            <small class="text-info">${version}</small>
                         </div>
                     </div>
                 </div>           

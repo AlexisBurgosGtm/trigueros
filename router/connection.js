@@ -7,15 +7,6 @@
 };
 
 
-const configx = {
-	user: 'iEx',
-	password: 'iEx',
-	server: 'DESKTOP-HB3TMU8\\SQL14',
-	database: 'DB_A6478C_autoventa',
-	pool: {	max: 100,	min: 0,	idleTimeoutMillis: 30000}
-};
-
-
 const sql = require('mssql');
 
 let execute = {
@@ -28,7 +19,8 @@ let execute = {
 			new sql.Request(pool1)
 			.query(sqlqry, (err, result) => {
 				if(err){
-					res.send(err.message)
+					//res.send(err.message)
+					res.send('error');
 				}else{
 					res.send(result);
 				}					
@@ -38,49 +30,13 @@ let execute = {
 		  pool1.on('error', err => {
 			  console.log('error sql = ' + err);
 			  sql.close();
+			  res.send('error');
 		  })
 		} catch (error) {
-		  res.send('Error al ejecutar la consulta: ' + error)   
+		  //res.send('Error al ejecutar la consulta: ' + error)   
 		  sql.close();
+		  res.send('error');
 		}
-	},
-	QueryNoSend : (res,sqlqry)=>{
-		
-		//console.log('ejecutando consulta... ');	
-
-		try {
-		  const pool1 = new sql.ConnectionPool(config, err => {
-			new sql.Request(pool1)
-			.query(sqlqry, (err, result) => {				
-				if(err){
-					res.send(err.message)
-				}else{
-					res.send('Ejecución exitosa');
-				}					
-			})
-			sql.close();  
-		  })
-		  pool1.on('error', err => {
-			  console.log('error sql = ' + err);
-			  sql.close();
-		  })
-		} catch (error) {
-		  res.send('Error al ejecutar la consulta: ' + error)   
-		  sql.close();
-		}
-	},
-	start:()=>{
-		console.log('intentando iniciar la conexión...')
-		//const sql = require('mssql')
-		try {
-			sql.connect(config).then(()=>{sql.close();})
-			console.log('primera conexion exitosa...');
-		} catch (error) {
-			console.log('primera conexion fallo: ' & error);
-		}
-	},
-	getSaldosProyecto:(idproyecto)=>{
-
 	}
 }
 

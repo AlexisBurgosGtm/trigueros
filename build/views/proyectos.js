@@ -31,6 +31,11 @@ function getView(){
                
             </div>
             <hr class="solid">
+            <div class="form-group col-12">
+                <label></label>
+                <input type="text" placeholder="Escriba para buscar..." class="form-control border-danger text-danger negrita" id="filtroCards" oninput="aplicaFiltroCards()">
+            </div>
+            
             
             `
         },
@@ -709,6 +714,22 @@ async function getCargasIniciales() {
     await api.contratantes_combo('cmbContratante');
     await api.subcontratistas_combo('cmbPSubContratista');
 
+};
+
+function aplicaFiltroCards() {
+    var input, filter, cards, cardContainer, h5, title, i;
+    input = document.getElementById("filtroCards");
+    filter = input.value.toUpperCase();
+    cardContainer = document.getElementById("tblProyectos");
+    cards = cardContainer.getElementsByClassName("card");
+    for (i = 0; i < cards.length; i++) {
+        title = cards[i].querySelector(".card-body");
+        if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+            cards[i].style.display = "";
+        } else {
+            cards[i].style.display = "none";
+        }
+    }
 };
 
 function initView(){

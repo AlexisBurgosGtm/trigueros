@@ -1,0 +1,32 @@
+
+10 07 2023
+
+* BUSCADOR DE PROYECTOS
+* BUSCADOR DE CHEQUES
+* BUSCADORES EN OTRAS PANTALLAS
+* EXPORTAR PDF
+* DEFINICIÓN DE ROLES (DE NUEVO)
+* SUGERENCIA: ESTILIZAR LA APP (CHECK LOADERS)
+
+
+
+
+se aplica al input 
+
+
+
+function aplicaFiltroCards() {
+    var input, filter, cards, cardContainer, h5, title, i;
+    input = document.getElementById("filtroCards");
+    filter = input.value.toUpperCase();
+    cardContainer = document.getElementById("tblRecetas");
+    cards = cardContainer.getElementsByClassName("card");
+    for (i = 0; i < cards.length; i++) {
+        title = cards[i].querySelector(".card-body");
+        if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+            cards[i].style.display = "";
+        } else {
+            cards[i].style.display = "none";
+        }
+    }
+};
