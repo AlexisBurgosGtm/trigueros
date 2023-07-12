@@ -19,44 +19,59 @@ let btnMenuReportesSubcontratistas = document.getElementById('btnMenuReportesSub
 let btnMenuReportesRubros = document.getElementById('btnMenuReportesRubros');
 let btnMenuReporteCuentas = document.getElementById('btnMenuReporteCuentas');
 
+document.getElementById('btnMenuPrincipal').addEventListener('click',()=>{
+    $("#ModalMenuPrincipal").modal('show');
+})
+document.getElementById('btnMenuPrincipal').style = "visibility:hidden";
+
 btnMenuProyectos.addEventListener('click',()=>{
     classNavegar.proyectos();
+    $("#ModalMenuPrincipal").modal('hide');
 });
 
 btnMenuCheques.addEventListener('click',()=>{
     classNavegar.cheques();
+    $("#ModalMenuPrincipal").modal('hide');
 });
 
 btnMenuContratos.addEventListener('click',()=>{
     classNavegar.contratos();
+    $("#ModalMenuPrincipal").modal('hide');
 });
 
 btnMenuMantenimientos.addEventListener('click',()=>{
     classNavegar.mantenimientos();
+    $("#ModalMenuPrincipal").modal('hide');
 });
 
 btnMenuCaja.addEventListener('click',()=>{
     classNavegar.caja();
+    $("#ModalMenuPrincipal").modal('hide');
 });
 
 btnMenuCotizaciones.addEventListener('click',()=>{
     classNavegar.cotizaciones();
+    $("#ModalMenuPrincipal").modal('hide');
 });
 
 btnMenuReportes.addEventListener('click',()=>{
     classNavegar.reportes();
+    $("#ModalMenuPrincipal").modal('hide');
 });
 
 btnMenuReportesSubcontratistas.addEventListener('click',()=>{
     classNavegar.reportesSubcontratistas();
+    $("#ModalMenuPrincipal").modal('hide');
 });
 
 btnMenuReportesRubros.addEventListener('click',()=>{
     classNavegar.reportesRubros();
+    $("#ModalMenuPrincipal").modal('hide');
 });
 
 btnMenuReporteCuentas.addEventListener('click',()=>{
     classNavegar.cuentas();
+    $("#ModalMenuPrincipal").modal('hide');
 })
 
 

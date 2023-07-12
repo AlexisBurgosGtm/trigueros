@@ -72,7 +72,7 @@ function addListeners(){
         api.usuarios_login(us, ps)
             .then(() => {
                                
-                menuPrincipal.style = "visibility : visible";
+                //menuPrincipal.style = "visibility : visible";
                
                 //document.body.requestFullscreen();
 
@@ -91,7 +91,7 @@ function addListeners(){
                         break;
                 }
                 document.getElementById('btnSalir').style = "visibility : visible";
-                
+                document.getElementById('btnMenuPrincipal').style = "visibility:visible";
                 
             })
             .catch(() => {
