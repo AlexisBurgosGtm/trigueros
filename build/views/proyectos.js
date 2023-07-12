@@ -63,7 +63,7 @@ function getView(){
                 </div>
                
             </div>
-            <hr class="solid">
+           
             <div class="form-group col-12">
                 <label></label>
                 <input type="text" placeholder="Escriba para buscar..." class="form-control border-danger text-danger negrita" id="filtroCards" oninput="aplicaFiltroCards()">

@@ -130,14 +130,15 @@ let api = {
                             
                             <div class="card card-rounded shadow hand border-top-rounded" onClick="getMenuProyecto(${rows.IDPROYECTO},'${rows.PROYECTO}','${funciones.setMoneda(rows.PRESUPUESTO, 'Q')}');">
                                
-                                    <div class="card-body bg-info text-white">
+                                    <div class="card-body">
+
+                                        <div class="card card-rounded bg-owner text-white col-12 p-2">
                                             <h5>${rows.PROYECTO}</h5>
                                             <small>${rows.DIRECCION}</small>
                                             <br>
                                             <small>Creado por:${rows.USUARIO}</small>
-                                    </div>
-                                    
-                                    <div class="card-body">
+                                        </div>
+
                                         <div class="row">
                                             <div class="col-6">
                                                 <small class="text-info">F.Inicio: ${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHAINICIO))}</small>
@@ -251,7 +252,7 @@ let api = {
         let container  = document.getElementById(idContainer);    
         return new Promise((resolve,reject)=>{
             
-            let str = '<option value="0">TODOS</option>';
+            let str = '';
 
             let data = {
                 activo : 'NO'
@@ -1077,7 +1078,111 @@ let api = {
 
         });
     },
-    cheques_proyecto: (idproyecto,idContainer1,idContainer2,idContainer3,idPresupuesto,idSaldo,idDiferencia) => {
+    cheques_proyecto: (idproyecto,idContainer1,idPresupuesto,idSaldo,idDiferencia) => {
+        
+        let container1 = document.getElementById(idContainer1);
+        container1.innerHTML = GlobalLoader;
+        //let container2 = document.getElementById(idContainer2);
+        //container2.innerHTML = GlobalLoader;
+        //let container3 = document.getElementById(idContainer3);
+        //container3.innerHTML = GlobalLoader;
+
+        let lbPresupuesto = document.getElementById(idPresupuesto);
+        lbPresupuesto.innerText = 'Q --';
+        let lbSaldo = document.getElementById(idSaldo);
+        lbSaldo.innerText = 'Q --';
+        let lbDiferencia = document.getElementById(idDiferencia);
+        lbDiferencia.innerText = 'Q --';
+        
+        let str1 = ''; let str2 = ''; let str3 = '';
+        let varTotalPresupuesto = 0; let varTotalSaldo = 0;
+
+        let newrow = '';
+
+        let url = GlobalUrlBackend + '/cheques/listadoproyecto';
+
+        axios.post(url, {
+                    idproyecto : idproyecto
+                    })
+        .then((response) => {
+            try {
+                const data = response.data.recordset;
+                data.map((rows) => {
+                    let tipo = rows.TIPOCHEQUE;
+                    let importe = Number(rows.IMPORTE);
+                    if(importe<0){importe= importe * -1};
+                    newrow = `<tr class="border-bottom border-info">
+                                <td>${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHA))}
+                                        <br>
+                                        <small class="negrita text-danger">Cheque No. ${rows.NOCHEQUE}</small>
+                                </td>
+                                <td>${rows.BANCO}
+                                        <br>
+                                        <small>Cuenta No. ${rows.NOCUENTA}</small>
+                                        <br>
+                                        <small>No.Factura/Recibo: ${rows.NOFACTURA}</small>
+                                </td>
+                                <td>${rows.DESACREEDOR}
+                                        <br>
+                                        <small class="negrita text-info">${rows.ASIGNACION}</small>
+                                        <br>
+                                        <small class="negrita">Concepto:${rows.CONCEPTO}</small>
+                                        <br class="solid">
+                                        <small>Creado:${rows.USUARIO}</small>
+                                </td>
+                                <td>${funciones.setMoneda(importe,'Q')}</td>
+                                <td>${tipo}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-danger btn-circle" onclick="deleteCheque(${rows.ID})">x</button>
+                                </td>
+                            </tr>`
+                            str1 = str1 + newrow;
+                    switch (tipo) {
+                        case 'SUBCONTRATISTA':
+                            //str1 = str1 + newrow;
+                            varTotalSaldo = varTotalSaldo + Number(rows.IMPORTE);
+                            break;
+                        case 'PROVEEDOR':
+                            //str2 = str2 + newrow;
+                            varTotalSaldo = varTotalSaldo + Number(rows.IMPORTE);
+                            break;
+                        case 'CONTRATANTE':
+                            //str3 = str3 + newrow;
+                            varTotalPresupuesto = varTotalPresupuesto + Number(rows.IMPORTE);
+                            break;
+                    }
+                })
+                container1.innerHTML = str1;
+                //container2.innerHTML = str2;
+                //container3.innerHTML = str3;
+                lbSaldo.innerText = funciones.setMoneda((varTotalSaldo * -1),'Q');
+                lbPresupuesto.innerText = funciones.setMoneda((varTotalPresupuesto),'Q');
+                let dif = varTotalPresupuesto - (varTotalSaldo * -1); //recibido menos ejecutado
+                if(Number(dif)>0){
+                    lbDiferencia.innerHTML = `<b class="text-info">${funciones.setMoneda(dif,'Q')}</b>`;
+                }else{
+                    lbDiferencia.innerHTML = `<b class="text-danger">${funciones.setMoneda(dif,'Q')}</b>`;
+                }
+            } catch (err) {
+                container1.innerHTML = 'Agregue un cheque al proyecto...';
+                //container2.innerHTML = 'Agregue un cheque al proyecto...';
+                //container3.innerHTML = 'Agregue un cheque al proyecto...';
+                lbSaldo.innerText = 'Q --';
+                lbPresupuesto.innerText = 'Q --';
+                lbDiferencia.innerText = 'Q --';
+            }
+        }, (error) => {
+                console.log(error);
+                container1.innerHTML = 'Agregue un cheque al proyecto...';
+                //container2.innerHTML = 'Agregue un cheque al proyecto...';
+                //container3.innerHTML = 'Agregue un cheque al proyecto...';
+                lbSaldo.innerText = 'Q --';
+                lbPresupuesto.innerText = 'Q --';
+                lbDiferencia.innerText = 'Q --';
+        });
+
+    },
+    BACKUP_cheques_proyecto: (idproyecto,idContainer1,idContainer2,idContainer3,idPresupuesto,idSaldo,idDiferencia) => {
         
         let container1 = document.getElementById(idContainer1);
         container1.innerHTML = GlobalLoader;

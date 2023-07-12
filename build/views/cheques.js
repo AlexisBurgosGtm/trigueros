@@ -55,19 +55,17 @@ function getView(){
                 <div class="form-group">
                     <label>Seleccione un proyecto</label>
                     <div class="input-group">
-                        <select class="form-control" id="cmbProyectoCheques">
+                        <select class="form-control col-9" id="cmbProyectoCheques">
                         </select>
-                        <select class="form-control" id="cmbTipoCheque">
-                            <option value="TODOS">TODOS</option>
+                        <select class="form-control col-3 negrita text-info" id="cmbTipoCheque">
+                            <option value="">TODOS</option>
                             <option value="SUBCONTRATISTA">A SUBCONTRATISTA</option>
-                            <option value="PROVEEDORES">A PROVEEDORES</option>
-                            <option name="admin" value="RECIBIDO">PAGO DE CLIENTE</option>
+                            <option value="PROVEEDOR">A PROVEEDORES</option>
+                            <option name="admin" value="CONTRATANTE">PAGO DE CLIENTE</option>
                         </select>
                     </div>
                     
                 </div>
-
-                <hr class="solid">
 
                 <div class="row" id="permisoLb1" name="admin">
                     <div class="col-4">
@@ -90,95 +88,31 @@ function getView(){
                     </div>
                 </div>
 
-                <hr class="solid">
               
             </div> 
-            <div class="card">
-            
-                <div class="panel-container show">
-                    <div class="panel-content">
-                        <ul class="nav nav-pills nav-justified" role="tablist">
-                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel1">SUBCONCONTRATISTA</a></li>    
-                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel2">PROVEEDORES</a></li>
-                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel3" id="permisoLb2">PAGO RECIBIDO</a></li>
-                        </ul>
-                        <div class="tab-content py-3">
-                            <!-- sub contratistas -->
-                            <div class="tab-pane fade active show align-items-left" id="panel1" role="tabpanel">
-
-                                <table class="table table-responsive table-striped table-hover table-bordered" id="">
-                                    <thead class="bg-trans-gradient text-white">
-                                        <tr>
-                                            <td>FECHA</td>
-                                            <td>CUENTA</td>
-                                            <td>ACREEDOR</td>
-                                            <td>VALOR</td>
-                                            <td></td>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tblCheques1">
-                                    
-                                    </tbody>
-                                </table>
-                                            
-                            </div>   
-                            <!-- proveedores -->
-                            <div class="tab-pane fade  align-items-center" id="panel2" role="tabpanel">
-                                
-                            <div class="row">
-                                    <div class="col-sm-0 col-lg-4 col-xl-3 col-md-1"></div>
-                                    <div class="col-sm-0 col-lg-8 col-xl-6 col-md-10">
-                                    
-                                        <table class="table table-responsive table-striped table-hover table-bordered" id="">
-                                            <thead class="bg-secondary text-white">
-                                                <tr>
-                                                    <td>FECHA</td>
-                                                    <td>CUENTA</td>
-                                                    <td>ACREEDOR</td>
-                                                    <td>VALOR</td>
-                                                    <td></td>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tblCheques2">
-                                            
-                                            </tbody>
-                                        </table>
-
-                                    </div>
-                                    <div class="col-sm-0 col-lg-4 col-xl-3 col-md-1"></div>
-                                    
-                                </div>
-                            </div>
-                            <!-- contratantes -->
-                            <div class="tab-pane fade" style="align-self: flex-start" id="panel3" role="tabpanel">
-                               <div class="row">
-                                    <div class="col-sm-0 col-lg-6 col-xl-6 col-md-4"></div>
-                                    
-                                    <div class="col-sm-12 col-lg-6 col-xl-6 col-md-8">
-                                        <table class="table table-responsive table-striped table-hover table-bordered " id="">
-                                            <thead class="bg-info text-white">
-                                                <tr>
-                                                    <td>FECHA</td>
-                                                    <td>CUENTA</td>
-                                                    <td>ACREEDOR</td>
-                                                    <td>VALOR</td>
-                                                    <td></td>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tblCheques3">
-                                            
-                                            </tbody>
-                                        </table>
-
-                                    </div>
-                               </div>
-                                                                     
-                            </div>
-                        </div>
-                    </div> 
+        <div class="card card-rounded col-12 shadow">
+            <div class="card-body">
+                <div class="form-group">
+                    <input type="search" placeholder="Escriba para buscar..." class="form-control border-danger negrita text-danger" id="txtBuscarCheque" oninput="funciones.FiltrarTabla('tbl_cheques','txtBuscarCheque')"> 
                 </div>
+                <table class="table table-responsive table-striped table-hover table-bordered" id="tbl_cheques">
+                    <thead class="bg-trans-gradient text-white">
+                        <tr>
+                            <td>FECHA</td>
+                            <td>CUENTA</td>
+                            <td>ACREEDOR</td>
+                            <td>VALOR</td>
+                            <td>TIPO</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody id="tblCheques1">
+                    
+                    </tbody>
+                </table>
 
-            </div>`
+            </div>
+        </div>`
         },
         modalMenuCheques : ()=>{
             return `
@@ -568,7 +502,7 @@ async function addListeners(){
                                         $('#modalNuevo').modal('hide');
     
                                         let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
-                                        api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1', 'tblCheques2', 'tblCheques3','lbPresupuesto','lbSaldo','lbDiferencia');
+                                        api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1','lbPresupuesto','lbSaldo','lbDiferencia');
                                     })
                                     .catch(()=>{
                                         funciones.AvisoError('No se pudo crear el cheque');
@@ -601,7 +535,7 @@ async function addListeners(){
                                         $('#modalNuevo').modal('hide');
     
                                         let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
-                                        api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1', 'tblCheques2', 'tblCheques3','lbPresupuesto','lbSaldo','lbDiferencia');
+                                        api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1','lbPresupuesto','lbSaldo','lbDiferencia');
                                     })
                                     .catch(()=>{
                                         funciones.AvisoError('No se pudo crear el cheque');
@@ -632,14 +566,14 @@ async function addListeners(){
     let cmbProyectoCheques = document.getElementById('cmbProyectoCheques');
     cmbProyectoCheques.addEventListener('change',()=>{
         let cmbProyectoC = document.getElementById('cmbProyectoCheques').value || 0;
-        api.cheques_proyecto(cmbProyectoC, 'tblCheques1', 'tblCheques2', 'tblCheques3','lbPresupuesto','lbSaldo','lbDiferencia');
+        api.cheques_proyecto(cmbProyectoC, 'tblCheques1','lbPresupuesto','lbSaldo','lbDiferencia');
     })
 
     //LISTADO DEL INICIO DE LA VISTA CHEQUES
     api.proyectos_combo_promise('cmbProyectoCheques')
     .then(async()=>{
         let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
-        await api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1', 'tblCheques2', 'tblCheques3','lbPresupuesto','lbSaldo','lbDiferencia');
+        await api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1','lbPresupuesto','lbSaldo','lbDiferencia');
     })
     .catch(()=>{
         funciones.AvisoError('No se pudo cargar la lista de Proyectos');
@@ -724,7 +658,7 @@ async function addListeners(){
                                         $('#modalNuevoContratante').modal('hide');
     
                                         let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
-                                        api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1', 'tblCheques2', 'tblCheques3','lbPresupuesto','lbSaldo','lbDiferencia');
+                                        api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1','lbPresupuesto','lbSaldo','lbDiferencia');
                                     })
                                     .catch(()=>{
                                         funciones.AvisoError('No se pudo crear el cheque');
@@ -749,6 +683,9 @@ async function addListeners(){
   
     funciones.slideAnimationTabs();
 
+    document.getElementById('cmbTipoCheque').addEventListener('change',()=>{
+        funciones.FiltrarTabla('tbl_cheques','cmbTipoCheque')
+    })
 
 };
 
@@ -768,7 +705,7 @@ function deleteCheque(id){
             .then(()=>{
                 funciones.Aviso('Cheque ELIMINADO exitosamente!!');
                 let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
-                api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1', 'tblCheques2', 'tblCheques3','lbPresupuesto','lbSaldo','lbDiferencia');
+                api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1','lbPresupuesto','lbSaldo','lbDiferencia');
             })
             .catch(()=>{
                 funciones.AvisoError('No se pudo ELIMINAR el cheque')
