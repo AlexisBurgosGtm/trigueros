@@ -251,7 +251,7 @@ let api = {
         let container  = document.getElementById(idContainer);    
         return new Promise((resolve,reject)=>{
             
-            let str = '';
+            let str = '<option value="0">TODOS</option>';
 
             let data = {
                 activo : 'NO'

@@ -1,5 +1,38 @@
 function getView(){
     let view ={
+        body:()=>{
+            return `
+                <div class="col-12 p-0">
+                    <div class="tab-content" id="myTabHomeContent">
+                        <div class="tab-pane fade show active" id="uno" role="tabpanel" aria-labelledby="dias-tab">
+                            ${view.encabezado() + view.listado() + view.btnNuevo()}
+                        </div>
+                        <div class="tab-pane fade" id="dos" role="tabpanel" aria-labelledby="clientes-tab">
+                            ${view.modalMenuProyecto()}
+                        </div>
+
+                        <div class="tab-pane fade" id="tres" role="tabpanel" aria-labelledby="home-tab">
+                           
+                        </div>
+                    </div>
+
+                    <ul class="nav nav-tabs hidden" id="myTabHome" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active negrita text-success" id="tab-uno" data-toggle="tab" href="#uno" role="tab" aria-controls="profile" aria-selected="false">
+                                <i class="fal fa-list"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link negrita text-danger" id="tab-dos" data-toggle="tab" href="#dos" role="tab" aria-controls="home" aria-selected="true">
+                                <i class="fal fa-comments"></i></a>¿
+                        </li> 
+                        <li class="nav-item">
+                            <a class="nav-link negrita text-info" id="tab-tres" data-toggle="tab" href="#tres" role="tab" aria-controls="home" aria-selected="true">
+                                <i class="fal fa-edit"></i></a>
+                        </li>                           
+                    </ul>
+                </div>
+            `
+        },
         encabezado:()=>{
             return `
             <div class="row">
@@ -119,6 +152,207 @@ function getView(){
                     </div>`   
         },
         modalMenuProyecto : ()=>{
+            return `
+              
+                            <div class="panel-container show">
+                                <div class="panel-content">
+                                
+                                    <ul class="nav nav-pills nav-justified .bg-primarygrad" role="tablist">
+                                        <li class="nav-item "><a class="nav-link active shadow" data-toggle="tab" href="#panel0" id="btnTabGeneral">DATOS GENERALES</a></li>
+                                        <li class="nav-item"><a class="nav-link shadow" data-toggle="tab" href="#panel3" id="btnTabProveedores">CHEQUES A PROVEEDORES</a></li>
+                                        <li class="nav-item"><a class="nav-link shadow" data-toggle="tab" href="#panel2" id="btnTabSubcontratistas">CHEQUES A SUBCONTRATISTAS</a></li>
+                                        <li class="nav-item"><a class="nav-link shadow" data-toggle="tab" href="#panel5" id="btnTabCaja">GASTOS DE CAJA</a></li>
+                                        <li class="nav-item"><a class="nav-link shadow" data-toggle="tab" href="#panel1"  id="btnTabContratos">LISTADO DE SUBCONTRATOS</a></li>    
+                                        <li class="nav-item"><a class="nav-link shadow" data-toggle="tab" href="#panel4"  id="btnTabRecibidos">PAGOS RECIBIDOS</a></li>
+                                    </ul>
+                                    <div class="tab-content py-3">
+                                    <hr class="solid">
+                                        <!-- inicio -->
+                                        <div class="tab-pane fade active show" id="panel0" role="tabpanel">
+                                        
+                                            <h4 id="lbDetProyecto">Proyecto</h4>
+                                            <br>
+                                            
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    
+                                                </div>
+                                                <div class="col-3">
+                                                    <button class="btn btn-warning btn-md" id="btnMenuProyectoEditar">
+                                                        <i class="fal fa-edit"></i>
+                                                        __Editar
+                                                    </button>
+                                                </div>
+                                                <div class="col-3">
+                                                    <button class="btn btn-secondary btn-md" id="btnMenuProyectoFinalizar">
+                                                        <i class="fal fa-check"></i>
+                                                        Finalizar
+                                                    </button>
+                                                </div>
+                                                <div class="col-3">
+                                                    <button class="btn btn-danger btn-md" id="btnMenuProyectoEliminar">
+                                                        <i class="fal fa-trash"></i>
+                                                        Eliminar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            
+                                            <hr class="rounded">
+
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label>Costo Total</label>
+                                                        <h1 class="text-info" id="lbPresupuesto"></h1>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label>Recibido</label>
+                                                        <h1 class="text-success" id="lbRecibido"></h1>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+
+                                            <div class="row">
+                                                <hr class="solid">
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label>Ejecutado</label>
+                                                        <h1 class="text-danger" id="lbEjecutado"></h1>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label>Diferencia</label>
+                                                        <h1 id="lbDiferencia"></h1>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>   
+
+                                        <!-- sub contratistas -->
+                                        <div class="tab-pane fade" id="panel1" role="tabpanel">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                </div>
+                                                <div class="col-6 text-right">
+                                                    <button class="btn btn-success btn-md shadow" id="btnNuevoContrato">
+                                                        Nuevo (+)
+                                                    </button>
+                                                </div>
+                                            </div>    
+                                            <div class="table-responsive">
+                                                <table class="table table-responsive">
+                                                    <thead class="bg-trans-gradient text-white">
+                                                        <tr>
+                                                            <td>CONTRATISTA/ASIGNACION</td>
+                                                            <td>IMPORTE</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tblPSucontratistas"></tbody>
+                                                </table>
+                                            </div>
+                                            
+                                        </div>   
+
+                                        <!-- cheques subcontratistas -->
+                                        <div class="tab-pane fade" id="panel2" role="tabpanel">
+                                            <div class="table-responsive">
+                                                <div class="table-responsive">
+                                                    <table class="table table-responsive">
+                                                        <thead class="bg-trans-gradient text-white">
+                                                            <tr>
+                                                                <td>FECHA</td>
+                                                                <td>CUENTA</td>
+                                                                <td>ACREEDOR</td>
+                                                                <td>VALOR</td>
+                                                                <td></td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="tblCheques1"></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- cheques proveedores -->
+                                        <div class="tab-pane fade" id="panel3" role="tabpanel">
+                                            <div class="table-responsive">
+                                                <div class="table-responsive">
+                                                    <table class="table table-responsive">
+                                                        <thead class="bg-info text-white">
+                                                            <tr>
+                                                                <td>FECHA</td>
+                                                                <td>CHEQUE</td>
+                                                                <td>DESCRIPCIOON</td>
+                                                                <td>VALOR</td>
+                                                                <td></td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="tblCheques2"></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        
+                                        <!-- pagos de caja chica -->
+                                        <div class="tab-pane fade" id="panel5" role="tabpanel">
+                                          
+                                            <div class="table-responsive">
+                                                <table class="table table-responsive">
+                                                    <thead class="bg-trans-gradient text-white">
+                                                        <tr>
+                                                            <td>FECHA</td>
+                                                            <td>ENTREGADO POR / CONCEPTO</td>
+                                                            <td>IMPORTE</td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tblPCaja"></tbody>
+                                                </table>
+                                            </div>
+                                            
+                                        </div>  
+
+                                        <!-- cheques contratante -->
+                                        <div class="tab-pane fade" id="panel4" role="tabpanel">
+                                            <div class="table-responsive">
+                                                <div class="table-responsive">
+                                                    <table class="table table-responsive">
+                                                        <thead class="bg-success text-white">
+                                                            <tr>
+                                                                <td>FECHA</td>
+                                                                <td>CUENTA</td>
+                                                                <td>ACREEDOR</td>
+                                                                <td>VALOR</td>
+                                                                <td></td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="tblCheques3"></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- -- -- -- --> 
+                                    </div>
+                                </div> 
+                           
+                <div class="btn-bottom-left" id="">
+                    <button class="btn btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('tab-uno').click()">
+                        <i class="fal fa-arrow-left"></i>
+                    </button>
+                </div>                                
+            </div>
+            `   
+        },
+        BACKUP_modalMenuProyecto : ()=>{
             return `
             <div class="modal fade js-modal-settings modal-backdrop-transparent modal-with-scroll" tabindex="-1" role="dialog" aria-hidden="true"  id="modalMenuProyecto" >
                 <div class="modal-dialog modal-dialog-right modal-lg" role="document">
@@ -381,8 +615,8 @@ function getView(){
         }
     }
 
-    root.innerHTML= view.encabezado() + view.listado() + view.btnNuevo();
-    rootModal.innerHTML = view.modalNuevoProyecto() + view.modalMenuProyecto() + view.modalNuevoContrato();
+    root.innerHTML= view.body();
+    rootModal.innerHTML = view.modalNuevoProyecto() + view.modalNuevoContrato();
     
 };
 
@@ -514,8 +748,8 @@ function addListeners() {
     let btnMenuProyectoEliminar = document.getElementById('btnMenuProyectoEliminar');
     btnMenuProyectoEliminar.addEventListener('click',()=>{
         
-        $('#modalMenuProyecto').modal('hide');
-    
+        //$('#modalMenuProyecto').modal('hide');
+        
         funciones.solicitarClave()
         .then((name)=>{
             if(name.toString()==GlobalConfigClave.toString()){
@@ -534,7 +768,9 @@ function addListeners() {
                             await api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
                             await api.insertar_bitacora(`Proyecto Eliminado: ${GlobalSelectedCodProyecto}`);
     
-                            $('#modalMenuProyecto').modal('hide');
+                            //$('#modalMenuProyecto').modal('hide');
+                            document.getElementById('tab-uno').click();
+
                         })
                         .catch(()=>{
                             funciones.AvisoError('No se pudo Eliminar este proyecto')
@@ -559,7 +795,8 @@ function addListeners() {
 
     let btnMenuProyectoEditar = document.getElementById('btnMenuProyectoEditar');
     btnMenuProyectoEditar.addEventListener('click',()=>{
-        $('#modalMenuProyecto').modal('hide');
+        
+        //$('#modalMenuProyecto').modal('hide');
     
         funciones.solicitarClave()
         .then((name)=>{
@@ -578,7 +815,8 @@ function addListeners() {
 
     let btnMenuProyectoFinalizar = document.getElementById('btnMenuProyectoFinalizar');
     btnMenuProyectoFinalizar.addEventListener('click',()=>{
-        $('#modalMenuProyecto').modal('hide');
+        
+        //$('#modalMenuProyecto').modal('hide');
     
         funciones.solicitarClave()
         .then((name)=>{
@@ -597,7 +835,9 @@ function addListeners() {
     
                             await api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
                             await api.insertar_bitacora(`Proyecto finalizado: ${GlobalSelectedCodProyecto}`)
-                            $('#modalMenuProyecto').modal('hide');
+                            //$('#modalMenuProyecto').modal('hide');
+                            document.getElementById('tab-uno').click();
+
                         })
                         .catch(()=>{
                             funciones.AvisoError('No se pudo Finalizado este proyecto')
@@ -717,6 +957,7 @@ async function getCargasIniciales() {
 };
 
 function aplicaFiltroCards() {
+
     var input, filter, cards, cardContainer, h5, title, i;
     input = document.getElementById("filtroCards");
     filter = input.value.toUpperCase();
@@ -730,6 +971,7 @@ function aplicaFiltroCards() {
             cards[i].style.display = "none";
         }
     }
+    document.getElementById("filtroCards").value = input.value.toUpperCase();
 };
 
 function initView(){
@@ -748,7 +990,8 @@ function getMenuProyecto(codigo,descripcion, presupuesto){
     api.cheques_proyecto(GlobalSelectedCodProyecto, 'tblCheques1','tblCheques2','tblCheques3','lbRecibido','lbEjecutado','lbDiferencia');
     api.cheques_cajachica(GlobalSelectedCodProyecto,'tblPCaja')
 
-    $('#modalMenuProyecto').modal('show');
+    //$('#modalMenuProyecto').modal('show');
+    document.getElementById('tab-dos').click();
 
 };
 
