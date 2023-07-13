@@ -1,5 +1,5 @@
 
-let version = '07.2023.r11';
+let version = '07.2023.r12';
 
 const GlobalUrlBackend =  '';  //'https://trg-ingenieros.herokuapp.com'; //'http://localhost:333';
 
