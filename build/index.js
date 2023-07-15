@@ -19,6 +19,12 @@ let btnMenuReportesSubcontratistas = document.getElementById('btnMenuReportesSub
 let btnMenuReportesRubros = document.getElementById('btnMenuReportesRubros');
 let btnMenuReporteCuentas = document.getElementById('btnMenuReporteCuentas');
 
+
+Mousetrap.bind('ctrl+m', function(e) {
+    document.getElementById('btnMenuPrincipal').click();
+    return false;
+});
+
 document.getElementById('btnMenuPrincipal').addEventListener('click',()=>{
     $("#ModalMenuPrincipal").modal('show');
 })
@@ -85,6 +91,9 @@ btnSalir.addEventListener('click',()=>{
     })
     
 });
+
+
+
 
 classNavegar.login();
 

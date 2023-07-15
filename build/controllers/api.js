@@ -1078,7 +1078,7 @@ let api = {
 
         });
     },
-    cheques_proyecto: (idproyecto,idContainer1,idPresupuesto,idSaldo,idDiferencia) => {
+    cheques_proyecto_todos: (idproyecto,idContainer1,idPresupuesto,idSaldo,idDiferencia) => {
         
         let container1 = document.getElementById(idContainer1);
         container1.innerHTML = GlobalLoader;
@@ -1182,7 +1182,7 @@ let api = {
         });
 
     },
-    BACKUP_cheques_proyecto: (idproyecto,idContainer1,idContainer2,idContainer3,idPresupuesto,idSaldo,idDiferencia) => {
+    cheques_proyecto: (idproyecto,idContainer1,idContainer2,idContainer3,idPresupuesto,idSaldo,idDiferencia) => {
         
         let container1 = document.getElementById(idContainer1);
         container1.innerHTML = GlobalLoader;

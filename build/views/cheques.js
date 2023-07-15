@@ -502,7 +502,7 @@ async function addListeners(){
                                         $('#modalNuevo').modal('hide');
     
                                         let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
-                                        api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1','lbPresupuesto','lbSaldo','lbDiferencia');
+                                        api.cheques_proyecto_todos(cmbProyectoCheques, 'tblCheques1','lbPresupuesto','lbSaldo','lbDiferencia');
                                     })
                                     .catch(()=>{
                                         funciones.AvisoError('No se pudo crear el cheque');
@@ -535,7 +535,7 @@ async function addListeners(){
                                         $('#modalNuevo').modal('hide');
     
                                         let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
-                                        api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1','lbPresupuesto','lbSaldo','lbDiferencia');
+                                        api.cheques_proyecto_todos(cmbProyectoCheques, 'tblCheques1','lbPresupuesto','lbSaldo','lbDiferencia');
                                     })
                                     .catch(()=>{
                                         funciones.AvisoError('No se pudo crear el cheque');
@@ -566,14 +566,14 @@ async function addListeners(){
     let cmbProyectoCheques = document.getElementById('cmbProyectoCheques');
     cmbProyectoCheques.addEventListener('change',()=>{
         let cmbProyectoC = document.getElementById('cmbProyectoCheques').value || 0;
-        api.cheques_proyecto(cmbProyectoC, 'tblCheques1','lbPresupuesto','lbSaldo','lbDiferencia');
+        api.cheques_proyecto_todos(cmbProyectoC, 'tblCheques1','lbPresupuesto','lbSaldo','lbDiferencia');
     })
 
     //LISTADO DEL INICIO DE LA VISTA CHEQUES
     api.proyectos_combo_promise('cmbProyectoCheques')
     .then(async()=>{
         let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
-        await api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1','lbPresupuesto','lbSaldo','lbDiferencia');
+        await api.cheques_proyecto_todos(cmbProyectoCheques, 'tblCheques1','lbPresupuesto','lbSaldo','lbDiferencia');
     })
     .catch(()=>{
         funciones.AvisoError('No se pudo cargar la lista de Proyectos');
@@ -658,7 +658,7 @@ async function addListeners(){
                                         $('#modalNuevoContratante').modal('hide');
     
                                         let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
-                                        api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1','lbPresupuesto','lbSaldo','lbDiferencia');
+                                        api.cheques_proyecto_todos(cmbProyectoCheques, 'tblCheques1','lbPresupuesto','lbSaldo','lbDiferencia');
                                     })
                                     .catch(()=>{
                                         funciones.AvisoError('No se pudo crear el cheque');
@@ -705,7 +705,7 @@ function deleteCheque(id){
             .then(()=>{
                 funciones.Aviso('Cheque ELIMINADO exitosamente!!');
                 let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
-                api.cheques_proyecto(cmbProyectoCheques, 'tblCheques1','lbPresupuesto','lbSaldo','lbDiferencia');
+                api.cheques_proyecto_todos(cmbProyectoCheques, 'tblCheques1','lbPresupuesto','lbSaldo','lbDiferencia');
             })
             .catch(()=>{
                 funciones.AvisoError('No se pudo ELIMINAR el cheque')
