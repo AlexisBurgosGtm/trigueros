@@ -2,7 +2,7 @@
 10 07 2023
 
 x * BUSCADOR DE PROYECTOS
-* BUSCADOR DE CHEQUES
+x * BUSCADOR DE CHEQUES
 * BUSCADORES EN OTRAS PANTALLAS
 * EXPORTAR PDF
 * DEFINICIÓN DE ROLES (DE NUEVO)
@@ -11,8 +11,9 @@ x * BUSCADOR DE PROYECTOS
 
 
 1) primera reunión y capacitación: Q 100.00
-2) Buscadores:  Q 100.00
-3) 
+2) cambios ventana proyectos:  Q 100.00
+3) cambios ventana cheques: Q 100.00
+4) segunda capacitación: Q 100.00
 
 
 

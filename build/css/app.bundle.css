@@ -1664,7 +1664,7 @@ html body {
       height: 2.125rem;
       background-image: -webkit-gradient(linear, right top, left top, from(rgba(51, 148, 225, 0.18)), to(transparent));
       background-image: linear-gradient(270deg, rgba(51, 148, 225, 0.18), transparent);
-      background-color: #584475;
+      background-color: #030a50;
       position: absolute;
       top: 0;
       right: 0;
@@ -1692,8 +1692,8 @@ html body {
         .nav-function-top .page-header .header-icon:not(.btn) > .ni:first-child:hover {
           color: #beaed7; }
       .nav-function-top .page-header .badge.badge-icon {
-        -webkit-box-shadow: 0 0 0 1px #7a59ad;
-                box-shadow: 0 0 0 1px #7a59ad; }
+        -webkit-box-shadow: 0 0 0 1px #030a50;
+                box-shadow: 0 0 0 1px #030a50; }
       .nav-function-top .page-header .header-icon:not(.btn)[data-toggle="dropdown"] + .dropdown-menu {
         top: 4.125rem !important; }
     .nav-function-top .page-content-wrapper {

@@ -5,14 +5,16 @@ function getView(){
                 <div class="col-12 p-0">
                     <div class="tab-content" id="myTabHomeContent">
                         <div class="tab-pane fade show active" id="uno" role="tabpanel" aria-labelledby="dias-tab">
-                    
+                            ${view.listado()}
                         </div>
                         <div class="tab-pane fade" id="dos" role="tabpanel" aria-labelledby="clientes-tab">
-                          
+                            ${view.tipos_cheque()}
                         </div>
-
                         <div class="tab-pane fade" id="tres" role="tabpanel" aria-labelledby="home-tab">
-                           
+                           ${view.nuevo_cheque()}
+                        </div>
+                        <div class="tab-pane fade" id="cuatro" role="tabpanel" aria-labelledby="home-tab">
+                           ${view.nuevo_cheque_contratante()}
                         </div>
                     </div>
 
@@ -28,65 +30,64 @@ function getView(){
                         <li class="nav-item">
                             <a class="nav-link negrita text-info" id="tab-tres" data-toggle="tab" href="#tres" role="tab" aria-controls="home" aria-selected="true">
                                 <i class="fal fa-edit"></i></a>
+                        </li>    
+                        <li class="nav-item">
+                            <a class="nav-link negrita text-info" id="tab-cuatro" data-toggle="tab" href="#cuatro" role="tab" aria-controls="home" aria-selected="true">
+                                <i class="fal fa-edit"></i></a>
                         </li>                           
                     </ul>
                 </div>
             `
         },
-        encabezado:()=>{
-            return `
-            <div class="row">
-                <div class="col-lg-4 col-sm-12 col-md-6">
-                    <div class="form-group">
-                        <label>Buscar:</label>
-                        <div class="input-group">
-                            <input type="text" id="txtBuscar" class="form-control">
-                        </div>
-                        
-                    </div>
-                </div>
-                                
-            </div>
-            `
-        },
         listado : ()=>{
             return `
             <div class="card-body">
-                <div class="form-group">
-                    <label>Seleccione un proyecto</label>
-                    <div class="input-group">
-                        <select class="form-control col-9" id="cmbProyectoCheques">
-                        </select>
-                        <select class="form-control col-3 negrita text-info" id="cmbTipoCheque">
-                            <option value="">TODOS</option>
-                            <option value="SUBCONTRATISTA">A SUBCONTRATISTA</option>
-                            <option value="PROVEEDOR">A PROVEEDORES</option>
-                            <option name="admin" value="CONTRATANTE">PAGO DE CLIENTE</option>
-                        </select>
-                    </div>
-                    
-                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
 
-                <div class="row" id="permisoLb1" name="admin">
-                    <div class="col-4">
                         <div class="form-group">
-                            <label>Recibido</label>
-                            <h3 class="text-info" name="admin" id="lbPresupuesto"></h3>
+                            <label>Seleccione un proyecto</label>
+                            <div class="input-group">
+                                <select class="form-control col-9" id="cmbProyectoCheques">
+                                </select>
+                                <select class="form-control col-3 negrita text-info" id="cmbTipoCheque">
+                                    <option value="">TODOS</option>
+                                    <option value="SUBCONTRATISTA">A SUBCONTRATISTA</option>
+                                    <option value="PROVEEDOR">A PROVEEDORES</option>
+                                    <option name="admin" value="CONTRATANTE">PAGO DE CLIENTE</option>
+                                </select>
+                            </div>
                         </div>
+
                     </div>
-                    <div class="col-4">
-                        <div class="form-group">
-                            <label>Ejecutado</label>
-                            <h3 class="text-success" id="lbSaldo"></h3>
+                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                        
+                        <div class="row" id="permisoLb1" name="admin">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Recibido</label>
+                                    <h3 class="text-info" name="admin" id="lbPresupuesto"></h3>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Ejecutado</label>
+                                    <h3 class="text-success" id="lbSaldo"></h3>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Diferencia</label>
+                                    <h3 id="lbDiferencia" name="admin"></h3>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="form-group">
-                            <label>Diferencia</label>
-                            <h3 id="lbDiferencia" name="admin"></h3>
-                        </div>
+
                     </div>
                 </div>
+                
+
+                
 
               
             </div> 
@@ -112,199 +113,257 @@ function getView(){
                 </table>
 
             </div>
-        </div>`
+        </div>
+        
+        <div class="" id="btnFlotanteDerecha">
+            <button class="btn btn-success btn-circle btn-xl" id="btnNuevo">
+                +                        
+            </button>
+        </div>
+        `
         },
-        modalMenuCheques : ()=>{
+        tipos_cheque:()=>{
             return `
-        <div class="modal fade js-modal-settings modal-backdrop-transparent" tabindex="-1" role="dialog" aria-hidden="true"  id="modalTiposCheque">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header bg-secondary text-white text-center">
-                        <h5 class="modal-title" id="exampleModalLabel">Seleccione un tipo de Cheque</h5>
-                    </div>
-                    <div class="modal-body">
-                        <hr class="solid">
-                        
+                        <br><br><br><br><br>
+
                         <div class="row">
                             <div class="col-4">
-                                <button class="btn btn-outline-success btn-xl shadow btn-rounded"  data-dismiss="modal" id="btnMenuChequeContratista">
-                                    <i class="fal fa-bell"></i>
-                                    Pago a Sub-Contratista
-                                </button>    
+
+                                <div class="card card-rounded border-success shadow hand" id="btnMenuChequeContratista">
+                                    <div class="card-body p-4">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <i class="fal fa-bell negrita text-success" style="font-size:190%"></i>
+                                            </div>
+                                            <div class="col-9">
+                                                <h4 class="negrita text-success">Pago a Sub-Contratista</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                             <div class="col-4">
-                                <button class="btn btn-outline-warning btn-xl shadow btn-rounded" data-dismiss="modal" id="btnMenuChequeProveedor">
-                                    <i class="fal fa-box"></i>
-                                    Pago a Proveedores
-                                </button>    
+
+                                <div class="card card-rounded border-secondary shadow hand" id="btnMenuChequeProveedor">
+                                    <div class="card-body p-4">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <i class="fal fa-box negrita text-secondary" style="font-size:190%"></i>
+                                            </div>
+                                            <div class="col-9">
+                                                <h4 class="negrita text-secondary">Pago a Proveedores</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+
                             </div>
                             <div class="col-4">
-                                <button class="btn btn-outline-info btn-xl shadow btn-rounded" data-dismiss="modal" id="btnMenuChequeContratante">
-                                    <i class="fal fa-archive"></i>
-                                    Pago de Cliente
-                                </button>    
+
+                                <div class="card card-rounded border-warning shadow hand" id="btnMenuChequeContratante">
+                                    <div class="card-body p-4">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <i class="fal fa-archive negrita text-warning" style="font-size:190%"></i>
+                                            </div>
+                                            <div class="col-9">
+                                                <h4 class="negrita text-warning">Pago de Cliente</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                              
                             </div>
-                        </div>                
+                        </div>      
                         
-                        <hr class="solid">
-
-
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary col-12" data-dismiss="modal">
-                            <i class="fal fa-times"></i>
-                            CANCELAR
-                        </button>
-                    </div>
-
-                </div>
-            </div>
-        </div>
+                <button class="btn btn-bottom-left btn-secondary btn-circle btn-xl hand shadow" onclick="document.getElementById('tab-uno').click()" id="">
+                    <i class="fal fa-arrow-left"></i>                        
+                </button>
+                        
             `
         },
-        modalNuevo : ()=>{
+        nuevo_cheque : ()=>{
             return `
-        <div class="modal fade js-modal-settings modal-backdrop-transparent modal-with-scroll" tabindex="-1" role="dialog" aria-hidden="true"  id="modalNuevo">
-            <div class="modal-dialog modal-dialog-right modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header bg-trans-gradient text-white">
-                            <h5 class="modal-title" id="lbDatosCheque">Datos del Cheque</h5>
-                        </div>
-                    <div class="modal-body">
-
+            <div class="card card-rounded shadow p-2">
+                <div class="card-body">
+                    
+                    
+                        <h5 class="negrita text-danger" id="lbDatosCheque">Datos del Cheque</h5>
+                        
                         <div class="form group">
                             <label class="negrita">Proyecto</label>
                             <select class="form-control" id="cmbProyecto">
                             </select>
                         </div>
 
-                        <div class="form-group">
-                            <label class="negrita">Fecha:</label>
-                            <input type="date" class="form-control" id="txtFecha">
-                        </div>   
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="negrita">Fecha:</label>
+                                    <input type="date" class="form-control" id="txtFecha">
+                                </div>  
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group" id="nofact">
+                                    <label class="negrita">No. Factura / No. Recibo</label>
+                                    <input type="text" class="form-control" id="txtNoFactura">
+                                </div>
+                            </div>
+                        </div>
+
+                         
                         
-                        <div class="form group">
-                            <label class="negrita">Cuenta</label>
-                            <select class="form-control" id="cmbCuenta">
-                            </select>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form group">
+                                    <label class="negrita">Cuenta</label>
+                                    <select class="form-control" id="cmbCuenta">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="negrita">No. Cheque</label>
+                                    <input type="text" class="form-control bg-amarillo negrita border-primary" id="txtNumeroCheque">
+                                </div>
+                            </div>
                         </div>
 
-                        
-                        <div class="form-group">
-                            <label class="negrita">No. Cheque</label>
-                            <input type="text" class="form-control bg-amarillo negrita" id="txtNumeroCheque">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="negrita">Acreedor</label>
-                            <select class="form-control" id="cmbAcreedor">
-                            </select> 
-                        </div>
-        
-                        <div class="form-group">
-                            <label class="negrita">Cantidad</label>
-                            <input type="number" class="form-control bg-amarillo text-danger col-6" id="txtImporte" value=>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="negrita">Rubro</label>
-                            <select class="form-control" id="cmbRubro">
-                            </select> 
-                        </div>
-        
-                        <div class="form-group">
-                            <label class="negrita">Concepto</label>
-                            <input type="text" class="form-control" id="txtConcepto" value='SN'>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="negrita">Acreedor</label>
+                                    <select class="form-control" id="cmbAcreedor">
+                                    </select> 
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="negrita">Cantidad (Q)</label>
+                                    <input type="number" class="form-control bg-amarillo border-danger text-danger" id="txtImporte" value=>
+                                </div>
+                            </div>
                         </div>
 
-                      
-                        
-                        <div class="form-group">
-                            <label class="negrita">Recibido por</label>
-                            <input type="text" class="form-control" id="txtRecibe" value=''>
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="negrita">Rubro</label>
+                                        <select class="form-control" id="cmbRubro">
+                                        </select> 
+                                    </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="negrita">Concepto</label>
+                                        <input type="text" class="form-control" id="txtConcepto" value='SN'>
+                                    </div>
+                            </div>
                         </div>
-
-                        <div class="form-group">
-                            <label class="negrita">Observaciones</label>
-                            <input type="text" class="form-control" id="txtObs">
-                        </div>
-
-                       
-
-                        <div class="form-group" id="nofact">
-                            <label class="negrita">No. Factura / No. Recibo</label>
-                            <input type="text" class="form-control" id="txtNoFactura">
+                                                
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="negrita">Recibido por</label>
+                                        <input type="text" class="form-control" id="txtRecibe" value=''>
+                                    </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="negrita">Observaciones</label>
+                                        <input type="text" class="form-control" id="txtObs">
+                                    </div>
+                            </div>
                         </div>
                         
                         <hr class="solid"><hr class="solid">
 
                         <div class="row">
                             <div class="col-6">
-                                <button class="btn btn-outline-secondary btn-xl btn-circle hand shadow" data-dismiss="modal">
-                                    <i class="fal fa-times"></i>
-                                    
-                                </button>    
+                                 
                             </div>
-                            <div class="col-6">
-                                <button class="btn btn-primary btn-xl btn-circle hand shadow" id="btnGuardarCheque">
-                                    <i class="fal fa-save"></i>
+                            <div class="col-6 text-right">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <button class="btn btn-secondary btn-xl btn-circle hand shadow" onclick="document.getElementById('tab-dos').click()">
+                                            <i class="fal fa-arrow-left"></i>                      
+                                        </button>    
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <button class="btn btn-owner btn-xl btn-circle hand shadow" id="btnGuardarCheque">
+                                            <i class="fal fa-save"></i>
+                                            
+                                        </button>    
+                                    </div>
+                                </div>
                                     
-                                </button>    
                             </div>
                         </div>
 
-                    </div>
-                    <div class="modal-footer">
-                    </div>
-
-                    </div>
                 </div>
             </div>
             `
         },
-        modalNuevoChequeContratante : ()=>{
+        nuevo_cheque_contratante : ()=>{
             return `
-        <div class="modal fade js-modal-settings modal-backdrop-transparent modal-with-scroll" tabindex="-1" role="dialog" aria-hidden="true"  id="modalNuevoContratante">
-            <div class="modal-dialog modal-dialog-right modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header bg-success text-white">
-                            <h5 class="modal-title" id="">Datos del Cheque Recibido</h5>
-                        </div>
-                    <div class="modal-body">
+            <div class="card card-rounded shadow p-2">
+                <div class="card-body">
 
-                        <div class="form-group">
-                            <label class="negrita">Contratante</label>
-                            <select class="form-control" id="cmbContratanteC">
-                            </select> 
-                        </div>
+                    <h5 class="modal-title" id="">Datos del Cheque Recibido</h5>
 
-                        <div class="form group">
-                            <label class="negrita">Proyecto</label>
-                            <select class="form-control" id="cmbProyectoC">
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="negrita">Fecha:</label>
-                            <input type="date" class="form-control" id="txtFechaC">
-                        </div>   
-                        
-                        <div class="form group">
-                            <label class="negrita">Banco</label>
-                            <select class="form-control" id="cmbBancoC"></select>
-                        </div>
-
-                        
-                        <div class="form-group">
-                            <label class="negrita">No. Cheque</label>
-                            <input type="text" class="form-control negrita bg-amarillo" id="txtNumeroChequeC">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label class="negrita">Contratante</label>
+                                    <select class="form-control" id="cmbContratanteC">
+                                    </select> 
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <div class="form group">
+                                    <label class="negrita">Proyecto</label>
+                                    <select class="form-control" id="cmbProyectoC">
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         
-                                
-                        <div class="form-group">
-                            <label class="negrita">Cantidad</label>
-                            <input type="number" class="form-control bg-amarillo text-danger col-6" id="txtImporteC" value=>
+                        <br>
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label class="negrita">Fecha:</label>
+                                    <input type="date" class="form-control" id="txtFechaC">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <div class="form group">
+                                    <label class="negrita">Banco</label>
+                                    <select class="form-control" id="cmbBancoC"></select>
+                                </div>
+                            </div>
                         </div>
+                        
+                        <br>
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label class="negrita">No. Cheque</label>
+                                    <input type="text" class="form-control negrita bg-amarillo border-primary" id="txtNumeroChequeC">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label class="negrita">Cantidad (Q)</label>
+                                    <input type="number" class="form-control bg-amarillo text-danger border-danger" id="txtImporteC" value=>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br>
 
                         <div class="form-group">
                             <label class="negrita">Concepto</label>
@@ -320,47 +379,38 @@ function getView(){
                             <label class="negrita">Observaciones</label>
                             <input type="text" class="form-control" id="txtObsC">
                         </div>
-                        
-                        <hr class="solid"><hr class="solid">
 
                         <div class="row">
                             <div class="col-6">
-                                <button class="btn btn-outline-secondary btn-xl btn-circle hand shadow" data-dismiss="modal">
-                                    <i class="fal fa-times"></i>
-                                    
-                                </button>    
+                                 
                             </div>
-                            <div class="col-6">
-                                <button class="btn btn-primary btn-xl btn-circle hand shadow" id="btnGuardarChequeC">
-                                    <i class="fal fa-save"></i>
-                                    
-                                </button>    
+                            <div class="col-6 text-right">
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <button class="btn btn-secondary btn-xl btn-circle hand shadow" onclick="document.getElementById('tab-dos').click()">
+                                            <i class="fal fa-arrow-left"></i>    
+                                        </button>    
+                                    </div>
+                                    <div class="col-6">
+                                        <button class="btn btn-owner btn-xl btn-circle hand shadow" id="btnGuardarChequeC">
+                                            <i class="fal fa-save"></i>
+                                        </button>    
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
-                    </div>
-                    <div class="modal-footer">
-                    </div>
-
-                    </div>
                 </div>
             </div>
-            `
-        },
-        btnNuevo : ()=>{
-            return `
-                <div class="" id="btnFlotanteDerecha">
-                    <button class="btn btn-success btn-circle btn-xl" id="btnNuevo">
-                        +                        
-                    </button>
-                </div>           
-            `
 
+            `
         }
     }
 
-    root.innerHTML=  view.listado() + view.btnNuevo(); //view.encabezado() +
-    rootModal.innerHTML = view.modalMenuCheques() + view.modalNuevo() + view.modalNuevoChequeContratante();
+    root.innerHTML=  view.body(); 
+    rootModal.innerHTML =  '';
     
 };
 
@@ -376,7 +426,8 @@ async function addListeners(){
     btnNuevo.addEventListener('click',()=>{
         document.getElementById('cmbProyecto').value = document.getElementById('cmbProyectoCheques').value;
 
-        $('#modalTiposCheque').modal('show');
+        //$('#modalTiposCheque').modal('show');
+        document.getElementById('tab-dos').click();
     });
 
     //GlobalSelectedTipoCheque = 'SUBCONTRATISTA','PROVEEDOR','CONTRATANTE';
@@ -398,7 +449,9 @@ async function addListeners(){
         document.getElementById('nofact').style = "visibility:hidden";
         document.getElementById('txtNoFactura').value = 'SN';
 
-        $('#modalNuevo').modal('show');
+        //$('#modalNuevo').modal('show');
+        document.getElementById('tab-tres').click();
+
     });
 
     let btnMenuChequeProveedor = document.getElementById('btnMenuChequeProveedor');
@@ -416,7 +469,32 @@ async function addListeners(){
         document.getElementById('nofact').style = "visibility:visible";
         document.getElementById('txtNoFactura').value = 'SN';
 
-        $('#modalNuevo').modal('show');
+        //$('#modalNuevo').modal('show');
+        document.getElementById('tab-tres').click();
+
+    });
+
+
+    let btnMenuChequeContratante = document.getElementById('btnMenuChequeContratante');
+    btnMenuChequeContratante.addEventListener('click',()=>{ 
+        if(Number(GlobalNivelUsuario)==1){
+            GlobalSelectedTipoCheque = 'CONTRATANTE';
+            //CONTRANTE DEL PROYECTO
+            let codigo = document.getElementById('cmbContratanteC').value || 0;
+            api.contratantes_proyectos_combo(codigo,'cmbProyectoC');
+    
+            document.getElementById('txtNumeroChequeC').value = '';
+            document.getElementById('txtImporteC').value = '';
+            document.getElementById('txtRecibeC').value = '';
+            document.getElementById('txtObsC').value = '';
+
+            //$('#modalNuevoContratante').modal('show');
+            document.getElementById('tab-cuatro').click();
+        }else{
+            funciones.AvisoHablado('Usted no puede realizar esta opción, solicitela a su Administrador')
+        }
+        
+
     });
 
     //****************************************************
@@ -499,7 +577,8 @@ async function addListeners(){
                                         btnGuardarCheque.disabled = false;
                                         btnGuardarCheque.innerHTML = ' <i class="fal fa-save"></i>';
 
-                                        $('#modalNuevo').modal('hide');
+                                        //$('#modalNuevo').modal('hide');
+                                        document.getElementById('tab-uno').click();
     
                                         let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
                                         api.cheques_proyecto_todos(cmbProyectoCheques, 'tblCheques1','lbPresupuesto','lbSaldo','lbDiferencia');
@@ -532,8 +611,9 @@ async function addListeners(){
                                         btnGuardarCheque.disabled = false;
                                         btnGuardarCheque.innerHTML = ' <i class="fal fa-save"></i>';
 
-                                        $('#modalNuevo').modal('hide');
-    
+                                        //$('#modalNuevo').modal('hide');
+                                        document.getElementById('tab-uno').click();
+
                                         let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
                                         api.cheques_proyecto_todos(cmbProyectoCheques, 'tblCheques1','lbPresupuesto','lbSaldo','lbDiferencia');
                                     })
@@ -584,25 +664,6 @@ async function addListeners(){
     txtFechaC.value = funciones.getFecha(); 
     document.getElementById('cmbBancoC').innerHTML = funciones.getComboBancos();
 
-    let btnMenuChequeContratante = document.getElementById('btnMenuChequeContratante');
-    btnMenuChequeContratante.addEventListener('click',()=>{ 
-        if(Number(GlobalNivelUsuario)==1){
-            GlobalSelectedTipoCheque = 'CONTRATANTE';
-            //CONTRANTE DEL PROYECTO
-            let codigo = document.getElementById('cmbContratanteC').value || 0;
-            api.contratantes_proyectos_combo(codigo,'cmbProyectoC');
-    
-            document.getElementById('txtNumeroChequeC').value = '';
-            document.getElementById('txtImporteC').value = '';
-            document.getElementById('txtRecibeC').value = '';
-            document.getElementById('txtObsC').value = '';
-            $('#modalNuevoContratante').modal('show');
-        }else{
-            funciones.AvisoHablado('Usted no puede realizar esta opción, solicitela a su Administrador')
-        }
-        
-
-    });
 
 
     api.contratantes_combo_promise('cmbContratanteC');
@@ -655,8 +716,9 @@ async function addListeners(){
                                         concepto.value)
                                     .then(()=>{
                                         funciones.Aviso('Cheque creado exitosamente!!');
-                                        $('#modalNuevoContratante').modal('hide');
-    
+                                        //$('#modalNuevoContratante').modal('hide');
+                                        document.getElementById('tab-uno').click();
+
                                         let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
                                         api.cheques_proyecto_todos(cmbProyectoCheques, 'tblCheques1','lbPresupuesto','lbSaldo','lbDiferencia');
                                     })
@@ -721,17 +783,17 @@ function setPermisos(){
     switch (GlobalNivelUsuario) {
         case 1:
             document.getElementById('permisoLb1').style = "visibility:visible";
-            document.getElementById('permisoLb2').style = "visibility:visible";
+            //document.getElementById('permisoLb2').style = "visibility:visible";
             break;
 
         case 2:
             document.getElementById('permisoLb1').style = "visibility:visible";
-            document.getElementById('permisoLb2').style = "visibility:visible";
+            //document.getElementById('permisoLb2').style = "visibility:visible";
             break;
 
         case 3:
             document.getElementById('permisoLb1').style = "visibility:hidden";
-            document.getElementById('permisoLb2').style = "visibility:hidden";
+            //document.getElementById('permisoLb2').style = "visibility:hidden";
             document.getElementById('lbPresupuesto').style = "visibility:hidden";
             document.getElementById('lbSaldo').style = "visibility:hidden";
             break;
