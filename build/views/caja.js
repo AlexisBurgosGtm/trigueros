@@ -42,21 +42,19 @@ function getView(){
         },
         encabezado: ()=>{
             return `
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <h3>Listado de Cortes de Caja</h3>
-                    </div>
-                </div>
-            </div>
+            
             `;
         },
         listado: ()=>{
             return `
-            <div class="row">
-                <div class="card col-12">
+            
+            <div class="card card-rounded shadow col-12">
+                <div class="card-body p-4">    
+                    
+                    <h3 class="text-danger negrita">Listado de Cortes de Caja</h3>
+
                     <div class="form-group">
-                        <label>Estado</label>
+                        <label>Ver por Activos o Finalizados</label>
                         <select class="form-control col-6" id="cmbStatus">
                             <option value="NO">ACTIVOS</option>
                             <option value="SI">FINALIZADOS</option>
@@ -64,7 +62,7 @@ function getView(){
                     </div>
 
                     <table class="table table-responsive table-hover table-striped" id="tblListado">
-                        <thead class="bg-trans-gradient text-white">
+                        <thead class="bg-secondary text-white">
                             <tr>
                                 <td>No.</td>
                                 <td>Fecha</td>
@@ -75,9 +73,10 @@ function getView(){
                         </thead>
                         <tbody id="tblCortes"></tbody>
                     </table>
-                
-                </div>
-            </div>`;
+
+                </div>    
+            </div>
+            `;
         },
         modalNuevoIngreso: ()=>{
             return `
@@ -87,27 +86,41 @@ function getView(){
 
                         <h5 class="negrita text-success" id="">Datos de la Entrada</h5>
 
-                        <div class="form-group">
-                            <label class="negrita">Fecha</label>
-                            <input type="date" class="form-control" id="txtEntFecha">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                <div class="form-group">
+                                    <label class="negrita">Fecha</label>
+                                    <input type="date" class="form-control" id="txtEntFecha">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                <div class="form-group">
+                                    <label class="negrita">Cuenta</label>
+                                    <select class="form-control" id="cmbEntCuenta"></select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                <div class="form-group">
+                                    <label class="negrita">Número de Cheque</label>
+                                    <input type="text" class="form-control" id="txtEntNocheque" value='0'>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label class="negrita">Cuenta</label>
-                            <select class="form-control" id="cmbEntCuenta"></select>
-                        </div>
-                        <div class="form-group">
-                            <label class="negrita">Número de Cheque</label>
-                            <input type="text" class="form-control" id="txtEntNocheque" value='0'>
-                        </div>
+                        <br>
 
-                        <div class="form-group">
-                            <label class="negrita">Cantidad</label>
-                            <input type="number" class="form-control col-4 bg-amarillo text-danger negrita" id="txtEntImporte" value=0>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="negrita">Recibe</label>
-                            <input type="text" class="form-control" id="txtEntRecibido" value='SN'>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label class="negrita">Cantidad</label>
+                                    <input type="number" class="form-control bg-amarillo text-danger negrita" id="txtEntImporte" value=0>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label class="negrita">Recibe</label>
+                                    <input type="text" class="form-control" id="txtEntRecibido" value='SN'>
+                                </div>
+                            </div>
                         </div>
 
                         
@@ -115,15 +128,21 @@ function getView(){
 
                         <div class="row">
                             <div class="col-6 text-right">
-                                <button class="btn btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('tab-uno').click()">
-                                    <i class="fal fa-arrow-left"></i>
-                                </button>    
+                                 
                             </div>
                             <div class="col-6 text-right">
-                                <button class="btn btn-primary btn-xl" id="btnEntGuardar">
-                                    <i class="fal fa-save"></i>
-                                    Guardar
-                                </button>    
+                                <div class="row">
+                                    <div class="col-6">
+                                        <button class="btn btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('tab-uno').click()">
+                                            <i class="fal fa-arrow-left"></i>
+                                        </button>    
+                                    </div>
+                                    <div class="col-6">
+                                        <button class="btn btn-owner btn-circle btn-xl hand shadow" id="btnEntGuardar">
+                                            <i class="fal fa-save"></i>
+                                        </button>    
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -137,20 +156,27 @@ function getView(){
             return `
             <div class="card card-rounded shadow col-12">
                  
-                    <div class="card-body">
+                    <div class="card-body p-4">
 
                         <h5 class="negrita text-danger" id="">Datos de la Salida</h5>
 
-                        <div class="form-group">
-                            <label>Fecha</label>
-                            <input type="date" class="form-control col-6" id="txtSalFecha">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-3 col-xl-3 col-lg-3">
+                                <div class="form-group">
+                                    <label>Fecha</label>
+                                    <input type="date" class="form-control" id="txtSalFecha">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-9 col-xl-9 col-lg-9">
+                                <div class="form-group">
+                                    <label>Proyecto</label>
+                                    <!--<input type="text" class="form-control" id="txtSalProyecto">-->
+                                    <select class="form-control" id="txtSalProyecto"></select>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="form-group">
-                            <label>Proyecto</label>
-                            <!--<input type="text" class="form-control" id="txtSalProyecto">-->
-                            <select class="form-control" id="txtSalProyecto"></select>
-                        </div>
+                        <br>
+                        
 
                         <div class="form-group">
                             <label>Acreedor</label>
@@ -163,36 +189,47 @@ function getView(){
                             <input type="text" class="form-control" id="txtSalDescripcion">
                         </div>
 
-                        <div class="form-group">
-                            <label>Rubro</label>
-                            <select class="form-control" id="cmbSalRubro"></select>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6 col-xl-4 col-lg-4">
+                                <div class="form-group">
+                                    <label>Rubro</label>
+                                    <select class="form-control" id="cmbSalRubro"></select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-xl-4 col-lg-4">
+                                <div class="form-group">
+                                    <label>Factura</label>
+                                    <input type="text" class="form-control" id="txtSalFactura">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-xl-4 col-lg-4">
+                                <div class="form-group">
+                                    <label>Importe</label>
+                                    <input type="number" class="form-control bg-amarillo negrita border-danger text-danger" id="txtSalImporte" value=0>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="form-group">
-                            <label>Factura</label>
-                            <input type="text" class="form-control col-8" id="txtSalFactura">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Importe</label>
-                            <input type="number" class="form-control bg-amarillo negrita text-danger col-8" id="txtSalImporte" value=0>
-                        </div>
-
 
                         
                         <hr class="solid">
 
                         <div class="row">
                             <div class="col-6">
-                                <button class="btn btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('tab-uno').click()">
-                                    <i class="fal fa-arrow-left"></i>
-                                </button>    
+                               
                             </div>
-                            <div class="col-6">
-                                <button class="btn btn-info btn-xl" id="btnSalidaGuardar">
-                                    <i class="fal fa-save"></i>
-                                    Guardar
-                                </button>    
+                            <div class="col-6 text-right">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <button class="btn btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('tab-cuatro').click()">
+                                                <i class="fal fa-arrow-left"></i>
+                                            </button>    
+                                        </div>
+                                        <div class="col-6">
+                                            <button class="btn btn-owner btn-xl btn-circle hand shadow" id="btnSalidaGuardar">
+                                                <i class="fal fa-save"></i>
+                                            </button>    
+                                        </div>
+                                    </div>   
                             </div>
                         </div>
 
@@ -205,11 +242,18 @@ function getView(){
             <div class="card card-rounded shadow col-12">
                 
 
-                        <div class="modal-body">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-8 text-left">
+                                    <h5 class="negrita text-danger" id="">Movimientos del Corte</h5>
                             
-                            <h5 class="negrita text-danger" id="">Movimientos del Corte</h5>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <button class="btn btn-danger hand shadow" id="btnFinalizar"><i class="fal fa-list"></i> Finalizar</button>
+                                </div>
+                            </div>
                             
-                            <button id="btnFinalizar">Finalizar</button>
+                            
 
                             <div class="row">
                                 <div class="col-6">
@@ -233,8 +277,9 @@ function getView(){
                                     </div>    
                                 </div>
                             </div>
+
                         <table class="table table-responsive table-hover table-striped table-bordered">
-                            <thead class="bg-trans-gradient text-white">
+                            <thead class="bg-owner text-white">
                                 <tr>
                                     <td>FECHA</td>
                                     <td>PROYECTO/DESCRIPCION</td>
@@ -257,14 +302,14 @@ function getView(){
             </div>
             <div class="" id="btnFlotanteDerecha">
                 <div class="row">
-                    <button class="btn btn-danger btn-circle btn-xl shadow" id="btnNuevoSalida">
-                        -                       
+                    <button class="btn btn-success btn-circle btn-xl shadow hand" id="btnNuevoSalida">
+                        +                       
                     </button>
                 </div>
                 <br><br>
                 <div class="row">
-                    <button class="btn btn-danger btn-sm shadow" onclick="document.getElementById('tab-uno').click()">
-                        <<-Atrás                       
+                    <button class="btn btn-secondary btn-xl btn-circle shadow hand" onclick="document.getElementById('tab-uno').click()">
+                        <i class="fal fa-arrow-left"></i>
                     </button>
                 </div>
             </div>
@@ -345,21 +390,21 @@ async function addListeners(){
                     funciones.AvisoError('Indique el monto del ingreso');
                     return;
                 }else{
-                    btnEntGuardar.innerHTML = GlobalMiniLoader;
-                    btnEntGuardar.enabled = false;
+                    btnEntGuardar.innerHTML = '<i class="fal fa-save fa-spin"></i>';
+                    btnEntGuardar.disabled = true;
 
                     api.caja_insertar(cmbEntCuenta.value,txtEntNocheque,txtEntFecha,txtEntImporte.value,txtEntRecibido)
                     .then(()=>{
-                        btnEntGuardar.innerHTML =  '<i class="fal fa-save"></i>Guardar';
-                        btnEntGuardar.enabled = true;
+                        btnEntGuardar.innerHTML =  '<i class="fal fa-save"></i>';
+                        btnEntGuardar.disabled = false;
                         funciones.Aviso('Ingreso registrado exitosamente!!')
                         api.caja_lista('tblCortes',cmbStatus.value);
                         //$('#modalNuevoIngreso').modal('hide');
                         document.getElementById('tab-uno').click();
                     })
                     .catch(()=>{
-                        btnEntGuardar.innerHTML =  '<i class="fal fa-save"></i>Guardar';
-                        btnEntGuardar.enabled = true;
+                        btnEntGuardar.innerHTML =  '<i class="fal fa-save"></i>';
+                        btnEntGuardar.disabled = false;
                         funciones.AvisoError('No se pudo guardar este Ingreso');
                     })
                 };                
@@ -444,6 +489,10 @@ async function addListeners(){
                 let txtSalFactura = document.getElementById('txtSalFactura').value || '000';
                 let txtSalImporte = document.getElementById('txtSalImporte');
 
+                btnSalidaGuardar.disabled = true;
+                btnSalidaGuardar.innerHTML = '<i class="fal fa-save fa-spin"></i>';
+
+
                 if(Number(txtSalImporte.value) > 0){
                     api.caja_insertar_movimiento(GlobalSelectedId,fecha,txtSalProyecto,txtSalAcreedor,txtSalDescripcion,cmbSalRubro,txtSalFactura,Number(txtSalImporte.value))
                     .then(async()=>{
@@ -452,10 +501,10 @@ async function addListeners(){
                         funciones.Aviso('Movimiento guardado exitosamente!!');
                         await api.caja_historial_lista('tblHistorial',GlobalSelectedId, 'lbCorteSalidas', 'lbCorteSaldo',GlobalSelectedImporte);
 
-                                                
-                        $('#modalNuevoSalida').modal('hide');
+                        btnSalidaGuardar.disabled = false;
+                        btnSalidaGuardar.innerHTML = '<i class="fal fa-save"></i>';
 
-
+                        document.getElementById('tab-cuatro').click();
 
                         if(txtSalProyecto.toString()=='0'){
                             //SI ES GASTO DE OFICINA NO GUARDA UN CHEQUE
@@ -475,10 +524,15 @@ async function addListeners(){
 
                     })
                     .catch(()=>{
-                        funciones.AvisoError('No se pudo guardar este movimiento')                        
+                        funciones.AvisoError('No se pudo guardar este movimiento');
+                        btnSalidaGuardar.disabled = false;
+                        btnSalidaGuardar.innerHTML = '<i class="fal fa-save"></i>';                        
                     })
                 }else{
                     funciones.AvisoError('No se puede guardar una salida con valor cero');
+
+                    btnSalidaGuardar.disabled = false;
+                    btnSalidaGuardar.innerHTML = '<i class="fal fa-save"></i>';
                 }
 
 
