@@ -127,7 +127,7 @@ function getView(){
                         <br><br><br><br><br>
 
                         <div class="row">
-                            <div class="col-4">
+                            <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
 
                                 <div class="card card-rounded border-success shadow hand" id="btnMenuChequeContratista">
                                     <div class="card-body p-4">
@@ -143,7 +143,7 @@ function getView(){
                                 </div>
 
                             </div>
-                            <div class="col-4">
+                            <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
 
                                 <div class="card card-rounded border-secondary shadow hand" id="btnMenuChequeProveedor">
                                     <div class="card-body p-4">
@@ -159,7 +159,7 @@ function getView(){
                                 </div> 
 
                             </div>
-                            <div class="col-4">
+                            <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
 
                                 <div class="card card-rounded border-warning shadow hand" id="btnMenuChequeContratante">
                                     <div class="card-body p-4">
@@ -483,6 +483,7 @@ async function addListeners(){
             let codigo = document.getElementById('cmbContratanteC').value || 0;
             api.contratantes_proyectos_combo(codigo,'cmbProyectoC');
     
+            document.getElementById('txtConceptoC').value = '';
             document.getElementById('txtNumeroChequeC').value = '';
             document.getElementById('txtImporteC').value = '';
             document.getElementById('txtRecibeC').value = '';
@@ -717,6 +718,9 @@ async function addListeners(){
                                     .then(()=>{
                                         funciones.Aviso('Cheque creado exitosamente!!');
                                         //$('#modalNuevoContratante').modal('hide');
+                                        btnGuardarChequeC.disabled = false;
+                                        btnGuardarChequeC.innerHTML = ' <i class="fal fa-save"></i>';
+
                                         document.getElementById('tab-uno').click();
 
                                         let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
@@ -724,19 +728,14 @@ async function addListeners(){
                                     })
                                     .catch(()=>{
                                         funciones.AvisoError('No se pudo crear el cheque');
+                                        btnGuardarChequeC.disabled = false;
+                                        btnGuardarChequeC.innerHTML = ' <i class="fal fa-save"></i>';
                                     })
-                                //btnGuardarChequeC.innerHTML = `<i class="fal fa-save"></i>Guardar`;
-                                btnGuardarChequeC.disabled = false;
-                                btnGuardarChequeC.innerHTML = ' <i class="fal fa-save"></i>';
                             
                         }else{
                             funciones.AvisoError('Indique el monto/cantidad del cheque');
                         };
                     };
-                //})
-                //.catch(()=>{
-                  //  funciones.AvisoError('Cheque ya existe')
-                //})
                 
             }
         })      

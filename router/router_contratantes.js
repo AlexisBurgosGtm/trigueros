@@ -51,7 +51,7 @@ router.post("/listado", async (req, res) => {
     let qry = '';
 
     qry = `SELECT CODCONTRATANTE AS CODIGO, DESCONTRATANTE AS DESCRIPCION, TELEFONO
-            FROM CONST_CONTRATANTES`
+            FROM CONST_CONTRATANTES ORDER BY DESCONTRATANTE`
 
     execute.Query(res, qry);
 
@@ -66,7 +66,8 @@ router.post("/listadoproyectos", async (req, res) => {
 
     qry = `SELECT IDPROYECTO AS CODIGO, PROYECTO AS DESCRIPCION, DIRECCION, FECHAINICIO, FECHAFIN, RECIBIDO, EJECUTADO, PRESUPUESTO, (PRESUPUESTO-EJECUTADO) AS SALDO
             FROM CONST_PROYECTOS
-            WHERE (CODCONTRATANTE = ${codcontratante}) AND (FINALIZADO = 'NO')`
+            WHERE (CODCONTRATANTE = ${codcontratante}) AND (FINALIZADO = 'NO') 
+            ORDER BY PROYECTO`
 
     execute.Query(res, qry);
 

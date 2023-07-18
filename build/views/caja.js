@@ -1,5 +1,45 @@
 function getView(){
     let view = {
+        body:()=>{
+            return `
+                <div class="col-12 p-0">
+                    <div class="tab-content" id="myTabHomeContent">
+                        <div class="tab-pane fade show active" id="uno" role="tabpanel" aria-labelledby="dias-tab">
+                            ${view.encabezado() + view.listado() + view.btnNuevo()}
+                        </div>
+                        <div class="tab-pane fade" id="dos" role="tabpanel" aria-labelledby="clientes-tab">
+                            ${view.modalNuevoIngreso()}
+                        </div>
+
+                        <div class="tab-pane fade" id="tres" role="tabpanel" aria-labelledby="home-tab">
+                            ${view.modalNuevoSalida()}
+                        </div>
+                        <div class="tab-pane fade" id="cuatro" role="tabpanel" aria-labelledby="home-tab">
+                            ${ view.modalDetalle()}
+                        </div>
+                    </div>
+
+                    <ul class="nav nav-tabs hidden" id="myTabHome" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active negrita text-success" id="tab-uno" data-toggle="tab" href="#uno" role="tab" aria-controls="profile" aria-selected="false">
+                                <i class="fal fa-list"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link negrita text-danger" id="tab-dos" data-toggle="tab" href="#dos" role="tab" aria-controls="home" aria-selected="true">
+                                <i class="fal fa-comments"></i></a>¿
+                        </li> 
+                        <li class="nav-item">
+                            <a class="nav-link negrita text-info" id="tab-tres" data-toggle="tab" href="#tres" role="tab" aria-controls="home" aria-selected="true">
+                                <i class="fal fa-edit"></i></a>
+                        </li>                           
+                        <li class="nav-item">
+                            <a class="nav-link negrita text-info" id="tab-cuatro" data-toggle="tab" href="#cuatro" role="tab" aria-controls="home" aria-selected="true">
+                                <i class="fal fa-edit"></i></a>
+                        </li>                           
+                    </ul>
+                </div>
+            `
+        },
         encabezado: ()=>{
             return `
             <div class="row">
@@ -41,13 +81,11 @@ function getView(){
         },
         modalNuevoIngreso: ()=>{
             return `
-            <div class="modal fade js-modal-settings modal-backdrop-transparent modal-with-scroll" tabindex="-1" role="dialog" aria-hidden="true"  id="modalNuevoIngreso">
-                <div class="modal-dialog modal-dialog-right modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header bg-success text-white">
-                            <h5 class="modal-title" id="">Datos de la Entrada</h5>
-                        </div>
-                    <div class="modal-body">
+                <div class="card card-rounded shadow col-12">
+                    
+                    <div class="card-body">
+
+                        <h5 class="negrita text-success" id="">Datos de la Entrada</h5>
 
                         <div class="form-group">
                             <label class="negrita">Fecha</label>
@@ -76,13 +114,12 @@ function getView(){
                         <hr class="solid">
 
                         <div class="row">
-                            <div class="col-6">
-                                <button class="btn btn-outline-secondary btn-xl" data-dismiss="modal">
-                                    <i class="fal fa-times"></i>
-                                    Cancelar
+                            <div class="col-6 text-right">
+                                <button class="btn btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('tab-uno').click()">
+                                    <i class="fal fa-arrow-left"></i>
                                 </button>    
                             </div>
-                            <div class="col-6">
+                            <div class="col-6 text-right">
                                 <button class="btn btn-primary btn-xl" id="btnEntGuardar">
                                     <i class="fal fa-save"></i>
                                     Guardar
@@ -91,23 +128,18 @@ function getView(){
                         </div>
 
                     </div>
-                    <div class="modal-footer">
-                    </div>
 
-                    </div>
-                </div>
+                    
             </div>
             `;
         },
         modalNuevoSalida: ()=>{
             return `
-            <div class="modal fade js-modal-settings modal-backdrop-transparent modal-with-scroll" tabindex="-1" role="dialog" aria-hidden="true"  id="modalNuevoSalida">
-                <div class="modal-dialog modal-dialog-right modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header bg-danger text-white">
-                            <h5 class="modal-title" id="">Datos de la Salida</h5>
-                        </div>
-                    <div class="modal-body">
+            <div class="card card-rounded shadow col-12">
+                 
+                    <div class="card-body">
+
+                        <h5 class="negrita text-danger" id="">Datos de la Salida</h5>
 
                         <div class="form-group">
                             <label>Fecha</label>
@@ -152,9 +184,8 @@ function getView(){
 
                         <div class="row">
                             <div class="col-6">
-                                <button class="btn btn-outline-secondary btn-xl" data-dismiss="modal">
-                                    <i class="fal fa-times"></i>
-                                    Cancelar
+                                <button class="btn btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('tab-uno').click()">
+                                    <i class="fal fa-arrow-left"></i>
                                 </button>    
                             </div>
                             <div class="col-6">
@@ -166,27 +197,20 @@ function getView(){
                         </div>
 
                     </div>
-                    <div class="modal-footer">
-                    </div>
-
-                    </div>
-                </div>
             </div>
             `;
         },
         modalDetalle: ()=>{
             return `
-            <div class="modal fade js-modal-settings modal-backdrop-transparent modal-with-scroll" tabindex="-1" role="dialog" aria-hidden="true"  id="modalDetalle">
-                <div class="modal-dialog modal-dialog-right modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header bg-info text-white">
-                            <h5 class="modal-title" id="">Movimientos del Corte</h5>
-                            <button class="btn btn-danger shadow" id="btnFinalizar">
-                                <i class="fal fa-check"></i>Finalizar
-                            </button>
-                        </div>
+            <div class="card card-rounded shadow col-12">
+                
 
                         <div class="modal-body">
+                            
+                            <h5 class="negrita text-danger" id="">Movimientos del Corte</h5>
+                            
+                            <button id="btnFinalizar">Finalizar</button>
+
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
@@ -226,26 +250,23 @@ function getView(){
 
                     </div>
 
-                    <div class="modal-footer">
-                    </div>
+                    
 
-                    </div>
+               
+
+            </div>
+            <div class="" id="btnFlotanteDerecha">
+                <div class="row">
+                    <button class="btn btn-danger btn-circle btn-xl shadow" id="btnNuevoSalida">
+                        -                       
+                    </button>
                 </div>
-
-                <div class="" id="btnFlotanteDerecha">
-                    <div class="row">
-                        <button class="btn btn-danger btn-circle btn-xl shadow" id="btnNuevoSalida">
-                            -                       
-                        </button>
-                    </div>
-                    <br><br>
-                    <div class="row">
-                        <button class="btn btn-danger btn-sm shadow" data-dismiss="modal">
-                            <<-Atrás                       
-                        </button>
-                    </div>
+                <br><br>
+                <div class="row">
+                    <button class="btn btn-danger btn-sm shadow" onclick="document.getElementById('tab-uno').click()">
+                        <<-Atrás                       
+                    </button>
                 </div>
-
             </div>
             `;
         },
@@ -261,7 +282,7 @@ function getView(){
         }
     };
 
-    root.innerHTML = view.encabezado() + view.listado() + view.btnNuevo() + view.modalNuevoIngreso() + view.modalDetalle() + view.modalNuevoSalida();
+    root.innerHTML =  view.body();
 
 };
 
@@ -296,7 +317,8 @@ async function addListeners(){
     btnNuevoIngreso.addEventListener('click',()=>{
         //if(cmbStatus.value=='NO'){
             document.getElementById('txtEntFecha').value = funciones.getFecha();
-            $('#modalNuevoIngreso').modal('show');
+            //$('#modalNuevoIngreso').modal('show');
+            document.getElementById('tab-dos').click();
         //}else{
           //  funciones.AvisoError('No se puede agregar más salidas a un corte finalizado')
         //}
@@ -332,7 +354,8 @@ async function addListeners(){
                         btnEntGuardar.enabled = true;
                         funciones.Aviso('Ingreso registrado exitosamente!!')
                         api.caja_lista('tblCortes',cmbStatus.value);
-                        $('#modalNuevoIngreso').modal('hide');
+                        //$('#modalNuevoIngreso').modal('hide');
+                        document.getElementById('tab-uno').click();
                     })
                     .catch(()=>{
                         btnEntGuardar.innerHTML =  '<i class="fal fa-save"></i>Guardar';
@@ -361,7 +384,8 @@ async function addListeners(){
             document.getElementById('txtSalFactura').value = '000';
             document.getElementById('txtSalImporte').value = 0;
     
-            $('#modalNuevoSalida').modal('show');
+            //$('#modalNuevoSalida').modal('show');
+            document.getElementById('tab-tres').click();
 
         }else{
             funciones.AvisoError('No se puede agregar más salidas a un corte finalizado')
@@ -377,7 +401,8 @@ async function addListeners(){
         .then((value)=>{
             if(value==true){
                 
-                $('#modalDetalle').modal('hide');
+                //$('#modalDetalle').modal('hide');
+                document.getElementById('tab-uno').click();
 
                 funciones.solicitarClave()
                 .then((name)=>{
@@ -461,7 +486,7 @@ async function addListeners(){
         })          
     })
 
-
+    funciones.slideAnimationTabs();
 
 };
 
@@ -484,8 +509,8 @@ function getHistorialCorte(nocorte,fecha,importe){
 
     api.caja_historial_lista('tblHistorial',GlobalSelectedId, 'lbCorteSalidas', 'lbCorteSaldo',GlobalSelectedImporte);
 
-    $('#modalDetalle').modal('show');
-
+    //$('#modalDetalle').modal('show');
+    document.getElementById('tab-cuatro').click();
 };
 
 function initView(){
@@ -505,7 +530,7 @@ function deleteMovimientoCaja(idmovimiento){
         .then((value)=>{
             if(value==true){
     
-                $('#modalDetalle').modal('hide');
+                //$('#modalDetalle').modal('hide');
     
                 funciones.solicitarClave()
                 .then((name)=>{

@@ -1,23 +1,50 @@
 function getView(){
     let view = {
-        encabezado:()=>{
+        body:()=>{
             return `
-                <div class="card">
-                    <div class="card-header bg-info text-white">
-                        <label>Seleccione un Proyecto</label>
+                <div class="col-12 p-0">
+                    <div class="tab-content" id="myTabHomeContent">
+                        <div class="tab-pane fade show active" id="uno" role="tabpanel" aria-labelledby="dias-tab">
+                                ${view.listado()}
+                        </div>
+                        <div class="tab-pane fade" id="dos" role="tabpanel" aria-labelledby="clientes-tab">
+                                ${view.datos_contrato()}
+                        </div>
+
+                        <div class="tab-pane fade" id="tres" role="tabpanel" aria-labelledby="home-tab">
+                           
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <select class="form-control border-info shadow" id="cmbProyectos">
-                            
-                        </select>
-                    </div>
+
+                    <ul class="nav nav-tabs hidden" id="myTabHome" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active negrita text-success" id="tab-uno" data-toggle="tab" href="#uno" role="tab" aria-controls="profile" aria-selected="false">
+                                <i class="fal fa-list"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link negrita text-danger" id="tab-dos" data-toggle="tab" href="#dos" role="tab" aria-controls="home" aria-selected="true">
+                                <i class="fal fa-comments"></i></a>¿
+                        </li> 
+                        <li class="nav-item">
+                            <a class="nav-link negrita text-info" id="tab-tres" data-toggle="tab" href="#tres" role="tab" aria-controls="home" aria-selected="true">
+                                <i class="fal fa-edit"></i></a>
+                        </li>                           
+                    </ul>
                 </div>
             `
         },
         listado:()=>{
             return `
-            <div class="card">
+            <div class="card card-rounded shadow p-2">
                 <div class="card-body">
+
+                    <div class="form-group">
+                        <h5 class="negrita text-info">Seleccione un Proyecto</h5>
+                        <select class="form-control border-info negrita text-info" id="cmbProyectos">
+                            
+                        </select>
+                    </div>
+
                     <div class="table-responsive">
                         <table class="table table-responsive table-hover table-striped table-bordered">
                             <thead class="bg-trans-gradient text-white">
@@ -34,7 +61,106 @@ function getView(){
             </div>
             `
         },
-        modalDetalle: ()=>{
+        datos_contrato: ()=>{
+            return `
+                <div class="card">
+                       
+                    <div class="card-body">
+                        
+                        <h5 class="modal-title negrita text-danger" id="exampleModalLabel">Detalle del Sub-Contrato</h5>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form group"
+                                    <label>No. Contrato: </label>
+                                    <h3 id="NoContrato"></h3>
+                                </div>    
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Fecha Entrega:</label>
+                                    <h3 id="FechaEntrega"></h3>
+                                </div>       
+                            </div>
+                        </div>
+
+                        <hr class="solid">
+                        
+                        <div class="form group">
+                            <label>Proyecto:</label>
+                            <h4 id="Proyecto"></h4>
+                        </div>
+                        <br>
+                        <div class="form group">
+                            <label>Sub-contratista:</label>
+                            <h4 id="Acreedor"></h4>
+                        </div>
+                        <br>
+                        <div class="form group">
+                            <label>Asignación:</label>
+                            <h4 id="Asignacion"></h4>
+                        </div>
+
+                        <hr class="solid">
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form group">
+                                    <label>Importe:</label>
+                                    <h4 class="text-info" id="Importe"></h4>
+                                </div>    
+                            </div>
+
+                            <div class="col">
+                                <div class="form group">
+                                    <label>Entregado:</label>
+                                    <h4 class="text-success" id="Entregado"></h4>
+                                </div>    
+                            </div>
+
+                            <div class="col">
+                                <div class="form group">
+                                    <label>Saldo:</label>
+                                    <h4 class="text-danger" id="Saldo"></h4>
+                                </div>    
+                            </div>
+                            
+                        </div>
+                        
+                        <hr class="solid">
+
+                        <div class="row">
+                            <div class="table-responsive">
+                                <div class="table-responsive">
+                                    <table class="table table-responsive">
+                                        <thead class="bg-trans-gradient text-white">
+                                            <tr>
+                                                <td>FECHA</td>
+                                                <td>CUENTA</td>
+                                                <td>ACREEDOR</td>
+                                                <td>VALOR</td>
+                                                <td></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tblChequesContrato"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="text-left">
+                        <button class="btn btn-secondary btn-circle btn-xl hand shadow" onclick="document.getElementById('tab-uno').click()">
+                            <i class="fal fa-arrow-left"></i>
+                        </button>    
+                    </div>
+
+                    
+                </div>
+            </div>
+            `
+        },
+        BACKUP_modalDetalle: ()=>{
             return `
         <div class="modal fade js-modal-settings modal-backdrop-transparent" tabindex="-1" role="dialog" aria-hidden="true"  id="modalDetalle">
             <div class="modal-dialog modal-dialog-right modal-lg" role="document">
@@ -138,8 +264,8 @@ function getView(){
         }
     };
 
-    root.innerHTML = view.encabezado() + view.listado();
-    rootModal.innerHTML = view.modalDetalle();
+    root.innerHTML = view.body();
+    rootModal.innerHTML = ''; //view.modalDetalle();
 
 };
 
@@ -159,6 +285,8 @@ function addListeners(){
         api.subcontrato_listado(codproy,'tblContratos')
     });
 
+
+    funciones.slideAnimationTabs();
 
 
 };
@@ -181,7 +309,8 @@ async function detalleContrato(nocontrato,entrega,proyecto,acreedor,asignacion,i
 
     await api.cheques_contrato(nocontrato,'tblChequesContrato')
 
-    $('#modalDetalle').modal('show');
+    //$('#modalDetalle').modal('show');
+    document.getElementById('tab-dos').click();
 
 };
 

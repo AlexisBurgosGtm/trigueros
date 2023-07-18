@@ -102,7 +102,8 @@ router.post("/subcontratistas", async (req, res) => {
                 CONST_CONTRATISTAS_PROYECTO.SALDO
             FROM CONST_CONTRATISTAS_PROYECTO INNER JOIN
             CONST_ACREEDORES ON CONST_CONTRATISTAS_PROYECTO.CODACREEDOR = CONST_ACREEDORES.CODACREEDOR
-            WHERE (CONST_CONTRATISTAS_PROYECTO.IDPROYECTO = ${idproyecto})`
+            WHERE (CONST_CONTRATISTAS_PROYECTO.IDPROYECTO = ${idproyecto})
+            ORDER BY CONST_ACREEDORES.DESACREEDOR`
 
     execute.Query(res, qry);
 
@@ -228,7 +229,7 @@ router.post("/finalizar", async (req, res) => {
 router.post("/listarubros", async (req, res) => {
 
 
-    let qry = `SELECT ID, RUBRO FROM CONST_RUBROS`;
+    let qry = `SELECT ID, RUBRO FROM CONST_RUBROS ORDER BY RUBRO`;
 
     execute.Query(res, qry);
 

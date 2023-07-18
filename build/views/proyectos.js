@@ -5,14 +5,14 @@ function getView(){
                 <div class="col-12 p-0">
                     <div class="tab-content" id="myTabHomeContent">
                         <div class="tab-pane fade show active" id="uno" role="tabpanel" aria-labelledby="dias-tab">
-                            ${view.encabezado() + view.listado() + view.btnNuevo()}
+                            ${view.encabezado() + view.listado()}
                         </div>
                         <div class="tab-pane fade" id="dos" role="tabpanel" aria-labelledby="clientes-tab">
-                            ${view.modalMenuProyecto()}
+                            ${view.datos_proyecto()}
                         </div>
 
                         <div class="tab-pane fade" id="tres" role="tabpanel" aria-labelledby="home-tab">
-                           
+                           ${view.nuevo_proyecto()}
                         </div>
                     </div>
 
@@ -78,9 +78,92 @@ function getView(){
                <div id="tblProyectos" class="card-columns">
                </div>
             </div>
+            <div id="btnFlotanteDerecha">
+                <button class="btn btn-success btn-circle btn-xl shadow" id="btnNuevo">
+                    +
+                </button>
+            </div>
             `
         },
-        modalNuevoProyecto : ()=>{
+        nuevo_proyecto : ()=>{
+            return `
+            <div class="card card-rounded shadow">
+ 
+                    <div class="card-body p-6">
+
+                        <h5 class="negrita text-danger">Datos del Proyecto</h5>
+
+                        <div class="form-group">
+                            <label>Proyecto</label>
+                            <input type="text" class="form-control input-sm" id="txtDescripcion">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Dirección</label>
+                            <input type="text" class="form-control input-sm" id="txtDireccion">
+                        </div>
+                        
+
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-4 col-xl-4 col-md-4">
+                                <div class="form-group">
+                                    <label>Fecha Inicio</label>
+                                    <input type="date" class="form-control input-sm" id="txtFInicio">
+                                </div>    
+                            </div>
+                            <div class="col-sm-12 col-lg-4 col-xl-4 col-md-4">
+                                <div class="form-group">
+                                    <label>Fecha Final</label>
+                                    <input type="date" class="form-control input-sm" id="txtFFinal">
+                                </div>    
+                            </div>
+                            <div class="col-sm-12 col-lg-4 col-xl-4 col-md-4">
+                                <div class="form-group">
+                                    <label>Costo Total</label>
+                                    Q<input type="number" class="form-control bg-amarillo border-danger text-danger
+                                    " id="txtPresupuesto" value=0>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        
+                        <div class="form-group">
+                            <label>Contratante:</label>
+                            <select class="form-control input-sm" id="cmbContratante">
+                               
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                        </div>
+                        <div class="col-6">
+                                <div class="row">
+                                    <div class="col-6 text-right">
+                                        <button type="button" class="btn btn-circle hand shadow btn-secondary btn-xl" onclick="document.getElementById('tab-uno').click()">
+                                            <i class="fal fa-arrow-left"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <button type="button" class="btn btn-owner btn-xl btn-circle hand shadow" id="btnGuardarProyecto">
+                                            <i class="fal fa-save"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                        </div>
+                        
+                        
+                    </div>
+
+                </div>
+
+                
+            </div>
+            `
+            
+        },
+        BACKUP_modalNuevoProyecto : ()=>{
             return `
             <div class="modal fade js-modal-settings modal-backdrop-transparent" tabindex="-1" role="dialog" aria-hidden="true" id="modalNuevo">
                 <div class="modal-dialog modal-dialog-right modal-lg" role="document">
@@ -144,14 +227,7 @@ function getView(){
             `
             
         },
-        btnNuevo: () => {
-            return `<div id="btnFlotanteDerecha">
-                        <button class="btn btn-success btn-circle btn-xl shadow" id="btnNuevo">
-                            +
-                         </button>
-                    </div>`   
-        },
-        modalMenuProyecto : ()=>{
+        datos_proyecto : ()=>{
             return `
               
                             <div class="panel-container show">
@@ -616,7 +692,7 @@ function getView(){
     }
 
     root.innerHTML= view.body();
-    rootModal.innerHTML = view.modalNuevoProyecto() + view.modalNuevoContrato();
+    rootModal.innerHTML = view.modalNuevoContrato(); //view.modalNuevoProyecto() + view.modalNuevoContrato();
     
 };
 
@@ -662,7 +738,8 @@ function addListeners() {
     let btnNuevo = document.getElementById('btnNuevo');
     btnNuevo.addEventListener('click', () => {
         GlobalSelectedCodProyecto = 0;
-        $('#modalNuevo').modal('show');
+        //$('#modalNuevo').modal('show');
+        document.getElementById('tab-tres').click();
     });   
 
 
@@ -685,11 +762,15 @@ function addListeners() {
             .then((value) => {
                 if (value == true) {
 
-                    btnGuardarProyecto.innerHTML = GlobalLoader;
+                    btnGuardarProyecto.innerHTML = `<i class="fal fa-save fa-spin"></i>`;
+                    btnGuardarProyecto.disabled = true;
 
                     api.proyectos_insertar(txtDescripcion.value, txtDireccion.value, funciones.devuelveFecha('txtFInicio'), funciones.devuelveFecha('txtFFinal'), 'SN', '0', cmbContratante.value, Number(txtPresupuesto.value))
                     .then(async() => {
-                            btnGuardarProyecto.innerHTML = `<i class="fal fa-save"></i>Guardar`;
+                            
+                            btnGuardarProyecto.innerHTML = `<i class="fal fa-save"></i>`;
+                            btnGuardarProyecto.disabled = false;
+
                             funciones.Aviso('Proyecto guardado exitosamente!!')
                             let cmbStatus = document.getElementById('cmbStatus');
                             let cmbMes = document.getElementById('cmbMes');
@@ -697,12 +778,15 @@ function addListeners() {
 
                             await api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
                             await api.insertar_bitacora(`Proyecto nuevo: ${txtDescripcion.value}`)
-                            $('#modalNuevo').modal('hide');
+                            //$('#modalNuevo').modal('hide');
+                            document.getElementById('tab-uno').click();
                     })
                     .catch(() => {
                             funciones.AvisoError('No se pudo guardar'); 
+                            btnGuardarProyecto.innerHTML = `<i class="fal fa-save"></i>`;
+                            btnGuardarProyecto.disabled = false;
                     });
-                    btnGuardarProyecto.innerHTML = `<i class="fal fa-save"></i>Guardar`;
+                    
 
                 }
             })
@@ -717,7 +801,7 @@ function addListeners() {
 
                     api.proyectos_editar(GlobalSelectedCodProyecto,txtDescripcion.value, txtDireccion.value, funciones.devuelveFecha('txtFInicio'), funciones.devuelveFecha('txtFFinal'), 'SN', '0', cmbContratante.value, Number(txtPresupuesto.value))
                     .then(async() => {
-                            btnGuardarProyecto.innerHTML = `<i class="fal fa-save"></i>Guardar`;
+                            btnGuardarProyecto.innerHTML = `<i class="fal fa-save"></i>`;
                             funciones.Aviso('Proyecto editado exitosamente!!')
                             
                             let cmbStatus = document.getElementById('cmbStatus');
@@ -732,7 +816,7 @@ function addListeners() {
                     .catch(() => {
                             funciones.AvisoError('No se pudo guardar'); 
                     });
-                    btnGuardarProyecto.innerHTML = `<i class="fal fa-save"></i>Guardar`;
+                    btnGuardarProyecto.innerHTML = `<i class="fal fa-save"></i>`;
 
                 }
             })

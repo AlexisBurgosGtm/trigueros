@@ -128,16 +128,17 @@ let api = {
                             };
                             str = str + `
                             
-                            <div class="card card-rounded shadow hand border-top-rounded" onClick="getMenuProyecto(${rows.IDPROYECTO},'${rows.PROYECTO}','${funciones.setMoneda(rows.PRESUPUESTO, 'Q')}');">
+                            <div class="card card-rounded shadow hand" onClick="getMenuProyecto(${rows.IDPROYECTO},'${rows.PROYECTO}','${funciones.setMoneda(rows.PRESUPUESTO, 'Q')}');">
                                
+                            
                                     <div class="card-body">
 
-                                        <div class="card card-rounded bg-owner text-white col-12 p-2">
-                                            <h5>${rows.PROYECTO}</h5>
-                                            <small>${rows.DIRECCION}</small>
-                                            <br>
-                                            <small>Creado por:${rows.USUARIO}</small>
-                                        </div>
+                                    <div class="card-rounded bg-owner text-white col-12 p-2">
+                                        <h5>${rows.PROYECTO}</h5>
+                                        <small>${rows.DIRECCION}</small>
+                                        <br>
+                                        <small>Creado por:${rows.USUARIO}</small>
+                                    </div>            
 
                                         <div class="row">
                                             <div class="col-6">
