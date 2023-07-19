@@ -2,12 +2,14 @@ function getView(){
     let view = {
         encabezado: ()=>{
             return `
+            <div class="card col-12 card-rounded shadow p-4">
+                <div class="card-body">
                     <div class="row">
                         <div class="col-10">
-                            <div class="card">
+                            
                                 <div class="form-group">
                                     <label>Seleccione un Elemento de la Lista</label>
-                                    <select class="form-control" id="cmbLista">
+                                    <select class="form-control negrita border-danger" id="cmbLista">
                                         <option value="BITACORA">BITACORA</option>    
                                         <option value="BANCOS">BANCOS</option>
                                         <option value="CONTRATANTES">CONTRATANTES</option>
@@ -17,7 +19,7 @@ function getView(){
                                         <option value="USUARIOS">USUARIOS</option>
                                     </select>
                                 </div>
-                            </div>
+                            
                         </div>
                         <div class="col-2">
                             <button class="btn btn-lg btn-circle btn-outline-info" id="btnConfig">
@@ -25,15 +27,18 @@ function getView(){
                             </button>
                         </div>
                     </div>
-                    
-                
+                </div>
+            </div>
+            <br>    
             `
         },
         listado: ()=>{
             return `
-                    <div class="card">
-                        <div class="table-responsive" id="tblContainer">
-                            
+                    <div class="card card-rounded shadow col-12">
+                        <div class="card-body p-2">
+                            <div class="table-responsive" id="tblContainer">
+                                
+                            </div>
                         </div>
                     </div>
                 `
@@ -60,7 +65,7 @@ function getView(){
                             <div class="card">
                                 <div class="form-group">
                                     <label>Clave de verificaciones</label>
-                                    <input type="password" class="form-control" id="txtClave">
+                                    <input type="text" class="form-control" id="txtClave">
                                 </div>
                                 <div class="row">
                                     <div class="col-6">
@@ -1073,3 +1078,23 @@ function getMenuSubcontratistas(codigo,descripcion){
     $('#modalSubcontratistas').modal('show');
 
 };
+
+function subcoontratistas_desactivar(id,st){
+
+    funciones.Confirmacion('¿Está seguro que desea ACTIVAR/DESACTIVAR este Subcontratista?')
+    .then((value)=>{
+         if(value==true){
+ 
+             api.config_proveedores_desactivar(id,st)
+             .then(()=>{
+                 funciones.Aviso('Subcontratista actualizado exitosamente!!')
+                 getListado('SUBCONTRATISTAS');
+             })
+             .catch(()=>{
+                 funciones.AvisoError('No se pudo actualizar')
+             })
+ 
+         }
+    })
+ 
+ };

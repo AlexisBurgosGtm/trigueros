@@ -663,7 +663,7 @@ let api = {
         
         let str = '';
 
-            let url = GlobalUrlBackend + '/acreedores/listado'
+            let url = GlobalUrlBackend + '/acreedores/listado_activos'
 
             axios.post(url, {tipo: "SUBCONTRATISTA"})
                 .then((response) => {
@@ -688,7 +688,7 @@ let api = {
         let str = '';
 
         return new Promise((resolve,reject)=>{
-            let url = GlobalUrlBackend + '/acreedores/listado'
+            let url = GlobalUrlBackend + '/acreedores/listado_activos'
 
             axios.post(url, {tipo: "SUBCONTRATISTA"})
                 .then((response) => {
@@ -2205,13 +2205,13 @@ let api = {
         let strHeader = `<table class="table table-striped table-responsive table-hover">
                             <thead class="bg-warning">
                                 <tr>
-                                    <td>ID</td>
+                                    <td>ACT/DESAC</td>
                                     <td>SUBCONTRATISTA</td>
                                     <td></td>
                                 </tr>
                             </thead>
                             <tbody>`
-        let str = '';
+        let str = ''; let strActivo = '';
         let strFooter = `</tbody></table>`
         let data = {tipo:'SUBCONTRATISTA'}
         let url = GlobalUrlBackend + '/acreedores/listado';
@@ -2220,11 +2220,20 @@ let api = {
             try {
                 const data = response.data.recordset;
                 data.map((rows) => {
+                    if(rows.ACTIVO=='NO'){strActivo='<b class="text-danger">DESACTIVADO</b>'}else{strActivo=''}
                     str = str + `<tr class="border-info border-bottom">
-                                                <td>${rows.CODIGO}</td>
-                                                <td>${rows.DESCRIPCION}</td>
                                                 <td>
-                                                    <button class="btn btn-sm btn-warning btn-circle" 
+                                                    <button class="btn btn-sm btn-outline-danger btn-circle hand" 
+                                                        onclick="subcoontratistas_desactivar(${rows.CODIGO},'${rows.ACTIVO}')">
+                                                        <i class="fal fa-sync"></i>
+                                                    </button>
+                                                </td>
+                                                <td>${rows.DESCRIPCION}
+                                                    <br>
+                                                    ${strActivo}
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-warning btn-circle hand" 
                                                         onclick="getMenuSubcontratistas(${rows.CODIGO},'${rows.DESCRIPCION}')">
                                                         <i class="fal fa-edit"></i>
                                                     </button>
