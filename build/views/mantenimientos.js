@@ -1043,6 +1043,27 @@ function getMenuProveedores(codigo,descripcion){
 
 };
 
+function proveedores_desactivar(id,st){
+
+   funciones.Confirmacion('¿Está seguro que desea ACTIVAR/DESACTIVAR este Proveedor?')
+   .then((value)=>{
+        if(value==true){
+
+            api.config_proveedores_desactivar(id,st)
+            .then(()=>{
+                funciones.Aviso('Proveedor actualizado exitosamente!!')
+                getListado('PROVEEDORES');
+            })
+            .catch(()=>{
+                funciones.AvisoError('No se pudo actualizar')
+            })
+
+        }
+   })
+
+};
+
+
 function getMenuSubcontratistas(codigo,descripcion){
 
     GlobalSelectedId = codigo;

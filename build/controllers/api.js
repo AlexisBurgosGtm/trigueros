@@ -942,7 +942,7 @@ let api = {
         
         let str = '';
 
-            let url = GlobalUrlBackend + '/acreedores/listado'
+            let url = GlobalUrlBackend + '/acreedores/listado_activos'
 
             axios.post(url, {tipo: "PROVEEDOR"})
                 .then((response) => {
@@ -1777,7 +1777,7 @@ let api = {
             });
         })
                    
-},
+    },
     config_rubros_insert: (descripcion) => {
         return new Promise((resolve, reject) => {
 
@@ -2091,10 +2091,12 @@ let api = {
         let container = document.getElementById(idContainer)
         container.innerHTML = GlobalLoader;
 
+        let strActivo = '';
+
         let strHeader = `<table class="table table-striped table-responsive table-hover">
-                            <thead class="bg-trans-gradient text-white">
+                            <thead class="bg-owner text-white">
                                 <tr>
-                                    <td>ID</td>
+                                    <td>ACT/DESACT</td>
                                     <td>PROVEEDOR</td>
                                     <td></td>
                                 </tr>
@@ -2109,11 +2111,20 @@ let api = {
             try {
                 const data = response.data.recordset;
                 data.map((rows) => {
+                    if(rows.ACTIVO=='NO'){strActivo='<b class="text-danger">DESACTIVADO</b>'}else{strActivo=''}
                     str = str + `<tr class="border-info border-bottom">
-                                                <td>${rows.CODIGO}</td>
-                                                <td>${rows.DESCRIPCION}</td>
                                                 <td>
-                                                    <button class="btn btn-sm btn-primary btn-circle" 
+                                                    <button class="btn btn-sm btn-outline-danger hand btn-circle" 
+                                                        onclick="proveedores_desactivar('${rows.CODIGO}','${rows.ACTIVO}')">
+                                                        <i class="fal fa-sync"></i>
+                                                    </button>
+                                                </td>
+                                                <td>${rows.DESCRIPCION}
+                                                    <br>
+                                                    ${strActivo}
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary btn-circle hand" 
                                                         onclick="getMenuProveedores(${rows.CODIGO},'${rows.DESCRIPCION}')">
                                                         <i class="fal fa-edit"></i>
                                                     </button>
@@ -2138,6 +2149,37 @@ let api = {
             };
 
             let url = GlobalUrlBackend + '/acreedores/delete'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
+    },
+    config_proveedores_desactivar: (id,st) => {
+        return new Promise((resolve, reject) => {
+
+            let activo = '';
+            if(st=='SI'){activo='NO'}else{activo='SI'}
+
+
+            let data = {
+                codigo:id,
+                activo:activo
+            };
+
+            let url = GlobalUrlBackend + '/acreedores/desactivar'
 
             axios.post(url, data)
                 .then((response) => {
