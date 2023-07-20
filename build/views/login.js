@@ -59,6 +59,9 @@ function getView(){
 
 function addListeners(){
     
+    GlobalPassUsuario = '';
+    GlobalUsuario = '';
+
 
     let btnIniciar  = document.getElementById('btnIniciar');
     btnIniciar.addEventListener('click', () => {
@@ -75,6 +78,9 @@ function addListeners(){
                 //menuPrincipal.style = "visibility : visible";
                
                 //document.body.requestFullscreen();
+
+                GlobalPassUsuario = ps;
+                GlobalUsuario = us;
 
                 switch (Number(GlobalNivelUsuario)) {
                     case 1:

@@ -47,8 +47,8 @@ router.post("/insert", async (req, res) => {
 
     const {descripcion, tipo} = req.body;
 
-    let qry = `INSERT INTO CONST_ACREEDORES (DESACREEDOR, TIPO )
-            VALUES ('${descripcion}','${tipo}')`
+    let qry = `INSERT INTO CONST_ACREEDORES (DESACREEDOR, TIPO, ACTIVO)
+            VALUES ('${descripcion}','${tipo}','SI')`
 
     execute.Query(res, qry);
 

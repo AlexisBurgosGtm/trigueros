@@ -234,8 +234,12 @@ function getView(){
                             <div class="col-6">
                                 <div class="form-group">
                                     <label class="negrita">Acreedor</label>
-                                    <select class="form-control" id="cmbAcreedor">
-                                    </select> 
+                                    <div class="input-group">
+                                        <select class="form-control" id="cmbAcreedor">
+                                        </select>
+                                        <button class="btn btn-success btn-circle hand" id="btnCrearProveedor"><i class="fal fa-plus"></i></button> 
+                                    </div>
+                                    
                                 </div>
                             </div>
                             <div class="col-6">
@@ -406,11 +410,51 @@ function getView(){
             </div>
 
             `
+        },
+        modal_nuevo_proveedor:()=>{
+            return `
+            <div class="modal fade" id="modalNuevoProveedor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-owner text-white">
+                            <h5 class="modal-title" id="exampleModalLabel">Datos del Nuevo Proveedor</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-group">
+                                <label class="negrita">Nombre del nuevo Proveedor</label>
+                                <input type="text" class="form-control border-danger"  placeholder="Escriba el nombre del proveedor..." id="txtNuevoProveedor">
+                            </div>   
+                            
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row">
+                                <div class="col-6">
+                                    <button class="btn btn-secondary btn-xl btn-circle hand shadow" data-dismiss="modal">
+                                        <i class="fal fa-arrow-left"></i>
+                                    </button>
+                                </div>
+                                <div class="col-6">
+                                    <button class="btn btn-owner btn-xl btn-circle hand shadow" id="btnGuardarNuevoProveedor">
+                                        <i class="fal fa-save"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `
         }
     }
 
     root.innerHTML=  view.body(); 
-    rootModal.innerHTML =  '';
+    rootModal.innerHTML =  view.modal_nuevo_proveedor();
     
 };
 
@@ -447,6 +491,7 @@ async function addListeners(){
         document.getElementById('txtObs').value = '';
         
         document.getElementById('nofact').style = "visibility:hidden";
+        document.getElementById('btnCrearProveedor').style = "visibility:hidden";
         document.getElementById('txtNoFactura').value = 'SN';
 
         //$('#modalNuevo').modal('show');
@@ -467,6 +512,7 @@ async function addListeners(){
         document.getElementById('txtObs').value = '';
 
         document.getElementById('nofact').style = "visibility:visible";
+        document.getElementById('btnCrearProveedor').style = "visibility:visible";
         document.getElementById('txtNoFactura').value = 'SN';
 
         //$('#modalNuevo').modal('show');
@@ -747,6 +793,60 @@ async function addListeners(){
     document.getElementById('cmbTipoCheque').addEventListener('change',()=>{
         funciones.FiltrarTabla('tbl_cheques','cmbTipoCheque')
     })
+
+
+    let btnCrearProveedor = document.getElementById('btnCrearProveedor');
+    btnCrearProveedor.addEventListener('click',()=>{
+
+        $("#modalNuevoProveedor").modal('show');
+        document.getElementById('txtNuevoProveedor').value = '';
+
+
+    });
+
+    let btnGuardarNuevoProveedor = document.getElementById('btnGuardarNuevoProveedor');
+    btnGuardarNuevoProveedor.addEventListener('click',()=>{
+
+        funciones.Confirmacion('¿Está seguro que desea Crear este nuevo Proveedor?')
+        .then((value)=>{
+            if(value==true){
+
+
+                    let d = document.getElementById('txtNuevoProveedor').value || 'SN';
+                    let t = 'PROVEEDOR'
+                    
+                    if(d=='SN'){funciones.AvisoError('Escriba el nombre del Proveedor nuevo');return};
+
+                    btnGuardarNuevoProveedor.disabled = true;
+                    btnGuardarNuevoProveedor.innerHTML = `<i class="fal fa-save fa-spin"></i>`;
+
+
+                    api.config_proveedores_insert(d,t)
+                    .then(async()=>{
+
+                        btnGuardarNuevoProveedor.disabled = false;
+                        btnGuardarNuevoProveedor.innerHTML = `<i class="fal fa-save"></i>`;
+
+                        $('#modalNuevoProveedor').modal('hide');   
+                        funciones.Aviso('Proveedor creado exitosamente!!');
+                        //await getListado('PROVEEDORES')
+                        api.proveedores_combo('cmbAcreedor');
+
+
+                    })
+                    .catch(()=>{
+                        funciones.AvisoError('No se pudo crear este PROVEEDOR');
+                        btnGuardarNuevoProveedor.disabled = false;
+                        btnGuardarNuevoProveedor.innerHTML = `<i class="fal fa-save"></i>`;
+                    })
+                
+
+            }
+        })
+
+
+    });
+
 
 };
 

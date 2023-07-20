@@ -171,7 +171,7 @@ let funciones = {
               element: "input",
               attributes: {
                 placeholder: "",
-                type: "password",
+                type: "text", //password
               }
             },
             button: {

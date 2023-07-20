@@ -447,16 +447,17 @@ async function addListeners(){
             if(value==true){
                 
                 //$('#modalDetalle').modal('hide');
-                document.getElementById('tab-uno').click();
-
                 funciones.solicitarClave()
                 .then((name)=>{
                     
-                    if(name.toString()==GlobalConfigClave.toString()){
+                    if(name.toString()==GlobalPassUsuario.toString()){
                         api.caja_finalizar(GlobalSelectedId)
                         .then(async()=>{
                             funciones.Aviso('Corte finalizado exitosamente!!');
                             //LISTADO DE CORTES
+                            
+                            document.getElementById('tab-uno').click();
+
                             await api.caja_lista('tblCortes','NO');
                         })
                         .catch(()=>{
@@ -588,7 +589,7 @@ function deleteMovimientoCaja(idmovimiento){
     
                 funciones.solicitarClave()
                 .then((name)=>{
-                    if(name.toString()==GlobalConfigClave.toString()){
+                    if(name.toString()==GlobalPassUsuario.toString()){
                         api.caja_delete(idmovimiento)
                         .then(()=>{
                             funciones.Aviso('Movimiento eliminado exitosamente!!')
