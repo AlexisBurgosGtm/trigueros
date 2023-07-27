@@ -22,14 +22,14 @@ function getView(){
                 <div class="row">
                     <div class="col-4">
                         <div class="form-group">
-                            <label>Mes</label>
-                            <select class="form-control" id="cmbMes"></select>
+                            <label>Del</label>
+                            <input type="date" class="form-control" id="txtFechaInicial">
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
-                            <label>Año</label>
-                            <select class="form-control" id="cmbAnio"></select>
+                            <label>Al</label>
+                            <input type="date" class="form-control" id="txtFechaFinal">
                         </div>
                     </div>
          
@@ -49,7 +49,7 @@ function getView(){
                         </button>
                     </div>
                     <div class="col-4">
-                        <button class="btn btn-danger hand shadow" onclick="funciones.exportarPDF('#divTable1','ReportePagoSubcontratista')">
+                        <button class="hidden btn btn-danger hand shadow" onclick="funciones.exportarPDF('#divTable1','ReportePagoSubcontratista')">
                             <i class="fal fa-file-pdf"></i>Exportar PDF
                         </button>
                     </div>
@@ -86,35 +86,34 @@ function getView(){
 function addListeners(){
 
     let cmbSubcontratistas = document.getElementById('cmbSubcontratistas');
-    let cmbMes = document.getElementById('cmbMes');
-    let cmbAnio =document.getElementById('cmbAnio');
+    let txtFechaInicial = document.getElementById('txtFechaInicial');
+    let txtFechaFinal =document.getElementById('txtFechaFinal');
 
-    document.getElementById('cmbMes').innerHTML = funciones.ComboMeses();
-    document.getElementById('cmbAnio').innerHTML = funciones.ComboAnio();
+    txtFechaInicial.value = funciones.getFecha();
+    txtFechaFinal.value = funciones.getFecha();
     
-    let f = new Date();
-    document.getElementById('cmbMes').value = f.getUTCMonth() + 1;
-    document.getElementById('cmbAnio').value = f.getFullYear();
-
-    cmbMes.addEventListener('change',()=>{
-        api.reportes_pagoscontratista('tblPagos',"lbTotal",cmbMes.value,cmbAnio.value,cmbSubcontratistas.value)
+  
+    txtFechaInicial.addEventListener('change',()=>{
+        api.reportes_pagoscontratista_fechas('tblPagos',"lbTotal",funciones.devuelveFecha('txtFechaInicial'),funciones.devuelveFecha('txtFechaFinal'),cmbSubcontratistas.value)
     });
 
-    cmbAnio.addEventListener('change',()=>{
-        api.reportes_pagoscontratista('tblPagos',"lbTotal",cmbMes.value,cmbAnio.value,cmbSubcontratistas.value)
+    txtFechaFinal.addEventListener('change',()=>{
+        api.reportes_pagoscontratista_fechas('tblPagos',"lbTotal",funciones.devuelveFecha('txtFechaInicial'),funciones.devuelveFecha('txtFechaFinal'),cmbSubcontratistas.value)
     });
 
     cmbSubcontratistas.addEventListener('change',()=>{
-        api.reportes_pagoscontratista('tblPagos',"lbTotal",cmbMes.value,cmbAnio.value,cmbSubcontratistas.value)
+        api.reportes_pagoscontratista_fechas('tblPagos',"lbTotal",funciones.devuelveFecha('txtFechaInicial'),funciones.devuelveFecha('txtFechaFinal'),cmbSubcontratistas.value)
     })
 
     api.subcontratistas_combo_promise('cmbSubcontratistas')
     .then(()=>{
-        api.reportes_pagoscontratista('tblPagos',"lbTotal",cmbMes.value,cmbAnio.value,cmbSubcontratistas.value)
+        console.log('cargando reporte..')
+        api.reportes_pagoscontratista_fechas('tblPagos',"lbTotal",funciones.devuelveFecha('txtFechaInicial'),funciones.devuelveFecha('txtFechaFinal'),cmbSubcontratistas.value)
     })
     .catch(()=>{
         funciones.AvisoError('No se pudo cargar la lista de Subcontratistas')
     })
+
 };
 
 

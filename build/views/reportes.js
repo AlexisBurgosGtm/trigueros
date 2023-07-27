@@ -217,7 +217,7 @@ function getReportRecibidos(){
                             </div>`
     
     
-        api.reportes_recibidosmes('tblCheques',"lbRecibido",funciones.devuelveFecha('txtFechaInicial'),funciones.devuelveFecha('txtFechaFinal'))
+        api.reportes_recibidosmes_tipo('tblCheques',"lbRecibido",funciones.devuelveFecha('txtFechaInicial'),funciones.devuelveFecha('txtFechaFinal'),'CONTRATANTE')
     
     
 };

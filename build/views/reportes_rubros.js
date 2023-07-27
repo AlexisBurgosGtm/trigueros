@@ -22,14 +22,14 @@ function getView(){
                 <div class="row">
                     <div class="col-4">
                         <div class="form-group">
-                            <label>Mes</label>
-                            <select class="form-control" id="cmbMes"></select>
+                            <label>Del</label>
+                            <input type="date" class="form-control" id="txtFechaInicial">
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
-                            <label>Año</label>
-                            <select class="form-control" id="cmbAnio"></select>
+                            <label>Al</label>
+                            <input type="date" class="form-control" id="txtFechaFinal">
                         </div>
                     </div>
          
@@ -42,7 +42,7 @@ function getView(){
                         </button>
                     </div>
                     <div class="col-4">
-                        <button class="btn btn-danger hand shadow" onclick="funciones.exportarPDF('#divTable1','ReporteRubros')">
+                        <button class="hidden btn btn-danger hand shadow" onclick="funciones.exportarPDF('#divTable1','ReporteRubros')">
                             <i class="fal fa-file-pdf"></i>Exportar PDF
                         </button>
                     </div>
@@ -85,31 +85,29 @@ function getView(){
 function addListeners(){
 
     let cmbRubros = document.getElementById('cmbRubros');
-    let cmbMes = document.getElementById('cmbMes');
-    let cmbAnio =document.getElementById('cmbAnio');
+   
+    let txtFechaInicial = document.getElementById('txtFechaInicial');
+    let txtFechaFinal =document.getElementById('txtFechaFinal');
 
-    document.getElementById('cmbMes').innerHTML = funciones.ComboMeses();
-    document.getElementById('cmbAnio').innerHTML = funciones.ComboAnio();
-    
-    let f = new Date();
-    document.getElementById('cmbMes').value = f.getUTCMonth() + 1;
-    document.getElementById('cmbAnio').value = f.getFullYear();
+    txtFechaInicial.value = funciones.getFecha();
+    txtFechaFinal.value = funciones.getFecha();
 
-    cmbMes.addEventListener('change',()=>{
-        api.reportes_pagosrubros('tblPagos',"lbTotal",cmbMes.value,cmbAnio.value,cmbRubros.value)
+
+    txtFechaInicial.addEventListener('change',()=>{
+        api.reportes_pagosrubros_fechas('tblPagos',"lbTotal",funciones.devuelveFecha('txtFechaInicial'),funciones.devuelveFecha('txtFechaFinal'),cmbRubros.value)
     });
 
-    cmbAnio.addEventListener('change',()=>{
-        api.reportes_pagosrubros('tblPagos',"lbTotal",cmbMes.value,cmbAnio.value,cmbRubros.value)
+    txtFechaFinal.addEventListener('change',()=>{
+        api.reportes_pagosrubros_fechas('tblPagos',"lbTotal",funciones.devuelveFecha('txtFechaInicial'),funciones.devuelveFecha('txtFechaFinal'),cmbRubros.value)
     });
 
     cmbRubros.addEventListener('change',()=>{
-        api.reportes_pagosrubros('tblPagos',"lbTotal",cmbMes.value,cmbAnio.value,cmbRubros.value)
+        api.reportes_pagosrubros_fechas('tblPagos',"lbTotal",funciones.devuelveFecha('txtFechaInicial'),funciones.devuelveFecha('txtFechaFinal'),cmbRubros.value)
     })
 
     api.rubros_combo_promise('cmbRubros')
     .then(()=>{
-        api.reportes_pagosrubros('tblPagos',"lbTotal",cmbMes.value,cmbAnio.value,cmbRubros.value)
+        api.reportes_pagosrubros_fechas('tblPagos',"lbTotal",funciones.devuelveFecha('txtFechaInicial'),funciones.devuelveFecha('txtFechaFinal'),cmbRubros.value)
     })
     .catch(()=>{
         funciones.AvisoError('No se pudo cargar la lista de Rubros')
