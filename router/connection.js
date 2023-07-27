@@ -20,6 +20,7 @@ let execute = {
 			.query(sqlqry, (err, result) => {
 				if(err){
 					//res.send(err.message)
+					console.log(err.message)
 					res.send('error');
 				}else{
 					res.send(result);

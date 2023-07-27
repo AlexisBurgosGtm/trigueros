@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/listado_cuenta", async (req, res) => {
     
-    const {idcuenta, anio, mes} = req.body;
+    const {idcuenta, finicial, ffinal} = req.body;
 
 
     let qry = `SELECT CONST_CHEQUES.ID, 
@@ -36,9 +36,8 @@ router.post("/listado_cuenta", async (req, res) => {
              CONST_PROYECTOS ON CONST_CHEQUES.IDPROYECTO = CONST_PROYECTOS.IDPROYECTO LEFT OUTER JOIN
              CONST_CUENTAS ON CONST_CHEQUES.CODCUENTA = CONST_CUENTAS.CODCUENTA ON CONST_CONTRATISTAS_PROYECTO.NOCONTRATO = CONST_CHEQUES.NOCONTRATO
         WHERE (CONST_CHEQUES.CODCUENTA = ${idcuenta}) AND
-        (YEAR(CONST_CHEQUES.FECHA)=${anio}) AND 
-        (MONTH(CONST_CHEQUES.FECHA)=${mes})
-        ORDER BY CONST_CHEQUES.NUMERO`
+        CONST_CHEQUES.FECHA BETWEEN '${finicial}' AND '${ffinal}'
+        ORDER BY CONST_CHEQUES.FECHA`
     
         execute.Query(res, qry);
 

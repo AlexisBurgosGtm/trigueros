@@ -157,7 +157,7 @@ let api = {
                                             <div class="col-6">
                                                 <b>Presupuesto: ${funciones.setMoneda(rows.PRESUPUESTO, 'Q')}</b>    
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-6 ${get_permiso_visible()}" >
                                                 <b class="text-success">Recibido:${funciones.setMoneda(rows.RECIBIDO, 'Q')}</b>
                                             </div>
                                         </div>
@@ -167,7 +167,7 @@ let api = {
                                                 <br>
                                                 <small>${funciones.setMargen((Number(rows.EJECUTADO) / Number(rows.PRESUPUESTO) * 100),'%')}</small>    
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-6" ${get_permiso_visible()}>
                                                 <h5 class='${stClasDif}'>Diferencia:${funciones.setMoneda(diferencia, 'Q')}</h5>
                                             </div>
                                         </div>                     
@@ -2401,7 +2401,9 @@ let api = {
             try {
                 const data = response.data.recordset;
                 data.map((rows) => {
-                    str = str + `<tr class="" onclick="getHistorialCorte(${rows.NOCORTE},'${funciones.convertDate2(rows.FECHA)}',${rows.IMPORTE})">
+                    let fechafin = ''; let strClassBtnActivar = ''; if(status=='SI'){}else{strClassBtnActivar='hidden'};
+                    if(rows.FECHA_FINALIZADO=='2000-01-01T00:00:00.000Z'){fechafin='--'}else{fechafin=funciones.convertDate2(rows.FECHA_FINALIZADO)};
+                    str = str + `<tr class="">
                                                 <td class="negrita text-danger">${rows.NOCORTE}</td>
                                                 <td>${funciones.convertDate2(rows.FECHA)}
                                                     <br>
@@ -2412,12 +2414,19 @@ let api = {
                                                     <small class="negrita">Cheque No: ${rows.NOCHEQUE}</small>
                                                     <br>
                                                     <small class="negrita">Recibió: ${rows.RECIBIDO}</small>
-                                                    
                                                 </td>
                                                 <td>${funciones.setMoneda(rows.IMPORTE,'Q')}</td>
+                                                <td class="negrita text-danger">
+                                                    ${fechafin}
+                                                </td>
                                                 <td>
-                                                    <button class="btn btn-sm btn-info btn-circle" >
-                                                        <i class="fal fa-list"></i>
+                                                    <button class="btn btn-sm btn-info btn-circle" onclick="getHistorialCorte(${rows.NOCORTE},'${funciones.convertDate2(rows.FECHA)}',${rows.IMPORTE})">
+                                                        <i class="fal fa-arrow-right"></i>
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-danger btn-circle ${strClassBtnActivar}" onclick="activar_corte(${rows.NOCORTE})">
+                                                        <i class="fal fa-sync"></i>
                                                     </button>
                                                 </td>
                                             </tr>`
@@ -2425,6 +2434,7 @@ let api = {
                 container.innerHTML = str;
             } catch (err) {
                 str = 'AGREGUE DATOS...';
+                console.log(err);
                 container.innerHTML = str;
             }
         }, (error) => {
@@ -2465,10 +2475,36 @@ let api = {
     
         return new Promise((resolve, reject)=>{
             let data = {
-                nocorte:nocorte
+                nocorte:nocorte,
+                fecha: funciones.getFecha()
             };
 
             let url = GlobalUrlBackend + '/cajas/finalizarcorte'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+       })
+
+    },
+    caja_activar: (nocorte) => {
+    
+        return new Promise((resolve, reject)=>{
+            let data = {
+                nocorte:nocorte,
+                fecha: '2000-01-01'
+            };
+
+            let url = GlobalUrlBackend + '/cajas/activar_corte'
 
             axios.post(url, data)
                 .then((response) => {
@@ -2781,7 +2817,7 @@ let api = {
 
         });
     },
-    reportes_pagosmes: (idContainer1,idPresupuesto,idSaldo,idDiferencia,mes,anio) => {
+    reportes_pagosmes: (idContainer1,idPresupuesto,idSaldo,idDiferencia,finicial,ffinal) => {
         
         let container1 = document.getElementById(idContainer1);
         container1.innerHTML = GlobalLoader;
@@ -2802,8 +2838,8 @@ let api = {
         let url = GlobalUrlBackend + '/reportes/pagosmes';
 
         axios.post(url, {
-                    mes: mes,
-                    anio:anio
+                    finicial: finicial,
+                    ffinal:ffinal
                     })
         .then((response) => {
             try {
@@ -2893,7 +2929,7 @@ let api = {
         });
 
     },
-    reportes_recibidosmes: (idContainer1,idSaldo,mes,anio) => {
+    reportes_recibidosmes: (idContainer1,idSaldo,finicial,ffinal) => {
         
         let container1 = document.getElementById(idContainer1);
         container1.innerHTML = GlobalLoader;
@@ -2910,8 +2946,8 @@ let api = {
         let url = GlobalUrlBackend + '/reportes/pagosmes';
 
         axios.post(url, {
-                    mes: mes,
-                    anio:anio
+                    finicial: finicial,
+                    ffinal:ffinal
                     })
         .then((response) => {
             try {
@@ -2947,6 +2983,7 @@ let api = {
                 container1.innerHTML = str1;
                 lbSaldo.innerText = funciones.setMoneda((varTotalSaldo),'Q');
             } catch (err) {
+                console.log(err)
                 container1.innerHTML = 'Agregue un cheque ...';
                 lbSaldo.innerText = 'Q --';
             }

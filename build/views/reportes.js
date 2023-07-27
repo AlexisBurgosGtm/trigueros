@@ -9,18 +9,18 @@ function getView(){
                 <div class="row">
                     <div class="col-5">
                         <div class="form-group">
-                            <label>Mes</label>
-                            <select class="form-control" id="cmbMes"></select>
+                            <label>Del</label>
+                            <input type="date" class="form-control" id="txtFechaInicial">
                         </div>
                     </div>
                     <div class="col-5">
                         <div class="form-group">
-                            <label>Año</label>
-                            <select class="form-control" id="cmbAnio"></select>
+                            <label>Al</label>
+                            <input type="date" class="form-control" id="txtFechaFinal">
                         </div>
                     </div>
                 </div>
-
+                <br>
                 <div class="row">
 
                     <div class="col-3">
@@ -31,7 +31,7 @@ function getView(){
                     </div>
 
                     <div class="col-3">
-                        <button class="btn btn-outline-success btn-sm shadow" id="btnRecibidos">
+                        <button class="${get_permiso_visible()} btn btn-outline-success btn-sm shadow" id="btnRecibidos">
                             <i class="fal fa-double-check"></i>
                             Pagos Recibidos
                         </button> 
@@ -68,24 +68,23 @@ function getView(){
 
 
 function addListeners(){
-    let cmbMes = document.getElementById('cmbMes');
-    let cmbAnio =document.getElementById('cmbAnio');
 
-    document.getElementById('cmbMes').innerHTML = funciones.ComboMeses();
-    document.getElementById('cmbAnio').innerHTML = funciones.ComboAnio();
+
+    let txtFechaInicial = document.getElementById('txtFechaInicial');
+    let txtFechaFinal = document.getElementById('txtFechaFinal');
+
+    txtFechaInicial.value = funciones.getFecha();
+    txtFechaFinal.value = funciones.getFecha();
+
     
-    let f = new Date();
-    document.getElementById('cmbMes').value = f.getUTCMonth() + 1;
-    document.getElementById('cmbAnio').value = f.getFullYear();
-
     let btnEmitidos = document.getElementById('btnEmitidos');
     btnEmitidos.addEventListener('click',()=>{
-        getReportEmitidos(cmbMes.value,cmbAnio.value)
+        getReportEmitidos()
     })
 
     let btnRecibidos = document.getElementById('btnRecibidos');
     btnRecibidos.addEventListener('click',()=>{
-        getReportRecibidos(cmbMes.value,cmbAnio.value)
+        getReportRecibidos()
     })
 
     let btnRubros = document.getElementById('btnRubros');
@@ -107,7 +106,7 @@ function initView(){
 };
 
 
-function getReportEmitidos(mes,anio){
+function getReportEmitidos(){
     let container = document.getElementById('rootList');
     container.innerHTML = `
                         <div class="card-body">
@@ -144,7 +143,7 @@ function getReportEmitidos(mes,anio){
                                 </button>
                             </div>
                             <div class="col-4">
-                                <button class="btn btn-danger hand shadow" onclick="funciones.exportarPDF('#divTable1','ReportePagosEmitidos')">
+                                <button class="hidden btn btn-danger hand shadow" onclick="funciones.exportarPDF('#divTable1','ReportePagosEmitidos')">
                                     <i class="fal fa-file-pdf"></i>Exportar PDF
                                 </button>
                             </div>
@@ -168,11 +167,11 @@ function getReportEmitidos(mes,anio){
                         </div>`
 
 
-    api.reportes_pagosmes('tblCheques',"lbPresupuesto","lbSaldo","lbDiferencia",mes,anio)
+    api.reportes_pagosmes('tblCheques',"lbPresupuesto","lbSaldo","lbDiferencia",funciones.devuelveFecha('txtFechaInicial'),funciones.devuelveFecha('txtFechaFinal'))
 
 };
 
-function getReportRecibidos(mes,anio){
+function getReportRecibidos(){
     
         let container = document.getElementById('rootList');
         container.innerHTML = `
@@ -218,7 +217,7 @@ function getReportRecibidos(mes,anio){
                             </div>`
     
     
-        api.reportes_recibidosmes('tblCheques',"lbRecibido",mes,anio)
+        api.reportes_recibidosmes('tblCheques',"lbRecibido",funciones.devuelveFecha('txtFechaInicial'),funciones.devuelveFecha('txtFechaFinal'))
     
     
 };

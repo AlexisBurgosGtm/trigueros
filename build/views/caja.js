@@ -68,6 +68,8 @@ function getView(){
                                 <td>Fecha</td>
                                 <td>Datos Cheque</td>
                                 <td>Importe</td>
+                                <td>Finalizado</td>
+                                <td></td>
                                 <td></td>
                             </tr>
                         </thead>
@@ -463,7 +465,7 @@ async function addListeners(){
                         .catch(()=>{
                             funciones.AvisoError('No se pudo finalizar este Corte')
                         })
-                    }
+                    }else{funciones.AvisoError('Clave incorrecta')}
                 })
 
             }
@@ -567,6 +569,37 @@ function getHistorialCorte(nocorte,fecha,importe){
     //$('#modalDetalle').modal('show');
     document.getElementById('tab-cuatro').click();
 };
+
+function activar_corte(nocorte){
+
+
+    funciones.Confirmacion('¿Está seguro que desea RE-ACTIVAR este Corte de Caja?')
+    .then((value)=>{
+        if(value==true){
+                
+                funciones.solicitarClave()
+                .then((name)=>{
+                    if(name.toString()==GlobalConfigClave.toString()){
+                        api.caja_activar(nocorte)
+                        .then(()=>{
+                            funciones.Aviso('Corte re-activado exitosamente!!')
+                            document.getElementById('cmbStatus').value = 'NO';
+                            api.caja_lista('tblCortes','NO');
+                        })
+                        .catch(()=>{
+                            funciones.AvisoError('No se pudo re-activar el corte')
+                        })   
+                    }else{
+                        funciones.AvisoError('Clave incorrecta')
+                    }
+                })
+            
+        }
+    })
+
+
+};
+
 
 function initView(){
     getView();

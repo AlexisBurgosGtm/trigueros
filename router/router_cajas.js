@@ -9,8 +9,11 @@ router.post("/listado", async (req, res) => {
     
     let qry = '';
 
-    qry = `SELECT CONST_CAJA.NOCORTE, CONST_CAJA.CODCUENTA, CONST_CUENTAS.BANCO, CONST_CUENTAS.NUMERO, CONST_CAJA.NOCHEQUE, 
-            CONST_CAJA.FECHA, CONST_CAJA.IMPORTE, CONST_CAJA.RECIBIDO, CONST_CAJA.USUARIO
+    qry = `SELECT CONST_CAJA.NOCORTE, CONST_CAJA.CODCUENTA, 
+            CONST_CUENTAS.BANCO, CONST_CUENTAS.NUMERO, 
+            CONST_CAJA.NOCHEQUE, CONST_CAJA.FECHA, 
+            CONST_CAJA.IMPORTE, CONST_CAJA.RECIBIDO, 
+            CONST_CAJA.USUARIO, ISNULL(CONST_CAJA.FECHA_FINALIZADO,'01/01/2000') AS FECHA_FINALIZADO
             FROM CONST_CAJA LEFT OUTER JOIN  CONST_CUENTAS ON CONST_CAJA.CODCUENTA = CONST_CUENTAS.CODCUENTA
             WHERE (CONST_CAJA.FINALIZADO = '${finalizado}');`
 
@@ -46,11 +49,28 @@ router.post("/deletecorte", async (req, res) => {
 
 router.post("/finalizarcorte", async (req, res) => {
 
-    const { nocorte } = req.body;
+    const { nocorte, fecha } = req.body;
 
     let qry = '';
 
-    qry = `UPDATE CONST_CAJA SET FINALIZADO='SI' WHERE NOCORTE=${nocorte}; `
+    qry = `UPDATE CONST_CAJA 
+                SET FINALIZADO='SI', FECHA_FINALIZADO='${fecha}'
+            WHERE NOCORTE=${nocorte}; `
+
+    execute.Query(res, qry);
+
+});
+
+
+router.post("/activar_corte", async (req, res) => {
+
+    const { nocorte, fecha } = req.body;
+
+    let qry = '';
+
+    qry = `UPDATE CONST_CAJA 
+                SET FINALIZADO='NO', FECHA_FINALIZADO='${fecha}'
+            WHERE NOCORTE=${nocorte}; `
 
     execute.Query(res, qry);
 

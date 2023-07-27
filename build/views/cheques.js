@@ -63,7 +63,7 @@ function getView(){
                     <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                         
                         <div class="row" id="permisoLb1" name="admin">
-                            <div class="col-4">
+                            <div class="col-4 ${get_permiso_visible()}">
                                 <div class="form-group">
                                     <label>Recibido</label>
                                     <h3 class="text-info" name="admin" id="lbPresupuesto"></h3>
@@ -75,7 +75,7 @@ function getView(){
                                     <h3 class="text-success" id="lbSaldo"></h3>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-4 ${get_permiso_visible()}">
                                 <div class="form-group">
                                     <label>Diferencia</label>
                                     <h3 id="lbDiferencia" name="admin"></h3>
@@ -168,7 +168,7 @@ function getView(){
                                                 <i class="fal fa-archive negrita text-warning" style="font-size:190%"></i>
                                             </div>
                                             <div class="col-9">
-                                                <h4 class="negrita text-warning">Pago de Cliente</h4>
+                                                <h4 class="negrita text-warning">Pagos Recibidos</h4>
                                             </div>
                                         </div>
                                     </div>

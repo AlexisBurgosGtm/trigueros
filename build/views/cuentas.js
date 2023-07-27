@@ -12,14 +12,12 @@ function getView(){
                             </select>
                         </div>
                         <div class="form-group col-4">
-                            <label>Mes</label>
-                            <select class="form-control" id="cmbMes">
-                            </select>
+                            <label>Del</label>
+                            <input type="date" class="form-control" id="txtFechaInicial">
                         </div>
                         <div class="form-group col-2">
-                            <label>Año</label>
-                            <select class="form-control" id="cmbAnio">
-                            </select>
+                            <label>Al</label>
+                            <input type="date" class="form-control" id="txtFechaFinal">
                         </div>
                     </div>
                     
@@ -38,7 +36,7 @@ function getView(){
                             </button>
                         </div>
                         <div class="col-4">
-                            <button class="btn btn-danger hand shadow" onclick="funciones.exportarPDF('#divTable1','ReporteCuentas')">
+                            <button class="btn btn-danger hand shadow hidden" onclick="funciones.exportarPDF('#divTable1','ReporteCuentas')">
                                 <i class="fal fa-file-pdf"></i>Exportar PDF
                             </button>
                         </div>
@@ -68,23 +66,24 @@ function getView(){
         }
     }
 
-    root.innerHTML = view.body;
+    root.innerHTML = view.body();
 };
 
 
 function addListeners(){
 
-    let cmbMes =document.getElementById('cmbMes');
-    let cmbAnio = document.getElementById('cmbAnio');
-    
-    cmbMes.innerHTML = funciones.ComboMeses();
-    cmbAnio.innerHTML = funciones.ComboAnio();
+    let txtFechaInicial = document.getElementById('txtFechaInicial');
+    let txtFechaFinal = document.getElementById('txtFechaFinal');
 
-    document.getElementById('cmbMes').addEventListener('click',()=>{
+    txtFechaInicial.value = funciones.getFecha();
+    txtFechaFinal.value = funciones.getFecha();
+    
+
+    document.getElementById('txtFechaInicial').addEventListener('change',()=>{
         getTblCheques();
     })
 
-    document.getElementById('cmbAnio').addEventListener('click',()=>{
+    document.getElementById('txtFechaFinal').addEventListener('change',()=>{
         getTblCheques();
     })
 
@@ -92,10 +91,7 @@ function addListeners(){
         getTblCheques();
     })
 
-    let fecha = new Date();
-    cmbMes.value = fecha.getUTCMonth()+1;
-    cmbAnio.value = fecha.getFullYear();
-
+    
     api.cuentas_combo_promise('cmbCuentas')
     .then(()=>{
         getTblCheques();
@@ -117,8 +113,9 @@ function initView(){
 function getTblCheques(){
 
     let idcuenta = document.getElementById('cmbCuentas').value;
-    let mes = document.getElementById('cmbMes').value;
-    let anio = document.getElementById('cmbAnio').value;
+    
+    let txtFechaInicial = funciones.devuelveFecha('txtFechaInicial');
+    let txtFechaFinal = funciones.devuelveFecha('txtFechaFinal');
 
     let container = document.getElementById('tblDataCheques');
     container.innerHTML = GlobalLoader;
@@ -128,8 +125,8 @@ function getTblCheques(){
    
             axios.post('/cheques/listado_cuenta', {
                         idcuenta:idcuenta,
-                        anio:anio,
-                        mes:mes
+                        finicial:txtFechaInicial,
+                        ffinal:txtFechaFinal
                         })
             .then((response) => {
                 const data = response.data.recordset;
