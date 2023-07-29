@@ -165,208 +165,283 @@ function getView(){
         },       
         datos_proyecto : ()=>{
             return `
-              
-                            <div class="panel-container show">
-                                <div class="panel-content">
-                                
-                                    <ul class="nav nav-pills nav-justified .bg-primarygrad" role="tablist">
-                                        <li class="nav-item "><a class="nav-link active shadow" data-toggle="tab" href="#panel0" id="btnTabGeneral">DATOS GENERALES</a></li>
-                                        <li class="nav-item"><a class="nav-link shadow" data-toggle="tab" href="#panel3" id="btnTabProveedores">CHEQUES A PROVEEDORES</a></li>
-                                        <li class="nav-item"><a class="nav-link shadow" data-toggle="tab" href="#panel2" id="btnTabSubcontratistas">CHEQUES A SUBCONTRATISTAS</a></li>
-                                        <li class="nav-item"><a class="nav-link shadow" data-toggle="tab" href="#panel5" id="btnTabCaja">GASTOS DE CAJA</a></li>
-                                        <li class="nav-item"><a class="nav-link shadow" data-toggle="tab" href="#panel1"  id="btnTabContratos">LISTADO DE SUBCONTRATOS</a></li>    
-                                        <li class="nav-item ${get_permiso_visible()}"><a class="nav-link shadow" data-toggle="tab" href="#panel4"  id="btnTabRecibidos">PAGOS RECIBIDOS</a></li>
-                                    </ul>
-                                    <div class="tab-content py-3">
-                                    <hr class="solid">
-                                        <!-- inicio -->
-                                        <div class="tab-pane fade active show" id="panel0" role="tabpanel">
-                                        
-                                            <h4 id="lbDetProyecto">Proyecto</h4>
-                                            <br>
-                                            
-                                            <div class="row">
-                                                <div class="col-3">
-                                                    
-                                                </div>
-                                                <div class="col-3">
-                                                    <button class="btn btn-warning btn-md" id="btnMenuProyectoEditar">
-                                                        <i class="fal fa-edit"></i>
-                                                        __Editar
-                                                    </button>
-                                                </div>
-                                                <div class="col-3">
-                                                    <button class="btn btn-secondary btn-md" id="btnMenuProyectoFinalizar">
-                                                        <i class="fal fa-check"></i>
-                                                        Finalizar
-                                                    </button>
-                                                </div>
-                                                <div class="col-3">
-                                                    <button class="btn btn-danger btn-md" id="btnMenuProyectoEliminar">
-                                                        <i class="fal fa-trash"></i>
-                                                        Eliminar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            
-                                            <hr class="rounded">
-
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        <label>Costo Total</label>
-                                                        <h1 class="text-info" id="lbPresupuesto"></h1>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 ${get_permiso_visible()}">
-                                                    <div class="form-group">
-                                                        <label>Recibido</label>
-                                                        <h1 class="text-success" id="lbRecibido"></h1>
-                                                    </div>
-                                                </div>
-                                                
-                                            </div>
-
-                                            <div class="row">
-                                                <hr class="solid">
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        <label>Ejecutado</label>
-                                                        <h1 class="text-danger" id="lbEjecutado"></h1>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 ${get_permiso_visible()}">
-                                                    <div class="form-group">
-                                                        <label>Diferencia</label>
-                                                        <h1 id="lbDiferencia"></h1>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>   
-
-                                        <!-- LISTADO DE SUBCONTRATOS -->
-                                        <div class="tab-pane fade" id="panel1" role="tabpanel">
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        <label>Total:</label>
-                                                        <h3 class="negrita tex-danger" id="lbTotalSubcontratos">00.00</h3>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 text-right">
-                                                    <button class="btn btn-success btn-md shadow" id="btnNuevoContrato">
-                                                        Nuevo (+)
-                                                    </button>
-                                                </div>
-                                            </div>    
-                                            <div class="table-responsive">
-                                                <table class="table table-responsive">
-                                                    <thead class="bg-trans-gradient text-white">
-                                                        <tr>
-                                                            <td>CONTRATISTA/ASIGNACION</td>
-                                                            <td>IMPORTE</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="tblPSucontratistas"></tbody>
-                                                </table>
-                                            </div>
-                                            
-                                        </div>   
-
-                                        <!-- cheques subcontratistas -->
-                                        <div class="tab-pane fade" id="panel2" role="tabpanel">
-                                            <div class="table-responsive">
-                                                <div class="table-responsive">
-                                                    <table class="table table-responsive">
-                                                        <thead class="bg-trans-gradient text-white">
-                                                            <tr>
-                                                                <td>FECHA</td>
-                                                                <td>CUENTA</td>
-                                                                <td>ACREEDOR</td>
-                                                                <td>VALOR</td>
-                                                                <td></td>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody id="tblCheques1"></tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- cheques proveedores -->
-                                        <div class="tab-pane fade" id="panel3" role="tabpanel">
-                                            <div class="table-responsive">
-                                                <div class="table-responsive">
-                                                    <table class="table table-responsive">
-                                                        <thead class="bg-info text-white">
-                                                            <tr>
-                                                                <td>FECHA</td>
-                                                                <td>CHEQUE</td>
-                                                                <td>DESCRIPCIOON</td>
-                                                                <td>VALOR</td>
-                                                                <td></td>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody id="tblCheques2"></tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        
-                                        <!-- pagos de caja chica -->
-                                        <div class="tab-pane fade" id="panel5" role="tabpanel">
-                                          
-                                            <div class="table-responsive">
-                                                <table class="table table-responsive">
-                                                    <thead class="bg-trans-gradient text-white">
-                                                        <tr>
-                                                            <td>FECHA</td>
-                                                            <td>ENTREGADO POR / CONCEPTO</td>
-                                                            <td>IMPORTE</td>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="tblPCaja"></tbody>
-                                                </table>
-                                            </div>
-                                            
-                                        </div>  
-
-                                        <!-- cheques contratante -->
-                                        <div class="tab-pane fade" id="panel4" role="tabpanel">
-                                            <div class="table-responsive">
-                                                <div class="table-responsive">
-                                                    <table class="table table-responsive">
-                                                        <thead class="bg-success text-white">
-                                                            <tr>
-                                                                <td>FECHA</td>
-                                                                <td>CUENTA</td>
-                                                                <td>ACREEDOR</td>
-                                                                <td>VALOR</td>
-                                                                <td></td>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody id="tblCheques3"></tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- -- -- -- --> 
-                                    </div>
-                                </div> 
+            <div class="tab-content py-3">
+                <div class="tab-pane fade active show" id="panel0" role="tabpanel">
+                    ${view.datos_proyecto_inicio()}                
+                </div>   
+                <div class="tab-pane fade" id="panel1" role="tabpanel">
+                    ${view.datos_proyecto_subcontratos()}                                
+                </div>   
+                <div class="tab-pane fade" id="panel2" role="tabpanel">
+                    ${view.datos_proyecto_cheques_subcontratistas()}                     
+                </div>
+                <div class="tab-pane fade" id="panel3" role="tabpanel">
+                    ${view.datos_proyecto_cheques_proveedores()}                 
+                </div>
+                <div class="tab-pane fade" id="panel5" role="tabpanel">
+                    ${view.datos_proyecto_caja()}                         
+                </div>  
+                <div class="tab-pane fade" id="panel4" role="tabpanel">
+                    ${view.datos_proyecto_pagos_recibidos()}                
+                </div>
+                                  
+                <ul class=" hidden nav nav-pills nav-justified .bg-primarygrad" role="tablist">
+                    <li class="nav-item "><a class="nav-link active shadow" data-toggle="tab" href="#panel0" id="btnTabGeneral">DATOS GENERALES</a></li>
+                    <li class="nav-item"><a class="nav-link shadow" data-toggle="tab" href="#panel3" id="btnTabProveedores">CHEQUES A PROVEEDORES</a></li>
+                    <li class="nav-item"><a class="nav-link shadow" data-toggle="tab" href="#panel2" id="btnTabSubcontratistas">CHEQUES A SUBCONTRATISTAS</a></li>
+                    <li class="nav-item"><a class="nav-link shadow" data-toggle="tab" href="#panel5" id="btnTabCaja">GASTOS DE CAJA</a></li>
+                    <li class="nav-item"><a class="nav-link shadow" data-toggle="tab" href="#panel1"  id="btnTabContratos">LISTADO DE SUBCONTRATOS</a></li>    
+                    <li class="nav-item"><a class="nav-link shadow" data-toggle="tab" href="#panel4"  id="btnTabRecibidos">PAGOS RECIBIDOS</a></li>
+                </ul>
+            </div>               
                            
-                <div class="btn-bottom-left" id="">
-                    <button class="btn btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('tab-uno').click()">
-                        <i class="fal fa-arrow-left"></i>
-                    </button>
-                </div>                                
-            </div>
             `   
+        },
+        datos_proyecto_inicio:()=>{
+            return `
+                    <div class="card card-rounded shadow col-12 p-4">
+                        <div class="card-body">
+                            <small class="text-secondary">Resumen del Proyecto:</small>
+                            <h4 class="negrita text-danger" id="lbDetProyecto">Proyecto</h4>
+                            <div class="row">
+                                <div class="col-3">
+                                </div>
+                                <div class="col-3">
+                                    <button class="btn btn-warning btn-md" id="btnMenuProyectoEditar">
+                                        <i class="fal fa-edit"></i>Editar
+                                    </button>
+                                </div>
+                                <div class="col-3">
+                                    <button class="btn btn-secondary btn-md" id="btnMenuProyectoFinalizar">
+                                        <i class="fal fa-check"></i>Finalizar
+                                    </button>
+                                </div>
+                                <div class="col-3">
+                                    <button class="btn btn-danger btn-md" id="btnMenuProyectoEliminar">
+                                        <i class="fal fa-trash"></i>Eliminar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="card card-rounded shadow col-12 p-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Costo Total</label>
+                                        <h1 class="text-info" id="lbPresupuesto"></h1>
+                                    </div>
+                                    <br>
+                                    <div class="form-group">
+                                        <label>Ejecutado</label>
+                                        <h1 class="text-danger" id="lbEjecutado"></h1>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 ${get_permiso_visible()}">
+                                    <div class="form-group">
+                                        <label>Recibido</label>
+                                        <h1 class="text-success" id="lbRecibido"></h1>
+                                    </div>
+                                    <br>
+                                    <div class="form-group ${get_permiso_visible()}">
+                                        <label>Diferencia</label>
+                                        <h1 id="lbDiferencia"></h1>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6">
+                                    <div class="row">
+                                        <div clas="col">
+                                            <button class="btn btn-circle btn-info hand shadow btn-xl" onclick="document.getElementById('btnTabProveedores').click()">
+                                                <i class="fal fa-box"></i>
+                                            </button>
+                                        </div>
+                                        <div clas="col">
+                                            <br>
+                                            <b class="text-info"> Cheques a Proveedores</b>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div clas="col">
+                                            <button class="btn btn-circle btn-success hand shadow btn-xl" onclick="document.getElementById('btnTabSubcontratistas').click()">
+                                                <i class="fal fa-users"></i>
+                                            </button>
+                                        </div>
+                                        <div clas="col">
+                                            <br>
+                                            <b class="text-success"> Cheques a Subcontratistas</b>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div clas="col">
+                                            <button class="btn btn-circle btn-secondary hand shadow btn-xl" onclick="document.getElementById('btnTabCaja').click()">
+                                                <i class="fal fa-shopping-cart"></i>
+                                            </button>
+                                        </div>
+                                        <div clas="col">
+                                            <br>
+                                            <b class="text-secondary"> Gastos de Caja</b>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6">
+                                    <div class="row">
+                                        <div clas="col">
+                                            <button class="btn btn-circle btn-warning hand shadow btn-xl" onclick="document.getElementById('btnTabContratos').click()">
+                                                <i class="fal fa-shopping-cart"></i>
+                                            </button>
+                                        </div>
+                                        <div clas="col">
+                                            <br>
+                                            <b class="text-warning"> Listado de Subcontratos</b>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div clas="col">
+                                            <button class="btn btn-circle btn-danger hand shadow btn-xl" onclick="document.getElementById('btnTabRecibidos').click()">
+                                                <i class="fal fa-shopping-cart"></i>
+                                            </button>
+                                        </div>
+                                        <div clas="col">
+                                            <br>
+                                            <b class="text-danger"> Pagos Recibidos</b>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>                            
+                        </div>
+                    </div>
+                    <div class="btn-bottom-left">
+                        <button class="btn btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('tab-uno').click()">
+                            <i class="fal fa-arrow-left"></i>
+                        </button>
+                    </div>  
+            `
+        },
+        datos_proyecto_subcontratos:()=>{
+            return `
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Total:</label>
+                        <h3 class="negrita tex-danger" id="lbTotalSubcontratos">00.00</h3>
+                    </div>
+                </div>
+                <div class="col-6 text-right">
+                    <button class="btn btn-success btn-md shadow" id="btnNuevoContrato">
+                        Nuevo (+)
+                    </button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-responsive">
+                    <thead class="bg-trans-gradient text-white">
+                        <tr>
+                            <td>CONTRATISTA/ASIGNACION</td>
+                            <td>IMPORTE</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody id="tblPSucontratistas"></tbody>
+                </table>
+            </div>
+            <button class="btn btn-bottom-left btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('btnTabGeneral').click()">
+                <i class="fal fa-arrow-left"></i>
+            </button>
+            `
+        },
+        datos_proyecto_cheques_subcontratistas:()=>{
+            return `
+            <div class="table-responsive">
+                <div class="table-responsive">
+                    <table class="table table-responsive">
+                        <thead class="bg-trans-gradient text-white">
+                            <tr>
+                                <td>FECHA</td>
+                                <td>CUENTA</td>
+                                <td>ACREEDOR</td>
+                                <td>VALOR</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody id="tblCheques1"></tbody>
+                    </table>
+                </div>
+            </div>
+            <button class="btn btn-bottom-left btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('btnTabGeneral').click()">
+                <i class="fal fa-arrow-left"></i>
+            </button>
+            `
+        },
+        datos_proyecto_cheques_proveedores:()=>{
+            return `
+            <div class="table-responsive">
+                <div class="table-responsive">
+                    <table class="table table-responsive">
+                        <thead class="bg-info text-white">
+                            <tr>
+                                <td>FECHA</td>
+                                <td>CHEQUE</td>
+                                <td>DESCRIPCIOON</td>
+                                <td>VALOR</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody id="tblCheques2"></tbody>
+                    </table>
+                </div>
+            </div>
+            <button class="btn btn-bottom-left btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('btnTabGeneral').click()">
+                <i class="fal fa-arrow-left"></i>
+            </button>
+            `
+        },
+        datos_proyecto_caja:()=>{
+            return `
+            <div class="table-responsive">
+                <table class="table table-responsive">
+                    <thead class="bg-trans-gradient text-white">
+                        <tr>
+                            <td>FECHA</td>
+                            <td>ENTREGADO POR / CONCEPTO</td>
+                            <td>IMPORTE</td>
+                        </tr>
+                    </thead>
+                    <tbody id="tblPCaja"></tbody>
+                </table>
+            </div>
+            <button class="btn btn-bottom-left btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('btnTabGeneral').click()">
+                <i class="fal fa-arrow-left"></i>
+            </button>
+            `
+        },
+        datos_proyecto_pagos_recibidos:()=>{
+            return `
+            <div class="table-responsive">
+                <div class="table-responsive">
+                    <table class="table table-responsive">
+                        <thead class="bg-success text-white">
+                            <tr>
+                                <td>FECHA</td>
+                                <td>CUENTA</td>
+                                <td>ACREEDOR</td>
+                                <td>VALOR</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody id="tblCheques3"></tbody>
+                    </table>
+                </div>
+            </div>
+            <button class="btn btn-bottom-left btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('btnTabGeneral').click()">
+                <i class="fal fa-arrow-left"></i>
+            </button>
+            `
         },
         modalNuevoContrato : ()=>{
             return `
