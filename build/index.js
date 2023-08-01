@@ -18,7 +18,7 @@ let btnMenuCotizaciones = document.getElementById('btnMenuCotizaciones');
 let btnMenuReportesSubcontratistas = document.getElementById('btnMenuReportesSubcontratistas');
 let btnMenuReportesRubros = document.getElementById('btnMenuReportesRubros');
 let btnMenuReporteCuentas = document.getElementById('btnMenuReporteCuentas');
-
+let btnMenuReporteProveedores = document.getElementById('btnMenuReporteProveedores');
 
 Mousetrap.bind('ctrl+m', function(e) {
     document.getElementById('btnMenuPrincipal').click();
@@ -77,6 +77,11 @@ btnMenuReportesRubros.addEventListener('click',()=>{
 
 btnMenuReporteCuentas.addEventListener('click',()=>{
     classNavegar.cuentas();
+    $("#ModalMenuPrincipal").modal('hide');
+})
+
+btnMenuReporteProveedores.addEventListener('click',()=>{
+    classNavegar.reportesProveedores();
     $("#ModalMenuPrincipal").modal('hide');
 })
 

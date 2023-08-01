@@ -125,7 +125,9 @@ router.post("/listaproyectos", async (req, res) => {
     isnull((SELECT SUM(CANTIDAD) FROM CONST_CHEQUES WHERE TIPOCHEQUE='CONTRATANTE' AND IDPROYECTO= CONST_PROYECTOS.IDPROYECTO),0) AS RECIBIDO,
     isnull((SELECT SUM(CANTIDAD) FROM CONST_CHEQUES WHERE TIPOCHEQUE<>'CONTRATANTE' AND IDPROYECTO= CONST_PROYECTOS.IDPROYECTO),0) * -1 AS EJECUTADO, 
     CONST_PROYECTOS.CODCONTRATANTE, 
-    CONST_CONTRATANTES.DESCONTRATANTE, ISNULL(CONST_PROYECTOS.USUARIO,'--') AS USUARIO
+    CONST_CONTRATANTES.DESCONTRATANTE, 
+    ISNULL(CONST_PROYECTOS.USUARIO,'--') AS USUARIO,
+    ISNULL(CONST_PROYECTOS.ANIO,2000) AS ANIO
         FROM CONST_PROYECTOS LEFT OUTER JOIN
             CONST_CONTRATANTES ON CONST_PROYECTOS.CODCONTRATANTE = CONST_CONTRATANTES.CODCONTRATANTE
             WHERE (CONST_PROYECTOS.FINALIZADO = 'NO')`
@@ -141,7 +143,9 @@ router.post("/listaproyectos", async (req, res) => {
     isnull((SELECT SUM(CANTIDAD) FROM CONST_CHEQUES WHERE TIPOCHEQUE='CONTRATANTE' AND IDPROYECTO= CONST_PROYECTOS.IDPROYECTO),0) AS RECIBIDO,
     isnull((SELECT SUM(CANTIDAD) FROM CONST_CHEQUES WHERE TIPOCHEQUE<>'CONTRATANTE' AND IDPROYECTO= CONST_PROYECTOS.IDPROYECTO),0) * -1 AS EJECUTADO, 
     CONST_PROYECTOS.CODCONTRATANTE, 
-    CONST_CONTRATANTES.DESCONTRATANTE, ISNULL(CONST_PROYECTOS.USUARIO,'--') AS USUARIO
+    CONST_CONTRATANTES.DESCONTRATANTE, 
+    ISNULL(CONST_PROYECTOS.USUARIO,'--') AS USUARIO,
+    ISNULL(CONST_PROYECTOS.ANIO,2000) AS ANIO
         FROM CONST_PROYECTOS LEFT OUTER JOIN
             CONST_CONTRATANTES ON CONST_PROYECTOS.CODCONTRATANTE = CONST_CONTRATANTES.CODCONTRATANTE
             WHERE (CONST_PROYECTOS.FINALIZADO = 'SI') AND
@@ -175,10 +179,10 @@ router.post("/listaproyectoscombo", async (req, res) => {
 
 router.post("/nuevo", async (req, res) => {
 
-    const { proyecto, direccion, inicio, final, contacto, telefono, contratante, presupuesto, usuario } = req.body;
+    const { proyecto, direccion, inicio, final, contacto, telefono, contratante, presupuesto, usuario, anio } = req.body;
 
-    let qry = `INSERT INTO CONST_PROYECTOS (PROYECTO, DIRECCION, FECHAINICIO, FECHAFIN, CONTACTO, TELEFONO, CODCONTRATANTE, PRESUPUESTO, EJECUTADO, RECIBIDO, FINALIZADO,USUARIO)
-                    VALUES ('${proyecto}', '${direccion}', '${inicio}', '${final}', '${contacto}', '${telefono}', ${contratante}, ${presupuesto}, 0, 0, 'NO', '${usuario}');`;
+    let qry = `INSERT INTO CONST_PROYECTOS (PROYECTO, DIRECCION, FECHAINICIO, FECHAFIN, CONTACTO, TELEFONO, CODCONTRATANTE, PRESUPUESTO, EJECUTADO, RECIBIDO, FINALIZADO,USUARIO, ANIO)
+                    VALUES ('${proyecto}', '${direccion}', '${inicio}', '${final}', '${contacto}', '${telefono}', ${contratante}, ${presupuesto}, 0, 0, 'NO', '${usuario}', ${anio});`;
 
     execute.Query(res, qry);
 
@@ -186,14 +190,15 @@ router.post("/nuevo", async (req, res) => {
 
 router.post("/editar", async (req, res) => {
 
-    const { id,proyecto, direccion, inicio, final, contacto, telefono, contratante, presupuesto, usuario } = req.body;
+    const { id,proyecto, direccion, inicio, final, anio, contacto, telefono, contratante, presupuesto, usuario } = req.body;
 
     let qry = `UPDATE CONST_PROYECTOS SET PROYECTO='${proyecto}', 
                     DIRECCION='${direccion}', 
                     FECHAINICIO='${inicio}', 
                     FECHAFIN='${final}', 
                     CODCONTRATANTE=${contratante},
-                    PRESUPUESTO=${presupuesto}
+                    PRESUPUESTO=${presupuesto},
+                    ANIO=${anio}
                 WHERE IDPROYECTO=${id};`;
 
     execute.Query(res, qry);
@@ -272,7 +277,7 @@ router.post('/datosproyecto', async (req,res)=>{
 
     const {id } = req.body;
 
-    let qry = `select PROYECTO, DIRECCION, FECHAINICIO,FECHAFIN, PRESUPUESTO,CODCONTRATANTE FROM CONST_PROYECTOS WHERE IDPROYECTO=${id}`
+    let qry = `select PROYECTO, DIRECCION, FECHAINICIO,FECHAFIN, PRESUPUESTO,CODCONTRATANTE, ISNULL(ANIO,2000) AS ANIO FROM CONST_PROYECTOS WHERE IDPROYECTO=${id}`
 
     execute.Query(res, qry);
 

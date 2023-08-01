@@ -124,5 +124,17 @@ let classNavegar = {
         }else{
             funciones.AvisoHablado('Usted no puede entrar a esta sección')
         }
+    },
+    reportesProveedores: ()=>{
+        if(GlobalNivelUsuario==1){
+            funciones.loadScript('../views/reportes_proveedores.js','root')
+            .then(async()=>{
+                lbTituloVista.innerText = 'PAGOS A PROVEEDORES';
+                GlobalSelectedForm = 'reportes';
+                initView();
+            })
+        }else{
+            funciones.AvisoHablado('Usted no puede entrar a esta sección')
+        }
     }
 }

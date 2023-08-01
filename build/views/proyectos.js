@@ -119,6 +119,13 @@ function getView(){
                             </div>
                             <div class="col-sm-12 col-lg-4 col-xl-4 col-md-4">
                                 <div class="form-group">
+                                    <label>Año del Proyecto</label>
+                                    <select class="form-control input-sm border-danger negrita text-danger" id="cmbProyectoAnio">
+                                    </select>
+                                </div>    
+                            </div>
+                            <div class="col-sm-12 col-lg-4 col-xl-4 col-md-4">
+                                <div class="form-group">
                                     <label>Costo Total</label>
                                     Q<input type="number" class="form-control bg-amarillo border-danger text-danger
                                     " id="txtPresupuesto" value=0>
@@ -199,7 +206,7 @@ function getView(){
         },
         datos_proyecto_inicio:()=>{
             return `
-                    <div class="card card-rounded shadow col-12 p-4">
+                    <div class="card card-rounded shadow col-12 p-2">
                         <div class="card-body">
                             <small class="text-secondary">Resumen del Proyecto:</small>
                             <h4 class="negrita text-danger" id="lbDetProyecto">Proyecto</h4>
@@ -231,24 +238,46 @@ function getView(){
                                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6">
                                     <div class="form-group">
                                         <label>Costo Total</label>
-                                        <h1 class="text-info" id="lbPresupuesto"></h1>
+                                        <h3 class="text-info" id="lbPresupuesto"></h3>
                                     </div>
-                                    <br>
+                                    
                                     <div class="form-group">
                                         <label>Ejecutado</label>
-                                        <h1 class="text-danger" id="lbEjecutado"></h1>
+                                        <h3 class="text-danger" id="lbEjecutado"></h3>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label>Total pagado Proveedores</label>
+                                        <h5 class="text-secondary negrita" id="lbTotalProveedores"></h5>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>Total pagado Subcontratistas</label>
+                                        <h5 class="text-secondary negrita" id="lbTotalSubcontratistas"></h5>
+                                    </div>
+                                    
                                 </div>
                                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 ${get_permiso_visible()}">
                                     <div class="form-group">
                                         <label>Recibido</label>
-                                        <h1 class="text-success" id="lbRecibido"></h1>
+                                        <h3 class="text-success" id="lbRecibido"></h3>
                                     </div>
-                                    <br>
+                                    
                                     <div class="form-group ${get_permiso_visible()}">
                                         <label>Diferencia</label>
-                                        <h1 id="lbDiferencia"></h1>
+                                        <h3 id="lbDiferencia"></h3>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label>Total Gastos Caja</label>
+                                        <h5 class="text-secondary negrita" id="lbTotalGastosCaja"></h5>
+                                    </div>
+                                    
+                                    <div class="form-group ${get_permiso_visible()}">
+                                        <label>Total pagos recibidos</label>
+                                        <h5 class="text-secondary negrita" id="lbTotalPagosRecibidos"></h5>
+                                    </div>
+
                                 </div>
                                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6">
                                     <div class="row">
@@ -291,7 +320,7 @@ function getView(){
                                     <div class="row">
                                         <div clas="col">
                                             <button class="btn btn-circle btn-warning hand shadow btn-xl" onclick="document.getElementById('btnTabContratos').click()">
-                                                <i class="fal fa-shopping-cart"></i>
+                                                <i class="fal fa-list"></i>
                                             </button>
                                         </div>
                                         <div clas="col">
@@ -302,7 +331,7 @@ function getView(){
                                     <div class="row">
                                         <div clas="col">
                                             <button class="btn btn-circle btn-danger hand shadow btn-xl" onclick="document.getElementById('btnTabRecibidos').click()">
-                                                <i class="fal fa-shopping-cart"></i>
+                                                <i class="fal fa-bell"></i>
                                             </button>
                                         </div>
                                         <div clas="col">
@@ -358,8 +387,11 @@ function getView(){
         datos_proyecto_cheques_subcontratistas:()=>{
             return `
             <div class="table-responsive">
+                <div class="form-group">
+                    <input type="text" placeholder="Escriba para filtrar..." class="form-control border-danger text-danger" id="txtBuscar_cheques_subcontratistas" oninput="funciones.FiltrarTabla('tblChequesProyecto_Subcontratistas','txtBuscar_cheques_subcontratistas')">
+                </div>
                 <div class="table-responsive">
-                    <table class="table table-responsive">
+                    <table class="table table-responsive" id="tblChequesProyecto_Subcontratistas">
                         <thead class="bg-trans-gradient text-white">
                             <tr>
                                 <td>FECHA</td>
@@ -381,8 +413,11 @@ function getView(){
         datos_proyecto_cheques_proveedores:()=>{
             return `
             <div class="table-responsive">
+                <div class="form-group">
+                    <input type="text" placeholder="Escriba para filtrar..." class="form-control border-danger text-danger" id="txtBuscar_cheques_proveedores" oninput="funciones.FiltrarTabla('tblChequesProyecto_Proveedores','txtBuscar_cheques_proveedores')">
+                </div>
                 <div class="table-responsive">
-                    <table class="table table-responsive">
+                    <table class="table table-responsive" id="tblChequesProyecto_Proveedores">
                         <thead class="bg-info text-white">
                             <tr>
                                 <td>FECHA</td>
@@ -404,7 +439,10 @@ function getView(){
         datos_proyecto_caja:()=>{
             return `
             <div class="table-responsive">
-                <table class="table table-responsive">
+                <div class="form-group">
+                    <input type="text" placeholder="Escriba para filtrar..." class="form-control border-danger text-danger" id="txtBuscar_cheques_caja" oninput="funciones.FiltrarTabla('tblChequesProyecto_Caja','txtBuscar_cheques_caja')">
+                </div>
+                <table class="table table-responsive" id="tblChequesProyecto_Caja">
                     <thead class="bg-trans-gradient text-white">
                         <tr>
                             <td>FECHA</td>
@@ -477,15 +515,19 @@ function getView(){
                         </div>
 
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary btn-lg" data-dismiss="modal">
-                            <i class="fal fa-times"></i>
-                            Cerrar
-                        </button>
-                        <button type="button" class="btn btn-primary btn-lg" id="btnGuardarContrato">
-                            <i class="fal fa-save"></i>
-                            Guardar
-                        </button>
+                    <div class="row">
+                        <div class="col-6">
+                            <button class="btn btn-outline-secondary btn-xl btn-circle hand shadow" data-dismiss="modal">
+                                <i class="fal fa-arrow-left"></i>
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-owner hand btn-circle btn-xl" id="btnGuardarContrato">
+                                <i class="fal fa-save"></i>
+                            </button>
+                        </div>
+                        
+                        
                     </div>
 
                 </div>
@@ -503,6 +545,10 @@ function getView(){
 
 function addListeners() { 
     
+    let cmbProyectoAnio = document.getElementById('cmbProyectoAnio');
+    cmbProyectoAnio.innerHTML = funciones.ComboAnio();
+
+
     let cmbStatus = document.getElementById('cmbStatus');
     let cmbAnio = document.getElementById('cmbAnio');
     let cmbMes = document.getElementById('cmbMes');
@@ -513,6 +559,7 @@ function addListeners() {
     let fecha = new Date();
     cmbMes.value = fecha.getUTCMonth()+1;
     cmbAnio.value = fecha.getFullYear();
+    cmbProyectoAnio.value = fecha.getFullYear();
 
     cmbMes.addEventListener('change',()=>{
         api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
@@ -544,6 +591,10 @@ function addListeners() {
     btnNuevo.addEventListener('click', () => {
         GlobalSelectedCodProyecto = 0;
         //$('#modalNuevo').modal('show');
+        document.getElementById('txtDescripcion').value = '';
+        document.getElementById('txtDireccion').value = '';
+        document.getElementById('txtPresupuesto').value = 0;
+        
         document.getElementById('tab-tres').click();
     });   
 
@@ -570,7 +621,7 @@ function addListeners() {
                     btnGuardarProyecto.innerHTML = `<i class="fal fa-save fa-spin"></i>`;
                     btnGuardarProyecto.disabled = true;
 
-                    api.proyectos_insertar(txtDescripcion.value, txtDireccion.value, funciones.devuelveFecha('txtFInicio'), funciones.devuelveFecha('txtFFinal'), 'SN', '0', cmbContratante.value, Number(txtPresupuesto.value))
+                    api.proyectos_insertar(txtDescripcion.value, txtDireccion.value, funciones.devuelveFecha('txtFInicio'), funciones.devuelveFecha('txtFFinal'), 'SN', '0', cmbContratante.value, Number(txtPresupuesto.value),cmbProyectoAnio.value)
                     .then(async() => {
                             
                             btnGuardarProyecto.innerHTML = `<i class="fal fa-save"></i>`;
@@ -602,11 +653,15 @@ function addListeners() {
             .then((value) => {
                 if (value == true) {
 
-                    btnGuardarProyecto.innerHTML = GlobalLoader;
+                    btnGuardarProyecto.innerHTML = `<i class="fal fa-save fa-spin"></i>`;
+                    btnGuardarProyecto.disabled = true;
 
-                    api.proyectos_editar(GlobalSelectedCodProyecto,txtDescripcion.value, txtDireccion.value, funciones.devuelveFecha('txtFInicio'), funciones.devuelveFecha('txtFFinal'), 'SN', '0', cmbContratante.value, Number(txtPresupuesto.value))
+                    api.proyectos_editar(GlobalSelectedCodProyecto,txtDescripcion.value, txtDireccion.value, funciones.devuelveFecha('txtFInicio'), funciones.devuelveFecha('txtFFinal'), 'SN', '0', cmbContratante.value, Number(txtPresupuesto.value),cmbProyectoAnio.value)
                     .then(async() => {
+                            
                             btnGuardarProyecto.innerHTML = `<i class="fal fa-save"></i>`;
+                            btnGuardarProyecto.disabled = false;
+
                             funciones.Aviso('Proyecto editado exitosamente!!')
                             
                             let cmbStatus = document.getElementById('cmbStatus');
@@ -616,12 +671,15 @@ function addListeners() {
                             await api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
                             await api.insertar_bitacora(`Proyecto editado: ${txtDescripcion.value}`)
 
-                            $('#modalNuevo').modal('hide');
+                            //$('#modalNuevo').modal('hide');
+                            document.getElementById('tab-uno').click();
                     })
                     .catch(() => {
                             funciones.AvisoError('No se pudo guardar'); 
+                            btnGuardarProyecto.innerHTML = `<i class="fal fa-save"></i>`;
+                            btnGuardarProyecto.disabled = false;
                     });
-                    btnGuardarProyecto.innerHTML = `<i class="fal fa-save"></i>`;
+                   
 
                 }
             })
@@ -689,7 +747,7 @@ function addListeners() {
     
         funciones.solicitarClave()
         .then((name)=>{
-            if(name.toString()==GlobalConfigClave.toString()){
+            if(name.toString()==GlobalPassUsuario.toString()){
                 //funciones.Aviso('proyecto seleccionado ' + GlobalSelectedCodProyecto.toString())
                 getDataProyecto();
             }else{
@@ -785,7 +843,8 @@ function addListeners() {
                 }else{
                     if(Number(txtPPresupuesto.value)>0){
                         
-                        btnGuardarContrato.innerHTML = GlobalLoader;
+                        btnGuardarContrato.innerHTML = `<i class="fal fa-save fa-spin"></i>`;
+                        btnGuardarContrato.disabled = true;
 
                         if(GlobalSelectedNumeroContrato==0){
                             //es un nuevo contrato
@@ -794,10 +853,17 @@ function addListeners() {
                                 funciones.Aviso('Nuevo Sub-contrato creado exitosamente !!')
                                 api.proyectos_subcontratistas(GlobalSelectedCodProyecto,'tblPSucontratistas')
                                 $('#modalNuevoContrato').modal('hide');
+                                
+                                btnGuardarContrato.innerHTML = `<i class="fal fa-save"></i>`;
+                                btnGuardarContrato.disabled = false;
+
                                 await api.insertar_bitacora(`Nuevo subcontrato: ${txtPAsignacion.value} para ${cmbPSubContratista.value}`)
                             })
                             .catch(()=>{
                                 funciones.AvisoError('No se pudo crear el Sub-contrato')
+                                btnGuardarContrato.innerHTML = `<i class="fal fa-save"></i>`;
+                                btnGuardarContrato.disabled = false;
+                                
                             })
                         }else{
                             //edita un contrato existente
@@ -806,14 +872,18 @@ function addListeners() {
                                 funciones.Aviso('Sub-contrato actualizado exitosamente !!')
                                 api.proyectos_subcontratistas(GlobalSelectedCodProyecto,'tblPSucontratistas')
                                 $('#modalNuevoContrato').modal('hide');
+                                btnGuardarContrato.innerHTML = `<i class="fal fa-save"></i>`;
+                                btnGuardarContrato.disabled = false;
+                                
                             })
                             .catch(()=>{
                                 funciones.AvisoError('No se pudo editar el Sub-contrato')
+                                btnGuardarContrato.innerHTML = `<i class="fal fa-save"></i>`;
+                                btnGuardarContrato.disabled = false;
+                                
                             })
                         }
 
-                        btnGuardarContrato.innerHTML = `<i class="fal fa-save"></i>Guardar`
-                        
 
                     }else{
                         funciones.AvisoError('Escriba el monto o presupuesto asignado a este Subcontrato')
@@ -886,8 +956,9 @@ function getMenuProyecto(codigo,descripcion, presupuesto){
 
 function getDataProyecto(){
     funciones.showToast('Cargando datos del proyecto...');
-    api.proyectos_datos_proyecto(GlobalSelectedCodProyecto,'txtDescripcion','txtDireccion','txtPresupuesto','cmbContratante','txtFInicio','txtFFinal');
-    $('#modalNuevo').modal('show');
+    api.proyectos_datos_proyecto(GlobalSelectedCodProyecto,'txtDescripcion','txtDireccion','txtPresupuesto','cmbContratante','txtFInicio','txtFFinal','cmbProyectoAnio');
+    //$('#modalNuevo').modal('show');
+    document.getElementById('tab-tres').click();
 }
 
 
@@ -939,8 +1010,8 @@ function editContrato(nocontrato,codacreedor,asignacion,fecha,presupuesto,fechai
         document.getElementById('txtPPresupuesto').value = presupuesto;
         document.getElementById('txtPFechaInicio').value = fechainicio;
         document.getElementById('txtPFechaEntrega').value = fecha;
-        
-        
+       
+ 
         $('#modalNuevoContrato').modal('show');
 
 };

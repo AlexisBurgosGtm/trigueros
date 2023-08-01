@@ -129,10 +129,7 @@ let api = {
                             str = str + `
                             
                             <div class="card card-rounded shadow hand" onClick="getMenuProyecto(${rows.IDPROYECTO},'${rows.PROYECTO}','${funciones.setMoneda(rows.PRESUPUESTO, 'Q')}');">
-                               
-                            
-                                    <div class="card-body">
-
+                                <div class="card-body">
                                     <div class="card-rounded bg-owner text-white col-12 p-2">
                                         <h5>${rows.PROYECTO}</h5>
                                         <small>${rows.DIRECCION}</small>
@@ -148,9 +145,8 @@ let api = {
                                                 <small class="text-info">F.Fin: ${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHAFIN))}</small>
                                             </div>
                                         </div>
-                                        <br><small>Contratante: <b>${rows.DESCONTRATANTE}</b></small>        
-                                        
-                                    </div>
+                                        <br><small>Contratante: <b>${rows.DESCONTRATANTE}</b></small>                
+                                </div>
 
                                     <div class="card-body">
                                         <div class="row">
@@ -170,9 +166,10 @@ let api = {
                                             <div class="col-6" ${get_permiso_visible()}>
                                                 <h5 class='${stClasDif}'>Diferencia:${funciones.setMoneda(diferencia, 'Q')}</h5>
                                             </div>
-                                        </div>                     
+                                        </div>  
+                                        <h3 class="negrita text-warning bg-owner text-center col-12">Año ${rows.ANIO}</h3>                   
                                     </div>
-
+                                    
                             </div>`
                         })
                         container.innerHTML = str;
@@ -379,7 +376,7 @@ let api = {
                 });
 
     },
-    proyectos_insertar: (proyecto, direccion, inicio, final, contacto, telefono, contratante, presupuesto) => {
+    proyectos_insertar: (proyecto, direccion, inicio, final, contacto, telefono, contratante, presupuesto, anio) => {
         return new Promise((resolve, reject) => {
 
             let data = {
@@ -391,7 +388,8 @@ let api = {
                 telefono: telefono,
                 contratante: contratante,
                 presupuesto: presupuesto,
-                usuario:GlobalUsuario
+                usuario:GlobalUsuario,
+                anio:anio
             };
 
             let url = GlobalUrlBackend + '/proyectos/nuevo'
@@ -414,7 +412,7 @@ let api = {
 
         });
     },
-    proyectos_editar: (idproyecto,proyecto, direccion, inicio, final, contacto, telefono, contratante, presupuesto) => {
+    proyectos_editar: (idproyecto,proyecto, direccion, inicio, final, contacto, telefono, contratante, presupuesto,anio) => {
         return new Promise((resolve, reject) => {
 
             let data = {
@@ -427,7 +425,8 @@ let api = {
                 telefono: telefono,
                 contratante: contratante,
                 presupuesto: presupuesto,
-                usuario:GlobalUsuario
+                usuario:GlobalUsuario,
+                anio:anio
             };
 
             let url = GlobalUrlBackend + '/proyectos/editar'
@@ -507,7 +506,9 @@ let api = {
                 let container = document.getElementById(idContainer);
                 container.innerHTML = GlobalLoader;
                 let str = '';
-            
+
+                let varTotalImporte = 0;
+
                 let url = GlobalUrlBackend + '/proyectos/subcontratistas';
 
                 axios.post(url, {
@@ -517,6 +518,7 @@ let api = {
                     try {
                         const data = response.data.recordset;
                         data.map((rows) => {
+                            varTotalImporte += Number(rows.IMPORTE);
                             str = str + `<tr>
                                             <td>
                                                 ${rows.DESACREEDOR}
@@ -553,12 +555,27 @@ let api = {
                                         </tr>`
                         })
                         container.innerHTML = str;
+                        try {
+                            document.getElementById('lbTotalSubcontratos').innerText = funciones.setMoneda(varTotalImporte,'Q');
+                        } catch (error) {
+                            
+                        }
                     } catch (err) {
                         container.innerHTML = 'Agregue un subcontratista al proyecto...';
+                        try {
+                            document.getElementById('lbTotalSubcontratos').innerText = '--';
+                        } catch (error) {
+                            
+                        }
                     }
                 }, (error) => {
                         console.log(error);
                         container.innerHTML = 'Agregue un subcontratista al proyecto...';
+                        try {
+                            document.getElementById('lbTotalSubcontratos').innerText = '--';
+                        } catch (error) {
+                            
+                        }
                 });
 
     },
@@ -619,7 +636,7 @@ let api = {
         });
 
     },
-    proyectos_datos_proyecto: (idproyecto, idDescripcion, idDireccion, idPresupuesto, idContratante, idFechaInicial, idFechaFinal) => {
+    proyectos_datos_proyecto: (idproyecto, idDescripcion, idDireccion, idPresupuesto, idContratante, idFechaInicial, idFechaFinal,idAnio) => {
         
         let descripcion = document.getElementById(idDescripcion); descripcion.value = "--";
         let direccion = document.getElementById(idDireccion); direccion.value = "--";
@@ -627,6 +644,7 @@ let api = {
         let finicial = document.getElementById(idFechaInicial);
         let ffinal = document.getElementById(idFechaFinal); 
         let contratante = document.getElementById(idContratante);
+        let anio = document.getElementById(idAnio);
 
         descripcion.value = 'Cargando datos del proyecto...'
 
@@ -646,6 +664,7 @@ let api = {
                     finicial.value = funciones.cleanDataFecha(rows.FECHAINICIO);
                     ffinal.value = funciones.cleanDataFecha(rows.FECHAFIN);
                     contratante.value = rows.CODCONTRATANTE;
+                    anio.value = rows.ANIO;
                 })
             } catch (err) {
                 str = 'AGREGUE DATOS...';
@@ -961,6 +980,35 @@ let api = {
                 });
 
     },
+    proveedores_combo_promise: (idContainer) => {
+        let container = document.getElementById(idContainer);
+        return new Promise((resolve,reject)=>{
+            let str = '';
+
+            let url = GlobalUrlBackend + '/acreedores/listado_activos'
+
+            axios.post(url, {tipo: "PROVEEDOR"})
+                .then((response) => {
+                    try {
+                        const data = response.data.recordset;
+                        data.map((rows) => {
+                            str = str + `<option value="${rows.CODIGO}">${rows.DESCRIPCION}</option>`
+                        })
+                        container.innerHTML = str;
+                        resolve();
+                    } catch (err) {
+                        container.innerHTML = '<option value="SN">No hay datos..</option>';
+                        reject();
+                    }
+                }, (error) => {
+                        console.log(error);
+                        container.innerHTML = '<option value="SN">Error..</option>';
+                        reject();
+                });
+
+        })
+        
+    },
     cheques_contratista_insertar: (codproyecto,fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro,tipo,concepto) => {
         return new Promise((resolve, reject) => {
 
@@ -1202,6 +1250,10 @@ let api = {
         let str1 = ''; let str2 = ''; let str3 = '';
         let varTotalPresupuesto = 0; let varTotalSaldo = 0;
 
+        GlobalSelected_totalProveedores = 0;
+        GlobalSelected_totalSubcontratistas = 0;
+        GlobalSelected_totalRecibido = 0;
+
         let newrow = '';
 
         let url = GlobalUrlBackend + '/cheques/listadoproyecto';
@@ -1244,14 +1296,17 @@ let api = {
                         case 'SUBCONTRATISTA':
                             str1 = str1 + newrow;
                             varTotalSaldo = varTotalSaldo + Number(rows.IMPORTE);
+                            GlobalSelected_totalSubcontratistas += Number(rows.IMPORTE);
                             break;
                         case 'PROVEEDOR':
                             str2 = str2 + newrow;
                             varTotalSaldo = varTotalSaldo + Number(rows.IMPORTE);
+                            GlobalSelected_totalProveedores += Number(rows.IMPORTE);
                             break;
                         case 'CONTRATANTE':
                             str3 = str3 + newrow;
                             varTotalPresupuesto = varTotalPresupuesto + Number(rows.IMPORTE);
+                            GlobalSelected_totalRecibido += Number(rows.IMPORTE);
                             break;
                     }
                 })
@@ -1266,6 +1321,14 @@ let api = {
                 }else{
                     lbDiferencia.innerHTML = `<b class="text-danger">${funciones.setMoneda(dif,'Q')}</b>`;
                 }
+
+                try {
+                    document.getElementById('lbTotalProveedores').innerText = funciones.setMoneda(GlobalSelected_totalProveedores,'Q');
+                    document.getElementById('lbTotalSubcontratistas').innerText = funciones.setMoneda(GlobalSelected_totalSubcontratistas,'Q');
+                    document.getElementById('lbTotalPagosRecibidos').innerText = funciones.setMoneda(GlobalSelected_totalRecibido,'Q'); 
+                } catch (error) {
+                    
+                }
             } catch (err) {
                 container1.innerHTML = 'Agregue un cheque al proyecto...';
                 container2.innerHTML = 'Agregue un cheque al proyecto...';
@@ -1273,6 +1336,13 @@ let api = {
                 lbSaldo.innerText = 'Q --';
                 lbPresupuesto.innerText = 'Q --';
                 lbDiferencia.innerText = 'Q --';
+                try {
+                    document.getElementById('lbTotalProveedores').innerText = '---';
+                    document.getElementById('lbTotalSubcontratistas').innerText = '---';
+                    document.getElementById('lbTotalPagosRecibidos').innerText = '---'; 
+                } catch (error) {
+                    
+                }
             }
         }, (error) => {
                 console.log(error);
@@ -1282,6 +1352,13 @@ let api = {
                 lbSaldo.innerText = 'Q --';
                 lbPresupuesto.innerText = 'Q --';
                 lbDiferencia.innerText = 'Q --';
+                try {
+                    document.getElementById('lbTotalProveedores').innerText = '---';
+                    document.getElementById('lbTotalSubcontratistas').innerText = '---';
+                    document.getElementById('lbTotalPagosRecibidos').innerText = '---'; 
+                } catch (error) {
+                    
+                }
         });
 
     },
@@ -1289,6 +1366,8 @@ let api = {
         
         let container = document.getElementById(idContainer);
         container.innerHTML = GlobalLoader;
+
+        GlobalSelected_totalGastosCaja = 0;
         
         let str = ''; 
        
@@ -1301,6 +1380,7 @@ let api = {
             try {
                 const data = response.data.recordset;
                 data.map((rows) => {
+                    GlobalSelected_totalGastosCaja += Number(rows.IMPORTE);
                     let importe = Number(rows.IMPORTE);
                     if(importe<0){importe= importe *-1};
                     str = str + `<tr class="border-bottom border-info">
@@ -1321,13 +1401,28 @@ let api = {
                   
                 })
                 container.innerHTML = str;
+                try {
+                    document.getElementById('lbTotalGastosCaja').innerText = funciones.setMoneda(GlobalSelected_totalGastosCaja,'Q');
+                } catch (error) {
+                    
+                }
                 
             } catch (err) {
                 container.innerHTML = 'Agregue un cheque al proyecto...';
+                try {
+                    document.getElementById('lbTotalGastosCaja').innerText = '---';
+                } catch (error) {
+                    
+                }
                        }
         }, (error) => {
                 console.log(error);
                 container.innerHTML = 'Agregue un cheque al proyecto...';
+                try {
+                    document.getElementById('lbTotalGastosCaja').innerText = '---';
+                } catch (error) {
+                    
+                }
         });
 
     },
@@ -1471,7 +1566,11 @@ let api = {
         let container = document.getElementById(idContainer);
         container.innerHTML = GlobalLoader;
         
-        let strHeader = `<table class="table table-striped table-responsive table-hover">
+        let strHeader = `
+                        <div class="form-group">
+                            <input type="text" placeholder="Escriba para buscar..." class="form-control col-12 border-danger text-danger negrita" id="txtB" oninput="funciones.FiltrarTabla('tbl','txtB')">
+                        </div>
+                        <table class="table table-striped table-responsive table-hover" id="tbl">
                             <thead class="bg-trans-gradient text-white">
                                 <tr>
                                     <td>ID</td>
@@ -1604,7 +1703,11 @@ let api = {
         let container = document.getElementById(idContainer);
         container.innerHTML = GlobalLoader;
 
-        let strHeader = `<table class="table table-striped table-responsive table-hover">
+        let strHeader = `
+                        <div class="form-group">
+                            <input type="text" placeholder="Escriba para buscar..." class="form-control col-12 border-danger text-danger negrita" id="txtB" oninput="funciones.FiltrarTabla('tbl','txtB')">
+                        </div>
+                        <table class="table table-striped table-responsive table-hover" id="tbl">
                             <thead class="bg-warning text-white">
                                 <tr>
                                     <td>ID</td>
@@ -1861,7 +1964,11 @@ let api = {
         let container = document.getElementById(idContainer)
         container.innerHTML = GlobalLoader;
 
-        let strHeader = `<table class="table table-striped table-responsive table-hover">
+        let strHeader = `
+                        <div class="form-group">
+                            <input type="text" placeholder="Escriba para buscar..." class="form-control col-12 border-danger text-danger negrita" id="txtB" oninput="funciones.FiltrarTabla('tbl','txtB')">
+                        </div>    
+                        <table class="table table-striped table-responsive table-hover" id="tbl">
                             <thead class="bg-warning text-white">
                                 <tr>
                                     <td>ID</td>
@@ -2093,7 +2200,11 @@ let api = {
 
         let strActivo = '';
 
-        let strHeader = `<table class="table table-striped table-responsive table-hover">
+        let strHeader = `
+                        <div class="form-group">
+                            <input type="text" placeholder="Escriba para buscar..." class="form-control col-12 border-danger text-danger negrita" id="txtB" oninput="funciones.FiltrarTabla('tbl','txtB')">
+                        </div>
+                        <table class="table table-striped table-responsive table-hover" id="tbl">
                             <thead class="bg-owner text-white">
                                 <tr>
                                     <td>ACT/DESACT</td>
@@ -2202,7 +2313,11 @@ let api = {
         let container = document.getElementById(idContainer)
         container.innerHTML = GlobalLoader;
 
-        let strHeader = `<table class="table table-striped table-responsive table-hover">
+        let strHeader = `
+                        <div class="form-group">
+                            <input type="text" placeholder="Escriba para buscar..." class="form-control col-12 border-danger text-danger negrita" id="txtB" oninput="funciones.FiltrarTabla('tbl','txtB')">
+                        </div>
+                        <table class="table table-striped table-responsive table-hover" id="tbl">
                             <thead class="bg-warning">
                                 <tr>
                                     <td>ACT/DESAC</td>
@@ -2329,7 +2444,10 @@ let api = {
 
 
         let strHeader = `
-                        <table class="table table-striped table-responsive table-hover">
+                        <div class="form-group">
+                            <input type="text" placeholder="Escriba para buscar..." class="form-control col-12 border-danger text-danger negrita" id="txtB" oninput="funciones.FiltrarTabla('tbl','txtB')">
+                        </div>
+                        <table class="table table-striped table-responsive table-hover" id="tbl">
                             <thead class="bg-danger text-white">
                                 <tr>
                                     <td>FECHA</td>
@@ -3300,6 +3418,68 @@ let api = {
                 container1.innerHTML = str1;
                 lbSaldo.innerText = funciones.setMoneda((varTotalSaldo),'Q');
             } catch (err) {
+                container1.innerHTML = 'Agregue un cheque ...';
+                lbSaldo.innerText = 'Q --';
+            }
+        }, (error) => {
+                console.log(error);
+                container1.innerHTML = 'Agregue un cheque...';
+                lbSaldo.innerText = 'Q --';
+        });
+
+    },
+    reportes_proveedores_fechas: (idContainer1,idSaldo,finicial,ffinal,codproveedor) => {
+        
+        let container1 = document.getElementById(idContainer1);
+        container1.innerHTML = GlobalLoader;
+        
+        let lbSaldo = document.getElementById(idSaldo);
+        lbSaldo.innerText = 'Q --';
+        
+        
+        let str1 = ''; 
+        let varTotalSaldo = 0;
+
+        
+
+        let url = GlobalUrlBackend + '/reportes/pagosmes_proveedor_fechas';
+
+        console.log('reporte cargando...')
+        axios.post(url, {
+                codproveedor:codproveedor,
+                    finicial: finicial,
+                    ffinal:ffinal
+                    })
+        .then((response) => {
+            try {
+                const data = response.data.recordset;
+                data.map((rows) => {
+                            varTotalSaldo = varTotalSaldo + Number(rows.IMPORTE);
+                            str1 =  str1 + `<tr class="border-bottom border-success">
+                                <td>${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHA))}
+                                        
+                                </td>
+                                <td>${rows.BANCO}
+                                        <br>
+                                        <small>Cuenta No. ${rows.NOCUENTA}</small>
+                                        <br>
+                                        <small class="negrita text-danger">Cheque No. ${rows.NOCHEQUE}</small>
+                                </td>
+                                <td>${rows.PROYECTO}
+                                        <br>
+                                        <small class="negrita text-info">${rows.ASIGNACION + ' - ' + rows.CONCEPTO}</small>
+                                        <br class="solid">
+                                        <small>Creado:${rows.USUARIO}</small>
+                                </td>
+                                <td>${funciones.setMoneda(rows.IMPORTE,'Q')}</td>
+                                
+                            </tr>`
+               
+                })
+                container1.innerHTML = str1;
+                lbSaldo.innerText = funciones.setMoneda((varTotalSaldo),'Q');
+            } catch (err) {
+
                 container1.innerHTML = 'Agregue un cheque ...';
                 lbSaldo.innerText = 'Q --';
             }
