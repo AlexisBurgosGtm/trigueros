@@ -145,7 +145,8 @@ let api = {
                                                 <small class="text-info">F.Fin: ${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHAFIN))}</small>
                                             </div>
                                         </div>
-                                        <br><small>Contratante: <b>${rows.DESCONTRATANTE}</b></small>                
+                                        <br><small>Contratante: <b>${rows.DESCONTRATANTE}</b></small>
+                                        <h5 class="negrita text-warning bg-owner text-center col-12">Año ${rows.ANIO}</h5>                
                                 </div>
 
                                     <div class="card-body">
@@ -166,8 +167,9 @@ let api = {
                                             <div class="col-6" ${get_permiso_visible()}>
                                                 <h5 class='${stClasDif}'>Diferencia:${funciones.setMoneda(diferencia, 'Q')}</h5>
                                             </div>
+
                                         </div>  
-                                        <h3 class="negrita text-warning bg-owner text-center col-12">Año ${rows.ANIO}</h3>                   
+                                                           
                                     </div>
                                     
                             </div>`
@@ -1474,6 +1476,57 @@ let api = {
         }, (error) => {
                 console.log(error);
                 container.innerHTML = 'Agregue un cheque al contrato...';
+        });
+
+    },
+    cheques_rubros_proyecto: (idproyecto,idContainer) => {
+        
+        let container = document.getElementById(idContainer);
+        container.innerHTML = GlobalLoader;
+
+        GlobalSelected_totalGastosCaja = 0;
+        
+        let str = ''; 
+       
+        let url = GlobalUrlBackend + '/cheques/listadoproyecto_rubros';
+
+        axios.post(url, {
+                    idproyecto : idproyecto
+                    })
+        .then((response) => {
+            try {
+                const data = response.data.recordset;
+                data.map((rows) => {
+                    str = str + `
+                            <tr class="border-bottom border-info">
+                                <td>${rows.RUBRO}</td>
+                                <td><b>${funciones.setMoneda(rows.IMPORTE,'Q')}</b></td>
+                            </tr>`
+                  
+                })
+                container.innerHTML = str;
+                try {
+                    //document.getElementById('lbTotalGastosCaja').innerText = funciones.setMoneda(GlobalSelected_totalGastosCaja,'Q');
+                } catch (error) {
+                    
+                }
+                
+            } catch (err) {
+                container.innerHTML = 'Agregue un cheque al proyecto...';
+                try {
+                    //document.getElementById('lbTotalGastosCaja').innerText = '---';
+                } catch (error) {
+                    
+                }
+                       }
+        }, (error) => {
+                console.log(error);
+                container.innerHTML = 'Agregue un cheque al proyecto...';
+                try {
+                    //document.getElementById('lbTotalGastosCaja').innerText = '---';
+                } catch (error) {
+                    
+                }
         });
 
     },

@@ -191,6 +191,9 @@ function getView(){
                 <div class="tab-pane fade" id="panel4" role="tabpanel">
                     ${view.datos_proyecto_pagos_recibidos()}                
                 </div>
+                <div class="tab-pane fade" id="tabRubros" role="tabpanel">
+                    ${view.datos_proyecto_rubros()}                
+                </div>
                                   
                 <ul class=" hidden nav nav-pills nav-justified .bg-primarygrad" role="tablist">
                     <li class="nav-item "><a class="nav-link active shadow" data-toggle="tab" href="#panel0" id="btnTabGeneral">DATOS GENERALES</a></li>
@@ -199,6 +202,7 @@ function getView(){
                     <li class="nav-item"><a class="nav-link shadow" data-toggle="tab" href="#panel5" id="btnTabCaja">GASTOS DE CAJA</a></li>
                     <li class="nav-item"><a class="nav-link shadow" data-toggle="tab" href="#panel1"  id="btnTabContratos">LISTADO DE SUBCONTRATOS</a></li>    
                     <li class="nav-item"><a class="nav-link shadow" data-toggle="tab" href="#panel4"  id="btnTabRecibidos">PAGOS RECIBIDOS</a></li>
+                    <li class="nav-item"><a class="nav-link shadow" data-toggle="tab" href="#tabRubros"  id="btnTabRubros">PAGOS RUBROS</a></li>
                 </ul>
             </div>               
                            
@@ -319,6 +323,17 @@ function getView(){
                                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6">
                                     <div class="row">
                                         <div clas="col">
+                                            <button class="btn btn-circle btn-owner hand shadow btn-xl" onclick="document.getElementById('btnTabRubros').click()">
+                                                <i class="fal fa-warehouse"></i>
+                                            </button>
+                                        </div>
+                                        <div clas="col">
+                                            <br>
+                                            <b class="text-owner"> Pagado por Rubro</b>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div clas="col">
                                             <button class="btn btn-circle btn-warning hand shadow btn-xl" onclick="document.getElementById('btnTabContratos').click()">
                                                 <i class="fal fa-list"></i>
                                             </button>
@@ -353,6 +368,7 @@ function getView(){
         },
         datos_proyecto_subcontratos:()=>{
             return `
+            <h1 class="negrita text-danger">Subcontratos del Proyecto</h1>
             <div class="row">
                 <div class="col-6">
                     <div class="form-group">
@@ -386,6 +402,7 @@ function getView(){
         },
         datos_proyecto_cheques_subcontratistas:()=>{
             return `
+            <h1 class="negrita text-danger">Pagos a Subcontratistas</h1>
             <div class="table-responsive">
                 <div class="form-group">
                     <input type="text" placeholder="Escriba para filtrar..." class="form-control border-danger text-danger" id="txtBuscar_cheques_subcontratistas" oninput="funciones.FiltrarTabla('tblChequesProyecto_Subcontratistas','txtBuscar_cheques_subcontratistas')">
@@ -412,6 +429,7 @@ function getView(){
         },
         datos_proyecto_cheques_proveedores:()=>{
             return `
+            <h1 class="negrita text-danger">Pagos a Proveedores</h1>
             <div class="table-responsive">
                 <div class="form-group">
                     <input type="text" placeholder="Escriba para filtrar..." class="form-control border-danger text-danger" id="txtBuscar_cheques_proveedores" oninput="funciones.FiltrarTabla('tblChequesProyecto_Proveedores','txtBuscar_cheques_proveedores')">
@@ -438,6 +456,7 @@ function getView(){
         },
         datos_proyecto_caja:()=>{
             return `
+            <h1 class="negrita text-danger">Gastos de Caja Chica</h1>
             <div class="table-responsive">
                 <div class="form-group">
                     <input type="text" placeholder="Escriba para filtrar..." class="form-control border-danger text-danger" id="txtBuscar_cheques_caja" oninput="funciones.FiltrarTabla('tblChequesProyecto_Caja','txtBuscar_cheques_caja')">
@@ -460,6 +479,7 @@ function getView(){
         },
         datos_proyecto_pagos_recibidos:()=>{
             return `
+            <h1 class="negrita text-danger">Pagos Recibidos</h1>
             <div class="table-responsive">
                 <div class="table-responsive">
                     <table class="table table-responsive">
@@ -475,6 +495,25 @@ function getView(){
                         <tbody id="tblCheques3"></tbody>
                     </table>
                 </div>
+            </div>
+            <button class="btn btn-bottom-left btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('btnTabGeneral').click()">
+                <i class="fal fa-arrow-left"></i>
+            </button>
+            `
+        },
+        datos_proyecto_rubros:()=>{
+            return `
+            <h1 class="negrita text-danger">Pagos por Rubro</h1>
+            <div class="table-responsive">
+                <table class="table table-responsive" id="tblChequesProyecto_rubro">
+                    <thead class="bg-secondary text-white">
+                        <tr>
+                            <td>RUBRO</td>
+                            <td>IMPORTE</td>
+                        </tr>
+                    </thead>
+                    <tbody id="tblPRubros"></tbody>
+                </table>
             </div>
             <button class="btn btn-bottom-left btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('btnTabGeneral').click()">
                 <i class="fal fa-arrow-left"></i>
@@ -948,6 +987,7 @@ function getMenuProyecto(codigo,descripcion, presupuesto){
     api.proyectos_subcontratistas(codigo,'tblPSucontratistas');
     api.cheques_proyecto(GlobalSelectedCodProyecto, 'tblCheques1','tblCheques2','tblCheques3','lbRecibido','lbEjecutado','lbDiferencia');
     api.cheques_cajachica(GlobalSelectedCodProyecto,'tblPCaja')
+    api.cheques_rubros_proyecto(GlobalSelectedCodProyecto,'tblPRubros')
 
     //$('#modalMenuProyecto').modal('show');
     document.getElementById('tab-dos').click();

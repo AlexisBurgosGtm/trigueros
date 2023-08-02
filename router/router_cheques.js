@@ -173,6 +173,19 @@ router.post("/listadoproyectocaja", async (req, res) => {
 
 });
 
+router.post("/listadoproyecto_rubros", async (req, res) => {
+    
+    const {idproyecto} = req.body;
+
+    let qry = '';
+        
+    qry = `SELECT RUBRO, SUM(CANTIDAD) AS IMPORTE FROM CONST_CHEQUES WHERE IDPROYECTO=${idproyecto} GROUP BY RUBRO`;
+            
+    execute.Query(res, qry);
+
+});
+
+
 router.post("/listadocontrato", async (req, res) => {
     
     const {nocontrato} = req.body;
