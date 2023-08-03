@@ -97,8 +97,31 @@ router.post("/nuevo", async (req, res) => {
 
 });
 
+router.post("/nuevo_eventual", async (req, res) => {
+    
+    const {idproyecto,fecha,nocontrato,codacreedor,desacreedor,codcuenta,numero,cantidad,recibe,obs,rubro,tipo,concepto,usuario,nofactura} = req.body;
 
-router.post("/listadoproyecto", async (req, res) => {
+    let qry = '';
+
+    qry = ` 
+        INSERT INTO CONST_CHEQUES (
+        IDPROYECTO,FECHA,NOCONTRATO,
+        CODACREEDOR,CODCONTRATANTE,CODCUENTA,
+        BANCO,NUMERO,CANTIDAD,
+        RECIBE,OBS,RUBRO,
+        TIPOCHEQUE,CONCEPTO,USUARIO,NOFACTURA,DESACREEDOR) 
+        VALUES 
+        (${idproyecto},'${fecha}',${nocontrato},
+        ${codacreedor},0,${codcuenta},
+        'SN','${numero}', ${(cantidad*-1)},
+        '${recibe}','${obs}','${rubro}',
+        '${tipo}','${concepto}','${usuario}','${nofactura}','${desacreedor}')`
+
+    execute.Query(res, qry);
+
+});
+
+router.post("/BACKUP_listadoproyecto", async (req, res) => {
     
     const {idproyecto} = req.body;
 
@@ -137,6 +160,42 @@ WHERE (CONST_CHEQUES.IDPROYECTO = ${idproyecto})`;
                 ISNULL(CONST_CHEQUES.USUARIO, '--') AS USUARIO, 
                 ISNULL(CONST_CHEQUES.CONCEPTO,'--') AS CONCEPTO,
                 ISNULL(CONST_CHEQUES.NOFACTURA,'SN') AS NOFACTURA
+        FROM CONST_ACREEDORES INNER JOIN
+             CONST_CONTRATISTAS_PROYECTO ON CONST_ACREEDORES.CODACREEDOR = CONST_CONTRATISTAS_PROYECTO.CODACREEDOR RIGHT OUTER JOIN
+             CONST_ACREEDORES AS CONST_ACREEDORES_1 RIGHT OUTER JOIN
+             CONST_CHEQUES LEFT OUTER JOIN
+             CONST_CONTRATANTES ON CONST_CHEQUES.CODCONTRATANTE = CONST_CONTRATANTES.CODCONTRATANTE ON CONST_ACREEDORES_1.CODACREEDOR = CONST_CHEQUES.CODACREEDOR LEFT OUTER JOIN
+             CONST_PROYECTOS ON CONST_CHEQUES.IDPROYECTO = CONST_PROYECTOS.IDPROYECTO LEFT OUTER JOIN
+             CONST_CUENTAS ON CONST_CHEQUES.CODCUENTA = CONST_CUENTAS.CODCUENTA ON CONST_CONTRATISTAS_PROYECTO.NOCONTRATO = CONST_CHEQUES.NOCONTRATO
+        WHERE (CONST_CHEQUES.IDPROYECTO = ${idproyecto})`
+    
+        execute.Query(res, qry);
+
+});
+
+router.post("/listadoproyecto", async (req, res) => {
+    
+    const {idproyecto} = req.body;
+
+    let qry = `SELECT CONST_CHEQUES.ID, 
+                    CONST_CHEQUES.FECHA, 
+                    CONST_CHEQUES.NOCONTRATO, 
+                    ISNULL(CONST_CUENTAS.BANCO, 
+                    CONST_CHEQUES.BANCO) AS BANCO, 
+                    ISNULL(CONST_CUENTAS.NUMERO, 0) AS NOCUENTA, 
+                    CONST_CHEQUES.NUMERO AS NOCHEQUE, 
+                    CONST_CHEQUES.CANTIDAD AS IMPORTE, 
+                    CONST_CHEQUES.RECIBE, 
+                    CONST_CHEQUES.OBS, 
+                    CONST_CHEQUES.RUBRO, 
+                    ISNULL(CONST_CONTRATISTAS_PROYECTO.ASIGNACION, 'SN') AS ASIGNACION, 
+                    ISNULL(CONST_CHEQUES.DESACREEDOR,CASE WHEN CONST_CHEQUES.TIPOCHEQUE='SUBCONTRATISTA' THEN CONST_ACREEDORES.DESACREEDOR ELSE ISNULL(CONST_ACREEDORES_1.DESACREEDOR, CONST_CONTRATANTES.DESCONTRATANTE) END) AS DESACREEDOR,  
+                    ISNULL(CONST_ACREEDORES_1.TIPO, 'CONTRATANTE') AS TIPO, 
+                    CONST_PROYECTOS.PROYECTO, 
+                    CONST_CHEQUES.TIPOCHEQUE, 
+                    ISNULL(CONST_CHEQUES.USUARIO, '--') AS USUARIO, 
+                    ISNULL(CONST_CHEQUES.CONCEPTO,'--') AS CONCEPTO,
+                    ISNULL(CONST_CHEQUES.NOFACTURA,'SN') AS NOFACTURA
         FROM CONST_ACREEDORES INNER JOIN
              CONST_CONTRATISTAS_PROYECTO ON CONST_ACREEDORES.CODACREEDOR = CONST_CONTRATISTAS_PROYECTO.CODACREEDOR RIGHT OUTER JOIN
              CONST_ACREEDORES AS CONST_ACREEDORES_1 RIGHT OUTER JOIN

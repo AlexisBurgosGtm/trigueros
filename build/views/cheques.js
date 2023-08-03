@@ -16,6 +16,9 @@ function getView(){
                         <div class="tab-pane fade" id="cuatro" role="tabpanel" aria-labelledby="home-tab">
                            ${view.nuevo_cheque_contratante()}
                         </div>
+                        <div class="tab-pane fade" id="cinco" role="tabpanel" aria-labelledby="home-tab">
+                           ${view.nuevo_cheque_eventual()}
+                        </div>
                     </div>
 
                     <ul class="nav nav-tabs hidden" id="myTabHome" role="tablist">
@@ -33,6 +36,10 @@ function getView(){
                         </li>    
                         <li class="nav-item">
                             <a class="nav-link negrita text-info" id="tab-cuatro" data-toggle="tab" href="#cuatro" role="tab" aria-controls="home" aria-selected="true">
+                                <i class="fal fa-edit"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link negrita text-info" id="tab-cinco" data-toggle="tab" href="#cinco" role="tab" aria-controls="home" aria-selected="true">
                                 <i class="fal fa-edit"></i></a>
                         </li>                           
                     </ul>
@@ -124,11 +131,12 @@ function getView(){
         },
         tipos_cheque:()=>{
             return `
-                        <br><br><br><br><br>
-
+            <br><br><br><br><br>
+            
+            <div class="row">
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                         <div class="row">
-                            <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-
+                            <div class="col-6">
                                 <div class="card card-rounded border-success shadow hand" id="btnMenuChequeContratista">
                                     <div class="card-body p-4">
                                         <div class="row">
@@ -141,10 +149,8 @@ function getView(){
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-                            <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-
+                            <div class="col-6">
                                 <div class="card card-rounded border-secondary shadow hand" id="btnMenuChequeProveedor">
                                     <div class="card-body p-4">
                                         <div class="row">
@@ -157,10 +163,25 @@ function getView(){
                                         </div>
                                     </div>
                                 </div> 
-
                             </div>
-                            <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-
+                        </div>
+                        <br>    
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="card card-rounded border-info shadow hand" id="btnMenuChequeEventual">
+                                    <div class="card-body p-4">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <i class="fal fa-dollar-sign negrita text-info" style="font-size:190%"></i>
+                                            </div>
+                                            <div class="col-9">
+                                                <h4 class="negrita text-info">Pago Eventual</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>
+                            <div class="col-6">
                                 <div class="card card-rounded border-warning shadow hand" id="btnMenuChequeContratante">
                                     <div class="card-body p-4">
                                         <div class="row">
@@ -173,14 +194,16 @@ function getView(){
                                         </div>
                                     </div>
                                 </div> 
-                              
                             </div>
-                        </div>      
-                        
-                <button class="btn btn-bottom-left btn-secondary btn-circle btn-xl hand shadow" onclick="document.getElementById('tab-uno').click()" id="">
-                    <i class="fal fa-arrow-left"></i>                        
-                </button>
-                        
+                        </div>
+                </div>
+                <div class="col-sm-0 col-md-6 col-lg-6 col-xl-6">
+                </div>
+            </div>    
+                            
+            <button class="btn btn-bottom-left btn-secondary btn-circle btn-xl hand shadow" onclick="document.getElementById('tab-uno').click()" id="">
+                <i class="fal fa-arrow-left"></i>                        
+            </button>            
             `
         },
         nuevo_cheque : ()=>{
@@ -411,6 +434,130 @@ function getView(){
 
             `
         },
+        nuevo_cheque_eventual : ()=>{
+            return `
+            <div class="card card-rounded shadow p-2">
+                <div class="card-body">
+                    
+                    
+                        <h5 class="negrita text-danger" id="lbDatosChequeE">Datos del Cheque a Eventuales (Proveedores)</h5>
+                        
+                        <div class="form group">
+                            <label class="negrita">Proyecto</label>
+                            <select class="form-control" id="cmbProyectoE">
+                            </select>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="negrita">Fecha:</label>
+                                    <input type="date" class="form-control" id="txtFechaE">
+                                </div>  
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group" id="nofact">
+                                    <label class="negrita">No. Factura / No. Recibo</label>
+                                    <input type="text" class="form-control" id="txtNoFacturaE">
+                                </div>
+                            </div>
+                        </div>
+
+                         
+                        
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form group">
+                                    <label class="negrita">Cuenta</label>
+                                    <select class="form-control" id="cmbCuentaE">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="negrita">No. Cheque</label>
+                                    <input type="text" class="form-control bg-amarillo negrita border-primary" id="txtNumeroChequeE">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="negrita">Acreedor</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="cmbAcreedorE">                                         
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="negrita">Cantidad (Q)</label>
+                                    <input type="number" class="form-control bg-amarillo border-danger text-danger" id="txtImporteE" value=>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="negrita">Rubro</label>
+                                        <select class="form-control" id="cmbRubroE">
+                                        </select> 
+                                    </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="negrita">Concepto</label>
+                                        <input type="text" class="form-control" id="txtConceptoE" value='SN'>
+                                    </div>
+                            </div>
+                        </div>
+                                                
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="negrita">Recibido por</label>
+                                        <input type="text" class="form-control" id="txtRecibeE" value=''>
+                                    </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="negrita">Observaciones</label>
+                                        <input type="text" class="form-control" id="txtObsE">
+                                    </div>
+                            </div>
+                        </div>
+                        
+                        <hr class="solid"><hr class="solid">
+
+                        <div class="row">
+                            <div class="col-6">
+                                 
+                            </div>
+                            <div class="col-6 text-right">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <button class="btn btn-secondary btn-xl btn-circle hand shadow" onclick="document.getElementById('tab-dos').click()">
+                                            <i class="fal fa-arrow-left"></i>                      
+                                        </button>    
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <button class="btn btn-owner btn-xl btn-circle hand shadow" id="btnGuardarChequeE">
+                                            <i class="fal fa-save"></i>
+                                            
+                                        </button>    
+                                    </div>
+                                </div>
+                                    
+                            </div>
+                        </div>
+
+                </div>
+            </div>
+            `
+        },
         modal_nuevo_proveedor:()=>{
             return `
             <div class="modal fade" id="modalNuevoProveedor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -463,12 +610,14 @@ async function addListeners(){
 
     //document.getElementById('cmbRubro').innerHTML = funciones.getComboRubros();
     api.rubros_listado('cmbRubro');
+    api.rubros_listado('cmbRubroE');
 
     //**************************************************** */
     // MENU NUEVO CHEQUE
     let btnNuevo = document.getElementById('btnNuevo');
     btnNuevo.addEventListener('click',()=>{
         document.getElementById('cmbProyecto').value = document.getElementById('cmbProyectoCheques').value;
+        document.getElementById('cmbProyectoE').value = document.getElementById('cmbProyectoCheques').value;
 
         //$('#modalTiposCheque').modal('show');
         document.getElementById('tab-dos').click();
@@ -520,6 +669,25 @@ async function addListeners(){
 
     });
 
+    let btnMenuChequeEventual = document.getElementById('btnMenuChequeEventual');
+    btnMenuChequeEventual.addEventListener('click',()=>{
+        document.getElementById('lbDatosChequeE').innerText = "Nuevo Cheque a Eventuales (Proveedores)"
+        GlobalSelectedTipoCheque = 'PROVEEDOR';
+        //CARGA LA LISTA DE PROVEEDORES EN EL COMBO ACREEDOR
+        //api.proveedores_combo('cmbAcreedorE');
+
+        document.getElementById('cmbAcreedorE').value = '';
+        document.getElementById('txtNumeroChequeE').value = '';
+        document.getElementById('txtImporteE').value = '';
+        document.getElementById('txtRecibeE').value = '';
+        document.getElementById('txtObsE').value = '';
+
+        document.getElementById('txtNoFacturaE').value = 'SN';
+
+        //$('#modalNuevo').modal('show');
+        document.getElementById('tab-cinco').click();
+
+    });
 
     let btnMenuChequeContratante = document.getElementById('btnMenuChequeContratante');
     btnMenuChequeContratante.addEventListener('click',()=>{ 
@@ -562,9 +730,10 @@ async function addListeners(){
 
 
     api.proyectos_combo_promise('cmbProyecto');
+    api.proyectos_combo_promise('cmbProyectoE');
 
     await api.cuentas_combo('cmbCuenta');
-
+    await api.cuentas_combo('cmbCuentaE');
   
     //boton guardar cheque - SUBCONTRATISTAS y PROVEEDORES
     let btnGuardarCheque = document.getElementById('btnGuardarCheque');
@@ -689,10 +858,98 @@ async function addListeners(){
         })      
     });
 
+    //CHEQUE A EVENTUALES
+    let btnGuardarChequeE = document.getElementById('btnGuardarChequeE');
+    btnGuardarChequeE.addEventListener('click',()=>{
+        
+        funciones.Confirmacion('¿Está seguro que desea Guardar este Cheque?')
+        .then((value)=>{
+            if(value==true){
+
+
+                btnGuardarCheque.disabled = true;
+                btnGuardarCheque.innerHTML = ' <i class="fal fa-save fa-spin"></i>';
+
+                let codproyecto = document.getElementById('cmbProyectoE').value || 0;
+                let nocontrato = document.getElementById('cmbAcreedorE').value || 'SN';
+                let codcuenta = document.getElementById('cmbCuentaE');
+                let numero = document.getElementById('txtNumeroChequeE');
+                let cantidad = document.getElementById('txtImporteE');
+                let concepto = document.getElementById('txtConceptoE');
+                let recibe = document.getElementById('txtRecibeE');
+                let rubro = document.getElementById('cmbRubroE');
+                let obs = document.getElementById('txtObsE');
+                let nofactura =  document.getElementById('txtNoFacturaE').value || 'SN';
+
+                if(obs.value==''){obs.value='SN'};
+                if(recibe.value==''){recibe.value='SN'};
+
+                if(nocontrato=='SN'){funciones.AvisoError('Escriba un Acreedor válido'); return;}
+
+
+                api.verificar_nocheque(codcuenta.value,numero.value)
+                .then(()=>{
+
+                    if(numero.value==''){
+                        funciones.AvisoError('Indique el número de cheque emitido');
+
+                        btnGuardarChequeE.disabled = false;
+                        btnGuardarChequeE.innerHTML = ' <i class="fal fa-save"></i>';
+                    }else{
+                        if(Number(cantidad.value)>0){
+                                    api.cheques_proveedor_eventual_insertar(
+                                        codproyecto,
+                                        funciones.devuelveFecha('txtFechaE'),
+                                        0,
+                                        nocontrato,
+                                        codcuenta.value,
+                                        numero.value,
+                                        Number(cantidad.value),
+                                        recibe.value,
+                                        obs.value,
+                                        rubro.value,
+                                        'PROVEEDOR',
+                                        concepto.value,
+                                        nofactura)
+                                    .then(()=>{
+                                        funciones.Aviso('Cheque creado exitosamente!!');
+
+                                        btnGuardarChequeE.disabled = false;
+                                        btnGuardarChequeE.innerHTML = ' <i class="fal fa-save"></i>';
+
+                                        //$('#modalNuevo').modal('hide');
+                                        document.getElementById('tab-uno').click();
+
+                                        let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
+                                        api.cheques_proyecto_todos(cmbProyectoCheques, 'tblCheques1','lbPresupuesto','lbSaldo','lbDiferencia');
+                                    })
+                                    .catch(()=>{
+                                        funciones.AvisoError('No se pudo crear el cheque');
+
+                                        btnGuardarChequeE.disabled = false;
+                                        btnGuardarChequeE.innerHTML = ' <i class="fal fa-save"></i>';
+                                    })        
+                        }else{
+                            funciones.AvisoError('Indique el monto/cantidad del cheque');
+
+                            btnGuardarChequeE.disabled = false;
+                            btnGuardarChequeE.innerHTML = ' <i class="fal fa-save"></i>';
+                        };
+                    };
+                })
+                .catch(()=>{
+                    funciones.AvisoError('Cheque ya existe')
+                })
+
+            }
+        })      
+    });
+
     //selector de proyectos para ver lista de cheques
     let cmbProyectoCheques = document.getElementById('cmbProyectoCheques');
     cmbProyectoCheques.addEventListener('change',()=>{
         let cmbProyectoC = document.getElementById('cmbProyectoCheques').value || 0;
+
         api.cheques_proyecto_todos(cmbProyectoC, 'tblCheques1','lbPresupuesto','lbSaldo','lbDiferencia');
     })
 

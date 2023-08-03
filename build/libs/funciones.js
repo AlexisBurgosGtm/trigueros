@@ -189,7 +189,7 @@ let funciones = {
       })     
     },
     setMoneda: function(num,signo) {
-        num = num.toString().replace(/\$|\,/g, '');
+            num = num.toString().replace(/\$|\,/g, '');
         if (isNaN(num)) num = "0";
         let sign = (num == (num = Math.abs(num)));
         num = Math.floor(num * 100 + 0.50000000001);
@@ -198,8 +198,23 @@ let funciones = {
         if (cents < 10) cents = "0" + cents;
         for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++)
             num = num.substring(0, num.length - (4 * i + 3)) + ',' + num.substring(num.length - (4 * i + 3));
-        return (((sign) ? '' : '-') + signo + ' ' + num + ((cents == "00") ? '' : '.' + cents)).toString();
-    },
+        let resultado = ((((sign) ? '' : '-') + signo + ' ' + num + ((cents == "00") ? '' : '.' + cents)).toString());
+        
+        if(resultado.includes('.')){}else{resultado = resultado + ".00"}
+        
+        return resultado;
+
+      },
+      setMoneda2: function(n) {
+
+        let valor = n;
+
+        let t=valor.toString(); //let t=n.toString();
+        let regex=/(\d*.\d{0,2})/;
+        let resultado = t.match(regex)[0]; 
+
+        return resultado;
+      },
     setMargen: function(num,signo) {
       num = num.toString().replace(/\$|\,/g, '');
       if (isNaN(num)) num = "0";
@@ -210,7 +225,7 @@ let funciones = {
       if (cents < 10) cents = "0" + cents;
       for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++)
           num = num.substring(0, num.length - (4 * i + 3)) + ',' + num.substring(num.length - (4 * i + 3));
-      return ( ((sign) ? '' : '-') +  num + ((cents == "00") ? '' : '.' + cents) + ' ' + signo  ).toString();
+      return (( ((sign) ? '' : '-') +  num + ((cents == "00") ? '' : '.' + cents) + ' ' + signo  ).toString());
     },
     loadScript: function(url, idContainer) {
         return new Promise((resolve, reject) => {

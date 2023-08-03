@@ -1091,6 +1091,47 @@ let api = {
 
         });
     },
+    cheques_proveedor_eventual_insertar: (codproyecto,fecha,nocontrato,desacreedor,codcuenta,numero,cantidad,recibe,obs,rubro,tipo,concepto,nofactura) => {
+        return new Promise((resolve, reject) => {
+
+            let data = {
+                fecha:fecha,
+                idproyecto:codproyecto,
+                nocontrato:nocontrato,
+                codacreedor: 0,
+                desacreedor: desacreedor,
+                codcuenta:codcuenta,
+                numero:numero,
+                cantidad:cantidad,
+                recibe:recibe,
+                obs:obs,
+                rubro:rubro,
+                tipo:tipo,
+                concepto:concepto,
+                usuario:GlobalUsuario,
+                nofactura:nofactura
+            };
+
+            let url = GlobalUrlBackend + '/cheques/nuevo_eventual'
+
+            axios.post(url, data)
+                .then((response) => {
+                    const data = response.data.recordset;
+                    if (response.data.rowsAffected[0] == 0) {
+                        api.bitacora_insertar(`Cheque nuevo a proveedor No: ${numero}, importe: ${cantidad}`)
+                        reject();
+                    } else {
+                        resolve();
+                    }
+                }, (error) => {
+                    console.log(error);
+                    reject();
+                });
+
+
+
+        });
+    },
     cheques_contratante_insertar: (codproyecto,fecha, codcontratante,banco,numero,cantidad,recibe,obs,tipo,concepto) => {
                     
         return new Promise((resolve, reject) => {
@@ -1500,7 +1541,7 @@ let api = {
                     str = str + `
                             <tr class="border-bottom border-info">
                                 <td>${rows.RUBRO}</td>
-                                <td><b>${funciones.setMoneda(rows.IMPORTE,'Q')}</b></td>
+                                <td><b class="currSign">${funciones.setMoneda(rows.IMPORTE,'')}</b></td>
                             </tr>`
                   
                 })

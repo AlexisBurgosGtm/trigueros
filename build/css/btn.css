@@ -1,3 +1,8 @@
+.currSign:before {
+  content: 'Q';
+}
+
+
 .btn-menu {
   color: #fff;
   background-color: #c15208;

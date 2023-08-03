@@ -1,5 +1,5 @@
 
-let version = 'Act 31.07.2023';
+let version = 'Act 02.08.2023';
 const GlobalUrlBackend =  '';  //'https://trg-ingenieros.herokuapp.com'; //'http://localhost:333';
 
 let GlobalCodUsuario = 0;
@@ -38,3 +38,4 @@ function get_permiso_visible(){
     if(Number(GlobalNivelUsuario)==1){}else{strclass='hidden'};
     return strclass;
 };
+
