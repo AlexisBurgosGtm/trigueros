@@ -1,11 +1,188 @@
 let root = document.getElementById('root');
 let rootModal= document.getElementById('rootModal');
+let rootMenuPrincipal = document.getElementById('rootMenuPrincipal');
+
 let menuPrincipal = document.getElementById('footerNav');
 let btnSalir = document.getElementById('btnSalir');
 
 let lbTituloVista = document.getElementById('lbTituloVista');
 
 const socket = io();
+
+
+rootMenuPrincipal.innerHTML = `
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4">
+            <div class="card card-rounded border-owner shadow hand" id="btnMenuProyectos">
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-2">
+                            <i class="fal fa-tasks negrita text-owner" style="font-size:150%"></i>
+                        </div>
+                        <div class="col-10">
+                            <h5 class="negrita text-owner">Proyectos</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4">
+            <div class="card card-rounded border-owner shadow hand" id="btnMenuCheques">
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-2">
+                            <i class="fal fa-address-card negrita text-owner" style="font-size:150%"></i>
+                        </div>
+                        <div class="col-10">
+                            <h5 class="negrita text-owner">Cheques</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4"> 
+            <div class="card card-rounded border-owner shadow hand" id="btnMenuContratos">
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-2">
+                            <i class="fal fa-list negrita text-owner" style="font-size:150%"></i>
+                        </div>
+                        <div class="col-10">
+                            <h5 class="negrita text-owner">SubContratos</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4">
+            <div class="card card-rounded border-owner shadow hand" id="btnMenuCaja">
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-2">
+                            <i class="fal fa-box negrita text-owner" style="font-size:150%"></i>
+                        </div>
+                        <div class="col-10">
+                            <h5 class="negrita text-owner">Caja</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4">
+            <div class="card card-rounded border-owner shadow hand" id="btnMenuCotizaciones">
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-2">
+                            <i class="fal fa-shopping-cart negrita text-owner" style="font-size:150%"></i>
+                        </div>
+                        <div class="col-10">
+                            <h5 class="negrita text-owner">Cotizaciones</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4">
+            <div class="card card-rounded border-owner shadow hand" id="btnMenuMantenimientos">
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-2">
+                            <i class="fal fa-cog negrita text-owner" style="font-size:150%"></i>
+                        </div>
+                        <div class="col-10">
+                            <h5 class="negrita text-owner">Configuraciones</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4">
+            <div class="card card-rounded border-owner shadow hand" id="btnMenuReportes">
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-2">
+                            <i class="fal fa-chart-line negrita text-owner" style="font-size:150%"></i>
+                        </div>
+                        <div class="col-10">
+                            <h5 class="negrita text-owner">Reporte Pagos</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4">
+            <div class="card card-rounded border-owner shadow hand" id="btnMenuReporteCuentas">
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-2">
+                            <i class="fal fa-dollar-sign negrita text-owner" style="font-size:150%"></i>
+                        </div>
+                        <div class="col-10">
+                            <h5 class="negrita text-owner">Reporte Cuentas</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4">
+            <div class="card card-rounded border-owner shadow hand" id="btnMenuReportesSubcontratistas">
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-2">
+                            <i class="fal fa-list negrita text-owner" style="font-size:150%"></i>
+                        </div>
+                        <div class="col-10">
+                            <h5 class="negrita text-owner">Reporte Subcontratistas</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4">
+            <div class="card card-rounded border-owner shadow hand" id="btnMenuReportesRubros">
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-2">
+                            <i class="fal fa-list negrita text-owner" style="font-size:150%"></i>
+                        </div>
+                        <div class="col-10">
+                            <h5 class="negrita text-owner">Reporte Rubros</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4">
+            <div class="card card-rounded border-owner shadow hand" id="btnMenuReporteProveedores">
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-2">
+                            <i class="fal fa-warehouse negrita text-owner" style="font-size:150%"></i>
+                        </div>
+                        <div class="col-10">
+                            <h5 class="negrita text-owner">Reporte Proveedores</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>`
+
 
 
 let btnMenuProyectos = document.getElementById('btnMenuProyectos');

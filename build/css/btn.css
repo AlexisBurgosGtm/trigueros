@@ -1,3 +1,27 @@
+.btn-imprimir { 
+  position: fixed;
+  z-index: 888;
+  right: 21px;
+  bottom: 400px;
+}
+
+.btn-nuevo { 
+  position: fixed;
+  z-index: 888;
+  right: 21px;
+  bottom: 100px;
+}
+
+.btn-atras { 
+  position: fixed;
+  z-index: 888;
+  right: 21px;
+  bottom: 190px;
+}
+
+
+
+
 .currSign:before {
   content: 'Q';
 }
@@ -103,12 +127,13 @@
 
 };
 
-.btn-bottom-right { 
-  position: fixed;
-  z-index: 1088;
-  right: 21px;
-  bottom: 15px;
-  }
+
+  .btn-bottom-right { 
+    position: fixed;
+    z-index: 1088;
+    right: 21px;
+    bottom: 15px;
+    }
 
 .btn-bottom-left { 
   position: fixed;
@@ -125,6 +150,13 @@
       bottom: 15px;
 }
 
+.btn-bottom-middle2 { 
+  position: fixed;
+  z-index: 1088;
+  left: 30%;
+  right: 30%;
+  bottom: 13px;
+}
 
 
 .card-rounded {
@@ -327,6 +359,18 @@
   right: 21px;
   bottom: 50px;
 }
+
+#fixed-menu-right { 
+  position: fixed;
+  z-index: 888;
+  right: 21px;
+  bottom: 20px;
+}
+
+
+
+
+
 
 #btnFlotanteDerecha { 
   position: fixed;

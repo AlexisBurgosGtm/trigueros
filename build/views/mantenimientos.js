@@ -22,7 +22,7 @@ function getView(){
                             
                         </div>
                         <div class="col-2">
-                            <button class="btn btn-lg btn-circle btn-outline-info" id="btnConfig">
+                            <button class="btn btn-lx btn-circle btn-info hand shadow ${get_permiso_visible()}" id="btnConfig">
                                 <i class="fal fa-cog"></i>
                             </button>
                         </div>

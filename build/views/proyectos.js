@@ -78,7 +78,7 @@ function getView(){
                <div id="tblProyectos" class="card-columns">
                </div>
             </div>
-            <div id="btnFlotanteDerecha">
+            <div class="btn-nuevo" id="">
                 <button class="btn btn-success btn-circle btn-xl shadow" id="btnNuevo">
                     +
                 </button>
@@ -359,7 +359,7 @@ function getView(){
                             </div>                            
                         </div>
                     </div>
-                    <div class="btn-bottom-left">
+                    <div class="btn-atras">
                         <button class="btn btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('tab-uno').click()">
                             <i class="fal fa-arrow-left"></i>
                         </button>
@@ -395,7 +395,7 @@ function getView(){
                     <tbody id="tblPSucontratistas"></tbody>
                 </table>
             </div>
-            <button class="btn btn-bottom-left btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('btnTabGeneral').click()">
+            <button class="btn btn-atras btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('btnTabGeneral').click()">
                 <i class="fal fa-arrow-left"></i>
             </button>
             `
@@ -422,7 +422,7 @@ function getView(){
                     </table>
                 </div>
             </div>
-            <button class="btn btn-bottom-left btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('btnTabGeneral').click()">
+            <button class="btn btn-atras btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('btnTabGeneral').click()">
                 <i class="fal fa-arrow-left"></i>
             </button>
             `
@@ -449,7 +449,7 @@ function getView(){
                     </table>
                 </div>
             </div>
-            <button class="btn btn-bottom-left btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('btnTabGeneral').click()">
+            <button class="btn btn-atras btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('btnTabGeneral').click()">
                 <i class="fal fa-arrow-left"></i>
             </button>
             `
@@ -472,7 +472,7 @@ function getView(){
                     <tbody id="tblPCaja"></tbody>
                 </table>
             </div>
-            <button class="btn btn-bottom-left btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('btnTabGeneral').click()">
+            <button class="btn btn-atras btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('btnTabGeneral').click()">
                 <i class="fal fa-arrow-left"></i>
             </button>
             `
@@ -496,7 +496,7 @@ function getView(){
                     </table>
                 </div>
             </div>
-            <button class="btn btn-bottom-left btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('btnTabGeneral').click()">
+            <button class="btn btn-atras btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('btnTabGeneral').click()">
                 <i class="fal fa-arrow-left"></i>
             </button>
             `
@@ -504,19 +504,47 @@ function getView(){
         datos_proyecto_rubros:()=>{
             return `
             <h1 class="negrita text-danger">Pagos por Rubro</h1>
-            <div class="table-responsive">
-                <table class="table table-responsive" id="tblChequesProyecto_rubro">
-                    <thead class="bg-secondary text-white">
-                        <tr>
-                            <td>RUBRO</td>
-                            <td>IMPORTE</td>
-                        </tr>
-                    </thead>
-                    <tbody id="tblPRubros"></tbody>
-                </table>
+            <div class="row bg-white">
+                <div class="col-sm-12 col-md-6 col-xl-6 col-lg-6">
+                        <div class="table-responsive bg-white">
+                            <div class="form-group oculto-impresion">
+                                <input type="search" class="form-control negrita text-danger border-danger" placeholder="Escriba para buscar..." oninput="funciones.FiltrarTabla('tblChequesProyecto_rubro','txtBuscarRubro')" id="txtBuscarRubro">
+                            </div>
+                            <table class="table table-responsive" id="tblChequesProyecto_rubro">
+                                <thead class="bg-secondary text-white">
+                                    <tr>
+                                        <td>RUBRO</td>
+                                        <td>IMPORTE</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblPRubros"></tbody>
+                            </table>
+                        </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-6 col-lg-6">
+                        <h3 class="negrita text-info" id="lbRubro">---</h3>
+                        <div class="table-responsive col-12  bg-white">
+                            <table class="table table-responsive">
+                                <thead class="bg-info text-white">
+                                    <tr>
+                                        <td>FECHA</td>
+                                        <td>DESCRIPCIÓN</td>
+                                        <td>IMPORTE</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblDataDetalleRubro"></tbody>
+                            </table>
+                        </div>
+                </div>
             </div>
-            <button class="btn btn-bottom-left btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('btnTabGeneral').click()">
+            
+            <button class="btn btn-atras btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('btnTabGeneral').click()">
                 <i class="fal fa-arrow-left"></i>
+            </button>
+
+            <button class="btn btn-imprimir btn-primary btn-circle hand shadow btn-xl" onclick="window.print()">
+                <i class="fal fa-print"></i>
             </button>
             `
         },
@@ -1087,4 +1115,13 @@ function deleteCheque(id){
     
 
         
+};
+
+
+function get_detalle_rubro(idproyecto,rubro){
+
+    document.getElementById('lbRubro').innerText = rubro;
+
+    api.cheques_rubros_proyecto_detalle(idproyecto,rubro,'tblDataDetalleRubro')
+
 };

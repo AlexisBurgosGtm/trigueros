@@ -12,7 +12,7 @@ function getView(){
                         </div>
 
                         <div class="tab-pane fade" id="tres" role="tabpanel" aria-labelledby="home-tab">
-                            ${view.modalNuevoSalida()}
+                            ${view.modalNuevoSalida() + view.modal_acreedores()}
                         </div>
                         <div class="tab-pane fade" id="cuatro" role="tabpanel" aria-labelledby="home-tab">
                             ${ view.modalDetalle()}
@@ -182,7 +182,12 @@ function getView(){
 
                         <div class="form-group">
                             <label>Acreedor</label>
-                            <input type="text" class="form-control" id="txtSalAcreedor">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="txtSalAcreedor">
+                                <button class="btn btn-info hand" id="btnBuscarAcreedor">
+                                    <i class="fal fa-search"></i>
+                                </button>
+                            </div>
                         </div>
                        
 
@@ -326,6 +331,51 @@ function getView(){
                 </div>           
             `
 
+        },
+        modal_acreedores:()=>{
+            return `
+        <div class="modal fade js-modal-settings modal-backdrop-transparent" tabindex="-1" role="dialog" aria-hidden="true" id="modalAcreedores">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title" id="">Seleccione un Acreedor de la Lista</h5>
+                    </div>
+                    <div class="modal-body" style="font-size :small">
+                            <div class="row">
+
+                                <div class="table-responsive col-12">
+                                    <div class="form-group">
+                                        <label>Escriba para buscar</label>
+                                        <input type="text" class="form-control" placeholder="Escriba para buscar..." id="txtBuscar" oninput="funciones.FiltrarTabla('tblAcreedores','txtBuscar')">
+                                    </div>
+                                    <table class="table table-responsive" id="tblAcreedores">
+                                        <thead>
+                                            <tr>
+                                                <td>NOMBRE DEL ACREEDOR</td>
+                                                <td>TIPO</td>
+                                                <td></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tblDataAcreedores"></tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <button class="btn btn-outline-secondary btn-xl btn-circle hand shadow" data-dismiss="modal">
+                                        <i class="fal fa-arrow-left"></i>
+                                    </button>
+                                </div>
+                                <div class="col-6">
+                                </div>
+                            </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+            `
         }
     };
 
@@ -541,6 +591,24 @@ async function addListeners(){
 
             }
         })          
+    })
+
+
+    let btnBuscarAcreedor = document.getElementById('btnBuscarAcreedor');
+    btnBuscarAcreedor.addEventListener('click',()=>{
+        $("#modalAcreedores").modal('show');
+        let container = document.getElementById('tblDataAcreedores');
+        let str = '';
+        container.innerHTML = GlobalLoader;
+        api.data_acreedores()
+        .then((data)=>{
+            data.map((r)=>{
+                str +
+            })
+        })
+        .catch(()=>{
+            container.innerHTML = 'No se pudo cargar la lista de acreedores';
+        })
     })
 
     funciones.slideAnimationTabs();

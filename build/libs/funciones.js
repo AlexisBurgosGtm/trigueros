@@ -202,7 +202,7 @@ let funciones = {
         
         if(resultado.includes('.')){}else{resultado = resultado + ".00"}
         
-        return resultado;
+        return resultado.replace('-','');
 
       },
       setMoneda2: function(n) {

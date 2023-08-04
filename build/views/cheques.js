@@ -718,6 +718,8 @@ async function addListeners(){
     let txtFecha = document.getElementById('txtFecha'); 
     txtFecha.value = funciones.getFecha(); 
 
+    document.getElementById('txtFechaE').value = funciones.getFecha();
+
     let cmbProyecto = document.getElementById('cmbProyecto');
     cmbProyecto.addEventListener('change',()=>{
         if(GlobalSelectedTipoCheque=='SUBCONTRATISTA'){

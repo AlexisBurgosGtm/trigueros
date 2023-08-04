@@ -1011,6 +1011,24 @@ let api = {
         })
         
     },
+    data_acreedores: () => {
+        
+        return new Promise((resolve,reject)=>{
+            let url = GlobalUrlBackend + '/acreedores/listado_activos'
+            axios.post(url, {tipo: "TODOS"})
+                .then((response) => {
+                    try {
+                        const data = response.data.recordset;
+                        resolve(data);
+                    } catch (err) {
+                        reject();
+                    }
+                }, (error) => {
+                        reject();
+                });
+        })
+            
+    },
     cheques_contratista_insertar: (codproyecto,fecha,nocontrato,codacreedor,codcuenta,numero,cantidad,recibe,obs,rubro,tipo,concepto) => {
         return new Promise((resolve, reject) => {
 
@@ -1539,9 +1557,71 @@ let api = {
                 const data = response.data.recordset;
                 data.map((rows) => {
                     str = str + `
-                            <tr class="border-bottom border-info">
+                            <tr class="">
                                 <td>${rows.RUBRO}</td>
                                 <td><b class="currSign">${funciones.setMoneda(rows.IMPORTE,'')}</b></td>
+                                <td>
+                                    <button class="btn btn-circle btn-md btn-info hand shadow" onclick="get_detalle_rubro('${idproyecto}','${rows.RUBRO}')">
+                                        <i class="fal fa-arrow-right"></i>
+                                    </button>
+                                </td>
+                            </tr>`
+                  
+                })
+                container.innerHTML = str;
+                try {
+                    //document.getElementById('lbTotalGastosCaja').innerText = funciones.setMoneda(GlobalSelected_totalGastosCaja,'Q');
+                } catch (error) {
+                    
+                }
+                
+            } catch (err) {
+                container.innerHTML = 'Agregue un cheque al proyecto...';
+                try {
+                    //document.getElementById('lbTotalGastosCaja').innerText = '---';
+                } catch (error) {
+                    
+                }
+                       }
+        }, (error) => {
+                console.log(error);
+                container.innerHTML = 'Agregue un cheque al proyecto...';
+                try {
+                    //document.getElementById('lbTotalGastosCaja').innerText = '---';
+                } catch (error) {
+                    
+                }
+        });
+
+    },
+    cheques_rubros_proyecto_detalle: (idproyecto,rubro, idContainer) => {
+        
+        let container = document.getElementById(idContainer);
+        container.innerHTML = GlobalLoader;
+
+        
+        let str = ''; 
+       
+        let url = GlobalUrlBackend + '/cheques/listadoproyecto_rubro_detalle';
+
+        axios.post(url, {
+                    idproyecto : idproyecto,
+                    rubro:rubro
+                    })
+        .then((response) => {
+            try {
+                const data = response.data.recordset;
+                data.map((rows) => {
+                    str = str + `
+                            <tr>
+                                <td>${funciones.convertDate2(rows.FECHA)}</td>
+                                <td>${rows.DESACREEDOR} (${rows.TIPOCHEQUE})
+                                    <br>
+                                    <small class="negrita text-secondary">${rows.CONCEPTO}</small>
+                                    <br>
+                                    <small class="negrita text-secondary">${rows.BANCO} (${rows.NUMERO}) - Cheque: ${rows.NOCHEQUE}</small>
+                                </td>
+                                <td class="negrita">${funciones.setMoneda(rows.CANTIDAD,'Q')}</td>
                             </tr>`
                   
                 })
