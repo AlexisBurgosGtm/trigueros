@@ -130,9 +130,9 @@ function getView(){
 
                         <div class="row">
                             <div class="col-6 text-right">
-                                 
+                                    
                             </div>
-                            <div class="col-6 text-right">
+                            <div class="col-6 ">
                                 <div class="row">
                                     <div class="col-6">
                                         <button class="btn btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('tab-uno').click()">
@@ -146,6 +146,8 @@ function getView(){
                                     </div>
                                 </div>
                             </div>
+                          
+                            
                         </div>
 
                     </div>
@@ -221,9 +223,7 @@ function getView(){
                         <hr class="solid">
 
                         <div class="row">
-                            <div class="col-6">
-                               
-                            </div>
+                            
                             <div class="col-6 text-right">
                                     <div class="row">
                                         <div class="col-6">
@@ -237,6 +237,9 @@ function getView(){
                                             </button>    
                                         </div>
                                     </div>   
+                            </div>
+                            <div class="col-6">
+                               
                             </div>
                         </div>
 
@@ -307,24 +310,24 @@ function getView(){
                
 
             </div>
-            <div class="" id="btnFlotanteDerecha">
-                <div class="row">
+            
+                <div class="btn-nuevo">
                     <button class="btn btn-success btn-circle btn-xl shadow hand" id="btnNuevoSalida">
                         +                       
                     </button>
                 </div>
-                <br><br>
-                <div class="row">
+               
+                <div class="btn-atras">
                     <button class="btn btn-secondary btn-xl btn-circle shadow hand" onclick="document.getElementById('tab-uno').click()">
                         <i class="fal fa-arrow-left"></i>
                     </button>
                 </div>
-            </div>
+           
             `;
         },
         btnNuevo : ()=>{
             return `
-                <div class="" id="btnFlotanteDerecha">
+                <div class="btn-nuevo" id="">
                     <button class="btn btn-success btn-circle btn-xl shadow" id="btnNuevoIngreso">
                         +                        
                     </button>
@@ -337,8 +340,17 @@ function getView(){
         <div class="modal fade js-modal-settings modal-backdrop-transparent" tabindex="-1" role="dialog" aria-hidden="true" id="modalAcreedores">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
-                    <div class="modal-header bg-success text-white">
-                        <h5 class="modal-title" id="">Seleccione un Acreedor de la Lista</h5>
+                    <div class="modal-header bg-info text-white">
+                        <div class="row">
+                            <div class="col-4">
+                                <button class="btn btn-outline-info hand" data-dismiss="modal">
+                                    <i class="fal fa-arrow-left"></i> Cerrar
+                                </button>
+                            </div>
+                            <div class="col-8">
+                                <h5 class="modal-title" id="">Seleccione un Acreedor de la Lista</h5>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-body" style="font-size :small">
                             <div class="row">
@@ -346,10 +358,10 @@ function getView(){
                                 <div class="table-responsive col-12">
                                     <div class="form-group">
                                         <label>Escriba para buscar</label>
-                                        <input type="text" class="form-control" placeholder="Escriba para buscar..." id="txtBuscar" oninput="funciones.FiltrarTabla('tblAcreedores','txtBuscar')">
+                                        <input type="text" class="form-control border-danger text-danger negrita" placeholder="Escriba para buscar..." id="txtBuscar" oninput="funciones.FiltrarTabla('tblAcreedores','txtBuscar')">
                                     </div>
-                                    <table class="table table-responsive" id="tblAcreedores">
-                                        <thead>
+                                    <table class="table table-responsive col-12" id="tblAcreedores">
+                                        <thead class="bg-info text-white">
                                             <tr>
                                                 <td>NOMBRE DEL ACREEDOR</td>
                                                 <td>TIPO</td>
@@ -384,6 +396,25 @@ function getView(){
 };
 
 async function addListeners(){
+
+
+    GlobalSelectedCodAcreedor = 0;
+
+    document.getElementById('txtEntImporte').addEventListener('click',(e)=>{
+        if(document.getElementById('txtEntImporte').value == '0'){
+            document.getElementById('txtEntImporte').value = '';
+        };
+    });
+
+    document.getElementById('txtSalImporte').addEventListener('click',(e)=>{
+        if(document.getElementById('txtSalImporte').value == '0'){
+            document.getElementById('txtSalImporte').value = '';
+        };
+    });
+
+
+    
+    
 
     //PRINCIPAL
     let cmbStatus = document.getElementById('cmbStatus');
@@ -603,8 +634,17 @@ async function addListeners(){
         api.data_acreedores()
         .then((data)=>{
             data.map((r)=>{
-                str +
+                str += `<tr>
+                            <td>${r.DESCRIPCION}</td>
+                            <td>${r.TIPO}</td>
+                            <td>
+                                <button class="btn btn-circle btn-md btn-info hand shadow" onclick="select_acreedor('${r.CODIGO}','${r.DESCRIPCION}')">
+                                    <i class="fal fa-arrow-right"></i>
+                                </button>
+                            </td>
+                        </tr>`
             })
+            container.innerHTML = str;
         })
         .catch(()=>{
             container.innerHTML = 'No se pudo cargar la lista de acreedores';
@@ -709,5 +749,15 @@ function deleteMovimientoCaja(idmovimiento){
     }
 
     
+
+};
+
+function select_acreedor(codacreedor,desacreedor){
+
+    $("#modalAcreedores").modal('hide');
+
+    GlobalSelectedCodAcreedor = Number(codacreedor);
+    document.getElementById('txtSalAcreedor').value = desacreedor;
+
 
 };

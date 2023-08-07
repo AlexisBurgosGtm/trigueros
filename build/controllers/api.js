@@ -2965,6 +2965,7 @@ let api = {
         let str = '';
         
         let data = {finalizado:status}
+        let idbtn = 0;
 
         let url = GlobalUrlBackend + '/cotizaciones/listadoproductos';
         axios.post(url,data)
@@ -2972,12 +2973,22 @@ let api = {
             try {
                 const data = response.data.recordset;
                 data.map((rows) => {
-                    str = str + `<tr class="" onclick="getHistorialProducto(${rows.ID})">
-                                    <td>${rows.DESPROD}
-                                        <br>
-                                        <small class="text-danger">Código:${rows.CODPROD}</small>
-                                    </td>
+                    idbtn += 1;
+                    let btn = `btnE${idbtn}`;
+                    str = str + `<tr class="">
+                                    <td>${rows.CODPROD}</td>
+                                    <td>${rows.DESPROD}</td>
                                     <td>${rows.MEDIDA}</td>
+                                    <td>
+                                        <button class="btn btn-info btn-circle btn-md hand shadow" onclick="getHistorialProducto(${rows.ID})">
+                                            <i class="fal fa-arrow-right"></i>    
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger btn-circle btn-md hand shadow" id="${btn}" onclick="delete_producto_cotiz('${rows.ID}','${rows.DESPROD}','${btn}')">
+                                            <i class="fal fa-trash"></i>    
+                                        </button>
+                                    </td>
                                  </tr>`
                 })
                 container.innerHTML = str;

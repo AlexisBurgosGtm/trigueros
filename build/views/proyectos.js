@@ -143,8 +143,7 @@ function getView(){
 
                     </div>
                     <div class="row">
-                        <div class="col-6">
-                        </div>
+                       
                         <div class="col-6">
                                 <div class="row">
                                     <div class="col-6 text-right">
@@ -159,13 +158,12 @@ function getView(){
                                     </div>
                                 </div>
                         </div>
-                        
+                        <div class="col-6">
+                      
+                        </div>
                         
                     </div>
-
                 </div>
-
-                
             </div>
             `
             
@@ -505,7 +503,7 @@ function getView(){
             return `
             <h1 class="negrita text-danger">Pagos por Rubro</h1>
             <div class="row bg-white">
-                <div class="col-sm-12 col-md-6 col-xl-6 col-lg-6">
+                <div class="col-sm-12 col-md-4 col-xl-4 col-lg-4">
                         <div class="table-responsive bg-white">
                             <div class="form-group oculto-impresion">
                                 <input type="search" class="form-control negrita text-danger border-danger" placeholder="Escriba para buscar..." oninput="funciones.FiltrarTabla('tblChequesProyecto_rubro','txtBuscarRubro')" id="txtBuscarRubro">
@@ -522,7 +520,7 @@ function getView(){
                             </table>
                         </div>
                 </div>
-                <div class="col-sm-12 col-md-6 col-xl-6 col-lg-6">
+                <div class="col-sm-12 col-md-8 col-xl-8 col-lg-8">
                         <h3 class="negrita text-info" id="lbRubro">---</h3>
                         <div class="table-responsive col-12  bg-white">
                             <table class="table table-responsive">
@@ -628,6 +626,21 @@ function addListeners() {
     cmbAnio.value = fecha.getFullYear();
     cmbProyectoAnio.value = fecha.getFullYear();
 
+    
+
+
+    document.getElementById('txtPresupuesto').addEventListener('click',(e)=>{
+        if(document.getElementById('txtPresupuesto').value == '0'){
+            document.getElementById('txtPresupuesto').value = '';
+        };
+    });
+
+    document.getElementById('txtPPresupuesto').addEventListener('click',(e)=>{
+        if(document.getElementById('txtPPresupuesto').value == '0'){
+            document.getElementById('txtPPresupuesto').value = '';
+        };
+    });
+
     cmbMes.addEventListener('change',()=>{
         api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
     });
@@ -679,6 +692,10 @@ function addListeners() {
         let txtDireccion = document.getElementById('txtDireccion');
         let txtPresupuesto = document.getElementById('txtPresupuesto');
         let cmbContratante = document.getElementById('cmbContratante');
+
+        let p = document.getElementById('txtPresupuesto').value || '0';
+        if(p=='0'){funciones.AvisoError('Importe inválido');return}
+
       
         if(GlobalSelectedCodProyecto==0){ //ES UN NUEVO PROYECTO
             funciones.Confirmacion('¿Está seguro que desea guardar estos datos?')

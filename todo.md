@@ -35,6 +35,26 @@ EVENTUALES (AGREGA CAMPO NOMBRE DE PROVEEDOR EN CHQUES)
 * PONER TODOS LOS BOTONES A LA DERECHA (CON CTRL Y TECLA+)
 
 
+* REVISAR LAS RESTAS PARA QUE APAREZCA EN NEGATIVO CUANDO APLICA
+
+
+
+ document.getElementById('txtPresupuesto').addEventListener('click',(e)=>{
+        if(document.getElementById('txtPresupuesto').value == '0'){
+            document.getElementById('txtPresupuesto').value = '';
+        };
+    });
+
+
+
  <button class="btn btn-imprimir btn-primary btn-circle hand shadow btn-xl" onclick="window.print()">
                 <i class="fal fa-print"></i>
-            </button>
+            </button>.
+
+
+    funciones.solicitarClave()
+    .then((name)=>{
+        if(name.toString()==GlobalConfigClave.toString()){
+    
+        }
+    })

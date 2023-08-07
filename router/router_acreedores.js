@@ -9,7 +9,8 @@ router.post("/listado_activos", async (req, res) => {
     let qry = '';
 
     if(tipo=='TODOS'){
-        qry = `SELECT CODACREEDOR AS CODIGO, DESACREEDOR AS DESCRIPCION, TIPO, ACTIVO
+        qry = `SELECT CODACREEDOR AS CODIGO, DESACREEDOR AS DESCRIPCION, 
+        TIPO, ACTIVO
         FROM CONST_ACREEDORES WHERE ACTIVO='SI'
         ORDER BY TIPO, DESACREEDOR`
     }else{

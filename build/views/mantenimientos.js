@@ -22,7 +22,7 @@ function getView(){
                             
                         </div>
                         <div class="col-2">
-                            <button class="btn btn-lx btn-circle btn-info hand shadow ${get_permiso_visible()}" id="btnConfig">
+                            <button class="btn btn-xl btn-circle btn-info hand shadow ${get_permiso_visible()}" id="btnConfig">
                                 <i class="fal fa-cog"></i>
                             </button>
                         </div>
@@ -45,7 +45,7 @@ function getView(){
         },
         btnNuevo : ()=>{
             return `
-                <div class="" id="btnFlotanteDerecha">
+                <div class="btn-nuevo" id="">
                     <button class="btn btn-success btn-circle btn-xl shadow" id="btnNuevo">
                         +                        
                     </button>
@@ -383,7 +383,7 @@ function getView(){
                 </div>
             </div>
             `
-        },
+        }
     }
 
     root.innerHTML= view.encabezado() + view.listado() + view.btnNuevo();

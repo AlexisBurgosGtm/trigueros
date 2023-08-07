@@ -26,6 +26,7 @@ let GlobalSelectedId = 0;
 let GlobalListaRubros = '';
 let GlobalString = '';
 let GlobalSelectedImporte = 0;
+let GlobalSelectedCodAcreedor = 0;
 
 let GlobalSelected_totalProveedores = 0;
 let GlobalSelected_totalSubcontratistas = 0;

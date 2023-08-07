@@ -122,7 +122,7 @@ function getView(){
             </div>
         </div>
         
-        <div class="" id="btnFlotanteDerecha">
+        <div class="btn-nuevo" id="">
             <button class="btn btn-success btn-circle btn-xl" id="btnNuevo">
                 +                        
             </button>
@@ -201,7 +201,7 @@ function getView(){
                 </div>
             </div>    
                             
-            <button class="btn btn-bottom-left btn-secondary btn-circle btn-xl hand shadow" onclick="document.getElementById('tab-uno').click()" id="">
+            <button class="btn btn-atras btn-secondary btn-circle btn-xl hand shadow" onclick="document.getElementById('tab-uno').click()" id="">
                 <i class="fal fa-arrow-left"></i>                        
             </button>            
             `
@@ -307,9 +307,6 @@ function getView(){
                         <hr class="solid"><hr class="solid">
 
                         <div class="row">
-                            <div class="col-6">
-                                 
-                            </div>
                             <div class="col-6 text-right">
                                 <div class="row">
                                     <div class="col-6">
@@ -319,12 +316,13 @@ function getView(){
                                     </div>
                                     <div class="col-6 text-right">
                                         <button class="btn btn-owner btn-xl btn-circle hand shadow" id="btnGuardarCheque">
-                                            <i class="fal fa-save"></i>
-                                            
+                                            <i class="fal fa-save"></i>      
                                         </button>    
                                     </div>
-                                </div>
-                                    
+                                </div>  
+                            </div>
+                            <div class="col-6">
+                                 
                             </div>
                         </div>
 
@@ -408,9 +406,7 @@ function getView(){
                         </div>
 
                         <div class="row">
-                            <div class="col-6">
-                                 
-                            </div>
+                            
                             <div class="col-6 text-right">
 
                                 <div class="row">
@@ -426,6 +422,9 @@ function getView(){
                                     </div>
                                 </div>
 
+                            </div>
+                            <div class="col-6">
+                                 
                             </div>
                         </div>
 
@@ -533,9 +532,7 @@ function getView(){
                         <hr class="solid"><hr class="solid">
 
                         <div class="row">
-                            <div class="col-6">
-                                 
-                            </div>
+                            
                             <div class="col-6 text-right">
                                 <div class="row">
                                     <div class="col-6">
@@ -551,6 +548,9 @@ function getView(){
                                     </div>
                                 </div>
                                     
+                            </div>
+                            <div class="col-6">
+                                 
                             </div>
                         </div>
 
@@ -1114,7 +1114,6 @@ function initView(){
     addListeners();
     setPermisos();
 };
-
 
 function deleteCheque(id){
     funciones.Confirmacion('¿Está seguro que desea ELIMINAR este cheque?')

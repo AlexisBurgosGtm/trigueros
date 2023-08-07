@@ -63,12 +63,10 @@ function getView(){
         },
         datos_contrato: ()=>{
             return `
-                <div class="card">
-                       
+                <div class="card">  
                     <div class="card-body">
                         
                         <h5 class="modal-title negrita text-danger" id="exampleModalLabel">Detalle del Sub-Contrato</h5>
-
                         <div class="row">
                             <div class="col">
                                 <div class="form group"
@@ -85,15 +83,19 @@ function getView(){
                         </div>
 
                         <hr class="solid">
-                        
-                        <div class="form group">
-                            <label>Proyecto:</label>
-                            <h4 id="Proyecto"></h4>
-                        </div>
-                        <br>
-                        <div class="form group">
-                            <label>Sub-contratista:</label>
-                            <h4 id="Acreedor"></h4>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <div class="form group">
+                                    <label>Proyecto:</label>
+                                    <h4 id="Proyecto"></h4>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <div class="form group">
+                                    <label>Sub-contratista:</label>
+                                    <h4 id="Acreedor"></h4>
+                                </div>
+                            </div>
                         </div>
                         <br>
                         <div class="form group">
@@ -147,119 +149,13 @@ function getView(){
                                 </div>
                             </div>
                         </div>
-
-                    </div>
-                    <div class="text-left">
-                        <button class="btn btn-secondary btn-circle btn-xl hand shadow" onclick="document.getElementById('tab-uno').click()">
+                        <button class="btn btn-atras btn-secondary btn-circle btn-xl hand shadow" onclick="document.getElementById('tab-uno').click()">
                             <i class="fal fa-arrow-left"></i>
-                        </button>    
-                    </div>
-
-                    
+                        </button> 
+                    </div>                            
                 </div>
-            </div>
-            `
-        },
-        BACKUP_modalDetalle: ()=>{
-            return `
-        <div class="modal fade js-modal-settings modal-backdrop-transparent" tabindex="-1" role="dialog" aria-hidden="true"  id="modalDetalle">
-            <div class="modal-dialog modal-dialog-right modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header bg-trans-gradient text-white">
-                            <h5 class="modal-title" id="exampleModalLabel">Detalle del Sub-Contrato</h5>
-                        </div>
-                    <div class="modal-body">
-                        
-                        <div class="row">
-                            <div class="col">
-                                <div class="form group"
-                                    <label>No. Contrato: </label>
-                                    <h3 id="NoContrato"></h3>
-                                </div>    
-                            </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <label>Fecha Entrega:</label>
-                                    <h3 id="FechaEntrega"></h3>
-                                </div>       
-                            </div>
-                        </div>
-
-                        <hr class="solid">
-                        
-                        <div class="form group">
-                            <label>Proyecto:</label>
-                            <h4 id="Proyecto"></h4>
-                        </div>
-                        <br>
-                        <div class="form group">
-                            <label>Sub-contratista:</label>
-                            <h4 id="Acreedor"></h4>
-                        </div>
-                        <br>
-                        <div class="form group">
-                            <label>Asignación:</label>
-                            <h4 id="Asignacion"></h4>
-                        </div>
-
-                        <hr class="solid">
-
-                        <div class="row">
-                            <div class="col">
-                                <div class="form group">
-                                    <label>Importe:</label>
-                                    <h4 class="text-info" id="Importe"></h4>
-                                </div>    
-                            </div>
-
-                            <div class="col">
-                                <div class="form group">
-                                    <label>Entregado:</label>
-                                    <h4 class="text-success" id="Entregado"></h4>
-                                </div>    
-                            </div>
-
-                            <div class="col">
-                                <div class="form group">
-                                    <label>Saldo:</label>
-                                    <h4 class="text-danger" id="Saldo"></h4>
-                                </div>    
-                            </div>
-                            
-                        </div>
-                        
-                        <hr class="solid">
-
-                        <div class="row">
-                            <div class="table-responsive">
-                                <div class="table-responsive">
-                                    <table class="table table-responsive">
-                                        <thead class="bg-trans-gradient text-white">
-                                            <tr>
-                                                <td>FECHA</td>
-                                                <td>CUENTA</td>
-                                                <td>ACREEDOR</td>
-                                                <td>VALOR</td>
-                                                <td></td>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tblChequesContrato"></tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary btn-xl col-12" data-dismiss="modal">
-                            <i class="fal fa-check"></i>
-                            ACEPTAR
-                        </button>    
-                    </div>
-
-                    </div>
-                </div>
-            </div>
+        
+             
             `
         }
     };
