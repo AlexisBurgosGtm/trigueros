@@ -205,6 +205,23 @@ let funciones = {
         return resultado.replace('-','');
 
       },
+      setMoneda3: function(num,signo) {
+        num = num.toString().replace(/\$|\,/g, '');
+        if (isNaN(num)) num = "0";
+        let sign = (num == (num = Math.abs(num)));
+        num = Math.floor(num * 100 + 0.50000000001);
+        let cents = num % 100;
+        num = Math.floor(num / 100).toString();
+        if (cents < 10) cents = "0" + cents;
+        for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++)
+            num = num.substring(0, num.length - (4 * i + 3)) + ',' + num.substring(num.length - (4 * i + 3));
+        let resultado = ((((sign) ? '' : '-') + signo + ' ' + num + ((cents == "00") ? '' : '.' + cents)).toString());
+        
+        if(resultado.includes('.')){}else{resultado = resultado + ".00"}
+        
+        return resultado;
+
+      },
       setMoneda2: function(n) {
 
         let valor = n;
@@ -372,33 +389,7 @@ let funciones = {
       )
     },
     NotificacionPersistent : (titulo,msn)=>{
-
-    function InicializarServiceWorkerNotif(){
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () =>
-       navigator.serviceWorker.register('sw.js')
-        .then(registration => console.log('Service Worker registered'))
-        .catch(err => 'SW registration failed'));
-      };
-      
-      requestPermission();
-    }
-    
-    if ('Notification' in window) {};
-    
-    function requestPermission() {
-      if (!('Notification' in window)) {
-        funciones.Aviso('Notification API not supported!');
-        return;
-      }
-      
-      Notification.requestPermission(function (result) {
-        //$status.innerText = result;
-      });
-    }
-
-    InicializarServiceWorkerNotif();
-    
+ 
     const options = {
         body : titulo,
         icon: "../favicon.png",
@@ -614,9 +605,9 @@ let funciones = {
       new Noty({
         type: 'info',
         layout: 'topRight',
-        timeout: '500',
+        timeout: '1000',
         theme: 'metroui',
-        progressBar: false,
+        progressBar: true,
         text,
       }).show();
     },

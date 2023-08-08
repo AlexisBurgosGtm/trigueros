@@ -39,29 +39,17 @@ function getView(){
                 <div class="col">
                     <div class="form-group">
                         <label>Status</label>
-                        <select class="form-control" id="cmbStatus">
-                            <option value="NO">ACTIVOS</option>
-                            <option value="SI">FINALIZADOS</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label>Mes</label>
-                        <select class="form-control" id="cmbMes">
+                        <div class="input-group">
+                            <select class="form-control" id="cmbStatus">
+                                <option value="NO">ACTIVOS</option>
+                                <option value="SI">FINALIZADOS</option>
+                            </select>
+                            <select class="form-control" id="cmbAnio">
                             
-                        </select>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label>Año</label>
-                        <select class="form-control" id="cmbAnio">
-                            
-                        </select>
-                    </div>
-                </div>
-               
+                </div> 
             </div>
            
             <div class="form-group col-12">
@@ -375,9 +363,7 @@ function getView(){
                     </div>
                 </div>
                 <div class="col-6 text-right">
-                    <button class="btn btn-success btn-md shadow" id="btnNuevoContrato">
-                        Nuevo (+)
-                    </button>
+                   
                 </div>
             </div>
             <div class="table-responsive">
@@ -393,8 +379,13 @@ function getView(){
                     <tbody id="tblPSucontratistas"></tbody>
                 </table>
             </div>
+      
             <button class="btn btn-atras btn-secondary btn-circle hand shadow btn-xl" onclick="document.getElementById('btnTabGeneral').click()">
                 <i class="fal fa-arrow-left"></i>
+            </button>
+      
+            <button class="btn btn-success btn-nuevo btn-circle btn-xl shadow hand" id="btnNuevoContrato">
+                <i class="fal fa-plus"></i>
             </button>
             `
         },
@@ -616,13 +607,13 @@ function addListeners() {
 
     let cmbStatus = document.getElementById('cmbStatus');
     let cmbAnio = document.getElementById('cmbAnio');
-    let cmbMes = document.getElementById('cmbMes');
+    //let cmbMes = document.getElementById('cmbMes');
 
     cmbAnio.innerHTML = funciones.ComboAnio();
-    cmbMes.innerHTML = funciones.ComboMeses();
+    //cmbMes.innerHTML = funciones.ComboMeses();
 
     let fecha = new Date();
-    cmbMes.value = fecha.getUTCMonth()+1;
+    //cmbMes.value = fecha.getUTCMonth()+1;
     cmbAnio.value = fecha.getFullYear();
     cmbProyectoAnio.value = fecha.getFullYear();
 
@@ -641,28 +632,28 @@ function addListeners() {
         };
     });
 
-    cmbMes.addEventListener('change',()=>{
-        api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
-    });
+    //cmbMes.addEventListener('change',()=>{
+        //api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
+    //});
 
     
     cmbAnio.addEventListener('change',()=>{
-        api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
+        api.proyectos_listado(cmbStatus.value, cmbAnio.value, 'tblProyectos');
     });
 
     cmbAnio.style = "visibility:hidden";
-    cmbMes.style = "visibility:hidden";
+    //cmbMes.style = "visibility:hidden";
 
     cmbStatus.addEventListener('change',()=>{
         if(cmbStatus.value=='NO'){
             cmbAnio.style = "visibility:hidden";
-            cmbMes.style = "visibility:hidden";
-            api.proyectos_listado(cmbStatus.value, 0, 0, 'tblProyectos');
+            //cmbMes.style = "visibility:hidden";
+            api.proyectos_listado(cmbStatus.value, 0, 'tblProyectos');
             
         }else{
             cmbAnio.style = "visibility:visible";
-            cmbMes.style = "visibility:visible";
-            api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
+            //cmbMes.style = "visibility:visible";
+            api.proyectos_listado(cmbStatus.value, cmbAnio.value, 'tblProyectos');
         }
     });
 
@@ -713,10 +704,10 @@ function addListeners() {
 
                             funciones.Aviso('Proyecto guardado exitosamente!!')
                             let cmbStatus = document.getElementById('cmbStatus');
-                            let cmbMes = document.getElementById('cmbMes');
+                            //let cmbMes = document.getElementById('cmbMes');
                             let cmbAnio = document.getElementById('cmbAnio');
 
-                            await api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
+                            await api.proyectos_listado(cmbStatus.value, cmbAnio.value, 'tblProyectos');
                             await api.insertar_bitacora(`Proyecto nuevo: ${txtDescripcion.value}`)
                             //$('#modalNuevo').modal('hide');
                             document.getElementById('tab-uno').click();
@@ -749,10 +740,10 @@ function addListeners() {
                             funciones.Aviso('Proyecto editado exitosamente!!')
                             
                             let cmbStatus = document.getElementById('cmbStatus');
-                            let cmbMes = document.getElementById('cmbMes');
+                            //let cmbMes = document.getElementById('cmbMes');
                             let cmbAnio = document.getElementById('cmbAnio');
 
-                            await api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
+                            await api.proyectos_listado(cmbStatus.value, cmbAnio.value, 'tblProyectos');
                             await api.insertar_bitacora(`Proyecto editado: ${txtDescripcion.value}`)
 
                             //$('#modalNuevo').modal('hide');
@@ -793,10 +784,10 @@ function addListeners() {
                         .then(async()=>{
                             funciones.Aviso('Proyecto Eliminado exitosamente!!')
                             let cmbStatus = document.getElementById('cmbStatus');
-                            let cmbMes = document.getElementById('cmbMes');
+                            //let cmbMes = document.getElementById('cmbMes');
                             let cmbAnio = document.getElementById('cmbAnio');
     
-                            await api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
+                            await api.proyectos_listado(cmbStatus.value, cmbAnio.value, 'tblProyectos');
                             await api.insertar_bitacora(`Proyecto Eliminado: ${GlobalSelectedCodProyecto}`);
     
                             //$('#modalMenuProyecto').modal('hide');
@@ -861,10 +852,10 @@ function addListeners() {
                         .then(async()=>{
                             funciones.Aviso('Proyecto Finalizado exitosamente!!')
                             let cmbStatus = document.getElementById('cmbStatus');
-                            let cmbMes = document.getElementById('cmbMes');
+                            //let cmbMes = document.getElementById('cmbMes');
                             let cmbAnio = document.getElementById('cmbAnio');
     
-                            await api.proyectos_listado(cmbStatus.value, cmbMes.value, cmbAnio.value, 'tblProyectos');
+                            await api.proyectos_listado(cmbStatus.value, cmbAnio.value, 'tblProyectos');
                             await api.insertar_bitacora(`Proyecto finalizado: ${GlobalSelectedCodProyecto}`)
                             //$('#modalMenuProyecto').modal('hide');
                             document.getElementById('tab-uno').click();
@@ -990,10 +981,10 @@ function addListeners() {
 async function getCargasIniciales() {
 
     let cmbStatus = document.getElementById('cmbStatus');
-    let cmbMes = document.getElementById('cmbMes');
+    //let cmbMes = document.getElementById('cmbMes');
     let cmbAnio = document.getElementById('cmbAnio');
 
-    await api.proyectos_listado(cmbStatus.value, 0, 0, 'tblProyectos');
+    await api.proyectos_listado(cmbStatus.value, 0, 'tblProyectos');
     await api.contratantes_combo('cmbContratante');
     await api.subcontratistas_combo('cmbPSubContratista');
 

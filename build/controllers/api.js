@@ -102,13 +102,12 @@ let api = {
 
         });
     },
-    proyectos_listado: (activo,mes,anio,idContainer) => {
+    proyectos_listado: (activo,anio,idContainer) => {
         let container = document.getElementById(idContainer);
         container.innerHTML = GlobalLoader;
         let str = '';
             let data = {
                 activo : activo,
-                mes:mes,
                 anio:anio
             };
 
@@ -1189,6 +1188,110 @@ let api = {
         });
     },
     cheques_proyecto_todos: (idproyecto,idContainer1,idPresupuesto,idSaldo,idDiferencia) => {
+        
+        let container1 = document.getElementById(idContainer1);
+        container1.innerHTML = GlobalLoader;
+        //let container2 = document.getElementById(idContainer2);
+        //container2.innerHTML = GlobalLoader;
+        //let container3 = document.getElementById(idContainer3);
+        //container3.innerHTML = GlobalLoader;
+
+        let lbPresupuesto = document.getElementById(idPresupuesto);
+        lbPresupuesto.innerText = 'Q --';
+        let lbSaldo = document.getElementById(idSaldo);
+        lbSaldo.innerText = 'Q --';
+        let lbDiferencia = document.getElementById(idDiferencia);
+        lbDiferencia.innerText = 'Q --';
+        
+        let str1 = ''; let str2 = ''; let str3 = '';
+        let varTotalPresupuesto = 0; let varTotalSaldo = 0;
+
+        let newrow = '';
+
+        let url = GlobalUrlBackend + '/cheques/listadoproyecto';
+
+        axios.post(url, {
+                    idproyecto : idproyecto
+                    })
+        .then((response) => {
+            try {
+                const data = response.data.recordset;
+                data.map((rows) => {
+                    let tipo = rows.TIPOCHEQUE;
+                    let importe = Number(rows.IMPORTE);
+                    if(importe<0){importe= importe * -1};
+                    newrow = `<tr class="border-bottom border-info">
+                                <td>${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHA))}
+                                        <br>
+                                        <small class="negrita text-danger">Cheque No. ${rows.NOCHEQUE}</small>
+                                </td>
+                                <td>${rows.BANCO}
+                                        <br>
+                                        <small>Cuenta No. ${rows.NOCUENTA}</small>
+                                        <br>
+                                        <small>No.Factura/Recibo: ${rows.NOFACTURA}</small>
+                                </td>
+                                <td>${rows.DESACREEDOR}
+                                        <br>
+                                        <small class="negrita text-info">${rows.ASIGNACION}</small>
+                                        <br>
+                                        <small class="negrita">Concepto:${rows.CONCEPTO}</small>
+                                        <br class="solid">
+                                        <small>Creado:${rows.USUARIO}</small>
+                                </td>
+                                <td>${funciones.setMoneda(importe,'Q')}</td>
+                                <td>${tipo}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-danger btn-circle" onclick="deleteCheque(${rows.ID})">x</button>
+                                </td>
+                            </tr>`
+                            str1 = str1 + newrow;
+                    switch (tipo) {
+                        case 'SUBCONTRATISTA':
+                            //str1 = str1 + newrow;
+                            varTotalSaldo = varTotalSaldo + Number(rows.IMPORTE);
+                            break;
+                        case 'PROVEEDOR':
+                            //str2 = str2 + newrow;
+                            varTotalSaldo = varTotalSaldo + Number(rows.IMPORTE);
+                            break;
+                        case 'CONTRATANTE':
+                            //str3 = str3 + newrow;
+                            varTotalPresupuesto = varTotalPresupuesto + Number(rows.IMPORTE);
+                            break;
+                    }
+                })
+                container1.innerHTML = str1;
+                //container2.innerHTML = str2;
+                //container3.innerHTML = str3;
+                lbSaldo.innerText = funciones.setMoneda((varTotalSaldo * -1),'Q');
+                lbPresupuesto.innerText = funciones.setMoneda((varTotalPresupuesto),'Q');
+                let dif = varTotalPresupuesto - (varTotalSaldo * -1); //recibido menos ejecutado
+                if(Number(dif)>0){
+                    lbDiferencia.innerHTML = `<b class="text-info">${funciones.setMoneda3(dif,'Q')}</b>`;
+                }else{
+                    lbDiferencia.innerHTML = `<b class="text-danger">${funciones.setMoneda3(dif,'Q')}</b>`;
+                }
+            } catch (err) {
+                container1.innerHTML = 'Agregue un cheque al proyecto...';
+                //container2.innerHTML = 'Agregue un cheque al proyecto...';
+                //container3.innerHTML = 'Agregue un cheque al proyecto...';
+                lbSaldo.innerText = 'Q --';
+                lbPresupuesto.innerText = 'Q --';
+                lbDiferencia.innerText = 'Q --';
+            }
+        }, (error) => {
+                console.log(error);
+                container1.innerHTML = 'Agregue un cheque al proyecto...';
+                //container2.innerHTML = 'Agregue un cheque al proyecto...';
+                //container3.innerHTML = 'Agregue un cheque al proyecto...';
+                lbSaldo.innerText = 'Q --';
+                lbPresupuesto.innerText = 'Q --';
+                lbDiferencia.innerText = 'Q --';
+        });
+
+    },
+    BACKUP_cheques_proyecto_todos: (idproyecto,idContainer1,idPresupuesto,idSaldo,idDiferencia) => {
         
         let container1 = document.getElementById(idContainer1);
         container1.innerHTML = GlobalLoader;

@@ -50,6 +50,10 @@ let classNavegar = {
         })
     },
     cuentas: ()=>{
+        if(Number(GlobalNivelUsuario)==1){}else{
+            funciones.AvisoHablado('Usted no tiene permiso para entrar a esta opción');
+            return;
+        };
         funciones.loadScript('../views/cuentas.js','root')
         .then(async()=>{
             lbTituloVista.innerText = 'REPORTE DE CUENTAS BANCARIAS';
@@ -74,6 +78,10 @@ let classNavegar = {
         })
     },
     mantenimientos: ()=>{
+        if(Number(GlobalNivelUsuario)==1){}else{
+            funciones.AvisoHablado('Usted no tiene permiso para entrar a esta opción');
+            return;
+        };
                 funciones.loadScript('../views/mantenimientos.js','root')
                 .then(async()=>{
                     lbTituloVista.innerText = 'MANTENIMIENTOS';

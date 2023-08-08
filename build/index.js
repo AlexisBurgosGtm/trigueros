@@ -7,7 +7,7 @@ let btnSalir = document.getElementById('btnSalir');
 
 let lbTituloVista = document.getElementById('lbTituloVista');
 
-const socket = io();
+
 
 
 rootMenuPrincipal.innerHTML = `
@@ -284,6 +284,36 @@ btnSalir.addEventListener('click',()=>{
 
 classNavegar.login();
 
+function InicializarServiceWorkerNotif(){
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () =>
+     navigator.serviceWorker.register('./sw.js')
+      .then(registration => console.log('Service Worker registered'))
+      .catch(err => 'SW registration failed'));
+    };
+  
+   
+    requestPermission();
+  }
+  
+  if ('Notification' in window) {};
+  
+  function requestPermission() {
+    if (!('Notification' in window)) {
+      //alert('Notification API not supported!');
+      return;
+    }
+    
+    Notification.requestPermission(function (result) {
+      //$status.innerText = result;
+    });
+  }
+  
+  
+  InicializarServiceWorkerNotif();
+  
+
+  
 
 funciones.instalationHandlers('btnInstalarApp');
 

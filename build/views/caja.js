@@ -525,6 +525,7 @@ async function addListeners(){
 
     let btnFinalizar = document.getElementById('btnFinalizar');
     btnFinalizar.addEventListener('click',()=>{
+        
         funciones.Confirmacion('¿Está seguro que desea FINALIZAR este corte?')
         .then((value)=>{
             if(value==true){
@@ -720,17 +721,13 @@ function deleteMovimientoCaja(idmovimiento){
 
     if(st=='SI'){
         funciones.AvisoHablado('No puede Eliminar un movimiento de un corte finalizado')
-    }else{
-        
-        funciones.Confirmacion('¿Está seguro que desea Eliminar este movimiento?')
-        .then((value)=>{
-            if(value==true){
-    
-                //$('#modalDetalle').modal('hide');
-    
-                funciones.solicitarClave()
-                .then((name)=>{
-                    if(name.toString()==GlobalPassUsuario.toString()){
+    }else{  
+        funciones.solicitarClave()
+        .then((name)=>{
+            if(name.toString()==GlobalPassUsuario.toString()){
+                funciones.Confirmacion('¿Está seguro que desea Eliminar este movimiento?')
+                .then((value)=>{       
+                    if(value==true){   
                         api.caja_delete(idmovimiento)
                         .then(()=>{
                             funciones.Aviso('Movimiento eliminado exitosamente!!')
@@ -738,17 +735,13 @@ function deleteMovimientoCaja(idmovimiento){
                         .catch(()=>{
                             funciones.AvisoError('No se pudo eliminar este movimiento')
                         })
-                    }else{
-                        funciones.AvisoError('Contraseña incorrecta');
                     }
                 })
-    
+            }else{
+                funciones.AvisoError('Contraseña incorrecta');
             }
         })
-
     }
-
-    
 
 };
 

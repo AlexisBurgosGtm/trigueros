@@ -92,8 +92,10 @@ app.use("*", function (req, res) {
 
 // SOCKET HANDLER
 io.on('connection', function(socket){
-  socket.on('login', (user)=>{
-    io.emit('login', `Sesión iniciada con usuario ${user}`)
+
+  socket.on('inicio administrador', (msg,user)=>{
+    console.log('inicio administrador')
+    io.emit('inicio administrador', msg, user)
   })
 
   socket.on('nuevo cheque', (msg,user)=>{

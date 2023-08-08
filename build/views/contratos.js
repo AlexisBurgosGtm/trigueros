@@ -213,7 +213,8 @@ async function detalleContrato(nocontrato,entrega,proyecto,acreedor,asignacion,i
 function deleteCheque(id){
     funciones.solicitarClave()
     .then((name)=>{
-        if(name==GlobalPassUsuario){
+        if(name==GlobalConfigClave.toString()){
+          
             funciones.Confirmacion('¿Está seguro que desea ELIMINAR este cheque?')
             .then((value)=>{
                 if(value==true){
@@ -234,6 +235,7 @@ function deleteCheque(id){
         
                 }
             })
+
         }else{
             funciones.AvisoError('Clave incorrecta');
             return;

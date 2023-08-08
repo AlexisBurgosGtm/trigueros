@@ -112,7 +112,7 @@ router.post("/subcontratistas", async (req, res) => {
 
 router.post("/listaproyectos", async (req, res) => {
 
-    const { activo, mes, anio } = req.body;
+    const { activo, anio } = req.body;
 
     let qryactivos = `SELECT CONST_PROYECTOS.IDPROYECTO, 
     CONST_PROYECTOS.PROYECTO, 
@@ -149,8 +149,7 @@ router.post("/listaproyectos", async (req, res) => {
         FROM CONST_PROYECTOS LEFT OUTER JOIN
             CONST_CONTRATANTES ON CONST_PROYECTOS.CODCONTRATANTE = CONST_CONTRATANTES.CODCONTRATANTE
             WHERE (CONST_PROYECTOS.FINALIZADO = 'SI') AND
-            (YEAR(CONST_PROYECTOS.FECHAINICIO)=${anio}) AND 
-            (MONTH(CONST_PROYECTOS.FECHAINICIO)=${mes})`        
+            (CONST_PROYECTOS.ANIO=${anio})`        
 
             if(activo=='NO'){
                 execute.Query(res, qryactivos);

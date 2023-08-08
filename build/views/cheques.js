@@ -746,8 +746,7 @@ async function addListeners(){
             if(value==true){
 
 
-                btnGuardarCheque.disabled = true;
-                btnGuardarCheque.innerHTML = ' <i class="fal fa-save fa-spin"></i>';
+
 
                 let codproyecto = document.getElementById('cmbProyecto').value || 0;
                 let nocontrato = document.getElementById('cmbAcreedor').value || 0;
@@ -762,6 +761,9 @@ async function addListeners(){
 
                 if(obs.value==''){obs.value='SN'};
                 if(recibe.value==''){recibe.value='SN'};
+
+                btnGuardarCheque.disabled = true;
+                btnGuardarCheque.innerHTML = ' <i class="fal fa-save fa-spin"></i>';
 
                 api.verificar_nocheque(codcuenta.value,numero.value)
                 .then(()=>{
@@ -791,6 +793,7 @@ async function addListeners(){
                                         concepto.value)
                                     .then(()=>{
                                         funciones.Aviso('Cheque creado exitosamente!!');
+                                        socket.emit('nuevo cheque',`Nuevo cheque a Subcontratista por valor de ${funciones.setMoneda(cantidad.value,'Q')}`,GlobalUsuario);
                                         
                                         btnGuardarCheque.disabled = false;
                                         btnGuardarCheque.innerHTML = ' <i class="fal fa-save"></i>';
@@ -826,6 +829,8 @@ async function addListeners(){
                                     .then(()=>{
                                         funciones.Aviso('Cheque creado exitosamente!!');
 
+                                        socket.emit('nuevo cheque',`Nuevo cheque a Proveedor por valor de ${funciones.setMoneda(cantidad.value,'Q')}`,GlobalUsuario);
+                                        
                                         btnGuardarCheque.disabled = false;
                                         btnGuardarCheque.innerHTML = ' <i class="fal fa-save"></i>';
 
@@ -853,7 +858,9 @@ async function addListeners(){
                     };
                 })
                 .catch(()=>{
-                    funciones.AvisoError('Cheque ya existe')
+                    funciones.AvisoError('Cheque ya existe');
+                    btnGuardarCheque.disabled = false;
+                    btnGuardarCheque.innerHTML = ' <i class="fal fa-save"></i>';
                 })
 
             }
@@ -869,8 +876,7 @@ async function addListeners(){
             if(value==true){
 
 
-                btnGuardarCheque.disabled = true;
-                btnGuardarCheque.innerHTML = ' <i class="fal fa-save fa-spin"></i>';
+               
 
                 let codproyecto = document.getElementById('cmbProyectoE').value || 0;
                 let nocontrato = document.getElementById('cmbAcreedorE').value || 'SN';
@@ -888,6 +894,8 @@ async function addListeners(){
 
                 if(nocontrato=='SN'){funciones.AvisoError('Escriba un Acreedor válido'); return;}
 
+                btnGuardarChequeE.disabled = true;
+                btnGuardarChequeE.innerHTML = ' <i class="fal fa-save fa-spin"></i>';
 
                 api.verificar_nocheque(codcuenta.value,numero.value)
                 .then(()=>{
@@ -915,7 +923,8 @@ async function addListeners(){
                                         nofactura)
                                     .then(()=>{
                                         funciones.Aviso('Cheque creado exitosamente!!');
-
+                                        socket.emit('nuevo cheque',`Nuevo cheque a Eventuales por valor de ${funciones.setMoneda(cantidad.value,'Q')}`,GlobalUsuario);
+                                        
                                         btnGuardarChequeE.disabled = false;
                                         btnGuardarChequeE.innerHTML = ' <i class="fal fa-save"></i>';
 
@@ -940,7 +949,9 @@ async function addListeners(){
                     };
                 })
                 .catch(()=>{
-                    funciones.AvisoError('Cheque ya existe')
+                    funciones.AvisoError('Cheque ya existe');
+                    btnGuardarChequeE.disabled = false;
+                    btnGuardarChequeE.innerHTML = ' <i class="fal fa-save"></i>';
                 })
 
             }
@@ -1022,6 +1033,8 @@ async function addListeners(){
                                         concepto.value)
                                     .then(()=>{
                                         funciones.Aviso('Cheque creado exitosamente!!');
+                                        socket.emit('nuevo cheque',`Nuevo cheque de CONTRATANTE por valor de ${funciones.setMoneda(cantidad.value,'Q')}`,GlobalUsuario);
+                                        
                                         //$('#modalNuevoContratante').modal('hide');
                                         btnGuardarChequeC.disabled = false;
                                         btnGuardarChequeC.innerHTML = ' <i class="fal fa-save"></i>';
@@ -1116,22 +1129,37 @@ function initView(){
 };
 
 function deleteCheque(id){
-    funciones.Confirmacion('¿Está seguro que desea ELIMINAR este cheque?')
-    .then((value)=>{
-        if(value==true){
 
-            api.cheques_delete(id)
-            .then(()=>{
-                funciones.Aviso('Cheque ELIMINADO exitosamente!!');
-                let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
-                api.cheques_proyecto_todos(cmbProyectoCheques, 'tblCheques1','lbPresupuesto','lbSaldo','lbDiferencia');
-            })
-            .catch(()=>{
-                funciones.AvisoError('No se pudo ELIMINAR el cheque')
-            })
+    funciones.solicitarClave()
+    	.then((name)=>{
+        	if(name.toString()==GlobalConfigClave.toString()){
+                
+                funciones.Confirmacion('¿Está seguro que desea ELIMINAR este cheque?')
+                .then((value)=>{
+                    if(value==true){
+            
+                        api.cheques_delete(id)
+                        .then(()=>{
+                            funciones.Aviso('Cheque ELIMINADO exitosamente!!');
+                            let cmbProyectoCheques = document.getElementById('cmbProyectoCheques').value || 0;
+                            api.cheques_proyecto_todos(cmbProyectoCheques, 'tblCheques1','lbPresupuesto','lbSaldo','lbDiferencia');
+                        })
+                        .catch(()=>{
+                            funciones.AvisoError('No se pudo ELIMINAR el cheque')
+                        })
+            
+                    }
+                });
 
-        }
-    })
+            }else{
+                funciones.AvisoError('Clave incorrecta');
+            }
+	})
+
+    
+
+
+
 };
 
 function setPermisos(){

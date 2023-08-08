@@ -2,18 +2,16 @@ function getView(){
     let view = {
         login : ()=>{
             return `
-                <div class="rpw">
+                <div class="row">
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-3">
                         <div class="card shadow card-rounded">
                             
                             <div class="card-body p-4">
                                 
                                 <div class="text-center bg-white border-bottom ">
-                                    <img src="../img/favicon.png" widht="80" height="80">
+                                    <img src="../img/favicon.png" width="60px" height="60px">
                                 </div>
                                 
-                                <hr class="solid">
-
                                 <div class="form-group">
                                     <label class="negrita">Usuario</label>
                                     <input type="text" class="input-md form-control border-info" id="txtUsuario">
@@ -31,15 +29,11 @@ function getView(){
                                     </button>
                                 </div>
 
-                                <br>
                                 <div class="row">
                                     <small class="text-info">${version}</small>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-6 col-md-8 col-lg-9 col-xl-9">
-                      
                     </div>
                 </div>
                 
@@ -80,7 +74,8 @@ function addListeners(){
 
                 switch (Number(GlobalNivelUsuario)) {
                     case 1:
-                        classNavegar.proyectos();    
+                        classNavegar.proyectos();  
+                        socket.emit('inicio administrador', 'login', GlobalUsuario);  
                         break;
                     case 2:
                         classNavegar.proyectos();  
