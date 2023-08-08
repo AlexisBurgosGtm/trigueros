@@ -7,7 +7,7 @@ function getView(){
                 <div class="row">
                     <div class="col-8">
                         <div class="form-group">
-                            <label class="negrita">Seleccione un Subcontratista</label>
+                            <label class="negrita">Pagos a Subcontratista:</label>
                             <select class="form-control shadow" id="cmbSubcontratistas"></select>
                         </div>
                     </div>
@@ -42,21 +42,6 @@ function getView(){
             return `
                 <hr class="solid">
 
-                <div class="row">
-                    <div class="col-4">
-                        <button class="btn btn-success hand shadow" onclick="funciones.exportTableToExcel('tblRep1','ReportePagoSubcontratista')">
-                            <i class="fal fa-file-excel"></i>Exportar Excel
-                        </button>
-                    </div>
-                    <div class="col-4">
-                        <button class="hidden btn btn-danger hand shadow" onclick="funciones.exportarPDF('#divTable1','ReportePagoSubcontratista')">
-                            <i class="fal fa-file-pdf"></i>Exportar PDF
-                        </button>
-                    </div>
-                    
-                </div>
-
-                
                 <div class="row" id="divTable1">
                     <div class="table-responsive">
                         <table class="table table-responsive table-striped table-hover table-bordered" id="tblRep1">
@@ -74,6 +59,14 @@ function getView(){
                         </table>
                     </div>
                 </div>
+                
+                <button class="btn btn-exportar btn-success btn-circle btn-xl hand shadow" onclick="funciones.exportTableToExcel('tblRep1','ReportePagoSubcontratista')">
+                    <i class="fal fa-file-excel"></i>
+                </button>
+
+                <button class="btn btn-imprimir btn-primary btn-circle hand shadow btn-xl" onclick="window.print()">
+                    <i class="fal fa-print"></i>
+                </button>
             `
         }
     }

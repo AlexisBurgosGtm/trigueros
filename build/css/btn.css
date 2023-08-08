@@ -1,3 +1,10 @@
+.btn-exportar { 
+  position: fixed;
+  z-index: 888;
+  right: 21px;
+  bottom: 475px;
+}
+
 .btn-imprimir { 
   position: fixed;
   z-index: 888;
@@ -19,6 +26,20 @@
   bottom: 190px;
 }
 
+
+
+/*Flecha para hacer la pagina hacia arriba*/
+.ir-arriba{
+  display:none;
+  background-repeat:no-repeat;
+  /*font-size:20px;*/
+  cursor:pointer;
+  position:fixed;
+  bottom:10px;
+  right:140px;
+  z-index:2;
+}
+/*Flecha para hacer la pagina hacia arriba*/
 
 
 

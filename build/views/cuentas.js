@@ -6,12 +6,12 @@ function getView(){
                 <div class="card-body p-4">
                     <h5 class="text-danger">Historial de Cheques por Cuenta</h5>
                     <div class="row">
-                        <div class="form-group col-6">
+                        <div class="form-group col-4">
                             <label>Seleccione una cuenta</label>
                             <select class="form-control" id="cmbCuentas">
                             </select>
                         </div>
-                        <div class="form-group col-4">
+                        <div class="form-group col-2">
                             <label>Del</label>
                             <input type="date" class="form-control" id="txtFechaInicial">
                         </div>
@@ -19,8 +19,11 @@ function getView(){
                             <label>Al</label>
                             <input type="date" class="form-control" id="txtFechaFinal">
                         </div>
+                        <div class="form-group col-4">
+                            <label>Total</label>
+                            <h1 class="negrita text-danger" id="lbTotal">0</h1>
+                        </div>
                     </div>
-                    
                 </div>
             </div>
             
@@ -28,20 +31,6 @@ function getView(){
 
             <div class="card card-rounded shadow">
                 <div class="card-body p-4">
-
-                    <div class="row">
-                        <div class="col-4">
-                            <button class="btn btn-success hand shadow" onclick="funciones.exportTableToExcel('tblChequesCuenta','ReporteCuentas')">
-                                <i class="fal fa-file-excel"></i>Exportar Excel
-                            </button>
-                        </div>
-                        <div class="col-4">
-                            <button class="btn btn-danger hand shadow hidden" onclick="funciones.exportarPDF('#divTable1','ReporteCuentas')">
-                                <i class="fal fa-file-pdf"></i>Exportar PDF
-                            </button>
-                        </div>
-                        
-                    </div>
 
                     <div class="table-responsive" id="divTable1">
                         <table class="table table-responsive col-12" id="tblChequesCuenta">
@@ -58,10 +47,19 @@ function getView(){
                         </table>
                     </div>
                   
-
+                    
 
                 </div>
             </div>
+            
+            <button class="btn btn-exportar btn-success btn-circle btn-xl hand shadow" onclick="funciones.exportTableToExcel('tblChequesCuenta','ReporteCuentas')">
+                <i class="fal fa-file-excel"></i>
+            </button>
+
+            <button class="btn btn-imprimir btn-primary btn-circle hand shadow btn-xl" onclick="window.print()">
+                <i class="fal fa-print"></i>
+            </button>
+            
             `
         }
     }
@@ -119,9 +117,12 @@ function getTblCheques(){
 
     let container = document.getElementById('tblDataCheques');
     container.innerHTML = GlobalLoader;
+    
+    let lbTotal = document.getElementById('lbTotal');
+    lbTotal.innerText = '---';
 
     let newrow = '';
-
+    let varTotal = 0;
    
             axios.post('/cheques/listado_cuenta', {
                         idcuenta:idcuenta,
@@ -131,6 +132,7 @@ function getTblCheques(){
             .then((response) => {
                 const data = response.data.recordset;
                 data.map((rows) => {
+                    varTotal += Number(rows.IMPORTE);
                     newrow += `<tr class="border-bottom border-info">
                                 <td>${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHA))}</td>
                                 <td>${rows.NOCHEQUE}</td>
@@ -147,9 +149,11 @@ function getTblCheques(){
                 })
                 console.log(newrow);
                 container.innerHTML = newrow;
+                lbTotal.innerText = funciones.setMoneda(varTotal,'Q');
              }, (error) => {
                 console.log(error);
                 container.innerHTML = 'Agregue un cheque a la cuenta...';
+                lbTotal.innerText = '---'
          });
 
 

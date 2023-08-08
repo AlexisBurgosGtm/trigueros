@@ -3120,6 +3120,103 @@ let api = {
 
         });
     },
+    reportes_pagosmes_total: (idContainer1,idPresupuesto,finicial,ffinal) => {
+        
+        let container1 = document.getElementById(idContainer1);
+        container1.innerHTML = GlobalLoader;
+        
+
+        let lbPresupuesto = document.getElementById(idPresupuesto);
+        lbPresupuesto.innerText = 'Q --';
+        
+        let str1 = ''; 
+        let varTotalPresupuesto = 0; let varTotalSaldo = 0;
+
+        
+
+        let url = GlobalUrlBackend + '/reportes/pagosmes';
+
+        axios.post(url, {
+                    finicial: finicial,
+                    ffinal:ffinal
+                    })
+        .then((response) => {
+            try {
+                const data = response.data.recordset;
+                data.map((rows) => {
+                    let tipo = rows.TIPOCHEQUE;
+                    let importe = Number(rows.IMPORTE);
+                    if(importe<0){importe = importe * -1};
+                    switch (tipo) {
+                        case 'SUBCONTRATISTA':
+                            varTotalSaldo = varTotalSaldo + Number(rows.IMPORTE);
+                            str1 =  str1 + `<tr class="border-bottom border-info">
+                                <td>${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHA))}
+                                        <br>
+                                        <small class="negrita text-danger">Cheque No. ${rows.NOCHEQUE}</small>
+                                </td>
+                                <td>${rows.BANCO}
+                                        <br>
+                                        <small>Cuenta No. ${rows.NOCUENTA}</small>
+                                </td>
+                                <td>${rows.DESACREEDOR}
+                                           
+                                        <br>
+                                        <small class="negrita text-info">${rows.ASIGNACION}</small>
+                                        <br class="solid">
+                                        <small>Creado:${rows.USUARIO}</small>
+                                        <br>
+                                        <small>Tipo pago:${rows.TIPOCHEQUE}</small>
+                                </td>
+                                <td>${funciones.setMoneda(importe,'Q')}</td>
+                                
+                            </tr>`
+                            break;
+                        case 'PROVEEDOR':
+                            varTotalSaldo = varTotalSaldo + Number(rows.IMPORTE);
+                            str1 =  str1 + `<tr class="border-bottom border-info">
+                                <td>${funciones.convertDate2(funciones.cleanDataFecha(rows.FECHA))}
+                                        <br>
+                                        <small class="negrita text-danger">Cheque No. ${rows.NOCHEQUE}</small>
+                                </td>
+                                <td>${rows.BANCO}
+                                        <br>
+                                        <small>Cuenta No. ${rows.NOCUENTA}</small>
+                                </td>
+                                <td>${rows.DESACREEDOR2}
+                                        
+                                        <br>
+                                        <small class="negrita text-info">${rows.ASIGNACION}</small>
+                                        <br class="solid">
+                                        <small>Creado:${rows.USUARIO}</small>
+                                        <br>
+                                        <small>Tipo pago:${rows.TIPOCHEQUE}</small>
+                                </td>
+                                <td>${funciones.setMoneda(rows.IMPORTE,'Q')}</td>
+                                
+                            </tr>`
+                            break;
+                        case 'CONTRATANTE':
+                            //varTotalPresupuesto = varTotalPresupuesto + Number(rows.IMPORTE);
+                            break;
+                    }
+                    
+                    
+                })
+                container1.innerHTML = str1;
+
+                lbPresupuesto.innerText = funciones.setMoneda((varTotalSaldo),'Q');
+            } catch (err) {
+                container1.innerHTML = 'Agregue un cheque ...';
+                lbPresupuesto.innerText = 'Q --';
+            }
+        }, (error) => {
+                console.log(error);
+                container1.innerHTML = 'Agregue un cheque...';
+                lbPresupuesto.innerText = 'Q --';
+        });
+
+    },
     reportes_pagosmes: (idContainer1,idPresupuesto,idSaldo,idDiferencia,finicial,ffinal) => {
         
         let container1 = document.getElementById(idContainer1);

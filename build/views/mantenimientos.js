@@ -121,23 +121,21 @@ function getView(){
 
                             <div class="row">
                                 <div class="col-6">
-                                    <button class="btn btn-outline-secondary btn-xl" data-dismiss="modal">
-                                        <i class="fal fa-times"></i>
-                                        Cancelar
+                                    <button class="btn btn-secondary btn-circle btn-xl hand shadow" data-dismiss="modal">
+                                        <i class="fal fa-arrow-left"></i>
                                     </button>    
                                 </div>
                                 <div class="col-6">
-                                    <button class="btn btn-primary btn-xl" id="btnBancosGuardar">
+                                    <button class="btn btn-owner btn-circle btn-xl hand shadow" id="btnBancosGuardar">
                                         <i class="fal fa-save"></i>
-                                        Guardar
                                     </button>    
                                 </div>
                             </div>
 
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-outline-danger btn-xl shadow" id="btnBancosEliminar">
-                                <i class="fal fa-trash"></i>Eliminar
+                            <button class="btn btn-danger btn-xl btn-circle hand shadow" id="btnBancosEliminar">
+                                <i class="fal fa-trash"></i>
                             </button>
                         </div>
 
@@ -170,24 +168,21 @@ function getView(){
 
                             <div class="row">
                                 <div class="col-6">
-                                    <button class="btn btn-outline-secondary btn-xl" data-dismiss="modal">
-                                        <i class="fal fa-times"></i>
-                                        Cancelar
+                                    <button class="btn btn-secondary btn-xl btn-circle hand shadow" data-dismiss="modal">
+                                        <i class="fal fa-arrow-left"></i>
                                     </button>    
                                 </div>
                                 <div class="col-6">
-                                    <button class="btn btn-primary btn-xl" id="btnContratantesGuardar">
+                                    <button class="btn btn-owner btn-circle hand shadow btn-xl" id="btnContratantesGuardar">
                                         <i class="fal fa-save"></i>
-                                        Guardar
                                     </button>    
                                 </div>
                             </div>
 
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-outline-danger btn-xl shadow" id="btnContratantesEliminar">
+                            <button class="btn btn-danger btn-xl btn-circle hand shadow" id="btnContratantesEliminar">
                                 <i class="fal fa-trash"></i>
-                                Eliminar
                             </button>    
                         </div>
 
@@ -215,23 +210,21 @@ function getView(){
 
                             <div class="row">
                                 <div class="col-6">
-                                    <button class="btn btn-outline-secondary btn-xl" data-dismiss="modal">
-                                        <i class="fal fa-times"></i>
-                                        Cancelar
+                                    <button class="btn btn-secondary btn-xl btn-circle hand shadow" data-dismiss="modal">
+                                        <i class="fal fa-arrow-left"></i>
                                     </button>    
                                 </div>
                                 <div class="col-6">
-                                    <button class="btn btn-primary btn-xl" id="btnRubrosGuardar">
-                                        <i class="fal fa-save"></i>
-                                        Guardar
+                                    <button class="btn btn-owner btn-xl btn-circle hand shadow" id="btnRubrosGuardar">
+                                        <i class="fal fa-save"></i>                                        
                                     </button>    
                                 </div>
                             </div>
 
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-outline-danger btn-xl shadow" id="btnRubrosEliminar">
-                                <i class="fal fa-trash"></i>Eliminar
+                            <button class="btn btn-danger btn-xl btn-circle hand shadow" id="btnRubrosEliminar">
+                                <i class="fal fa-trash"></i>
                             </button>
                         </div>
 
@@ -271,23 +264,21 @@ function getView(){
 
                             <div class="row">
                                 <div class="col-6">
-                                    <button class="btn btn-outline-secondary btn-xl" data-dismiss="modal">
-                                        <i class="fal fa-times"></i>
-                                        Cancelar
+                                    <button class="btn btn-secondary btn-circle hand btn-xl shadow" data-dismiss="modal">
+                                        <i class="fal fa-arrow-left"></i>
                                     </button>    
                                 </div>
                                 <div class="col-6">
-                                    <button class="btn btn-primary btn-xl" id="btnUsuarioGuardar">
+                                    <button class="btn btn-owner btn-circle hand btn-xl shadow" id="btnUsuarioGuardar">
                                         <i class="fal fa-save"></i>
-                                        Guardar
                                     </button>    
                                 </div>
                             </div>
 
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-outline-danger btn-xl shadow" id="btnUsuarioEliminar">
-                                <i class="fal fa-trash"></i>Eliminar
+                            <button class="btn btn-danger btn-xl btn-circle hand shadow" id="btnUsuarioEliminar">
+                                <i class="fal fa-trash"></i>
                             </button>
                         </div>
 
@@ -315,23 +306,22 @@ function getView(){
 
                             <div class="row">
                                 <div class="col-6">
-                                    <button class="btn btn-outline-secondary btn-xl" data-dismiss="modal">
-                                        <i class="fal fa-times"></i>
-                                        Cancelar
+                                    <button class="btn btn-secondary btn-xl btn-circle hand shadow" data-dismiss="modal">
+                                        <i class="fal fa-arrow-left"></i>
+                                        
                                     </button>    
                                 </div>
                                 <div class="col-6">
-                                    <button class="btn btn-primary btn-xl" id="btnProveedoresGuardar">
+                                    <button class="btn btn-owner btn-xl btn-circle hand shadow" id="btnProveedoresGuardar">
                                         <i class="fal fa-save"></i>
-                                        Guardar
                                     </button>    
                                 </div>
                             </div>
 
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-outline-danger btn-xl shadow" id="btnProveedoresEliminar">
-                                <i class="fal fa-trash"></i>Eliminar
+                            <button class="btn btn-danger btn-xl btn-circle hand shadow" id="btnProveedoresEliminar">
+                                <i class="fal fa-trash"></i>
                             </button>
                         </div>
 
@@ -359,23 +349,21 @@ function getView(){
 
                             <div class="row">
                                 <div class="col-6">
-                                    <button class="btn btn-outline-secondary btn-xl" data-dismiss="modal">
-                                        <i class="fal fa-times"></i>
-                                        Cancelar
+                                    <button class="btn btn-secondary btn-xl btn-circle hand shadow" data-dismiss="modal">
+                                        <i class="fal fa-arrow-left"></i>
                                     </button>    
                                 </div>
                                 <div class="col-6">
-                                    <button class="btn btn-primary btn-xl" id="btnSubcontratistasGuardar">
+                                    <button class="btn btn-owner btn-circle hand shadow btn-xl" id="btnSubcontratistasGuardar">
                                         <i class="fal fa-save"></i>
-                                        Guardar
                                     </button>    
                                 </div>
                             </div>
 
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-outline-danger btn-xl shadow" id="btnSubcontratistasEliminar">
-                                <i class="fal fa-trash"></i>Eliminar
+                            <button class="btn btn-danger btn-xl btn-circle hand shadow" id="btnSubcontratistasEliminar">
+                                <i class="fal fa-trash"></i>
                             </button>
                         </div>
 
@@ -514,27 +502,37 @@ function addListeners(){
                     let d = document.getElementById('txtBancosDescripcion').value || 'CUENTA BANCO';
                     let b = document.getElementById('cmbBancosBanco').value;
                     let n = document.getElementById('txtBancosNumero').value || '0';
+
+                    get_btn_save_loader('btnBancosGuardar','SI')
+
                     api.config_bancos_insert(d,b,n)
                     .then(async()=>{
                         $('#modalBancos').modal('hide');   
                         funciones.Aviso('Cuenta creada exitosamente!!');
+                        get_btn_save_loader('btnBancosGuardar','NO')
                         await getListado('BANCOS')
                     })
                     .catch(()=>{
-                        funciones.AvisoError('No se pudo crear esta cuenta')
+                        funciones.AvisoError('No se pudo crear esta cuenta');
+                        get_btn_save_loader('btnBancosGuardar','NO')
                     })
                 }else{ // se está editando
                     let d = document.getElementById('txtBancosDescripcion').value || 'CUENTA BANCO';
                     let b = document.getElementById('cmbBancosBanco').value;
                     let n = document.getElementById('txtBancosNumero').value || '0';
+                    
+                    get_btn_save_loader('btnBancosGuardar','SI');
+
                     api.config_bancos_update(GlobalSelectedId,d,b,n)
                     .then(async()=>{
                         $('#modalBancos').modal('hide');   
                         funciones.Aviso('Cuenta actualizada exitosamente!!');
-                        await getListado('BANCOS')
+                        get_btn_save_loader('btnBancosGuardar','NO');
+                        await getListado('BANCOS');
                     })
                     .catch(()=>{
-                        funciones.AvisoError('No se pudo actualizar esta cuenta')
+                        funciones.AvisoError('No se pudo actualizar esta cuenta');
+                        get_btn_save_loader('btnBancosGuardar','NO');
                     })
                 }
 
@@ -553,13 +551,18 @@ function addListeners(){
                 funciones.solicitarClave()
                 .then((name)=>{
                     if(name==GlobalConfigClave){
+
+                        get_btn_delete_loader('btnBancosEliminar','SI');
+
                         api.config_bancos_delete(GlobalSelectedId)
                         .then(async()=>{
-                            funciones.Aviso('Cuenta eliminada exitosamente !!')
+                            funciones.Aviso('Cuenta eliminada exitosamente !!');
+                            get_btn_delete_loader('btnBancosEliminar','NO');
                             await getListado('BANCOS');
                         })
                         .catch(()=>{
-                            funciones.AvisoError('No se puedo eliminar la cuenta')
+                            funciones.AvisoError('No se puedo eliminar la cuenta');
+                            get_btn_delete_loader('btnBancosEliminar','NO');
                         })
                     }else{
                         funciones.AvisoError('Contraseña Incorrecta');    
@@ -585,26 +588,39 @@ function addListeners(){
                 if(GlobalSelectedId==0){ //es nuevo
                     let d = document.getElementById('txtContratantesDescripcion').value || 'SN';
                     let t = document.getElementById('txtContratantesTelefono').value || '0';
+                    
+                    get_btn_save_loader('btnContratantesGuardar','SI');
+
                     api.config_contratantes_insert(d,t)
                     .then(async()=>{
                         $('#modalContratantes').modal('hide');   
                         funciones.Aviso('Contratante creado exitosamente!!');
+                        
+                        get_btn_save_loader('btnContratantesGuardar','NO');
+
                         await getListado('CONTRATANTES')
                     })
                     .catch(()=>{
-                        funciones.AvisoError('No se pudo crear esta cuenta')
+                        funciones.AvisoError('No se pudo crear esta cuenta');
+                        get_btn_save_loader('btnContratantesGuardar','NO');
                     })
                 }else{ // se está editando
                     let d = document.getElementById('txtContratantesDescripcion').value || 'SN';
                     let t = document.getElementById('txtContratantesTelefono').value || '0';
+                    
+                    get_btn_save_loader('btnContratantesGuardar','SI');
+
                     api.config_contratantes_update(GlobalSelectedId,d,t)
                     .then(async()=>{
                         $('#modalContratantes').modal('hide');   
                         funciones.Aviso('Contratante actualizado exitosamente!!');
+                        get_btn_save_loader('btnContratantesGuardar','NO');
+
                         await getListado('CONTRATANTES')
                     })
                     .catch(()=>{
-                        funciones.AvisoError('No se pudo actualizar este contratista')
+                        funciones.AvisoError('No se pudo actualizar este contratista');
+                        get_btn_save_loader('btnContratantesGuardar','NO');
                     })
                 }
 
@@ -623,13 +639,18 @@ function addListeners(){
                 funciones.solicitarClave()
                 .then((name)=>{
                     if(name==GlobalConfigClave){
+
+                        get_btn_delete_loader('btnContratantesEliminar','SI');
+
                         api.config_contratantes_delete(GlobalSelectedId)
                         .then(async()=>{
-                            funciones.Aviso('Contrantate eliminado exitosamente !!')
+                            funciones.Aviso('Contrantate eliminado exitosamente !!');
+                            get_btn_delete_loader('btnContratantesEliminar','NO');
                             await getListado('CONTRATANTES');
                         })
                         .catch(()=>{
-                            funciones.AvisoError('No se puedo eliminar este contratante')
+                            funciones.AvisoError('No se puedo eliminar este contratante');
+                            get_btn_delete_loader('btnContratantesEliminar','NO');
                         })
                     }else{
                         funciones.AvisoError('Contraseña Incorrecta');    
@@ -656,26 +677,34 @@ function addListeners(){
                 if(GlobalSelectedId==0){ //es nuevo
                     let d = document.getElementById('txtRubrosDescripcion').value || 'SN';
                     
+                    get_btn_save_loader('btnRubrosGuardar','SI');
+
                     api.config_rubros_insert(d)
                     .then(async()=>{
                         $('#modalRubros').modal('hide');   
                         funciones.Aviso('Rubro creado exitosamente!!');
+                        
+                        get_btn_save_loader('btnRubrosGuardar','NO');
+
                         await getListado('RUBROS')
                     })
                     .catch(()=>{
-                        funciones.AvisoError('No se pudo crear este rubro')
+                        funciones.AvisoError('No se pudo crear este rubro');
+                        get_btn_save_loader('btnRubrosGuardar','NO');
                     })
                 }else{ // se está editando
                     let d = document.getElementById('txtRubrosDescripcion').value || 'SN';
-                    
+                    get_btn_save_loader('btnRubrosGuardar','SI');
                     api.config_rubros_update(GlobalSelectedId,d)
                     .then(async()=>{
                         $('#modalRubros').modal('hide');   
                         funciones.Aviso('Rubro actualizado exitosamente!!');
+                        get_btn_save_loader('btnRubrosGuardar','NO');
                         await getListado('RUBROS')
                     })
                     .catch(()=>{
-                        funciones.AvisoError('No se pudo actualizar este rubro')
+                        funciones.AvisoError('No se pudo actualizar este rubro');
+                        get_btn_save_loader('btnRubrosGuardar','NO');
                     })
                 }
 
@@ -694,13 +723,18 @@ function addListeners(){
                 funciones.solicitarClave()
                 .then((name)=>{
                     if(name==GlobalConfigClave){
+
+                        get_btn_delete_loader('btnRubrosEliminar','SI');
+
                         api.config_rubros_delete(GlobalSelectedId)
                         .then(async()=>{
-                            funciones.Aviso('Rubro eliminado exitosamente !!')
+                            funciones.Aviso('Rubro eliminado exitosamente !!');
+                            get_btn_delete_loader('btnRubrosEliminar','NO');
                             await getListado('RUBROS');
                         })
                         .catch(()=>{
-                            funciones.AvisoError('No se puedo eliminar este rubro')
+                            funciones.AvisoError('No se puedo eliminar este rubro');
+                            get_btn_delete_loader('btnRubrosEliminar','NO');
                         })
                     }else{
                         funciones.AvisoError('Contraseña Incorrecta');    
@@ -726,28 +760,38 @@ function addListeners(){
                     let p = document.getElementById('txtUsuarioPass').value;
                     let n = document.getElementById('cmbUsuarioNivel').value;
                     
+                    get_btn_save_loader('btnUsuarioGuardar','SI');
+
                     api.config_usuarios_insert(u,p,n)
                     .then(async()=>{
                         $('#modalUsuarios').modal('hide');   
                         funciones.Aviso('Usuario creado exitosamente!!');
+                        
+                        get_btn_save_loader('btnUsuarioGuardar','NO');
+
                         await getListado('USUARIOS')
                     })
                     .catch(()=>{
-                        funciones.AvisoError('No se pudo crear este USUARIO')
+                        funciones.AvisoError('No se pudo crear este USUARIO');
+                        get_btn_save_loader('btnUsuarioGuardar','NO');
                     })
                 }else{ // se está editando
                     let u = document.getElementById('txtUsuarioUser').value;
                     let p = document.getElementById('txtUsuarioPass').value;
                     let n = document.getElementById('cmbUsuarioNivel').value;
                     
+                    get_btn_save_loader('btnUsuarioGuardar','SI');
+
                     api.config_usuarios_edit(u,p,n,GlobalSelectedId)
                     .then(async()=>{
                         $('#modalUsuarios').modal('hide');   
                         funciones.Aviso('Usuario editado exitosamente!!');
+                        get_btn_save_loader('btnUsuarioGuardar','NO');
                         await getListado('USUARIOS')
                     })
                     .catch(()=>{
-                        funciones.AvisoError('No se pudo editar este USUARIO')
+                        funciones.AvisoError('No se pudo editar este USUARIO');
+                        get_btn_save_loader('btnUsuarioGuardar','NO');
                     })
                 }
 
@@ -766,14 +810,18 @@ function addListeners(){
                 funciones.solicitarClave()
                 .then((name)=>{
                     if(name==GlobalConfigClave){
-                 
+                        
+                        get_btn_delete_loader('btnUsuarioEliminar','SI');
+
                         api.config_usuarios_delete(GlobalSelectedId)
                         .then(async()=>{
-                            funciones.Aviso('Usuario eliminado exitosamente !!')
+                            funciones.Aviso('Usuario eliminado exitosamente !!');
+                            get_btn_delete_loader('btnUsuarioEliminar','NO');
                             await getListado('USUARIOS');
                         })
                         .catch(()=>{
-                            funciones.AvisoError('No se puedo eliminar este Usuario')
+                            funciones.AvisoError('No se puedo eliminar este Usuario');
+                            get_btn_delete_loader('btnUsuarioEliminar','NO');
                         })
 
 
@@ -801,27 +849,37 @@ function addListeners(){
                     let d = document.getElementById('txtProveedoresDescripcion').value;
                     let t = 'PROVEEDOR'
                     
+                    get_btn_save_loader('btnProveedoresGuardar','SI');
+
                     api.config_proveedores_insert(d,t)
                     .then(async()=>{
                         $('#modalProveedores').modal('hide');   
                         funciones.Aviso('Proveedor creado exitosamente!!');
+                        
+                        get_btn_save_loader('btnProveedoresGuardar','NO');
+                        
                         await getListado('PROVEEDORES')
                     })
                     .catch(()=>{
-                        funciones.AvisoError('No se pudo crear este PROVEEDOR')
+                        funciones.AvisoError('No se pudo crear este PROVEEDOR');
+                        get_btn_save_loader('btnProveedoresGuardar','NO');
                     })
                 }else{ // se está editando
                     let d = document.getElementById('txtProveedoresDescripcion').value;
                     let t = 'PROVEEDOR'
                     
+                    get_btn_save_loader('btnProveedoresGuardar','SI');
+
                     api.config_proveedores_edit(GlobalSelectedId,d,t)
                     .then(async()=>{
                         $('#modalProveedores').modal('hide');   
                         funciones.Aviso('Proveedor actualizado exitosamente!!');
+                        get_btn_save_loader('btnProveedoresGuardar','NO');
                         await getListado('PROVEEDORES')
                     })
                     .catch(()=>{
-                        funciones.AvisoError('No se pudo editar este PROVEEDOR')
+                        funciones.AvisoError('No se pudo editar este PROVEEDOR');
+                        get_btn_save_loader('btnProveedoresGuardar','NO');
                     })
                 }
 
@@ -841,14 +899,18 @@ function addListeners(){
                 funciones.solicitarClave()
                 .then((name)=>{
                     if(name==GlobalConfigClave){
-                 
+                        
+                        get_btn_delete_loader('btnProveedoresEliminar','SI');
+
                         api.config_proveedores_delete(GlobalSelectedId)
                         .then(async()=>{
-                            funciones.Aviso('Proveedor eliminado exitosamente !!')
+                            funciones.Aviso('Proveedor eliminado exitosamente !!');
+                            get_btn_delete_loader('btnProveedoresEliminar','NO');
                             await getListado('PROVEEDORES');
                         })
                         .catch(()=>{
-                            funciones.AvisoError('No se puedo eliminar este Proveedor')
+                            funciones.AvisoError('No se puedo eliminar este Proveedor');
+                            get_btn_delete_loader('btnProveedoresEliminar','NO');
                         })
 
 
@@ -876,27 +938,39 @@ function addListeners(){
                     let d = document.getElementById('txtSubcontratistasDescripcion').value;
                     let t = 'SUBCONTRATISTA'
                     
+                    get_btn_save_loader('btnSubcontratistasGuardar','SI');
+
                     api.config_proveedores_insert(d,t)
                     .then(async()=>{
                         $('#modalSubcontratistas').modal('hide');   
                         funciones.Aviso('Subcontratista creado exitosamente!!');
+                        
+                        get_btn_save_loader('btnSubcontratistasGuardar','NO');
+
                         await getListado('SUBCONTRATISTAS')
                     })
                     .catch(()=>{
-                        funciones.AvisoError('No se pudo crear este PROVEEDOR')
+                        funciones.AvisoError('No se pudo crear este PROVEEDOR');
+                        get_btn_save_loader('btnSubcontratistasGuardar','NO');
                     })
                 }else{ // se está editando
                     let d = document.getElementById('txtSubcontratistasDescripcion').value;
                     let t = 'SUBCONTRATISTA'
                     
+                    get_btn_save_loader('btnSubcontratistasGuardar','SI');
+
                     api.config_proveedores_edit(GlobalSelectedId,d,t)
                     .then(async()=>{
                         $('#modalSubcontratistas').modal('hide');   
                         funciones.Aviso('Subcontratista actualizado exitosamente!!');
+                        
+                        get_btn_save_loader('btnSubcontratistasGuardar','NO');
+
                         await getListado('SUBCONTRATISTAS')
                     })
                     .catch(()=>{
-                        funciones.AvisoError('No se pudo editar este SUBCONTRATISTA')
+                        funciones.AvisoError('No se pudo editar este SUBCONTRATISTA');
+                        get_btn_save_loader('btnSubcontratistasGuardar','NO');
                     })
                 }
 
@@ -917,14 +991,18 @@ function addListeners(){
                 funciones.solicitarClave()
                 .then((name)=>{
                     if(name==GlobalConfigClave){
-                 
+                        
+                        get_btn_delete_loader('btnSubcontratistasEliminar','SI');
+
                         api.config_proveedores_delete(GlobalSelectedId)
                         .then(async()=>{
-                            funciones.Aviso('Subcontratista eliminado exitosamente !!')
+                            funciones.Aviso('Subcontratista eliminado exitosamente !!');
+                            get_btn_delete_loader('btnSubcontratistasEliminar','NO');
                             await getListado('SUBCONTRATISTAS');
                         })
                         .catch(()=>{
-                            funciones.AvisoError('No se puedo eliminar este Subcontratista')
+                            funciones.AvisoError('No se puedo eliminar este Subcontratista');
+                            get_btn_delete_loader('btnSubcontratistasEliminar','NO');
                         })
 
 
@@ -942,6 +1020,34 @@ function addListeners(){
     });
 
 
+
+};
+
+function get_btn_save_loader(idbtn,cargando){
+
+    let btn = document.getElementById(idbtn);
+    
+    if(cargando=='SI'){
+        btn.innerHTML = `<i class="fal fa-save fa-spin"></i>`;
+        btn.disabled = true;
+    }else{
+        btn.innerHTML = `<i class="fal fa-save"></i>`;
+        btn.disabled = false;
+    }
+
+};
+
+function get_btn_delete_loader(idbtn,cargando){
+
+    let btn = document.getElementById(idbtn);
+    
+    if(cargando=='SI'){
+        btn.innerHTML = `<i class="fal fa-trash fa-spin"></i>`;
+        btn.disabled = true;
+    }else{
+        btn.innerHTML = `<i class="fal fa-trash"></i>`;
+        btn.disabled = false;
+    }
 
 };
 

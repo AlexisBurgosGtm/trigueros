@@ -7,8 +7,14 @@ function getView(){
                 <div class="row">
                     <div class="col-8">
                         <div class="form-group">
-                            <label class="negrita">Seleccione un Rubro</label>
-                            <select class="form-control shadow" id="cmbRubros"></select>
+                            <label class="negrita">Reporte pagos por Rubro</label>
+                            <div class="input-group">
+                                <select class="form-control shadow" id="cmbRubros"></select>
+                                <select class="form-control shadow" id="cmbTipoReporte">
+                                    <option value="RUBRO">POR RUBRO</option>
+                                    <option value="PROYECTO">POR PROYECTO</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="col-4">
@@ -34,45 +40,44 @@ function getView(){
                     </div>
          
                 </div>
-
-                <div class="row">
-                    <div class="col-4">
-                        <button class="btn btn-success hand shadow" onclick="funciones.exportTableToExcel('tblRep1','ReporteRubros')">
-                            <i class="fal fa-file-excel"></i>Exportar Excel
-                        </button>
-                    </div>
-                    <div class="col-4">
-                        <button class="hidden btn btn-danger hand shadow" onclick="funciones.exportarPDF('#divTable1','ReporteRubros')">
-                            <i class="fal fa-file-pdf"></i>Exportar PDF
-                        </button>
-                    </div>
-                    
-                </div>
-
         
             `
         },
         detalle : ()=>{
             return `
                 <hr class="solid">
-
-                <div class="row" id="divTable1">
-                    <div class="table-responsive">
-                        <table class="table table-responsive table-striped table-hover table-bordered" id="tblRep1">
-                            <thead class="bg-info text-white">
-                                <tr>
-                                    <td>FECHA</td>
-                                    <td>BANCO</td>
-                                    <td>DESCRIPCIÓN</td>
-                                    <td>IMPORTE</td>
-                                </tr>
-                            </thead>
-                            <tbody id="tblPagos">
-                                    
-                            </tbody>
-                        </table>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="row" id="divTable1">
+                            <div class="table-responsive">
+                                <table class="table table-responsive table-striped table-hover table-bordered" id="tblRep1">
+                                    <thead class="bg-info text-white">
+                                        <tr>
+                                            <td>FECHA</td>
+                                            <td>BANCO</td>
+                                            <td>DESCRIPCIÓN</td>
+                                            <td>IMPORTE</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tblPagos">
+                                            
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <h1>Lista cheques rubro</h1>
                     </div>
                 </div>
+
+                
+
+                <button class="btn btn-exportar btn-circle btn-xl btn-success hand shadow" onclick="funciones.exportTableToExcel('tblRep1','ReporteRubros')">
+                    <i class="fal fa-file-excel"></i>
+                </button>
+
+
             `
         }
     }

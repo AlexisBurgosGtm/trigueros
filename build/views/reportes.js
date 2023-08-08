@@ -4,19 +4,25 @@ function getView(){
     let view = {
         encabezado: ()=>{
             return `
-
+                <h5 class="negrita text-danger" id="lbTituloRep">Cargue un Reporte</h5>
 
                 <div class="row">
-                    <div class="col-5">
+                    <div class="col-4">
                         <div class="form-group">
                             <label>Del</label>
                             <input type="date" class="form-control" id="txtFechaInicial">
                         </div>
                     </div>
-                    <div class="col-5">
+                    <div class="col-4">
                         <div class="form-group">
                             <label>Al</label>
                             <input type="date" class="form-control" id="txtFechaFinal">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label>Total</label>
+                            <h1 class="text-danger" id="lbTotal">0</h1>
                         </div>
                     </div>
                 </div>
@@ -37,19 +43,6 @@ function getView(){
                         </button> 
                     </div>
 
-                    <div class="col-3">
-                        <button class="btn btn-outline-warning btn-sm shadow hidden" id="btnRubros">
-                            <i class="fal fa-double-check"></i>
-                            Pagos Rubros
-                        </button>
-                    </div>
-
-                    <div class="col-3">
-                        <button class="btn btn-secondary btn-sm shadow hidden" id="btnCheques">
-                            <i class="fal fa-search"></i>
-                        </button>
-                    </div>
-
                 </div>
             `
         },
@@ -58,6 +51,10 @@ function getView(){
                 <hr class="solid">
 
                 <div class="row" id="rootList"></div>
+                
+                <button class="btn btn-imprimir btn-primary btn-circle hand shadow btn-xl" onclick="window.print()">
+                    <i class="fal fa-print"></i>
+                </button>
             `
         }
     }
@@ -79,11 +76,15 @@ function addListeners(){
     
     let btnEmitidos = document.getElementById('btnEmitidos');
     btnEmitidos.addEventListener('click',()=>{
+        document.getElementById('lbTituloRep').innerText = "Reporte de Pagos Emitidos";
         getReportEmitidos()
     })
 
     let btnRecibidos = document.getElementById('btnRecibidos');
     btnRecibidos.addEventListener('click',()=>{
+        
+        document.getElementById('lbTituloRep').innerText = "Reporte de Pagos Recibidos";
+
         getReportRecibidos()
     })
 
@@ -109,47 +110,6 @@ function initView(){
 function getReportEmitidos(){
     let container = document.getElementById('rootList');
     container.innerHTML = `
-                        <div class="card-body">
-                        
-                            <div class="row" id="permisoLb1">
-                                <div class="col-4">
-                                    <div class="form-group">
-                                        <label>Recibido</label>
-                                        <h3 class="text-info" id="lbPresupuesto"></h3>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="form-group">
-                                        <label>Ejecutado</label>
-                                        <h3 class="text-success" id="lbSaldo"></h3>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="form-group">
-                                        <label>Diferencia</label>
-                                        <h3 id="lbDiferencia"></h3>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <hr class="solid">
-                        
-                        </div> 
-                        
-                        <div class="row">
-                            <div class="col-4">
-                                <button class="btn btn-success hand shadow" onclick="funciones.exportTableToExcel('tblRep1','ReportePagosEmitidos')">
-                                    <i class="fal fa-file-excel"></i>Exportar Excel
-                                </button>
-                            </div>
-                            <div class="col-4">
-                                <button class="hidden btn btn-danger hand shadow" onclick="funciones.exportarPDF('#divTable1','ReportePagosEmitidos')">
-                                    <i class="fal fa-file-pdf"></i>Exportar PDF
-                                </button>
-                            </div>
-                            
-                        </div>
-
                         <div class="table-responsive" id="divTable1">
                             <table class="table table-responsive table-striped table-hover table-bordered" id="tblRep1">
                                 <thead class="bg-info text-white">
@@ -164,10 +124,16 @@ function getReportEmitidos(){
                                 
                                 </tbody>
                             </table>
-                        </div>`
+                        </div>
+                        <button class="btn btn-exportar btn-success btn-circle btn-xl hand shadow" onclick="funciones.exportTableToExcel('tblRep1','Reporte_pagos_emitidos')">
+                            <i class="fal fa-file-excel"></i>
+                        </button>
+                        `
 
 
-    api.reportes_pagosmes('tblCheques',"lbPresupuesto","lbSaldo","lbDiferencia",funciones.devuelveFecha('txtFechaInicial'),funciones.devuelveFecha('txtFechaFinal'))
+    //api.reportes_pagosmes('tblCheques',"lbPresupuesto","lbSaldo","lbDiferencia",funciones.devuelveFecha('txtFechaInicial'),funciones.devuelveFecha('txtFechaFinal'))
+    api.reportes_pagosmes_total('tblCheques',"lbTotal",funciones.devuelveFecha('txtFechaInicial'),funciones.devuelveFecha('txtFechaFinal'))
+
 
 };
 
@@ -175,31 +141,6 @@ function getReportRecibidos(){
     
         let container = document.getElementById('rootList');
         container.innerHTML = `
-                            <div class="card-body">
-                                <div class="row" id="permisoLb1">
-                                    <div class="col-4">
-                                        <div class="form-group">
-                                            <label>Recibido</label>
-                                            <h1 class="text-info" id="lbRecibido"></h1>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> 
-
-                            <div class="row">
-                                <div class="col-4">
-                                    <button class="btn btn-success hand shadow" onclick="funciones.exportTableToExcel('tblRep2','ReportePagosRecibidos')">
-                                        <i class="fal fa-file-excel"></i>Exportar Excel
-                                    </button>
-                                </div>
-                                <div class="col-4">
-                                    <button class="btn btn-danger hand shadow" onclick="funciones.exportarPDF('#divTable2','ReportePagosRecibidos')">
-                                        <i class="fal fa-file-pdf"></i>Exportar PDF
-                                    </button>
-                                </div>
-                                
-                            </div>
-                            
                             <div class="table-responsive" id="divTable2">
                                 <table class="table table-responsive table-striped table-hover table-bordered" id="tblRep2">
                                     <thead class="bg-success text-white">
@@ -214,26 +155,16 @@ function getReportRecibidos(){
                                     
                                     </tbody>
                                 </table>
-                            </div>`
+                            </div>
+                            <button class="btn btn-exportar btn-circle btn-success btn-xl hand shadow" onclick="funciones.exportTableToExcel('tblRep2','ReportePagosRecibidos')">
+                                <i class="fal fa-file-excel"></i>
+                            </button>`
     
     
-        api.reportes_recibidosmes_tipo('tblCheques',"lbRecibido",funciones.devuelveFecha('txtFechaInicial'),funciones.devuelveFecha('txtFechaFinal'),'CONTRATANTE')
+        api.reportes_recibidosmes_tipo('tblCheques',"lbTotal",funciones.devuelveFecha('txtFechaInicial'),funciones.devuelveFecha('txtFechaFinal'),'CONTRATANTE')
     
     
 };
 
-function getMenuRubros(){
 
-};
-
-function getMenuBusqueda(){
-
-};
-
-
-function getReporteSubcontratistas(){
-
-    
-
-};
 
