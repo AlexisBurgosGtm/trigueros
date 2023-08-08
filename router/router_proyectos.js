@@ -160,6 +160,26 @@ router.post("/listaproyectos", async (req, res) => {
 
 });
 
+router.post("/listaproyectos_rubro", async (req, res) => {
+
+    const { rubro,finicial,ffinal } = req.body;
+
+
+    let qry = `
+        SELECT IDPROYECTO,PROYECTO, DIRECCION, FINALIZADO, SUM(IMPORTE) AS IMPORTE
+        FROM PROYECTOS_RUBRO
+        WHERE (FECHA BETWEEN '${finicial}' AND '${ffinal}') 
+        AND (RUBRO = '${rubro}')
+        GROUP BY IDPROYECTO, PROYECTO, DIRECCION, FINALIZADO
+        ORDER BY PROYECTO
+        `
+
+        console.log(qry);
+
+    execute.Query(res, qry);
+            
+});
+
 router.post("/listaproyectoscombo", async (req, res) => {
 
     const { activo } = req.body;

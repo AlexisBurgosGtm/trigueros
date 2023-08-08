@@ -39,11 +39,7 @@ function getView(){
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-8 col-lg-9 col-xl-9">
-                        <div class="card shadow card-rounded">
-                            <div class="card-body">
-                          
-                            </div>
-                        </div>
+                      
                     </div>
                 </div>
                 
