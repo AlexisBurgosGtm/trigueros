@@ -5,6 +5,7 @@ function getView(){
                 <div class="col-12 p-0">
                     <div class="tab-content" id="myTabHomeContent">
                         <div class="tab-pane fade show active" id="uno" role="tabpanel" aria-labelledby="dias-tab">
+                            
                             ${view.encabezado() + view.listado()}
                         </div>
                         <div class="tab-pane fade" id="dos" role="tabpanel" aria-labelledby="clientes-tab">
@@ -23,7 +24,7 @@ function getView(){
                         </li>
                         <li class="nav-item">
                             <a class="nav-link negrita text-danger" id="tab-dos" data-toggle="tab" href="#dos" role="tab" aria-controls="home" aria-selected="true">
-                                <i class="fal fa-comments"></i></a>¿
+                                <i class="fal fa-comments"></i></a>
                         </li> 
                         <li class="nav-item">
                             <a class="nav-link negrita text-info" id="tab-tres" data-toggle="tab" href="#tres" role="tab" aria-controls="home" aria-selected="true">
@@ -63,7 +64,7 @@ function getView(){
         listado : ()=>{
             return `
             <div class="row">
-               <div id="tblProyectos" class="card-columns">
+               <div id="tblProyectos" class="card-columns scrollbar">
                </div>
             </div>
             <div class="btn-nuevo" id="">

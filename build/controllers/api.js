@@ -2417,12 +2417,16 @@ let api = {
 
         });
     },
-    config_proveedores_insert: (desc,tipo) => {
+    config_proveedores_insert: (desc,tipo,contacto,telefono,nit,cheque) => {
         return new Promise((resolve, reject) => {
 
             let data = {
                 descripcion:desc,
-                tipo:tipo
+                tipo:tipo,
+                contacto:contacto,
+                telefono:telefono,
+                nit:nit,
+                cheque:cheque
             };
 
             let url = GlobalUrlBackend + '/acreedores/insert'
@@ -2444,12 +2448,16 @@ let api = {
 
         });
     },
-    config_proveedores_edit: (codigo,desc) => {
+    config_proveedores_edit: (codigo,desc,tipo,contacto,telefono,nit,cheque) => {
         return new Promise((resolve, reject) => {
 
             let data = {
                 codigo:codigo,
-                descripcion:desc
+                descripcion:desc,
+                contacto:contacto,
+                telefono:telefono,
+                nit:nit,
+                cheque:cheque
             };
 
             let url = GlobalUrlBackend + '/acreedores/edit'
@@ -2486,6 +2494,8 @@ let api = {
                                 <tr>
                                     <td>ACT/DESACT</td>
                                     <td>PROVEEDOR</td>
+                                    <td>CONTACTO</td>
+                                    <td>NIT / NOMBRE CHEQUE</td>
                                     <td></td>
                                 </tr>
                             </thead>
@@ -2511,9 +2521,17 @@ let api = {
                                                     <br>
                                                     ${strActivo}
                                                 </td>
+                                                <td>${rows.CONTACTO}
+                                                    <br>
+                                                    <small>Tel: ${rows.TELEFONO}</small>
+                                                </td>
+                                                <td>${rows.CHEQUE}
+                                                    <br>
+                                                    <small>NIT: ${rows.NIT}</small>
+                                                </td>
                                                 <td>
                                                     <button class="btn btn-sm btn-primary btn-circle hand" 
-                                                        onclick="getMenuProveedores(${rows.CODIGO},'${rows.DESCRIPCION}')">
+                                                        onclick="getMenuProveedores(${rows.CODIGO},'${rows.DESCRIPCION}','${rows.CONTACTO}','${rows.TELEFONO}','${rows.NIT}','${rows.CHEQUE}')">
                                                         <i class="fal fa-edit"></i>
                                                     </button>
                                                 </td>
@@ -2599,6 +2617,8 @@ let api = {
                                 <tr>
                                     <td>ACT/DESAC</td>
                                     <td>SUBCONTRATISTA</td>
+                                    <td>CONTACTO</td>
+                                    <td>NIT / NOMBRE CHEQUE</td>
                                     <td></td>
                                 </tr>
                             </thead>
@@ -2624,9 +2644,17 @@ let api = {
                                                     <br>
                                                     ${strActivo}
                                                 </td>
+                                                <td>${rows.CONTACTO}
+                                                    <br>
+                                                    <small>Tel: ${rows.TELEFONO}</small>
+                                                </td>
+                                                <td>${rows.CHEQUE}
+                                                    <br>
+                                                    <small>NIT: ${rows.NIT}</small>
+                                                </td>
                                                 <td>
                                                     <button class="btn btn-sm btn-warning btn-circle hand" 
-                                                        onclick="getMenuSubcontratistas(${rows.CODIGO},'${rows.DESCRIPCION}')">
+                                                        onclick="getMenuSubcontratistas(${rows.CODIGO},'${rows.DESCRIPCION}','${rows.CONTACTO}','${rows.TELEFONO}','${rows.NIT}','${rows.CHEQUE}')">
                                                         <i class="fal fa-edit"></i>
                                                     </button>
                                                 </td>

@@ -49,6 +49,14 @@ let classNavegar = {
             initView();
         })
     },
+    acreedores: ()=>{
+        funciones.loadScript('../views/acreedores.js','root')
+        .then(async()=>{
+            lbTituloVista.innerText = 'LISTADO DE PROVEEDORES / SUBCONTRATISTAS';
+            GlobalSelectedForm = 'acreedores';
+            initView();
+        })
+    },
     cuentas: ()=>{
         if(Number(GlobalNivelUsuario)==1){}else{
             funciones.AvisoHablado('Usted no tiene permiso para entrar a esta opción');

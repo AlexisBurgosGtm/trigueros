@@ -28,6 +28,92 @@
 
 
 
+.floating {
+  width: 450px;
+  position: fixed;
+  z-index: 1088;
+  left: -210px;
+  bottom: 300px;
+  cursor: pointer;
+}
+/*
+<input id="range" type="range" class="hidden floating vertical-heighest-first" min="0" max="100" step="1" value="100" onclick="">
+*/
+/*******************************************/
+
+input[type=range].range {
+  cursor: pointer;
+  width: 100px !important;
+  -webkit-appearance: none;
+  z-index: 200;
+  width: 50px;
+  border: 1px solid #e6e6e6;
+  background-color: #e6e6e6;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e6e6e6), to(#d2d2d2));
+  background-image: -webkit-linear-gradient(right, #e6e6e6, #d2d2d2);
+  background-image: -moz-linear-gradient(right, #e6e6e6, #d2d2d2);
+  background-image: -ms-linear-gradient(right, #e6e6e6, #d2d2d2);
+  background-image: -o-linear-gradient(right, #e6e6e6, #d2d2d2)
+}
+
+input[type=range].range:focus {
+  border: 0 !important;
+  outline: 0 !important
+}
+
+input[type=range].range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  background-color: #555;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#4ddbff), to(#0cf));
+  background-image: -webkit-linear-gradient(right, #4ddbff, #0cf);
+  background-image: -moz-linear-gradient(right, #4ddbff, #0cf);
+  background-image: -ms-linear-gradient(right, #4ddbff, #0cf);
+  background-image: -o-linear-gradient(right, #4ddbff, #0cf)
+}
+
+input[type=range].round {
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px
+}
+
+input[type=range].round::-webkit-slider-thumb {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px
+}
+
+.vertical-lowest-first {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg)
+}
+
+.vertical-heighest-first {
+  -webkit-transform: rotate(270deg);
+  -moz-transform: rotate(270deg);
+  -o-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  transform: rotate(270deg)
+}
+
+
+/*************************************/
+.scrollbar {
+  
+  width: auto;
+  height: auto;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+
+/******************************/
+
+
 /*Flecha para hacer la pagina hacia arriba*/
 .ir-arriba{
   display:none;
@@ -213,38 +299,6 @@
 }
 
 
-/* EVITA EL PULL TO REFRESH CON LA CLASE BODY Y LUEGO UN DIV WRAPPER */
-
-.body,
-.wrapper2 {
-  /* Break the flow */
-  position: absolute;
-  top: 0px;
-  
-  /* Give them all the available space */
-  width: 100%;
-  height: 100%;
-
-  /* Remove the margins if any */
-  margin: 0;
-
-  /* Allow them to scroll down the document */
-  overflow-y: hidden;
-}
-
-.body {
-  /* Sending body at the bottom of the stack */
-  z-index: 1;
-}
-
-.wrapper2 {
-  /* Making the wrapper stack above the body */
-  z-index: 2;
-}
-/* EVITA EL PULL TO REFRESH CON LA CLASE BODY Y LUEGO UN DIV WRAPPER */
-/*********************************
-*******/
-
 .horizontal {
   height:3rem;
   overflow-x:scroll;
@@ -253,7 +307,8 @@
 
 /* oculta las scrollbars sin quitar el scroll */
 ::-webkit-scrollbar {
-  display: none;
+  /*display: none;*/
+  display: inline;
 }
 
 .bg-amarillo {

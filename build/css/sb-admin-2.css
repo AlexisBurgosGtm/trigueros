@@ -8264,6 +8264,10 @@ button.bg-dark:focus {
   overflow: auto !important;
 }
 
+.overflow-scroll {
+  overflow: scroll !important;
+}
+
 .overflow-hidden {
   overflow: hidden !important;
 }

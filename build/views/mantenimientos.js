@@ -297,8 +297,28 @@ function getView(){
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label class="negrita">Descripción</label>
-                                <input type="text" class="form-control" id="txtProveedoresDescripcion" value='SN'>
+                                <label class="negrita">Nombre de la Empresa</label>
+                                <input type="text" class="form-control" id="txtProveedoresDescripcion" value=''>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="negrita">Nombre del Contacto</label>
+                                <input type="text" class="form-control" id="txtProveedoresContacto" value=''>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="negrita">Teléfono/s</label>
+                                <input type="text" class="form-control" id="txtProveedoresTelefono" value=''>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="negrita">NIT</label>
+                                <input type="text" class="form-control" id="txtProveedoresNit" value=''>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="negrita">Nombre del Cheque</label>
+                                <input type="text" class="form-control" id="txtProveedoresCheque" value=''>
                             </div>
                             
                                                     
@@ -339,11 +359,31 @@ function getView(){
                             <h5 class="modal-title" id="">Datos del Subcontratista</h5>
                         </div>
                         <div class="modal-body">
+
                             <div class="form-group">
                                 <label class="negrita">Descripción</label>
                                 <input type="text" class="form-control" id="txtSubcontratistasDescripcion" value='SN'>
                             </div>
-                            
+                        
+                            <div class="form-group">
+                                <label class="negrita">Nombre del Contacto</label>
+                                <input type="text" class="form-control" id="txtSubcontratistasContacto" value=''>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="negrita">Teléfono/s</label>
+                                <input type="text" class="form-control" id="txtSubcontratistasTelefono" value=''>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="negrita">NIT</label>
+                                <input type="text" class="form-control" id="txtSubcontratistasNit" value=''>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="negrita">Nombre del Cheque</label>
+                                <input type="text" class="form-control" id="txtSubcontratistasCheque" value=''>
+                            </div>
                                                     
                             <hr class="solid"><hr class="solid">
 
@@ -477,6 +517,10 @@ function addListeners(){
             case 'PROVEEDORES':
                 GlobalSelectedId = 0;
                 document.getElementById('txtProveedoresDescripcion').value = "";
+                document.getElementById('txtProveedoresContacto').value = "";
+                document.getElementById('txtProveedoresTelefono').value = "";
+                document.getElementById('txtProveedoresNit').value = "";
+                document.getElementById('txtProveedoresCheque').value = "";
                 document.getElementById('btnProveedoresEliminar').style = "visibility:hidden";
                     
                 $('#modalProveedores').modal('show');
@@ -846,12 +890,18 @@ function addListeners(){
         .then((value)=>{
             if(value==true){
                 if(GlobalSelectedId==0){ //es nuevo
+
                     let d = document.getElementById('txtProveedoresDescripcion').value;
+                    let contacto = document.getElementById('txtProveedoresContacto').value || 'SN';
+                    let telefono = document.getElementById('txtProveedoresTelefono').value || '0';
+                    let nit = document.getElementById('txtProveedoresNit').value || 'CF';
+                    let cheque = document.getElementById('txtProveedoresCheque').value || 'SN';
+
                     let t = 'PROVEEDOR'
                     
                     get_btn_save_loader('btnProveedoresGuardar','SI');
 
-                    api.config_proveedores_insert(d,t)
+                    api.config_proveedores_insert(d,t,contacto,telefono,nit,cheque)
                     .then(async()=>{
                         $('#modalProveedores').modal('hide');   
                         funciones.Aviso('Proveedor creado exitosamente!!');
@@ -866,11 +916,16 @@ function addListeners(){
                     })
                 }else{ // se está editando
                     let d = document.getElementById('txtProveedoresDescripcion').value;
+                    let contacto = document.getElementById('txtProveedoresContacto').value || 'SN';
+                    let telefono = document.getElementById('txtProveedoresTelefono').value || '0';
+                    let nit = document.getElementById('txtProveedoresNit').value || 'CF';
+                    let cheque = document.getElementById('txtProveedoresCheque').value || 'SN';
+
                     let t = 'PROVEEDOR'
                     
                     get_btn_save_loader('btnProveedoresGuardar','SI');
 
-                    api.config_proveedores_edit(GlobalSelectedId,d,t)
+                    api.config_proveedores_edit(GlobalSelectedId,d,t,contacto,telefono,nit,cheque)
                     .then(async()=>{
                         $('#modalProveedores').modal('hide');   
                         funciones.Aviso('Proveedor actualizado exitosamente!!');
@@ -938,9 +993,14 @@ function addListeners(){
                     let d = document.getElementById('txtSubcontratistasDescripcion').value;
                     let t = 'SUBCONTRATISTA'
                     
+                    let contacto = document.getElementById('txtSubcontratistasContacto').value || 'SN';
+                    let telefono = document.getElementById('txtSubcontratistasTelefono').value || '0';
+                    let nit = document.getElementById('txtSubcontratistasNit').value || 'CF';
+                    let cheque = document.getElementById('txtSubcontratistasCheque').value || 'SN';
+
                     get_btn_save_loader('btnSubcontratistasGuardar','SI');
 
-                    api.config_proveedores_insert(d,t)
+                    api.config_proveedores_insert(d,t,contacto,telefono,nit,cheque)
                     .then(async()=>{
                         $('#modalSubcontratistas').modal('hide');   
                         funciones.Aviso('Subcontratista creado exitosamente!!');
@@ -956,10 +1016,15 @@ function addListeners(){
                 }else{ // se está editando
                     let d = document.getElementById('txtSubcontratistasDescripcion').value;
                     let t = 'SUBCONTRATISTA'
+
+                    let contacto = document.getElementById('txtSubcontratistasContacto').value || 'SN';
+                    let telefono = document.getElementById('txtSubcontratistasTelefono').value || '0';
+                    let nit = document.getElementById('txtSubcontratistasNit').value || 'CF';
+                    let cheque = document.getElementById('txtSubcontratistasCheque').value || 'SN';
                     
                     get_btn_save_loader('btnSubcontratistasGuardar','SI');
 
-                    api.config_proveedores_edit(GlobalSelectedId,d,t)
+                    api.config_proveedores_edit(GlobalSelectedId,d,t,contacto,telefono,nit,cheque)
                     .then(async()=>{
                         $('#modalSubcontratistas').modal('hide');   
                         funciones.Aviso('Subcontratista actualizado exitosamente!!');
@@ -1144,10 +1209,16 @@ function getMenuUsuarios(codigo,usuario,pass,nivel){
     $('#modalUsuarios').modal('show');
 };
 
-function getMenuProveedores(codigo,descripcion){
+function getMenuProveedores(codigo,descripcion,contacto,telefono,nit,cheque){
 
     GlobalSelectedId = codigo;
     document.getElementById('txtProveedoresDescripcion').value = descripcion;
+    document.getElementById('txtProveedoresContacto').value = contacto;
+    document.getElementById('txtProveedoresTelefono').value = telefono;
+    document.getElementById('txtProveedoresNit').value = nit;
+    document.getElementById('txtProveedoresCheque').value = cheque;
+
+
     document.getElementById('btnProveedoresEliminar').style = "visibility:visible";
 
     $('#modalProveedores').modal('show');
@@ -1175,11 +1246,16 @@ function proveedores_desactivar(id,st){
 };
 
 
-function getMenuSubcontratistas(codigo,descripcion){
+function getMenuSubcontratistas(codigo,descripcion,contacto,telefono,nit,cheque){
 
     GlobalSelectedId = codigo;
     document.getElementById('txtSubcontratistasDescripcion').value = descripcion;
     document.getElementById('btnSubcontratistasEliminar').style = "visibility:visible";
+
+    document.getElementById('txtSubcontratistasContacto').value ='';
+    document.getElementById('txtSubcontratistasTelefono').value ='';
+    document.getElementById('txtSubcontratistasNit').value ='';
+    document.getElementById('txtSubcontratistasCheque').value ='';
 
     $('#modalSubcontratistas').modal('show');
 

@@ -88,14 +88,14 @@ rootMenuPrincipal.innerHTML = `
             </div>
         </div>
         <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4">
-            <div class="card card-rounded border-owner shadow hand" id="btnMenuMantenimientos">
+            <div class="card card-rounded border-owner shadow hand" id="btnMenuAcreedores">
                 <div class="card-body p-4">
                     <div class="row">
                         <div class="col-2">
-                            <i class="fal fa-cog negrita text-owner" style="font-size:150%"></i>
+                            <i class="fal fa-user negrita text-owner" style="font-size:150%"></i>
                         </div>
                         <div class="col-10">
-                            <h5 class="negrita text-owner">Configuraciones</h5>
+                            <h5 class="negrita text-owner">Acreedores (Prov/Sub)</h5>
                         </div>
                     </div>
                 </div>
@@ -135,18 +135,20 @@ rootMenuPrincipal.innerHTML = `
             </div>
         </div>
         <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4">
-            <div class="card card-rounded border-owner shadow hand" id="btnMenuReportesSubcontratistas">
+            <div class="card card-rounded border-owner shadow hand" id="btnMenuMantenimientos">
                 <div class="card-body p-4">
                     <div class="row">
                         <div class="col-2">
-                            <i class="fal fa-list negrita text-owner" style="font-size:150%"></i>
+                            <i class="fal fa-cog negrita text-owner" style="font-size:150%"></i>
                         </div>
                         <div class="col-10">
-                            <h5 class="negrita text-owner">Reporte Subcontratistas</h5>
+                            <h5 class="negrita text-owner">Configuraciones</h5>
                         </div>
                     </div>
                 </div>
             </div>
+
+            
         </div>
     </div>
 
@@ -181,6 +183,20 @@ rootMenuPrincipal.innerHTML = `
                 </div>
             </div>
         </div>
+        <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4">
+            <div class="card card-rounded border-owner shadow hand" id="btnMenuReportesSubcontratistas">
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-2">
+                            <i class="fal fa-list negrita text-owner" style="font-size:150%"></i>
+                        </div>
+                        <div class="col-10">
+                            <h5 class="negrita text-owner">Reporte Subcontratistas</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>`
 
 
@@ -188,6 +204,7 @@ rootMenuPrincipal.innerHTML = `
 let btnMenuProyectos = document.getElementById('btnMenuProyectos');
 let btnMenuCheques = document.getElementById('btnMenuCheques');
 let btnMenuContratos = document.getElementById('btnMenuContratos');
+let btnMenuAcreedores = document.getElementById('btnMenuAcreedores');
 let btnMenuReportes = document.getElementById('btnMenuReportes');
 let btnMenuMantenimientos = document.getElementById('btnMenuMantenimientos');
 let btnMenuCaja = document.getElementById('btnMenuCaja');
@@ -224,6 +241,11 @@ btnMenuCheques.addEventListener('click',()=>{
 
 btnMenuContratos.addEventListener('click',()=>{
     classNavegar.contratos();
+    $("#ModalMenuPrincipal").modal('hide');
+});
+
+btnMenuAcreedores.addEventListener('click',()=>{
+    classNavegar.acreedores();
     $("#ModalMenuPrincipal").modal('hide');
 });
 
@@ -330,3 +352,14 @@ function irArriba(){
 }
 
 
+
+
+window.addEventListener("scroll", (event) => {
+    let scrollY = this.scrollY;
+    let scrollX = this.scrollX;
+    console.log('Y:');
+    console.log(scrollY);
+    console.log('X:')
+    console.log(scrollX);
+  
+});

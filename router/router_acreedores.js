@@ -10,11 +10,11 @@ router.post("/listado_activos", async (req, res) => {
 
     if(tipo=='TODOS'){
         qry = `SELECT CODACREEDOR AS CODIGO, DESACREEDOR AS DESCRIPCION, 
-        TIPO, ACTIVO
+        TIPO, ACTIVO, CONTACTO, TELEFONO, NIT, NOMBRE AS CHEQUE
         FROM CONST_ACREEDORES WHERE ACTIVO='SI'
         ORDER BY TIPO, DESACREEDOR`
     }else{
-        qry = `SELECT CODACREEDOR AS CODIGO, DESACREEDOR AS DESCRIPCION, ACTIVO
+        qry = `SELECT CODACREEDOR AS CODIGO, DESACREEDOR AS DESCRIPCION, ACTIVO, CONTACTO, TELEFONO, NIT, NOMBRE AS CHEQUE
         FROM CONST_ACREEDORES WHERE TIPO='${tipo}' AND ACTIVO='SI' ORDER BY DESACREEDOR`
     }
     
@@ -30,11 +30,11 @@ router.post("/listado", async (req, res) => {
     let qry = '';
 
     if(tipo=='TODOS'){
-        qry = `SELECT CODACREEDOR AS CODIGO, DESACREEDOR AS DESCRIPCION, TIPO, ACTIVO
+        qry = `SELECT CODACREEDOR AS CODIGO, DESACREEDOR AS DESCRIPCION, TIPO, ACTIVO, CONTACTO, TELEFONO, NIT, NOMBRE AS CHEQUE
         FROM CONST_ACREEDORES
         ORDER BY TIPO, DESACREEDOR`
     }else{
-        qry = `SELECT CODACREEDOR AS CODIGO, DESACREEDOR AS DESCRIPCION, ACTIVO
+        qry = `SELECT CODACREEDOR AS CODIGO, DESACREEDOR AS DESCRIPCION, ACTIVO, CONTACTO, TELEFONO, NIT, NOMBRE AS CHEQUE
         FROM CONST_ACREEDORES WHERE TIPO='${tipo}' ORDER BY DESACREEDOR`
     }
     
@@ -46,10 +46,10 @@ router.post("/listado", async (req, res) => {
 
 router.post("/insert", async (req, res) => {
 
-    const {descripcion, tipo} = req.body;
+    const {descripcion, tipo, contacto, telefono, nit, cheque} = req.body;
 
-    let qry = `INSERT INTO CONST_ACREEDORES (DESACREEDOR, TIPO, ACTIVO)
-            VALUES ('${descripcion}','${tipo}','SI')`
+    let qry = `INSERT INTO CONST_ACREEDORES (DESACREEDOR, TIPO, ACTIVO, CONTACTO, TELEFONO, NIT, NOMBRE)
+            VALUES ('${descripcion}','${tipo}','SI','${contacto}','${telefono}','${nit}','${cheque}')`
 
     execute.Query(res, qry);
 
@@ -57,10 +57,13 @@ router.post("/insert", async (req, res) => {
 
 router.post("/edit", async (req, res) => {
 
-    const {codigo, descripcion} = req.body;
+    const {codigo, descripcion, contacto, telefono, nit, cheque} = req.body;
 
     let qry = `UPDATE CONST_ACREEDORES 
-            SET DESACREEDOR='${descripcion}'
+            SET DESACREEDOR='${descripcion}', 
+                CONTACTO='${contacto}', 
+                TELEFONO='${telefono}',
+                NIT='${nit}', NOMBRE='${cheque}'
                 WHERE CODACREEDOR=${codigo} `
 
     execute.Query(res, qry);
