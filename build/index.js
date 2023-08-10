@@ -95,7 +95,7 @@ rootMenuPrincipal.innerHTML = `
                             <i class="fal fa-user negrita text-owner" style="font-size:150%"></i>
                         </div>
                         <div class="col-10">
-                            <h5 class="negrita text-owner">Acreedores (Prov/Sub)</h5>
+                            <h5 class="negrita text-owner">Acreedores(Pro/Su)</h5>
                         </div>
                     </div>
                 </div>
