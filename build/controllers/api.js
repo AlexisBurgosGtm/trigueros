@@ -2251,7 +2251,7 @@ let api = {
                         <table class="table table-striped table-responsive table-hover" id="tbl">
                             <thead class="bg-warning text-white">
                                 <tr>
-                                    <td>ID</td>
+                                    <td>NO.</td>
                                     <td>DESCRIPCION</td>
                                     <td></td>
                                 </tr>
@@ -2260,23 +2260,25 @@ let api = {
         let str = '';
         let strFooter = `</tbody></table>`
 
+        let i = 0;
+
         let url = GlobalUrlBackend + '/proyectos/listarubros';
         axios.post(url)
         .then((response) => {
             try {
                 const data = response.data.recordset;
                 data.map((rows) => {
-                    str = str + `<tr class="border-warning border-bottom">
-                                                <td>${rows.ID}</td>
-                                                <td>${rows.RUBRO}
-                                                </td>
-
-                                                <td>
-                                                    <button class="btn btn-sm btn-warning btn-circle" onclick="getMenuRubros(${rows.ID},'${rows.RUBRO}')">
-                                                        <i class="fal fa-edit"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>`
+                    i += 1;
+                    str = str + `
+                        <tr class="border-warning border-bottom">
+                            <td>${i}</td>
+                            <td>${rows.RUBRO}</td>
+                            <td>
+                                <button class="btn btn-sm btn-warning btn-circle" onclick="getMenuRubros(${rows.ID},'${rows.RUBRO}')">
+                                    <i class="fal fa-edit"></i>
+                                </button>
+                            </td>
+                        </tr>`
                 })
                 container.innerHTML = strHeader + str + strFooter;
             } catch (err) {
