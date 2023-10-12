@@ -118,6 +118,7 @@ let api = {
                     try {
                         const data = response.data.recordset;
                         data.map((rows) => {
+                            console.log(rows.ANIO);
                             let diferencia = (Number(rows.RECIBIDO) - Number(rows.EJECUTADO))
                             let stClasDif = '';
                             if(Number(diferencia)>=0){
@@ -1794,10 +1795,12 @@ let api = {
                     try {
                         const data = response.data.recordset;
                         data.map((rows) => {
-                            str = str + `<option value="${rows.CODCUENTA}">${rows.BANCO} (No. ${rows.NUMERO})</option>`
+                            str = str + `<option value="${rows.CODCUENTA}">${rows.BANCO} (No. ${rows.NUMERO}) ${rows.DESCRIPCION}</option>`
                         })
                         container.innerHTML = str;
                     } catch (err) {
+                        console.log('cuentas:')
+                        console.log(err)
                         container.innerHTML = '<option value="SN">No hay datos..</option>';
                     }
                 }, (error) => {
@@ -1819,7 +1822,7 @@ let api = {
                     try {
                         const data = response.data.recordset;
                         data.map((rows) => {
-                            str = str + `<option value="${rows.CODCUENTA}">${rows.BANCO} (No. ${rows.NUMERO})</option>`
+                            str = str + `<option value="${rows.CODCUENTA}">${rows.BANCO} (No. ${rows.NUMERO}) ${rows.DESCRIPCION}</option>`
                         })
                         container.innerHTML = str;
                         resolve();

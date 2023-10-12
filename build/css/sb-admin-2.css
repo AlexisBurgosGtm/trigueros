@@ -5091,7 +5091,7 @@ input[type="button"].btn-block {
     widows: 1;
   }
   .card-columns .card {
-    display: inline-block;
+    display: flex;
     width: 100%;
   }
 }

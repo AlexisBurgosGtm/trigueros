@@ -1,3 +1,9 @@
+.masonry { 
+
+  flex-flow: row wrap;
+  /* Adjustment for the gutter */
+}
+
 .btn-exportar { 
   position: fixed;
   z-index: 888;
